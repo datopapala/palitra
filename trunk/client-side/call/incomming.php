@@ -21,8 +21,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	font-size: 12px;
 	text-align: center;
 	border-collapse: collapse;
-	border-top: 7px solid #8FC122;
-	border-bottom: 7px solid #8FC122;
+	border-top: 7px solid #71A9D3;
+	border-bottom: 7px solid #71A9D3;
 }
 #box-table-b th
 {
@@ -30,16 +30,16 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	font-weight: normal;
 	padding: 8px;
 	background: #e8edff;
-	border-right: 1px solid #8FC122;
-	border-left: 1px solid #8FC122;
+	border-right: 1px solid #71A9D3;
+	border-left: 1px solid #71A9D3;
 	color: #039;
 }
 #box-table-b td
 {
 	padding: 8px;
 	background: #e8edff; 
-	border-right: 1px solid #8FC122;
-	border-left: 1px solid #8FC122;
+	border-right: 1px solid #71A9D3;
+	border-left: 1px solid #71A9D3;
 	color: #669;
 }
 </style>
