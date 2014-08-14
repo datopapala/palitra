@@ -6,51 +6,35 @@
 */
 
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+$log 		= new Log();
+
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
 
 //incomming
-$incom_id				= $_REQUEST['id'];
-$call_date				= $_REQUEST['call_date'];
-$site_user_pin			= $_REQUEST['pin'];
-$call_type_id			= $_REQUEST['call_type_id'];
-$phone					= $_REQUEST['phone'];
-$category_id			= $_REQUEST['category_id'];
-$problem_date			= $_REQUEST['problem_date'];
-$call_content			= $_REQUEST['call_content'];
-$category_parent_id 	= $_REQUEST['category_parent_id'];
-$call_status_id			= $_REQUEST['call_status_id'];
-
-$pay_type_id			= $_REQUEST['pay_type_id'];
-$bank_id				= $_REQUEST['bank_id'];
-$card_type_id			= $_REQUEST['card_type_id'];
-$pay_aparat_id			= $_REQUEST['pay_aparat_id'];
-$object_id				= $_REQUEST['object_id'];
-
-
-// site_user
-$personal_pin			= $_REQUEST['personal_pin'];
-$personal_id			= $_REQUEST['personal_id'];
-$personal_phone			= $_REQUEST['personal_phone'];
-$mail				    = $_REQUEST['mail'];
-$name				    = $_REQUEST['name'];
-$friend_pin				= $_REQUEST['friend_pin'];
-
-//task
-$persons_id			    = $_REQUEST['persons_id'];
-$task_type_id			= $_REQUEST['task_type_id'];
-$priority_id			= $_REQUEST['priority_id'];
-$comment 	        	= $_REQUEST['comment'];
-$task_department_id 	= $_REQUEST['task_department_id'];
-$hidden_inc				= $_REQUEST['hidden_inc'];
-$edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
-
-// file
-$rand_file				= $_REQUEST['rand_file'];
-$file					= $_REQUEST['file_name'];
-
+$incom_id						= $_REQUEST['id'];
+$id_p							= $_REQUEST['id_p'];
+$phone							= $_REQUEST['phone'];
+$person_name					= $_REQUEST['person_name'];
+$type							= $_REQUEST['type'];
+$call_vote						= $_REQUEST['call_vote'];
+$results_id						= $_REQUEST['results_id'];
+$information_category_id		= $_REQUEST['information_category_id'];
+$information_sub_category_id	= $_REQUEST['information_sub_category_id'];
+$content_id						= $_REQUEST['content_id'];
+$product_id						= $_REQUEST['product_id'];
+$forward_id						= $_REQUEST['forward_id'];
+$connect						= $_REQUEST['connect'];
+$results_comment				= $_REQUEST['results_comment'];
+$content						= $_REQUEST['content'];
+$task_type_id					= $_REQUEST['task_type_id'];
+$task_department_id				= $_REQUEST['task_department_id'];
+$persons_id						= $_REQUEST['persons_id'];
+$comment						= $_REQUEST['comment'];
+$source_id						= $_REQUEST['source_id'];
+$c_date							= $_REQUEST['c_date'];
 
 switch ($action) {
 	case 'get_add_page':
@@ -77,16 +61,12 @@ switch ($action) {
 	  	$rResult = mysql_query("select  		incomming_call.id,           
 												incomming_call.id,
 											  	DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
-												category.`name`,
-												site_user.`pin`,
-												incomming_call.phone,				
-												site_user.`name`,
-	  											'' AS `time`,
-	  											incomming_call.call_content
+												info_category.`name`,
+												incomming_call.phone,
+	  											incomming_call.content
 								FROM 			incomming_call
-								LEFT JOIN		site_user ON incomming_call.id=site_user.incomming_call_id
-								LEFT JOIN 		category  ON incomming_call.call_category_id=category.id
-	  							WHERE incomming_call.actived = 1");
+								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
+	  							WHERE 			incomming_call.actived = 1");
 	  
 		$data = array(
 				"aaData"	=> array()
@@ -105,101 +85,30 @@ switch ($action) {
 
 		break;
 	case 'save_incomming':
-		$incom_id = $_REQUEST['id'];
-		$task_type_id = $_REQUEST['task_type_id'];
-		if($incom_id == ''){
+		$incom_id_check = $_REQUEST['id_h'];
+		if($incom_id_check == ''){
 			
-			Addincomming( $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc);
-			$incomming_call_id = mysql_insert_id();
-			if($task_type_id != 0){
-			Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment);
-			}
-			Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
-		
+			Addincomming($c_date, $id_p, $phone, $person_name, $type, $results_id, $information_category_id, $information_sub_category_id, $content_id, $product_id,  $forward_id, $connect, $results_comment, $content, $task_type_id, $task_department_id, $persons_id, $comment, $call_vote, $source_id);
+
 		}else {
 			
-			Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file);
-			
-			Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment);
-			
-			//Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id);
-			
+			Saveincomming($c_date, $id_p, $phone, $person_name, $type, $results_id, $information_category_id, $information_sub_category_id, $content_id, $product_id,  $forward_id, $connect, $results_comment, $content, $task_type_id, $task_department_id, $persons_id, $comment, $call_vote, $source_id);
+	
 		}
 		break;
-		
+	case 'send_mail':
+			$c_date = $_REQUEST['c_date'];			
+			Sendmail($c_date,$phone,$results_id,$results_comment,$content,$product_id,$call_vote);
+		break;
 	case 'get_calls':
 	
 		$data		= array('calls' => getCalls());
 	
-		break;
+		break;		
+	case 'category_change':
 		
-		case 'delete_file':
-		
-			mysql_query("DELETE FROM file WHERE id = $delete_id");
-		
-			$increm = mysql_query("	SELECT  `name`,
-					`rand_name`,
-					`id`
-					FROM 	`file`
-					WHERE   `incomming_call_id` = $edit_id
-					");
-		
-			$data1 = '';
-		
-			while($increm_row = mysql_fetch_assoc($increm))	{
-			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
- 					  </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-				break;
-		
-				case 'up_now':
-				$user		= $_SESSION['USERID'];
-				if($rand_file != ''){
-				mysql_query("INSERT INTO 	`file`
-				( 	`user_id`,
-				`incomming_call_id`,
-				`name`,
-				`rand_name`
-				)
-				VALUES
-				(	'$user',
-				'$edit_id',
-				'$file',
-				'$rand_file'
-				);");
-				}
-		
-				$increm = mysql_query("	SELECT  `name`,
-				`rand_name`,
-				`id`
-				FROM 	`file`
-				WHERE   `incomming_call_id` = $edit_id
-				");
-		
-				$data1 = '';
-		
-				while($increm_row = mysql_fetch_assoc($increm))	{
-				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
-						          </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-		break;
-		
-	case 'sub_category':
-		
-		$cat_id	=	$_REQUEST['cat_id'];
-		$data 	= 	array('cat'=>Getcategory1($cat_id));
+		$information_category_id_check = $_REQUEST['information_category_id_check'];
+		$data 	= 	array('cat'=>Getinformation_sub_category('',$information_category_id_check));
 		
 		break;	
 	case 'set_task_type':
@@ -235,130 +144,169 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming(  $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc){
-	
-	$c_date		= date('Y-m-d H:i:s');
+function Addincomming($c_date, $id_p, $phone, $person_name, $type, $results_id, $information_category_id, $information_sub_category_id, $content_id, $product_id,  $forward_id, $connect, $results_comment, $content, $task_type_id, $task_department_id, $persons_id, $comment, $call_vote, $source_id){
+
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `incomming_call` 
-			(`user_id`, `date`, `phone`, `call_type_id`, `call_category_id`, `call_subcategory_id`, `object_id`, `pay_type_id`, `bank_id`, `bank_object_id`, `card_type_id`, `pay_aparat_id`, `problem_date`, `call_content`, `actived`)
+			(`id`, `user_id`, `date`, `phone`, `name`, `type`, `information_category_id`, `information_sub_category_id`, `product_id`, `source_id`, `content`, `results_id`, `results_comment`, `content_id`, `connect`, `forward_id`, `call_vote`, `actived`)
 			 VALUES 
-			( '$user', '$c_date', '$phone', '$call_type_id', '$category_id', '$category_parent_id', '$object_id', '$pay_type_id', '$bank_id', '', '$card_type_id', '$pay_aparat_id', '$problem_date', '$call_content', '1');");
+			('$id_p', '$user', '$c_date', '$phone', '$person_name', '$type', '$information_category_id', '$information_sub_category_id', '$product_id', '$source_id', '$content', '$results_id', '$results_comment', '$content_id', '$connect', '$forward_id', '$call_vote', '1')");
 	
-	if($rand_file != ''){
-		mysql_query("INSERT INTO 	`file`
-		( 	`user_id`,
-		`incomming_call_id`,
-		`name`,
-		`rand_name`
-		)
-		VALUES
-		(	'$user',
-		'$hidden_inc',
-		'$file',
-		'$rand_file'
-		);");
-	}
-}
+	GLOBAL $log;
+	$log->setInsertLog('incomming_call');
+	
+	$personal_phone			= $_REQUEST['personal_phone'];
+	$personal_id			= $_REQUEST['personal_id'];
+	$personal_contragent	= $_REQUEST['personal_contragent'];
+	$personal_mail			= $_REQUEST['personal_mail'];
+	$personal_addres		= $_REQUEST['personal_addres'];
+	$personal_status		= $_REQUEST['personal_status'];
 
-function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
-{
 	
-	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO	`task` 
-									(`user_id`,
-									 `date`,
-									 `responsible_user_id`,
-									 `incomming_call_id`,
-									 `task_type_id`,
-									 `priority_id`,
-									 `department_id`,
-									 `phone`,
-									 `comment`,
-									 `problem_comment`)
-						VALUES
-									('$user',
-									  NULL,
-									 '$persons_id',
-									 '$incomming_call_id',
-									 '$task_type_id',
-									 '$priority_id',
-								     '$task_department_id',
-								      NULL, 
-								     '$comment', 
-								     NULL)");
+	mysql_query("INSERT INTO `personal_info`
+	( `user_id`, `incomming_call_id`, `personal_phone`, `personal_id`, `personal_contragent`, `personal_mail`, `personal_addres`, `personal_status`)
+	VALUES
+	( '$user', '$id_p', '$personal_phone', '$personal_id', '$personal_contragent', '$personal_mail', '$personal_addres', '$personal_status')");
 	
 	
-}
-
-function Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id)
-{
-	
-	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO `site_user` 	(`incomming_call_id`, `site`, `pin`, `friend_pin`, `name`, `phone`, `mail`, `personal_id`, `user`)
-						           		 VALUES 
-											( '$incomming_call_id', '243', '$personal_pin', '$friend_pin', '3414', 12412341, '124124124', '$personal_id', '$user')");
 
 }
+
 				
-function Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file)
+function Saveincomming($c_date, $id_p, $phone, $person_name, $type, $results_id, $information_category_id, $information_sub_category_id, $content_id, $product_id,  $forward_id, $connect, $results_comment, $content, $task_type_id, $task_department_id, $persons_id, $comment, $call_vote, $source_id)
 {
-	$incom_id	= $_REQUEST['id'];
+	GLOBAL $log;
+	$log->setUpdateLogBefore('incomming_call', $id_p);
 	$user		= $_SESSION['USERID'];
 	$c_date		= date('Y-m-d H:i:s');
 	mysql_query("UPDATE  `incomming_call` 
 				SET  
-						 `user_id`				='$user', 
-						 `date`					='$c_date',
-						 `phone`				='$phone', 
-						 `call_type_id`			='$call_type_id',
-						 `call_category_id`		='$category_id',
-						 `call_subcategory_id`	='$category_parent_id', 
-						 `object_id`			='$object_id',
-						 `pay_type_id`			='$pay_type_id',
-						 `bank_id`				='$bank_id',
-						`card_type_id`			='$card_type_id', 
-						 `pay_aparat_id`		='$pay_aparat_id',
-						 `problem_date`			='$problem_date',
-						`call_content`			='$call_content',
-						 `actived`				='1'
-			    WHERE     `id`					='$incom_id'
+						 `user_id`						='$user', 
+						 `date`							='$c_date',
+						 `phone`						='$phone', 
+						 `name`							='$person_name',
+						 `type`							='$type',
+						 `information_category_id`		='$information_category_id', 
+						 `information_sub_category_id`	='$information_sub_category_id',
+						 `product_id`					='$product_id',
+						 `source_id`					='$source_id',
+						 `content`						='$content', 
+						 `results_id`					='$results_id',
+						 `results_comment`				='$results_comment',
+						 `content_id`					='$content_id',
+						 `connect`						='$content',
+						 `forward_id`					='$forward_id',
+						 `call_vote`					='$call_vote',
+						 `actived`						='1'
+			    WHERE    `id`							='$id_p'
 							");
 	
-
-}       
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
-{
-
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
-									 	 `task_type_id`='$task_type_id',
-										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
-										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
-
-}
-function Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id)
-{
-
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE 	`site_user` 
-				SET			
-							`site`						='243', 
-							`pin`						='$personal_pin', 
-							`name`						='$name', 
-							`phone`						='$personal_phone', 
-							`mail`						='$mail', 
-							`personal_id`				='$personal_id', 
-							`user`						='$user'
-							 WHERE `incomming_call_id`	='$incom_id'
-							
-					");
+	$log->setUpdateLogAfter('incomming_call', $id_p);
+	
+	$personal_phone			= $_REQUEST['personal_phone'];
+	$personal_id			= $_REQUEST['personal_id'];
+	$personal_contragent	= $_REQUEST['personal_contragent'];
+	$personal_mail			= $_REQUEST['personal_mail'];
+	$personal_addres		= $_REQUEST['personal_addres'];
+	$personal_status		= $_REQUEST['personal_status'];
+	
+	mysql_query("UPDATE  `personal_info`
+				SET
+						`user_id`					='$user',
+						`personal_phone`			='$personal_phone',
+						`personal_contragent`		='$personal_contragent',
+						`personal_mail`				='$personal_mail',
+						`personal_addres`			='$personal_addres',
+						`personal_addres`			='$personal_addres',
+						`personal_status`			='$personal_status'
+				WHERE   `incomming_call_id`			='$id_p'
+				");
 
 }
 
+function Sendmail($c_date,$phone,$results_id,$results_comment,$content,$product_id,$call_vote)
+{
+	$to      = 'dpapalashvili@yahoo.com';
+	$subject = 'the subject';
+	$vote = '';
+	if($call_vote == 1){
+		$vote = 'პოზიტიური';
+	}elseif($call_vote == 2){
+		$vote = 'ნეიტრალური';
+	}elseif($call_vote == 3){
+		$vote = 'ნეგატიური';
+	}
+	
+	$res_results = mysql_fetch_assoc($req = mysql_query("	SELECT 	`name`
+															FROM 	`results`
+															WHERE 	`id` = $results_id
+															"));
+	
+	$res_prduct = mysql_fetch_assoc($req = mysql_query("	SELECT 	`name`
+															FROM 	`product`
+															WHERE 	`id` = $product_id
+															"));
+
+	
+	$message = 	'
+				<table>
+					<tr>
+						<td style="width:20px;"></td>
+						<td style="width:100px;"><b>თარიღი</b></td>
+						<td style="width:60%;">'.$c_date.'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>დრო</b></td>
+						<td>'.date($c_date, "h:i").'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>ტელეფონი</b></td>
+						<td>'.$phone.'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>შედეგი</b></td>
+						<td>'.$res_results['name'].'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>შედეგის კომენტარი</b></td>
+						<td>'.$results_comment.'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>კომენტარი</b></td>
+						<td>'.$content.'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>პროდუქტი</b></td>
+						<td>'.$res_prduct['name'].'</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>ფიო</b></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><b>ზარის შეფასება</b></td>
+						<td></td>
+					</tr>
+				</table>
+				';
+	
+	
+	$headers = 	'From: info@gsunity.ge' . "\r\n" .
+				'Reply-To: info@gsunity.ge' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+	
+	
+	mail($to, $subject, $message, $headers);
+}
 
 function Getcall_status($status)
 {
@@ -867,62 +815,179 @@ function get_addition_all_info1($personal_id)
 
 	return $data;
 }
+
+function Getinformation_category($information_category_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	info_category 
+							WHERE 	parent_id = '0'	AND `actived` = 1");
+	
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $information_category_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+	
+	return $data;
+}
+
+function Getinformation_sub_category($information_sub_category_id,$information_category_id_check){
+	$req = mysql_query("	SELECT 	n1.`id`,
+									n1.`name`
+							FROM 	info_category
+							JOIN 	info_category as n1 ON info_category.id = n1.parent_id
+							WHERE 	info_category.id = $information_category_id_check AND n1.`actived` = 1");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $information_sub_category_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getcontent($content_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	content
+							WHERE `actived` = 1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $content_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getproduct($product_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	product
+							WHERE `actived` = 1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $product_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getforward($forward_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	forward
+							WHERE `actived` = 1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $forward_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getresults($results_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	results
+							WHERE `actived` = 1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $results_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getsource($source_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	source
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $source_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
 function Getincomming($incom_id)
 {
-$res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
-													incomming_call.phone AS `phone`,
-													DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS call_date,
-													incomming_call.call_type_id AS call_type_id,
-													incomming_call.call_category_id AS category_id,
-													IF(ISNULL(task.`status`), 3, task.`status`) AS `status`,
-													incomming_call.call_subcategory_id AS category_parent_id,
-													DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS problem_date,
-													incomming_call.call_content AS call_content,
-													incomming_call.pay_type_id AS pay_type_id,
-													incomming_call.bank_id AS bank_id,
-													incomming_call.bank_object_id AS bank_object_id,
-													incomming_call.card_type_id AS card_type_id,
-													incomming_call.card_type_id AS card_type1_id,
-													incomming_call.pay_aparat_id AS pay_aparat_id,
-													incomming_call.object_id AS object_id,
-													site_user.`name` AS `name`,
-													site_user.mail AS mail,
-													site_user.personal_id AS personal_id,
-													site_user.phone AS personal_phone,
-													site_user.pin AS personal_pin,
-													site_user.friend_pin AS friend_pin,
-													site_user.`name` AS `name1`,
-													site_user.`mail` AS `mail`,
-													site_user.user AS user,
-													task.task_type_id AS task_type_id,
-													task.responsible_user_id AS persons_id,
-													task.priority_id AS priority_id,
-													task.department_id AS task_department_id,
-													task.`comment` AS `comment`
-										FROM 	   	incomming_call
-										LEFT JOIN  	site_user ON incomming_call.id=site_user.incomming_call_id
-										LEFT JOIN  	task  ON incomming_call.id=task.incomming_call_id
-										where      	incomming_call.id = $incom_id
-			" ));
-	
+	$res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
+														incomming_call.phone AS `phone`,
+														DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS call_date,
+														incomming_call.`name`,
+														incomming_call.type,
+														incomming_call.information_category_id,
+														incomming_call.information_sub_category_id,
+														incomming_call.product_id,
+														incomming_call.source_id,
+														incomming_call.content,
+														incomming_call.results_id,
+														incomming_call.results_comment,
+														incomming_call.content_id,
+														incomming_call.connect,
+														incomming_call.forward_id,
+														incomming_call.call_vote,
+														personal_info.personal_phone,
+														personal_info.personal_id,
+														personal_info.personal_contragent,
+														personal_info.personal_mail,
+														personal_info.personal_addres,
+														personal_info.personal_status
+												FROM 	incomming_call
+												JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
+												where   incomming_call.id = $incom_id
+														" ));
 	return $res;
 }
 
-
 function GetPage($res='', $number)
 {
+	$c_date		= date('Y-m-d H:i:s');
+	
 	$num = 0;
 	if($res[phone]==""){
 		$num=$number;
 	}else{ 
 		$num=$res[phone]; 
 	}
-
-	$increm = mysql_query("	SELECT  `name`,
-									`rand_name`
-							FROM 	`file`
-							WHERE   `incomming_call_id` = $res[id]
-			");
 	
 	$data  .= '
 	<!-- jQuery Dialog -->
@@ -932,102 +997,141 @@ function GetPage($res='', $number)
 	<div id="dialog-form">
 			<div style="float: left; width: 800px;">	
 				<fieldset >
+				<fieldset style="width:300px; float:left;">
 			    	<legend>ძირითადი ინფორმაცია</legend>
 		
-			    	<table width="100%" class="dialog-form-table">
+			    	<table width="500px" class="dialog-form-table">
 						<tr>
 							<td style="width: 180px;"><label for="">მომართვა №</label></td>
-							<td style="width: 180px;"><label for="">თარიღი</label></td>
-							<td style="width: 180px;"><label for="phone">ტელეფონი</label></td>
-							<td></td>
+							<td style="width: 180px;"><label for="">თარიღი <span style="color:red; font-weight: bold; font-size: 120%">*</span></label></td>
+						</tr>							
+						
+						<tr>
+							<td style="width: 180px;">
+								<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('incomming_call')). '" disabled="disabled" />
+								<input style="display:none;" type="text" id="h_id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" disabled="disabled" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' . (($res['call_date']!='')?$res['call_date']:$c_date) . '" disabled="disabled" />
+							</td>				
+						</tr>
+						<tr>
+							<td style="width: 180px;"><label for="phone">ტელეფონი <span style="color:red; font-weight: bold; font-size: 120%">*</span></label></td>							
 							<td><label for="person_name">აბონენტის სახელი</label></td>
 						</tr>
 						<tr>
 							<td style="width: 180px;">
-								<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+								<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'"  value="' . $num . '" disabled="disabled" />
 							</td>
-							<td style="width: 180px;">
-								<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' .  $res['call_date']. '" disabled="disabled" />
+							<td style="width: 69px;">
+								<input type="text" id="person_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' .  $res['name']. '" />
+							</td>	
+						</tr>
+						<tr>
+							<td>
+								<label for="source_id">წყარო</label>
 							</td>
-							<td style="width: 180px;">
-								<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $num . '" />
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<select style="width: 165px;" id="source_id" class="idls object">'. Getsource($res['source_id']).'</select>
 							</td>
 							<td style="width: 69px;">
 								<button class="calls">ნომრები</button>
 							</td>
-							<td style="width: 69px;">
-								<input type="text" id="person_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $num . '" />
-							</td>
-						</tr>						
-					</table>';
-										
-		$data  .= '
-				
-				<fieldset style="width:318px; float:left;">
-			    	<legend>მომართვის ავტორი</legend>
-					<table id="additional" class="dialog-form-table" width="300px">						
-						<tr>
-							<td style="width: 250px;"><input style="float:left;" type="radio" value="1"><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
-							<td style="width: 250px;"><input style="float:left;" type="radio" value="2"><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset style="width:400px; float:left; margin-left: 15px;">
-			    	<legend>ინფორმაციის კატეგორია</legend>
-					<table id="additional" class="dialog-form-table" width="230px">						
-						<tr>
-							<td style="width: 300px;"><select style="margin-left: 25px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
-							<td style="width: 300px;"><select style="margin-left: 15px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset style="width:755px; float:left;">
-			    	<legend>ინფორმაციის კატეგორია</legend>
-					<table id="additional" class="dialog-form-table" width="230px">		
-						<tr>
-							<td style="width: 250px;"><input style="float:left;" type="radio" value="1"><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
-							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" value="2"><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">კატეგორია</label></td>
-						</tr>
-						<tr>
-							<td style="width: 300px;"><label for="d_number">პროდუქტი</label></td>
-							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
-							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="problem_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[problem_date] . '" /></td>
-							<td style="width: 250px;"><select style="margin-left: 25px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
 						</tr>				
+					</table>
+				</fieldset>
+				<fieldset style="width:220px; float:left; margin-left:10px; height:75px;">
+			    	<legend>მომართვის ავტორი</legend>
+					<table id="" class="dialog-form-table" width="220px">						
 						<tr>
-							<td style="width: 300px;"><select id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
-							<td style="width: 300px;"><select style="margin-left: 15px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+							<td style="width: 220px;"><input style="float:left;" type="radio" name="x" value="1" '.(($res['type']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
+					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="x" value="2" '.(($res['type']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:220px; float:left; margin-left:10px; height:85px;">
+			    	<legend>ზარის შეფასება</legend>
+					<table id="" class="dialog-form-table" width="220px">						
+						<tr>
+							<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">პოზიტიური</span></td>
+					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">ნეიტრალური</span></td>
+					  	</tr>
+					  	<tr>
+					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'><span style="margin-top:5px; display:block;"">ნეგატიური</span></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:756px; float:left;">
+			    	<legend>ინფორმაცია</legend>
+					<table id="" class="dialog-form-table" width="500px">
+					  	<tr>
+					  		<td><label for="information_category_id">კატეგორია</label></td>
+					  	</tr>						
+						<tr>
+							<td><select style="width: 756px;" id="information_category_id" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
+						</tr>
+						<tr>
+					  		<td><label for="information_category_id">ქვე-კატეგორია</label></td>
+					  	</tr>
+						<tr>
+							<td><select style="width: 756px;" id="information_sub_category_id" class="idls object">'. Getinformation_sub_category($res['information_sub_category_id'],$res['information_category_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:368px; float:left;">
+			    	<legend>მომართვის შინაარსი</legend>
+					<table id="" class="dialog-form-table" width="350px">		
+						<tr>
+							<td style="width: 368px;"><select style="width: 368px;" id="content_id" class="idls object">'. Getcontent($res['content_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:350px; float:left; margin-left:15px;">
+			    	<legend>პროდუქტი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="350px">		
+						<tr>
+							<td style="width: 350px;"><select style="width: 350px;" id="product_id" class="idls object">'. Getproduct($res['product_id']).'</select></td>
 						</tr>
 					</table>
 				</fieldset>
 				<fieldset style="width:755px; float:left;">
 			    	<legend>გადამისამართება</legend>
-					<table id="additional" class="dialog-form-table" width="230px">		
+					<table id="" class="dialog-form-table" width="230px">		
 						<tr>
-							<td style="width: 300px;"><label for="d_number">ქვე-განყოფილება</label></td>
-							<td style="width: 300px;"><label style="margin-left: 35px;" for="d_number">კავშირი</label></td>
+							<td style="width: 570px;"><label for="d_number">ქვე-განყოფილება</label></td>
+							<td><label style="margin-left: 35px;" for="d_number">კავშირი</label></td>
 						</tr>
 						<tr>
-							<td style="width: 250px;"><select style=" width: 450px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
-							<td style="width: 250px;"><input style="margin-left: 35px;" type="radio" value="1"></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset style="width:160px; float:left;">
-			    	<legend>რეაგირება</legend>
-					<table id="additional" class="dialog-form-table" width="150px">	
-						<tr>
-							<td style="width: 150px;"><select id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+							<td style="width: 250px;"><select style=" width: 570px;" id="forward_id" class="idls object">'. Getforward($res['forward_id']).'</select></td>
+							<td><input style="margin-left: 35px;" type="checkbox" id="connect" value="1" '.(($res['connect']=='1')?"checked":"").'></td>
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:557px; float:left; margin-left: 10px;">
-			    	<legend>რეაგირება</legend>
-					<table id="additional" class="dialog-form-table" width="150px">	
+				<fieldset style="width:400px; float:left;">
+			    	<legend>შედეგი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="150px">	
 						<tr>
-							<td><textarea  style="width: 550px; resize: none;" id="comment" class="idle" name="content" cols="300" >' . $res['comment'] . '</textarea></td>
+							<td><select style="width: 400px;" id="results_id" class="idls object">'. Getresults($res['results_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:315px; float:left; margin-left: 10px;">
+			    	<legend>შედეგის კომენტარი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="150px">	
+						<tr>
+							<td><textarea  style="width:317px; resize: none;" id="results_comment" class="idle" name="content" cols="300" >' . $res['results_comment'] . '</textarea></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:557px; float:left;">
+			    	<legend>კომენტარი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="150px">	
+						<tr>
+							<td><textarea  style="width: 750px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -1040,14 +1144,14 @@ function GetPage($res='', $number)
 		
 			    	<table class="dialog-form-table">
 						<tr>
-							<td style="width: 180px;"><label for="d_number">დავალების ტიპი</label></td>
-							<td style="width: 180px;"><label for="d_number">სცენარი</label></td>
-							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
+							<td style="width: 280px;"><label for="d_number">დავალების ტიპი</label></td>
+							<td style="width: 280px;"><label for="d_number">სცენარი</label></td>
+							<td style="width: 280px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+							<td style="width: 280px;" id="task_type_change"><select style="width: 230px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 280px;"><select style="width: 230px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
+							<td style="width: 280px;"><select style="width: 230px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
@@ -1067,14 +1171,16 @@ function GetPage($res='', $number)
 			</div>
 			<div style="float: right;  width: 355px;">
 				 <fieldset>
-					<legend>მომართვის ავტორი</legend>
+					<legend>მომართვის ავტორი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
 					<table style="height: 243px;">						
 						<tr>
 							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
 							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
 						</tr>
 						<tr>
-							<td>568919432</td>
+							<td>
+								<input type="text" id="personal_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
+							</td>
 							<td style="width: 180px;">
 								<input type="text" id="personal_id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
 							</td>					
@@ -1084,60 +1190,75 @@ function GetPage($res='', $number)
 							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
 						</tr>
 						<tr >
-							<td style="width: 180px;">ზაზა მესხი</td>
-							<td style="width: 180px;">z.mesxi@yahoo.com</td>			
+							<td style="width: 180px;">
+								<input type="text" id="personal_contragent" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="personal_mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
+							</td>			
 						</tr>
 						<tr>
 							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
 						</tr>
 						<tr>
-							<td style="width: 180px;">ყვარლის 149</td>
-							<td td style="width: 180px;">VIP კლიენტი</td>
+							<td style="width: 180px;">
+								<input type="text" id="personal_addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
+							</td>
+							<td td style="width: 180px;">
+								<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+							</td>
 						</tr>
 					</table>
-				</fieldset>
-				<div id="additional_info">';
+				</fieldset>';
+				$data .= GetRecordingsSection($res='');
+				$data .= '<div id="additional_info">';
 					if (!empty($res['personal_pin'])){
 							$data .= get_addition_all_info($res['personal_pin']);
 						}
 	  $data .= '</div>
-				<fieldset>
-					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">1</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">gelaaaaaaaaaaaaaaaa</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">2014-07-01</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">fssdgsd</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">145$</td>
-							
-						</tr>
-						
-					<table/>
-				</fieldset>
-	  			<fieldset>
-					<legend>საუბრის ჩანაწერი</legend> 
-	  				<table style="float: left; border: 1px solid #85b1de; width: 250px; text-align: center; margin-left:40px;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">დრო</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">ჩანაწერი</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">10:05:12 AM</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">მოსმენა</td>
-	  					</tr>
-					<table/>
-				</fieldset>
 			</div>
     </div>';
+
+	return $data;
+}
+
+function GetRecordingsSection($res)
+{
+	$db2 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
+
+	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
+			`userfield`
+			FROM     `cdr`
+			WHERE     (`dst` = 2470017 && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
+			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[date]');");
+
+	$data .= '
+        <fieldset style="margin-top: 10px; width: 333px; float: right;">
+            <legend>ჩანაწერები</legend>
+
+            <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">
+                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
+                    <th style="padding-left: 10px;">დრო</th>
+                    <th  style="border: solid 1px #85b1de; padding-left: 10px;">ჩანაწერი</th>
+                </tr>';
+	if (mysql_num_rows($req) == 0){
+		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
+	}
+
+	while( $res2 = mysql_fetch_assoc($req)){
+		$src = $res2['userfield'];
+		$link = explode("/", $src);
+		$data .= '
+                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
+                    <td>' . $res2['time'] . '</td>
+                    <td><button class="download" str="' . $link[5] . '">მოსმენა</button></td>
+                </tr>';
+	}
+
+	$data .= '
+            </table>
+        </fieldset>';
 
 	return $data;
 }
