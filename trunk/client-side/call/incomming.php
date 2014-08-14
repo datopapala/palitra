@@ -21,8 +21,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	font-size: 12px;
 	text-align: center;
 	border-collapse: collapse;
-	border-top: 7px solid #71A9D3;
-	border-bottom: 7px solid #71A9D3;
+	border-top: 7px solid #8FC122;
+	border-bottom: 7px solid #8FC122;
 }
 #box-table-b th
 {
@@ -30,16 +30,16 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	font-weight: normal;
 	padding: 8px;
 	background: #e8edff;
-	border-right: 1px solid #71A9D3;
-	border-left: 1px solid #71A9D3;
+	border-right: 1px solid #8FC122;
+	border-left: 1px solid #8FC122;
 	color: #039;
 }
 #box-table-b td
 {
 	padding: 8px;
 	background: #e8edff; 
-	border-right: 1px solid #71A9D3;
-	border-left: 1px solid #71A9D3;
+	border-right: 1px solid #8FC122;
+	border-left: 1px solid #8FC122;
 	color: #669;
 }
 </style>
@@ -67,24 +67,20 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			GetDataTable(tName, aJaxURL, "get_list",9, "", 0, "", 1, "desc");
 		}
 
+		$(document).on("click", ".download", function () {
+            var link = $(this).attr("str");
+            link = "https:/212.72.155.176/records/" + link + ".wav";
+
+            var newWin = window.open(link, "JSSite", "width=420,height=230,resizable=yes,scrollbars=yes,status=yes");
+            newWin.focus();
+        });
+
 		function LoadDialog(){
 
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 1200, "auto", "");
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
-
-			$("#choose_button").button({
-	            
-	        });
-			
-
-			if(id != '' && cat_id == 407){
-				$("#additional").removeClass('hidden');
-			}
-
-			GetDateTimes("problem_date");
-
 			$( ".calls" ).button({
 			      icons: {
 			        primary: " ui-icon-contact"
@@ -102,40 +98,92 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 		    param.act						= "save_incomming";
 
-	    	param.id						= $("#id").val();
-	    	param.phone						= $("#phone").val();
-	    	param.call_date					= $("#call_date").val();
-	    	param.pin						= $("#site_user_pin").val();
+	    	param.id_p							= $("#id").val();
+	    	param.id_h							= $("#h_id").val();
+	    	param.c_date						= $("#c_date").val();
+	    	param.phone							= $("#phone").val();
+	    	param.person_name					= $("#person_name").val();
+	    	param.type							= $("input[name='x']:checked").val();
+	    	param.call_vote						= $("input[name='xx']:checked").val();
+	    	param.results_id					= $("#results_id").val();
+	    	param.information_category_id		= $("#information_category_id").val();
+	    	param.information_sub_category_id	= $("#information_sub_category_id").val();
+	    	param.content_id					= $("#content_id").val();
+	    	param.product_id					= $("#product_id").val();
+	    	param.forward_id					= $("#forward_id").val();
+	    	param.connect						= $("#connect:checked").val();
+	    	param.results_comment				= $("#results_comment").val();
+	    	param.content						= $("#content").val();
+	    	param.task_type_id					= $("#task_type_id").val();
+	    	param.task_department_id			= $("#task_department_id").val();
+	    	param.persons_id					= $("#persons_id").val();
+	    	param.comment						= $("#comment").val();
+	    	param.source_id						= $("#source_id").val();
 
-	    	param.call_type_id				= $("#call_type_id").val();
-	    	param.category_id				= $("#category_id").val();
-	    	param.category_parent_id		= $("#category_parent_id").val();
-	    	param.problem_date				= $("#problem_date").val();
-	    	param.call_status_id			= $("#call_status_id").val();
-	    	param.call_content				= $("#call_content").val();
-	    	param.persons_id				= $("#persons_id").val();
-	    	param.comment					= $("#comment").val();
-	    	param.task_department_id		= $("#task_department_id").val();
-	    	param.task_type_id				= $("#task_type_id").val();
-	    	param.priority_id				= $("#priority_id").val();
-	    	param.problem_id				= $("#problem_id").val();
-	    	param.pay_type_id				= $("#pay_type_id").val();
-	    	param.bank_id					= $("#bank_id").val();
-	    	param.bank_object_id			= $("#bank_object_id").val();
-	    	param.card_type_id				= $("#card_type_id").val();
-	    	param.card_type1_id				= $("#card_type1_id").val();
-	    	param.pay_aparat_id				= $("#pay_aparat_id").val();
-	    	param.object_id					= $("#object_id").val();
-	    	param.personal_pin				= $("#personal_pin").val();
-	    	param.personal_id				= $("#personal_id").val();
-	    	param.personal_phone			= $("#personal_phone").val();
-	    	param.mail						= $("#mail").val();
-	    	param.name						= $("#name").val();
-	    	param.user						= $("#user").val();
-	    	param.friend_pin				= $("#friend_pin").val();
-	    	param.rand_file					= rand_file;
-	    	param.file_name					= file_name;
-	    	param.hidden_inc				= $("#hidden_inc").val();
+	    	// Personal Info
+	    	param.personal_phone				= $("#personal_phone").val();
+	    	param.personal_id					= $("#personal_id").val();
+	    	param.personal_contragent			= $("#personal_contragent").val();
+	    	param.personal_mail					= $("#personal_mail").val();
+	    	param.personal_addres				= $("#personal_addres").val();
+	    	param.personal_status				= $("#personal_status").val();
+	    	
+	    	
+			if(param.req_phone == ""){
+				alert("შეავსეთ ტელეფონის ნომერი!");
+			}else {
+			    $.ajax({
+			        url: aJaxURL,
+				    data: param,
+			        success: function(data) {
+						if(typeof(data.error) != 'undefined'){
+							if(data.error != ''){
+								alert(data.error);
+							}else{
+								LoadTable();
+				        		CloseDialog();
+				        		console.log(data.error);
+							}
+						}
+				    }
+			    });
+			}
+		});
+
+		 // Send - Mail
+	    $(document).on("click", "#send_mail", function () {
+		    param 			= new Object();
+
+		    param.act						= "send_mail";
+
+	    	param.id_p							= $("#id").val();
+	    	param.c_date						= $("#c_date").val();
+	    	param.phone							= $("#phone").val();
+	    	param.person_name					= $("#person_name").val();
+	    	param.type							= $("input[name='x']:checked").val();
+	    	param.call_vote						= $("input[name='xx']:checked").val();
+	    	param.results_id					= $("#results_id").val();
+	    	param.information_category_id		= $("#information_category_id").val();
+	    	param.information_sub_category_id	= $("#information_sub_category_id").val();
+	    	param.content_id					= $("#content_id").val();
+	    	param.product_id					= $("#product_id").val();
+	    	param.forward_id					= $("#forward_id").val();
+	    	param.connect						= $("#connect:checked").val();
+	    	param.results_comment				= $("#results_comment").val();
+	    	param.content						= $("#content").val();
+	    	param.task_type_id					= $("#task_type_id").val();
+	    	param.task_department_id			= $("#task_department_id").val();
+	    	param.persons_id					= $("#persons_id").val();
+	    	param.comment						= $("#comment").val();
+	    	param.source_id						= $("#source_id").val();
+	    	
+	    	// Personal Info
+	    	param.personal_phone				= $("#personal_phone").val();
+	    	param.personal_id					= $("#personal_id").val();
+	    	param.personal_contragent			= $("#personal_contragent").val();
+	    	param.personal_mail					= $("#personal_mail").val();
+	    	param.personal_addres				= $("#personal_addres").val();
+	    	param.personal_status				= $("#personal_status").val();
 	    	
 			if(param.req_phone == ""){
 				alert("შეავსეთ ტელეფონის ნომერი!");
@@ -180,107 +228,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    });
 		    }
 
-	    $(document).on("click", "#download", function () {
-	    	var download_file	= $(this).val();
-	    	var download_name 	= $('#download_name').val();
-	    	SaveToDisk(download_file, download_name);
-	    });
-
-	    function SaveToDisk(fileURL, fileName) {
-	        // for non-IE
-	        if (!window.ActiveXObject) {
-	            var save = document.createElement('a');
-	            save.href = fileURL;
-	            save.target = '_blank';
-	            save.download = fileName || 'unknown';
-
-	            var event = document.createEvent('Event');
-	            event.initEvent('click', true, true);
-	            save.dispatchEvent(event);
-	            (window.URL || window.webkitURL).revokeObjectURL(save.href);
-	        }
-		     // for IE
-	        else if ( !! window.ActiveXObject && document.execCommand)     {
-	            var _window = window.open(fileURL, "_blank");
-	            _window.document.close();
-	            _window.document.execCommand('SaveAs', true, fileName || fileURL)
-	            _window.close();
-	        }
-	    } 
-	    
-	    $(document).on("click", "#delete", function () {
-	    	var delete_id	= $(this).val();
-	    	
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: {
-					act: "delete_file",
-					delete_id: delete_id,
-					edit_id: $("#id").val(),
-				},
-		        success: function(data) {
-			        $("#file_div").html(data.page);
-			    }
-		    });	
-		});
-		
-	    $(document).on("click", "#choose_button", function () {
-		    $("#choose_file").click();
-		});
-		
-	    $(document).on("change", "#choose_file", function () {
-	    	var file		= $(this).val();	    
-	    	var files 		= this.files[0];
-		    var name		= uniqid();
-		    var path		= "../../media/uploads/file/";
-		    
-		    var ext = file.split('.').pop().toLowerCase();
-	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
-	        	alert('This is not an allowed file type.');
-                this.value = '';
-	        }else{
-	        	file_name = files.name;
-	        	rand_file = name + "." + ext;
-	        	$.ajaxFileUpload({
-	    			url: upJaxURL,
-	    			secureuri: false,
-	    			fileElementId: "choose_file",
-	    			dataType: 'json',
-	    			data:{
-						act: "upload_file",
-						path: path,
-						file_name: name,
-						type: ext
-					},
-	    			success: function (data, status){
-	    				if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}
-    					}
-    							
-	    				$.ajax({
-					        url: aJaxURL,
-						    data: {
-								act: "up_now",
-								rand_file: rand_file,
-					    		file_name: file_name,
-								edit_id: $("#id").val(),
-
-							},
-					        success: function(data) {
-						        $("#file_div").html(data.page);
-						    }
-					    });	   					    				
-    				},
-    				error: function (data, status, e)
-    				{
-    					alert(e);
-    				}    				
-    			});
-	        }
-		});
-
 	    function runAjax() {
             $.ajax({
             	async: true,
@@ -311,14 +258,26 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    }
 	    });
 
-	    $(document).on("change", "#task_type_id",function(){
-		    var task_type = $("#task_type_id").val();
 
-			if(task_type == 1){
-				$("#task_department_id").val(37);
-			}
-		    
-	    });
+	    $(document).on("change", "#information_category_id",function(){
+		    var information_category_id = $("#information_category_id").val();
+		    param 			= new Object();
+		    param.act		= "category_change";
+		    param.information_category_id_check		= information_category_id;
+ 	    	$.ajax({
+ 		    url: aJaxURL,
+ 			data: param,
+ 		    success: function(data) {
+ 				if(typeof(data.error) != 'undefined'){
+ 					if(data.error != ''){
+ 						alert(data.error);
+ 					}else{
+ 						$("#information_sub_category_id").html(data.cat);
+ 					}
+ 				}
+ 			}
+ 		    });
+        });
 
     	$(document).on("change", "#category_parent_id",function(){
      	 	param 			= new Object();
@@ -337,12 +296,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
  					}
  			    }
  		    });
-
-			if(this.value == 407){
-				$("#additional").removeClass('hidden');
-			}else{
-				$("#additional").addClass('hidden');
-			}
         });
 
     	$(document).on("change", "#category_id",function(){
