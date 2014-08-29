@@ -4,7 +4,7 @@
  * ******************************
 */
 
-require_once ('../../../includes/classes/core.php');
+require_once ('../../../../includes/classes/core.php');
 $action = $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -527,6 +527,7 @@ $data = '';
 							FROM `task_type`
 							WHERE actived=1 ");
 
+		$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $task_type_id){
 			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
@@ -673,7 +674,7 @@ function GetPage($res='', $number)
 	}
 
 		$data  .= '<div id="dialog-form">
-							<div style="float: left; width: 710px;">
+							<div style="float: left; width: 670px;">
 								<fieldset >
 							    	<legend>ძირითადი ინფორმაცია</legend>
 						
@@ -696,7 +697,7 @@ function GetPage($res='', $number)
 							    	<legend>დავალების ტიპი</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 270px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+											<td><select style="width: 270px;" id="" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>
@@ -704,22 +705,21 @@ function GetPage($res='', $number)
 							    	<legend>სცენარის დასახელება</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 360px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+											<td><select style="width: 345px;" id="" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>
 						        ';
 						
-						// სატელეფონო გაყიდვები დასაწყისი
 						$data .= '
-							<div id="seller" >
+							<div id="seller">
 									<ul>
 										<li style="margin-left:0;" id="0" onclick="seller(this.id)" class="seller_select">მისალმება</li>
 										<li id="1" onclick="seller(this.id)" class="">შეთავაზება</li>
 										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
 									</ul>
 									<div id="seller-0">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:95%; float:left; ">
 									<fieldset style="width:95%;">
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">
@@ -764,7 +764,7 @@ function GetPage($res='', $number)
 														
 														
 									<div id="seller-1" class="dialog_hidden">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:95%; float:left; ">
 									<fieldset style="width:95%;">
 								    	<legend>შეთავაზება</legend>
 									<table class="dialog-form-table">
@@ -782,9 +782,9 @@ function GetPage($res='', $number)
 								        <div style="width:100%;" id="container" >        	
 								            <div id="dynamic">
 								            	<div id="button_area">
-								            		<button id="add_button_product">დამატება</button>
+								            		<button id="add_button_pp">დამატება</button>
 							        			</div>
-								                <table class="" id="sub1" style="width: 100%;">
+								                <table class="" id="example4" style="width: 100%;">
 								                    <thead>
 														<tr  id="datatable_header">
 																
@@ -830,15 +830,15 @@ function GetPage($res='', $number)
 										</table>
 									</fieldset>
 					  				<fieldset style="width:95%; float:left; ">
-								    	<legend>საჩუქარი</legend>
+								    	<legend>კომენტარი</legend>
 														
 									<div id="dt_example" class="inner-table">
 								        <div style="width:100%;" id="container" >        	
 								            <div id="dynamic">
 								            	<div id="button_area">
-								            		<button id="add_button_gift">დამატება</button>
+								            		<button id="add_button_pp">დამატება</button>
 							        			</div>
-								                <table class="" id="sub2" style="width: 100%;">
+								                <table class="" id="example3" style="width: 100%;">
 								                    <thead>
 														<tr  id="datatable_header">
 																
@@ -916,41 +916,15 @@ function GetPage($res='', $number)
 													
 									 </div>
 									 <div id="seller-2" class="dialog_hidden">
-											<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset style="width:95%; float:left; ">
 											<fieldset style="width:95%;">
-										    	<legend>შედეგი</legend>
+										    	<legend>შეთავაზება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
 														<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
-													</tr>
-											</table>
-											<table class="dialog-form-table">
-										    	<tr>
-													<td style="text-align:right;"><span>დადებითი</span></td>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-						  							<td><span>(ვაგრძელებთ)</span></td>
-						  						</tr>
-												<tr>
-													<td style="text-align:right;"><span>უარყოფითი</span></td>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
-						  							<td><span>(ვასრულებთ)</span></td>
-						  						</tr>
-						  						<tr>
-													<td style="text-align:right;"><span>მოიფიქრებს</span></td>
-						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
-						  							<td><span>(ვუთანხმებთ განმეორებითი ზარის დროს. ვიფორმირებთ დავალებას)</span></td>
-						  						</tr>	
-											</table>
-						  					<table class="dialog-form-table">
-										    		<tr>
-						  								<td><span style="color:#649CC3">კომენტარი</span></td>
-													</tr>
-													<tr>
-														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
 													</tr>
 											</table>
 											</fieldset>
@@ -958,51 +932,10 @@ function GetPage($res='', $number)
 															
 																
 							  				<fieldset style="width:95%; float:left; ">
-										    	<legend>მიწოდება</legend>
+										    	<legend>კომენტარი</legend>
 											<table class="dialog-form-table">
 										    		<tr>
 														<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-													</tr>
-													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
-													</tr>
-											</table>
-											<table class="dialog-form-table">
-										    		<tr>
-														<td style="width:150px;">მიწოდება დაიწყება</td>
-														<td>
-															<input type="text" id="send_time" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['call_date']. '" />
-														</td>
-														<td> -დან</td>
-													</tr>
-											</table>
-											</fieldset>
-											<fieldset style="width:95%; float:left; ">
-										    	<legend>ანგარიშსწორება</legend>
-											<table class="dialog-form-table">
-										    		<tr>
-														<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-													</tr>
-													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
-													</tr>
-											</table>
-											<table class="dialog-form-table">
-										    	<tr>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-						  							<td><span>ნაღდი</span></td>
-						  						</tr>
-												<tr>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
-						  							<td><span>უნაღდო</span></td>
-						  						</tr>
-											</table>
-						  					<table class="dialog-form-table">
-										    		<tr>
-						  								<td><span style="color:#649CC3">კომენტარი</span></td>
-													</tr>
-													<tr>
-														<td><textarea  style="width: 620px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 													</tr>
 											</table>
 											</fieldset>
@@ -1011,555 +944,8 @@ function GetPage($res='', $number)
 											</fieldset>		
 									 </div>
 									
-							</div>';
-							// სატელეფონო გაყიდვები დასასრული
-
-						// სატელეფონო კვლევა დასაწყისი
-						$data .= '<div id="research" class="dialog_hidden">
-									<ul>
-										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
-										<li id="r1" onclick="research(this.id)" class="">დემოგრაფიული ბლოკი</li>
-										<li id="r2" onclick="research(this.id)" class="">ძირითადი ნაწილი</li>
-									</ul>
-									<div id="research-0">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:95%;">
-								    	<legend>შესავალი</legend>
-									<table class="dialog-form-table">
-								    		<tr>
-												<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-											</tr>
-											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="width:500px;">
-								    		<tr>
-												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
-					  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-					  							<td><button class="done">დასრულება</button></td>
-					  						</tr>
-									</table>
-									</fieldset>
-									<table class="dialog-form-table" style="width:300px;">
-								    		<tr>
-												<td style="font-weight:bold;">თქვენი სახელი, როგორ მოგმართოთ?</td>
-					  						</tr>
-											<tr>
-												<td><input type="text" style="width:100%;" id="" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" /></td>
-					  						</tr>
-									</table>
-											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
-									</fieldset>
-									 </div>
-
-											
-									<div id="research-1" class="dialog_hidden">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:95%;">
-								    	<legend>დემოგრაფიული ბლოკი</legend>
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D1</td>
-												<td style="font-weight:bold;">თუ შეიძლება მითხარით, მუდმივად ცხოვრობთ თუ არა ამ მისამართზე?<br><span style="font-weight:normal;">(6 თვე მაინც უნდა ცხოვრებდეს)</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:50px;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td>არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-									
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D2</td>
-												<td style="font-weight:bold;">თუ შეიძლება მითხარით, ხომ არ მიგიღიათ მონაწილეობა რაიმე კვლევაში ბოლო 6 თვის განმავლობაში?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:50px;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td>არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-									
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D3</td>
-												<td style="font-weight:bold;">გთხოვთ დამიზუსტოთ, თბილისის რომელ რაიონში ცხოვრობთ?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:150px; text-align:right;">ვაკე-საბურთალო</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">გლდანი-ნაძალადევი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:150px; text-align:right;">დიდუბე-ჩუღურეთი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">ისანი-სამგორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td style="width:150px; text-align:right;">ძვ.თბილისი</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">ვდიდგორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-									
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D4</td>
-												<td style="font-weight:bold;">გთხოვთ მითხრათ, ხომ არ მუშაობთ თქვენ ან თქვენი ოჯახის წევრი, ახლობელი/მეგობარი </span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:250px;">ტელევიზია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td>რადიო (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td>პრესა, ბეჭდვითი მედია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td>სარეკლამო  (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="4" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td>კვლევითი კომპანია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="5" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
-											</tr>
-											<tr>
-												<td>არცერთი (გააგრძელეთ)</td>
-												<td><input type="radio" name="xx" value="6" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D5</td>
-												<td style="font-weight:bold;">სქესი</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:50px;">მამაკაცი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td>ქალი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D6</td>
-												<td style="font-weight:bold;">ასაკი</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:50px; text-align:right;">12-17</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:50px; text-align:right;">35-44</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:50px; text-align:right;">18-24</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:50px; text-align:right;">45-54</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td style="width:50px; text-align:right;">25-34</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:50px; text-align:right;">55-65</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>
-												<td style="width:50px; text-align:right;">65 +</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D7</td>
-												<td style="font-weight:bold;">ჩამოთვლილთაგან რომელი გამოხატავს ყველაზე უკეთ თქვენი ოჯახის მატერიალურ მდგომარეობას?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:150px;">ძალიან დაბალი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td>დაბალი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td>საშუალო</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td>მაღალი</td>
-												<td><input type="radio" name="xx" value="4" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td>კძალიან მაღალი</td>
-												<td><input type="radio" name="xx" value="5" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D8</td>
-												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რამდენ ლარს შეადგენს თქვენი ოჯახის ყოველთვიური შემოსავალი?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:90px; text-align:right;">200 ლარამდე</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:80px; text-align:right;">100-1500</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:80px; text-align:right;">200-500</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:80px; text-align:right;">1500-2000</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td style="width:80px; text-align:right;">500-1000</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:80px; text-align:right;">2000+</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>
-												<td style="width:80px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D9</td>
-												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რამდენ ლარს შეადგენს თქვენი პირადი ყოველთვიური შემოსავალი?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:90px; text-align:right;">200 ლარამდე</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:80px; text-align:right;">100-1500</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:80px; text-align:right;">200-500</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:80px; text-align:right;">1500-2000</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td style="width:80px; text-align:right;">500-1000</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:80px; text-align:right;">2000+</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>
-												<td style="width:80px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D10</td>
-												<td style="font-weight:bold;">ხართ თუ არა დასაქმებული?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:50px; text-align:right;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:50px; text-align:right;">არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D11</td>
-												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რა ტიპის ორგანიზაციაში მუშაობთ?</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:150px; text-align:right;">კერძო სექტორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">თვითდასაქმებული</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:150px; text-align:right;">საჯარო სამსახური</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											<tr>
-												<td style="width:150px; text-align:right;">არასამთავრობო/td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-														
-														
-									<table class="dialog-form-table">
-								    		<tr>
-												<td style="width:30px; font-weight:bold;">D12</td>
-												<td style="font-weight:bold;">გყავთ თუ არა ავტომობილი</span></td>
-												<td></td>
-											</tr>
-									</table>
-									<table class="dialog-form-table">
-											<tr>
-												<td style="width:50px; text-align:right;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
-											</tr>
-											<tr>
-												<td style="width:50px; text-align:right;">არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
-											</tr>
-											
-									</table>
-									<table class="dialog-form-table" style="margin-top:10px;">
-								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
-											</tr>
-									</table>
-									<hr>
-										<button style="float:right; margin-top:10px;" onclick="research(\'r2\')" class="next"> >> </button>
-										<button style="float:right; margin-top:10px;" onclick="research(\'r0\')" class="back"> << </button>
-									</fieldset>			
-									</div>
-														
-									 <div id="research-2" class="dialog_hidden">
-											<fieldset style="width:96.5%; float:left; overflow-y:scroll; max-height:400px;">
-											<fieldset>
-										    	<legend>რადიო</legend>
-											<table class="dialog-form-table">
-										    		<tr>
-														<td style="font-weight:bold; width:30px;">Q1</td>
-														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით რადიოსადგურებს და თქვენ მიპასუხეთ, რომელ რადიოს უსმენდით გუშინ, თუნდაც მხოლოდ 5 წუთით? კიდევ, კიდევ.</td>
-													</tr>
-											</table>
-											<table class="dialog-form-table">
-										    	<tr>
-													<td><span>რადიო 1</span></td>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
-						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
-						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
-						  						</tr>
-												<tr>
-													<td><span>რადიო 2</span></td>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
-						  						</tr>
-											</table>
-						  					<table class="dialog-form-table">
-										    	
-													<tr>
-														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
-													</tr>
-											</table>
-											</fieldset>
-											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="back"> << </button>
-											
-										</fieldset>
-									 </div>
-									
-							</div>';
-						// სატელეფონო კვლევა დასასრული
-						
-						  $data .= '<fieldset style="width:320px;; float:left;">
+							</div>
+								<fieldset style="width:320px;; float:left;">
 								    	<legend>ზარის დაზუსტება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
@@ -1567,14 +953,14 @@ function GetPage($res='', $number)
 											</tr>
 									</table>
 									</fieldset>	
-									<fieldset style="width:240px;; float:left; margin-left:10px; max-height:90px;">
+									<fieldset style="width:250px;; float:left; margin-left:10px; height:90px;">
 								    	<legend>სტატუსი</legend>
-									<table class="dialog-form-table" style="height: 80px;">
+									<table class="dialog-form-table">
 											<tr>
 												<td></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 305px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+												<td><select style="width: 290px;" id="" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -1588,7 +974,7 @@ function GetPage($res='', $number)
 												<td style="width: 190px;"><label for="d_number">პრიორიტეტი</label></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 180px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+												<td><select style="width: 180px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 												<td><select style="width: 180px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
 												<td><select style="width: 180px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
 											</tr>
@@ -1615,11 +1001,11 @@ function GetPage($res='', $number)
 									<legend>სასარგებლო ბმულები</legend>
 									<table>
 										<tr>
-											<td style="width:90px; height:60px;"><a id="link1" target="_blank" href="http://www.biblusi.ge/"></a></td>
-											<td style="width:90px; height:60px;"><a id="link2" target="_blank" href="http://www.palitral.ge/"></a></td>
-											<td style="width:90px; height:60px;"><a id="link3" target="_blank" href="http://palitra.ge/"></a></td>
-											<td style="width:60px; height:60px;"><a id="link4" target="_blank" href="http://www.salesland.ge/"></a></td>
+											<td style="width: 180px;">link 1</td>
+											<td style="width: 180px;">link 2</td>
+											<td style="width: 180px;">link 3</td>
 										</tr>
+										
 									</table>
 								</fieldset>
 								<fieldset>
@@ -1682,9 +1068,9 @@ function GetPage($res='', $number)
 										</td>
 									</tr>
 								</table>
-							</fieldset>';
-							$data .= GetRecordingsSection($res='');	
-						$data .=	'</div>
+							</fieldset>
+								
+							</div>
 				    </div>';
 	
 	
@@ -1692,45 +1078,15 @@ function GetPage($res='', $number)
 
 	return $data;
 }
+function increment($table){
 
-function GetRecordingsSection($res)
-{
-	$db2 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
+	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
+	$row   			= mysql_fetch_array($result);
+	$increment   	= $row['Auto_increment'];
+	$next_increment = $increment+1;
+	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
 
-	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
-			`userfield`
-			FROM     `cdr`
-			WHERE     (`dst` = 2470017 && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
-			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[date]');");
-
-	$data .= '
-        <fieldset style="margin-top: 10px; width: 333px; float: right;">
-            <legend>ჩანაწერები</legend>
-
-            <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">
-                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
-                    <th style="padding-left: 10px;">დრო</th>
-                    <th  style="border: solid 1px #85b1de; padding-left: 10px;">ჩანაწერი</th>
-                </tr>';
-	if (mysql_num_rows($req) == 0){
-		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
-	}
-
-	while( $res2 = mysql_fetch_assoc($req)){
-		$src = $res2['userfield'];
-		$link = explode("/", $src);
-		$data .= '
-                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
-                    <td>' . $res2['time'] . '</td>
-                    <td><button class="download" str="' . $link[5] . '">მოსმენა</button></td>
-                </tr>';
-	}
-
-	$data .= '
-            </table>
-        </fieldset>';
-
-	return $data;
+	return $increment;
 }
 
 ?>

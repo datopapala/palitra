@@ -117,3 +117,66 @@ input{
 .form-dialog{
 	display: none;
 }
+
+#seller{
+	width:100%;
+	overflow:hidden;
+	
+}
+#seller ul li{
+	float: left;
+	margin-left:5px;
+	list-style: none;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	
+}
+
+#seller ul li {
+	background: #5F98DF;
+	display: block;
+	padding:5px 15px;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#research{
+	width:100%;
+    overflow:hidden;
+}
+
+#research ul li{
+    float: left;
+    margin-left:5px;
+    list-style: none;
+    margin-top: 15px;
+    margin-bottom: 5px;
+	background: #5F98DF;
+    display: block;
+    padding:5px 15px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.seller_select {
+	background: #FFF !important;
+	color: #5F98DF !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+    background-color: #C8D6DC;
+    
+}
+ 
+::-webkit-scrollbar-thumb {
+      
+    background-color: #AFAFAF;
+}

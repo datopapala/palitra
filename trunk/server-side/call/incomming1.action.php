@@ -989,315 +989,64 @@ function GetPage($res='', $number)
 	}
 	
 	$data  .= '
-	<!-- jQuery Dialog -->
-    <div id="add-edit-goods-form" title="საქონელი">
-    	<!-- aJax -->
-	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 800px;">	
-				<fieldset >
-				<fieldset style="width:300px; float:left;">
-			    	<legend>ძირითადი ინფორმაცია</legend>
-		
-			    	<table width="500px" class="dialog-form-table">
-						<tr>
-							<td style="width: 180px;"><label for="">მომართვა №</label></td>
-							<td style="width: 180px;"><label for="">თარიღი <span style="color:red; font-weight: bold; font-size: 120%">*</span></label></td>
-						</tr>							
-						
-						<tr>
-							<td style="width: 180px;">
-								<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('incomming_call')). '" disabled="disabled" />
-								<input style="display:none;" type="text" id="h_id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" disabled="disabled" />
-							</td>
-							<td style="width: 180px;">
-								<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' . (($res['call_date']!='')?$res['call_date']:$c_date) . '" disabled="disabled" />
-							</td>				
-						</tr>
-						<tr>
-							<td style="width: 180px;"><label for="phone">ტელეფონი <span style="color:red; font-weight: bold; font-size: 120%">*</span></label></td>							
-							<td><label for="person_name">აბონენტის სახელი</label></td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">
-								<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'"  value="' . $num . '" disabled="disabled" />
-							</td>
-							<td style="width: 69px;">
-								<input type="text" id="person_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' .  $res['name']. '" />
-							</td>	
-						</tr>
-						<tr>
-							<td>
-								<label for="source_id">არხი</label>
-							</td>
-							<td>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<select style="width: 165px;" id="source_id" class="idls object">'. Getsource($res['source_id']).'</select>
-							</td>
-							<td style="width: 69px;">
-								<button class="calls">ნომრები</button>
-							</td>
-						</tr>				
-					</table>
-				</fieldset>
-				<fieldset style="width:220px; float:left; margin-left:10px; ">
-			    	<legend>მომართვის ავტორი</legend>
-					<table id="" class="dialog-form-table" width="220px">						
-						<tr>
-							<td style="width: 220px;"><input style="float:left;" type="radio" name="x" value="1" '.(($res['type']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
-					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="x" value="2" '.(($res['type']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset style="width:220px; float:left; margin-left:10px; ">
-			    	<legend>ზარის ტიპი</legend>
-					<table id="" class="dialog-form-table" width="220px">						
-						<tr>
-							<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
-					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">პრეტენზია</span></td>
-					  	</tr>
-					  	<tr>
-					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'><span style="margin-top:5px; display:block;"">სხვა</span></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset style="width:220px; float:left; margin-left:10px; ">
-			    	<legend>განყოფილება</legend>
-					<table id="" class="dialog-form-table" width="220px">						
-						<tr>
-							<td><select style="width: 220px;" id="information_category_id" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset style="width:756px; float:left;">
-			    	<legend>ინფორმაცია</legend>
-					<table id="" class="dialog-form-table" width="500px">
-					  	<tr>
-					  		<td><label for="information_category_id">კატეგორია</label></td>
-					  	</tr>						
-						<tr>
-							<td><select style="width: 756px;" id="information_category_id" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
-						</tr>
-						<tr>
-					  		<td><label for="information_category_id">ქვე-კატეგორია</label></td>
-					  	</tr>
-						<tr>
-							<td><select style="width: 756px;" id="information_sub_category_id" class="idls object">'. Getinformation_sub_category($res['information_sub_category_id'],$res['information_category_id']).'</select></td>
-						</tr>
-					</table>
-				</fieldset>
-				
-				
-				<fieldset style="width:557px; float:left;">
-			    	<legend>პროდუქცია</legend>
-					<table id="" class="dialog-form-table" width="350px">						
-						<tr>
-							<td style="width: ;"><input style="float:left;" type="radio" name="x" value="1" '.(($res['type']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ახალის შეძენა</span></td>
-					  		<td style="width: ;"><input style="float:left;" type="radio" name="x" value="2" '.(($res['type']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">შეძენილი</span></td>
-					  		<td style="width: ;"><input style="float:left;" type="radio" name="x" value="3" '.(($res['type']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">საინტერესო</span></td>
-						</tr>
-					</table>
-					<table id="" class="dialog-form-table" width="750px">
-					  	<tr>
-					  		<td><label for="information_category_id">პროდუქტი კატეგორია</label></td>
-					  		<td><label for="information_category_id">ჟანრი</label></td>
-					  		<td><label for="information_category_id">დასახელება</label></td>
-					  	</tr>						
-						<tr>
-							<td><select style="width: ;" id="information_sub_category_id" class="idls object">'. Getinformation_sub_category($res['information_sub_category_id'],$res['information_category_id']).'</select></td>
-							<td><select style="width: ;" id="information_category_id" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
-							<td><select style="width: ;" id="information_category_id" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
-						</tr>	
+			<div style="float: left; width: 970px;">	
+			
+				<div id="dt_example" class="inner-table">
+			        <div style="width:100%;" id="container" >        	
+			            <div id="dynamic">
+			                <table class="" id="all_sell" style="width: 100%;">
+			                    <thead>
+									<tr  id="datatable_header">
 											
-					</table>
-					<table id="" class="dialog-form-table" width="700px">
-					  	<tr>
-					  		<td><label for="information_category_id">ან შეიყვანეთ კოდი</label></td>
-					  		<td></td>
-					  		<td><label for="information_category_id">წიგნების ID</label></td>
-					  	</tr>						
-						<tr>
-							<td><select style="width: ;" id="information_sub_category_id" class="idls object">'. Getinformation_sub_category($res['information_sub_category_id'],$res['information_category_id']).'</select></td>
-							<td><button id="add_product">დამატება</button></td>
-					  		<td><textarea  style="width: 370px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-						</tr>
-					</table>													
-					</table>
-					  	<table class="dialog-form-table" width="400px">				
-					  	<tr>
-							<td>ჯამური ღირებულება</td>
-							<td><input type="text" style="width: 60px;" id="phone" class="idle" onblur="this.className=\'idle\'"  value="' . $num . '"  /></td>
-							<td>ლარი</td>
-							<td><input style="float:left;" type="checkbox" name="x" value="1"><span style="margin-top:8px; display:block;""> + ბარათი</span></td>
-						</tr>					
-					</table>
-					<table class="dialog-form-table" width="750px">
-						<tr>
-					  		<td><label for="">მიწოდება</label></td>
-					  		<td><label style="margin-left:5px;" for="">მოდული</label></td>
-					  	</tr>					
-					  	<tr>
-							<td><select style="width: 330px;" id="" class="idls object">'. Getinformation_sub_category($res['information_sub_category_id'],$res['information_category_id']).'</select></td>
-							<td><select style="width: 420px; margin-left:5px;" id="" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
-						</tr>					
-					</table>					
-				</fieldset>
-				<fieldset style="width: 400px; float:left;">
-					<legend>პროდუქცია</legend>
-					<table id="" class="dialog-form-table" width="150px">
-						<tr>
-							<td><textarea  style="width: 400px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-						</tr>
-					</table>
-					</fieldset>
-					<fieldset style="width: 317px; margin-left:10px; height:55px;  float:left;">
-					<legend>სტატუსი</legend>
-					<table id="" class="dialog-form-table" width="150px">
-						<tr>
-							<td><select style="width: 310px; margin-left:5px;" id="" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
-						</tr>
-					</table>
-					</fieldset>
-				';
-												
-		$data  .= '
-		   
-				<fieldset style="margin-top: 5px;">
-			    	<legend>დავალების ფორმირება</legend>
-		
-			    	<table class="dialog-form-table" style="width: 750px;">
-						<tr>
-							<td style="width: 180px;"><label for="d_number">განყოფილება</label></td>
-							<td style="width: 180px;"><label for="d_number">პასუხისმგებელი პირი</label></td>
-							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
-						</tr>
-			    		<tr>
-							<td><select style="width: 180px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td><select style="width: 180px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-							<td><select style="width: 180px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
-						</tr>
-						<tr>
-							<td style="width: 150px;"><label>შესრულების პერიოდი</label></td>
-							<td style="width: 150px;"><label></label></td>
-							<td style="width: 150px;"><label>კომენტარი</label></td>
-						</tr>
-						<tr>
-							<td><input style="width: 150px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">დან</span></td>
-					  		<td><input style="width: 150px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">მდე</span></td>
-							<td>
-								<textarea  style="width: 280px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
-							</td>
-						</tr>
-					</table>
-		        </fieldset>
-			</div>
-			<div>
-				  </fieldset>
-			</div>
-			<div style="float: right;  width: 355px;">
-				 <fieldset>
-					<legend>სასარგებლო ბმულები</legend>
-					<table>						
-						<tr>
-							<td style="width:90px; height:60px;"><a id="link1" target="_blank" href="http://www.biblusi.ge/"></a></td>
-							<td style="width:90px; height:60px;"><a id="link2" target="_blank" href="http://www.palitral.ge/"></a></td>
-							<td style="width:90px; height:60px;"><a id="link3" target="_blank" href="http://palitra.ge/"></a></td>
-							<td style="width:60px; height:60px;"><a id="link4" target="_blank" href="http://www.salesland.ge/"></a></td>
-						</tr>
-					</table>
-				</fieldset>
-				<fieldset>
-					<legend>მომართვის ავტორი</legend>
-					<table style="height: 243px;">						
-						<tr>
-							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
-							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
-						</tr>
-						<tr>
-							<td>
-								<input type="text" id="personal_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
-							</td>
-							<td style="width: 180px;">
-								<input type="text" id="personal_id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
-							</td>					
-						</tr>
-						<tr>
-							<td style="width: 180px; color: #3C7FB1;">სახელი</td>
-							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
-						</tr>
-						<tr >
-							<td style="width: 180px;">
-								<input type="text" id="personal_contragent" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
-							</td>
-							<td style="width: 180px;">
-								<input type="text" id="personal_mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
-							</td>			
-						</tr>
-						<tr>
-							<td td style="width: 180px; color: #3C7FB1;">გვარი</td>
-							<td td style="width: 180px; color: #3C7FB1;">დაბადების თარიღი</td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">
-								<input type="text" id="personal_addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
-							</td>
-							<td td style="width: 180px;">
-								<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
-							</td>
-						</tr>
-						<tr>
-							<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
-							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
-						</tr>
-						<tr>
-							<td><select style="width: 165px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
-							<td td style="width: 180px;">
-								<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
-							</td>
-						</tr>
-						<tr>
-							<td td style="width: 180px; color: #3C7FB1;">ოჯახური სტატუსი</td>
-							<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
-						</tr>
-						<tr>
-							<td><select style="width: 165px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
-							<td td style="width: 180px;">
-								<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
-							</td>
-						</tr>
-					</table>
-				</fieldset>	
-				<fieldset>
-					<legend>ყველა გაყიდვა (ბოლო 10)</legend>					
-		                <table style="border:2px solid #85B1DE; width:100%;">
-		                   		<tr style="background:#F2F2F2; ">	
-									<th style="width:7%; padding:5px; border:1px solid #85B1DE;">#</th>
-									<th style="border:1px solid #85B1DE; padding:5px;">თარიღი</th>
-									<th style="border:1px solid #85B1DE; padding:5px;">მომხმარებელი</th>
-									<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
-									<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
-								</tr>		
-								<tr style="background: #FEFEFE">
-										<td style="border:1px solid #85B1DE; padding:2px;">1</td>
-										<td style="border:1px solid #85B1DE; padding:2px;">test</td>
-										<td style="border:1px solid #85B1DE; padding:2px;">test</td>
-										<td style="border:1px solid #85B1DE; padding:2px;">test</td>
-										<td style="border:1px solid #85B1DE; padding:2px;">test</td>
-								</tr>												
-		                </table>
-							<button id="read_more" style="float:right;">სრულად ნახვა</button>
-				</fieldset>					
-										
-						';
-				$data .= GetRecordingsSection($res='');
-				$data .= '<div id="additional_info">';
-					if (!empty($res['personal_pin'])){
-							$data .= get_addition_all_info($res['personal_pin']);
-						}
-	  $data .= '</div>
+			                           <th style="display:none">ID</th>
+										<th style="width:4%;">#</th>
+										<th style="">თარიღი</th>
+										<th style="">მომხმარებელი</th>
+										<th style="">ტელეფონი</th>
+										<th style="">პირადი №</th>
+										<th style="">E-Mail</th>
+										<th style="">წიგნები</th>
+										<th style="">ფასი</th>
+										<th style="">ოპერატორი</th>
+									</tr>
+								</thead>
+								<thead>
+									<tr class="search_header">
+										<th class="colum_hidden">
+	                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+	                            		</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										</th>
+										<th>
+											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										</th>
+									</tr>
+								</thead>
+			                </table>
+			            </div>
+			            <div class="spacer">
+			            </div>
+			        </div>
 			</div>
     </div>';
 
