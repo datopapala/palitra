@@ -4,6 +4,9 @@
 		var aJaxURL1	= "server-side/call/outgoing/outgoing_tab1.action.php";		//server side folder url
 		var aJaxURL2	= "server-side/call/outgoing/outgoing_tab2.action.php";		//server side folder url
 		var aJaxURL3	= "server-side/call/outgoing/outgoing_tab3.action.php";		//server side folder url
+		var aJaxURL4	= "server-side/call/outgoing/outgoing_tab4.action.php";		//server side folder url
+		var aJaxURL5	= "server-side/call/outgoing/suboutgoing/outgoing_tab1.action.php";		//server side folder url
+		var aJaxURL6	= "server-side/call/outgoing/suboutgoing/outgoing_tab2.action.php";		//server side folder url
         var seoyURL		= "server-side/seoy/seoy.action.php";					//server side folder url
 		var upJaxURL		= "server-side/upload/file.action.php";	
 		var tName		= "example0";											//table name
@@ -40,7 +43,10 @@
         
 		 function GetTable1() {
              LoadTable1();
-             SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL1);
+             $("#add_button_n").button({
+  	            
+  		    });
+             SetEvents("add_button_n", "", "", "example1", "add-edit-form1", aJaxURL1);
          }
          
 		 function GetTable2() {
@@ -72,6 +78,19 @@
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
+		
+		function LoadTable4(){			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", "");
+		}
+		function LoadTable5(){			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("sub1", aJaxURL5, "get_list", 7, "", 0, "", 1, "asc", "");
+		}
+		function LoadTable6(){			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("sub2", aJaxURL6, "get_list", 7, "", 0, "", 1, "asc", "");
+		}
 
 		//SeoYyy
 		$(document.body).click(function (e) {
@@ -95,7 +114,7 @@
 				            }
 				        } 
 				    };
-					GetDialog("add-edit-form", 1060, "auto", buttons);
+					GetDialog("add-edit-form", 790, "auto", buttons);
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -115,7 +134,28 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form1", 1060, "auto", buttons);
+					GetDialog("add-edit-form1", 1100, "auto", buttons);
+					$(".done").button({
+			            
+				    });
+					$(".next").button({
+			            
+				    });
+					$(".back").button({
+			            
+				    });
+					$("#add_button_product").button({
+			            
+				    });
+					$("#add_button_gift").button({
+					    
+					});
+					$("#complete").button({
+					    
+					});
+					LoadTable5();
+					LoadTable6();
+					GetDateTimes("send_time");
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -136,9 +176,10 @@
 				        }
 				    };
 					GetDialog("add-edit-form2", 1060, "auto", buttons);
+					
 			    break;
 			}
-			
+			LoadTable4()
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
 	
@@ -154,6 +195,9 @@
 			      }
 			});
 			$("#choose_button").button({
+	            
+		    });
+			$("#add_button_pp").button({
 	            
 		    });
 		}
@@ -176,6 +220,57 @@
 			        }
 			};
 			GetDialog("add-responsible-person", 280, "auto", buttons);
+		}
+
+
+		function seller(id){
+			if(id == '0'){
+				$('#seller-0').removeClass('dialog_hidden');
+	            $('#0').addClass('seller_select');
+	            $('#seller-1').addClass('dialog_hidden');
+	            $('#seller-2').addClass('dialog_hidden');
+	            $('#1').removeClass('seller_select');
+	            $('#2').removeClass('seller_select');
+			}else if(id == '1'){
+				$('#seller-1').removeClass('dialog_hidden');
+	            $('#1').addClass('seller_select');
+	            $('#seller-0').addClass('dialog_hidden');
+	            $('#seller-2').addClass('dialog_hidden');
+	            $('#0').removeClass('seller_select');
+	            $('#2').removeClass('seller_select');
+			}else if(id == '2'){
+				$('#seller-2').removeClass('dialog_hidden');
+	            $('#2').addClass('seller_select');
+	            $('#seller-1').addClass('dialog_hidden');
+	            $('#seller-0').addClass('dialog_hidden');
+	            $('#1').removeClass('seller_select');
+	            $('#0').removeClass('seller_select');
+			}
+		}
+
+		function research(id){
+			if(id == 'r0'){
+				$('#research-0').removeClass('dialog_hidden');
+	            $('#r0').addClass('seller_select');
+	            $('#research-1').addClass('dialog_hidden');
+	            $('#research-2').addClass('dialog_hidden');
+	            $('#r1').removeClass('seller_select');
+	            $('#r2').removeClass('seller_select');
+			}else if(id == 'r1'){
+				$('#research-1').removeClass('dialog_hidden');
+	            $('#r1').addClass('seller_select');
+	            $('#research-0').addClass('dialog_hidden');
+	            $('#research-2').addClass('dialog_hidden');
+	            $('#r0').removeClass('seller_select');
+	            $('#r2').removeClass('seller_select');
+			}else if(id == 'r2'){
+				$('#research-2').removeClass('dialog_hidden');
+	            $('#r2').addClass('seller_select');
+	            $('#research-1').addClass('dialog_hidden');
+	            $('#research-0').addClass('dialog_hidden');
+	            $('#r1').removeClass('seller_select');
+	            $('#r0').removeClass('seller_select');
+			}
 		}
 		
 	    // Add - Save
@@ -294,108 +389,7 @@
  		   });
 		});
 
-	    $(document).on("click", "#download", function () {
-	    	var download_file	= $(this).val();
-	    	var download_name 	= $('#download_name').val();
-	    	SaveToDisk(download_file, download_name);
-	    });
-
-	    function SaveToDisk(fileURL, fileName) {
-	        // for non-IE
-	        if (!window.ActiveXObject) {
-	            var save = document.createElement('a');
-	            save.href = fileURL;
-	            save.target = '_blank';
-	            save.download = fileName || 'unknown';
-
-	            var event = document.createEvent('Event');
-	            event.initEvent('click', true, true);
-	            save.dispatchEvent(event);
-	            (window.URL || window.webkitURL).revokeObjectURL(save.href);
-	        }
-		     // for IE
-	        else if ( !! window.ActiveXObject && document.execCommand)     {
-	            var _window = window.open(fileURL, "_blank");
-	            _window.document.close();
-	            _window.document.execCommand('SaveAs', true, fileName || fileURL)
-	            _window.close();
-	        }
-	    } 
-	   
-	    $(document).on("click", "#choose_button", function () {
-		    $("#choose_file").click();
-		});
-
-	    $(document).on("click", "#delete", function () {
-	    	var delete_id	= $(this).val();
-	    	
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: {
-					act: "delete_file",
-					delete_id: delete_id,
-					edit_id: $("#id").val(),
-				},
-		        success: function(data) {
-			        $("#file_div").html(data.page);
-			    }
-		    });	
-		});
-
-	    $(document).on("change", "#choose_file", function () {
-	    	var file		= $(this).val();	    
-	    	var files 		= this.files[0];
-		    var name		= uniqid();
-		    var path		= "../../media/uploads/file/";
-		    
-		    var ext = file.split('.').pop().toLowerCase();
-	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
-	        	alert('This is not an allowed file type.');
-                this.value = '';
-	        }else{
-	        	file_name = files.name;
-	        	rand_file = name + "." + ext;
-	        	$.ajaxFileUpload({
-	    			url: upJaxURL,
-	    			secureuri: false,
-	    			fileElementId: "choose_file",
-	    			dataType: 'json',
-	    			data:{
-						act: "upload_file",
-						path: path,
-						file_name: name,
-						type: ext
-					},
-	    			success: function (data, status){
-	    				if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}
-    					}
-    							
-	    				$.ajax({
-					        url: aJaxURL,
-						    data: {
-								act: "up_now",
-								rand_file: rand_file,
-					    		file_name: file_name,
-								edit_id: $("#id").val(),
-
-							},
-					        success: function(data) {
-						        $("#file_div").html(data.page);
-						    }
-					    });	   					    				
-    				},
-    				error: function (data, status, e)
-    				{
-    					alert(e);
-    				}    				
-    			});
-	        }
-		});
-
-		
+	    
 	    $(document).on("click", "#save-dialog2", function () {
 			param 				= new Object();
  			param.act			= "save_outgoing";
@@ -621,7 +615,11 @@
 		    var task_type = $("#task_type_id").val();
 
 			if(task_type == 1){
-				$("#task_department_id").val(37);
+				$("#seller").removeClass('dialog_hidden');
+				$("#research").addClass('dialog_hidden');
+			}else{
+				$("#research").removeClass('dialog_hidden');
+				$("#seller").addClass('dialog_hidden');
 			}
 		    
 	    });
@@ -631,7 +629,7 @@
 
 <body>
 
-<div id="tabs" style="width: 90%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 95%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">მენეჯერი</a></li>
 			<li><a href="#tab-1">პირველადი</a></li>
@@ -640,7 +638,7 @@
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		            	<div id="button_area">
@@ -651,22 +649,24 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">პირადი №</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">დავალების<br>ტიპი</th>
+									<th style="width:19%;">განყოფილება</th>
+									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
+									<th style="width:19%;">ზარის შემოსვილის<br>თარიღი</th>
+									<th style="width:19%;">სტატუსი</th>
 									<th class="check">#</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr class="search_header">
 									<th class="colum_hidden">
-                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 25px"/>
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -679,6 +679,12 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -698,28 +704,34 @@
 		 </div>
 		<div id="tab-1">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
+		            	<div id="button_area">
+		            		<button id="add_button_n">დამატება</button>
+	        			</div>
 		                <table class="display" id="example1">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">შექმნის თარიღი</th>
+									<th style="width:19%;">დასაწისი</th>
+									<th style="width:19%;">დასასრული</th>
+									<th style="width:19%;">დავალების ტიპი</th>
+									<th style="width:19%;">სცენარი</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">პრიორიტეტი</th>
+									<th style="width:19%;">სტატუსი</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
 									<th>
-										<input style="width:50px;" type="text" name="search_id" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -733,6 +745,19 @@
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
 									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									
 								</tr>
 							</thead>
 		                </table>
@@ -744,28 +769,31 @@
 		 </div>
 		 <div id="tab-2">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		                <table class="display" id="example2">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">პირადი №</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">დავალების<br>ტიპი</th>
+									<th style="width:19%;">განყოფილება</th>
+									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
+									<th style="width:19%;">ზარის შემოსვილის<br>თარიღი</th>
+									<th style="width:19%;">სტატუსი</th>
+									<th class="check">#</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
 									<th>
-										<input style="width:50px;" type="text" name="search_id" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -779,6 +807,19 @@
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
 									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input type="checkbox" name="check-all" id="check-all-in"/>
+									</th>
+									
 								</tr>
 							</thead>
 		                </table>
@@ -790,28 +831,31 @@
 		 </div>
 		 <div id="tab-3">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		                <table class="display" id="example3">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">პირადი №</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">დავალების<br>ტიპი</th>
+									<th style="width:19%;">განყოფილება</th>
+									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
+									<th style="width:19%;">ზარის შემოსვილის<br>თარიღი</th>
+									<th style="width:19%;">სტატუსი</th>
+									<th class="check">#</th>
 								</tr>
 							</thead>
 							<thead>
 								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
 									<th>
-										<input style="width:50px;" type="text" name="search_id" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -825,6 +869,19 @@
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
 									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input type="checkbox" name="check-all" id="check-all-in"/>
+									</th>
+									
 								</tr>
 							</thead>
 		                </table>

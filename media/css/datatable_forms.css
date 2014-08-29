@@ -16,6 +16,10 @@
     
 }
 
+.dialog_hidden{
+	display:none;
+}
+
 #dialog-form legend
 {
 	font-weight: bold;
@@ -201,4 +205,33 @@
 	max-height: 105px;
 	min-height: 100px;
 	margin-bottom: 5px;	
+}
+
+#link1{
+	display:block;
+	height:60px !important;
+	width:60px !important;
+	background-image: url( '../images/palitra_img/biblusi.png' );
+	background-size: 60px 60px;
+}
+#link2{
+    display:block;
+    height:60px !important;
+    width:60px !important;
+    background-image: url( '../images/palitra_img/palitra_l.png' );
+    background-size: 60px 60px;
+}
+#link3{
+    display:block;
+    height:60px !important;
+    width:60px !important;
+    background-image: url( '../images/palitra_img/palitra_tv.png' );
+    background-size: 60px 60px;
+}
+#link4{
+    display:block;
+    height:60px !important;
+    width:60px !important;
+    background-image: url( '../images/palitra_img/sales_land.png' );
+    background-size: 60px 60px;
 }

@@ -45,6 +45,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 </style>
 <script type="text/javascript">
 		var aJaxURL	= "server-side/call/incomming.action.php";		//server side folder url
+		var aJaxURLl	= "server-side/call/incomming1.action.php";		//server side folder url
 		var upJaxURL		= "server-side/upload/file.action.php";	
 		var tName	= "example";										//table name
 		var fName	= "add-edit-form";									//form name
@@ -85,6 +86,46 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			      icons: {
 			        primary: " ui-icon-contact"
 			      }
+			});
+			
+			$("#read_more").button({
+	            
+		    });
+
+			$("#add_product").button({
+	            
+		    });
+		    
+			$(document).on("click", "#read_more", function () {
+				var button = {
+						"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				                $(this).dialog("close");
+				            }
+				        }
+					};
+				GetDialog("read_more_dialog", 1000, "auto", button);
+				$.ajax({
+		            url: aJaxURLl,
+		            type: "POST",
+		            data: "act=get_add_page",
+		            dataType: "json",
+		            success: function (data) {
+		                if (typeof (data.error) != "undefined") {
+		                    if (data.error != "") {
+		                        alert(data.error);
+		                    } else {
+		                        $("#" + "read_more_dialog").html(data.page);
+		                        if ($.isFunction(window.LoadDialog)) {
+		                            //execute it
+		                        	GetDataTable("all_sell", aJaxURLl, "get_list", 6,"", 0, "", 1, "asc", "");
+		                        }
+		                    }
+		                }
+		            }
+		        });
 			});
 		}
 
@@ -458,5 +499,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 	<!-- jQuery Dialog -->
 	<div id="last_calls" title="ბოლო ზარები">
+	</div>
+	
+	<!-- jQuery Dialog -->
+	<div id="read_more_dialog" class="form-dialog" title="ყველა გაყიდვა">
 	</div>
 </body>
