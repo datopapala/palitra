@@ -11,8 +11,8 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page':
-		$paytype_id		= $_REQUEST['id'];
-		$page		= GetPage(Getpay_type($paytype_id));
+		$legal_status_id		= $_REQUEST['id'];
+		$page		= GetPage(Getlegal_status($legal_status_id));
 		$data		= array('page'	=> $page);
 
 		break;
@@ -20,10 +20,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	pay_type.id,
-										pay_type.`name`
-							    FROM 	pay_type
-							    WHERE 	pay_type.actived=1");
+		$rResult = mysql_query("SELECT 	id,
+										`name`
+							    FROM 	shipping
+								WHERE 	actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -44,30 +44,30 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_paytype':
-		$paytype_id 		= $_REQUEST['id'];
-		$paytype_name    = $_REQUEST['name'];
+	case 'save_legal_status':
+		$legal_status_id 		= $_REQUEST['id'];
+		$legal_status_name    = $_REQUEST['name'];
 
 
 
-		if($paytype_name != ''){
-			if(!Checkpay_typeExist($paytype_name, $paytype_id)){
-				if ($paytype_id == '') {
-					Addpay_type( $paytype_id, $paytype_name);
+		if($legal_status_name != ''){
+			if(!Checklegal_statusExist($legal_status_name, $legal_status_id)){
+				if ($legal_status_id == '') {
+					Addlegal_status( $legal_status_id, $legal_status_name);
 				}else {
-					Savepay_type($paytype_id, $paytype_name);
+					Savelegal_status($legal_status_id, $legal_status_name);
 				}
 
 			} else {
-				$error = '"' . $paytype_name . '" უკვე არის სიაში!';
+				$error = '"' . $legal_status_name . '" უკვე არის სიაში!';
 
 			}
 		}
 
 		break;
 	case 'disable':
-		$paytype_id	= $_REQUEST['id'];
-		Disablepay_type($paytype_id);
+		$legal_status_id	= $_REQUEST['id'];
+		Disablelegal_status($legal_status_id);
 
 		break;
 	default:
@@ -84,35 +84,35 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addpay_type($paytype_id, $paytype_name)
+function Addlegal_status($legal_status_id, $legal_status_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`pay_type`
-									(`user_id`,`name`)
-						VALUES 		('$user_id','$paytype_name')");
+	mysql_query("INSERT INTO 	 `shipping`
+								(`user_id`,`name`)
+					VALUES 		('$user_id','$legal_status_name')");
 }
 
-function Savepay_type($paytype_id, $paytype_name)
+function Savelegal_status($legal_status_id, $legal_status_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE  `pay_type`
-					SET     `user_id`='$user_id',
-							`name` = '$paytype_name'
-					WHERE	`id` = $paytype_id");
+	mysql_query("	UPDATE `shipping`
+					SET    `user_id`='$user_id',
+							 `name` = '$legal_status_name'
+					WHERE	`id` = $legal_status_id");
 }
 
-function Disablepay_type($paytype_id)
+function Disablelegal_status($legal_status_id)
 {
-	mysql_query("	UPDATE `pay_type`
+	mysql_query("	UPDATE `shipping`
 					SET    `actived` = 0
-					WHERE  `id` = $paytype_id");
+					WHERE  `id` = $legal_status_id");
 }
 
-function Checkpay_typeExist($paytype_name)
+function Checklegal_statusExist($legal_status_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `pay_type`
-											WHERE  `name` = '$paytype_name' && `actived` = 1"));
+											FROM   `shipping`
+											WHERE  `name` = '$legal_status_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
 	}
@@ -120,12 +120,12 @@ function Checkpay_typeExist($paytype_name)
 }
 
 
-function Getpay_type($paytype_id)
+function Getlegal_status($legal_status_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
 													`name`
-											FROM    `pay_type`
-											WHERE   `id` = $paytype_id" ));
+											FROM    `shipping`
+											WHERE   `id` = $legal_status_id" ));
 
 	return $res;
 }
@@ -147,7 +147,7 @@ function GetPage($res = '')
 
 			</table>
 			<!-- ID -->
-			<input type="hidden" id="paytype_id" value="' . $res['id'] . '" />
+			<input type="hidden" id="legal_status_id" value="' . $res['id'] . '" />
         </fieldset>
     </div>
     ';

@@ -52,13 +52,11 @@ switch ($action) {
 		$hidden = 		$_REQUEST['hidden'];
 	  	$rResult = mysql_query("	SELECT 			action.id,
 													action.id,
-	  												action.`name`,
 													action.start_date,
 													action.end_date,
 													action.content,
 													users.username
 									FROM 			action
-									
 									JOIN users ON action.user_id=users.id
 									WHERE 			action.actived=1 AND action.end_date >= NOW()");
 	  

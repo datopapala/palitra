@@ -1,7 +1,7 @@
 <html>
 <head>
 	<script type="text/javascript">
-		var aJaxURL	= "server-side/view/problem.action.php";		//server side folder url
+		var aJaxURL	= "server-side/view/production.action.php";		//server side folder url
 		var tName	= "example";													//table name
 		var fName	= "add-edit-form";												//form name
 		    	
@@ -16,12 +16,12 @@
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 2, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 4, "", 0, "", 1, "desc");
     		
 		}
 		
 		function LoadDialog(){
-			var id		= $("#problem_id").val();
+			var id		= $("#priority_id").val();
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 600, "auto", "");
@@ -31,9 +31,11 @@
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
 
-		    param.act		="save_problem";
-	    	param.id		= $("#problem_id").val();
-	    	param.name		= $("#name").val();
+		    param.act							="save_priority";
+	    	param.id							= $("#priority_id").val();
+	    	param.name							= $("#name").val();
+	    	param.genre_id						= $("#genre_id").val();
+	    	param.production_category_id		= $("#production_category_id").val();
 	    	
 			if(param.name == ""){
 				alert("შეავსეთ ველი!");
@@ -63,7 +65,7 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">პრობლემების ტიპები</h2>
+            	<h2 align="center">პრიორიტეტები</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         			<button id="delete_button">წაშლა</button>
@@ -72,13 +74,21 @@
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 100%;">სახელი</th>
+                            <th style="width: 100%;">პროდუქტი</th>
+                            <th style="width: 100%;">ჟანრი</th>
+                            <th style="width: 100%;">კატეგორია</th>
                         	<th class="check">#</th>
                         </tr>
                     </thead>
                     <thead>
                         <tr class="search_header">
                             <th class="colum_hidden">
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
@@ -93,11 +103,12 @@
     </div>
     
     <!-- jQuery Dialog -->
-    <div id="add-edit-form" class="form-dialog" title="პრობლემების ტიპები">
+    <div id="add-edit-form" class="form-dialog" title="პრიორიტეტები">
     	<!-- aJax -->
 	</div>
 </body>
 </html>
+
 
 
 

@@ -3,7 +3,6 @@ require_once('../../includes/classes/core.php');
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
-
 switch ($action) {
 	case 'get_add_page':
 		$page		= GetPage();
@@ -11,8 +10,8 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page':
-		$problem_id		= $_REQUEST['id'];
-		$page		= GetPage(Getproblem($problem_id));
+		$callstatus_id		= $_REQUEST['id'];
+		$page		= GetPage(Getcall_status($callstatus_id));
 		$data		= array('page'	=> $page);
 
 		break;
@@ -20,10 +19,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	problem.id,
-										problem.`name`
-							    FROM 	problem
-							    WHERE 	problem.actived=1");
+		$rResult = mysql_query("SELECT 	id,
+										`name`
+							    FROM 	source
+							    WHERE 	actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -44,30 +43,30 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_problem':
-		$problem_id 		= $_REQUEST['id'];
-		$problem_name    = $_REQUEST['name'];
+	case 'save_callstatus':
+		$callstatus_id 		= $_REQUEST['id'];
+		$callstatus_name    = $_REQUEST['name'];
 
 
 
-		if($problem_name != ''){
-			if(!CheckproblemExist($problem_name, $problem_id)){
-				if ($problem_id == '') {
-					Addproblem( $problem_id, $problem_name);
+		if($callstatus_name != ''){
+			if(!Checkcall_statusExist($callstatus_name, $callstatus_id)){
+				if ($callstatus_id == '') {
+					Addcall_status( $callstatus_id, $callstatus_name);
 				}else {
-					Saveproblem($problem_id, $problem_name);
+					Savecall_status($callstatus_id, $callstatus_name);
 				}
 
 			} else {
-				$error = '"' . $problem_name . '" უკვე არის სიაში!';
+				$error = '"' . $callstatus_name . '" უკვე არის სიაში!';
 
 			}
 		}
 
 		break;
 	case 'disable':
-		$problem_id	= $_REQUEST['id'];
-		Disableproblem($problem_id);
+		$callstatus_id	= $_REQUEST['id'];
+		Disablecall_status($callstatus_id);
 
 		break;
 	default:
@@ -84,35 +83,35 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addproblem($problem_id, $problem_name)
+function Addcall_status($callstatus_id, $callstatus_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`problem`
-									(`user_id`,`name`)
-					VALUES 		('$user_id','$problem_name')");
+	mysql_query("INSERT INTO 	 	`source`
+	                                    (`name`,`user_id`)
+				VALUES 		('$callstatus_name','$user_id')");
 }
 
-function Saveproblem($problem_id, $problem_name)
+function Savecall_status($callstatus_id, $callstatus_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `problem`
-					SET     `user_id`='$user_id'
-							`name` = '$problem_name'
-					WHERE	`id` = $problem_id");
+	mysql_query("	UPDATE `source`
+					SET     `name` = '$callstatus_name',
+							`user_id`=$user_id
+					WHERE	`id` = $callstatus_id");
 }
 
-function Disableproblem($problem_id)
+function Disablecall_status($callstatus_id)
 {
-	mysql_query("	UPDATE `problem`
+	mysql_query("	UPDATE `source`
 					SET    `actived` = 0
-					WHERE  `id` = $problem_id");
+					WHERE  `id` = $callstatus_id");
 }
 
-function CheckproblemExist($problem_name)
+function Checkcall_statusExist($callstatus_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `problem`
-											WHERE  `name` = '$problem_name' && `actived` = 1"));
+											FROM   `source`
+											WHERE  `name` = '$callstatus_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
 	}
@@ -120,12 +119,12 @@ function CheckproblemExist($problem_name)
 }
 
 
-function Getproblem($problem_id)
+function Getcall_status($callstatus_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
-													`name`
-											FROM    `problem`
-											WHERE   `id` = $problem_id" ));
+			                                        `name`
+											FROM    `source`
+											WHERE   `id` = $callstatus_id" ));
 
 	return $res;
 }
@@ -147,7 +146,7 @@ function GetPage($res = '')
 
 			</table>
 			<!-- ID -->
-			<input type="hidden" id="problem_id" value="' . $res['id'] . '" />
+			<input type="hidden" id="callstatus_id" value="' . $res['id'] . '" />
         </fieldset>
     </div>
     ';

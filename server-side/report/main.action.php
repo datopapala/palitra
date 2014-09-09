@@ -58,15 +58,17 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
+		$start		=	$_REQUEST['start'];
+		$end		=	$_REQUEST['end'];
 	  	$rResult = mysql_query("select  		incomming_call.id,           
 												incomming_call.id,
-											  	DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
+											  	DATE_FORMAT(incomming_call.`date`,'%y-%m-%d %H:%i:%s'),
 												info_category.`name`,
 												incomming_call.phone,
 	  											incomming_call.content
 								FROM 			incomming_call
 								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
-	  							WHERE 			incomming_call.actived = 1");
+	  							WHERE 			incomming_call.actived = 1 and DATE(date)  BETWEEN  date('$start')  And date('$end')");
 	  
 		$data = array(
 				"aaData"	=> array()
@@ -85,7 +87,7 @@ switch ($action) {
 
 		break;
 	case 'save_incomming':
-		$incom_id_check = $_REQUEST['id'];
+		$incom_id_check = $_REQUEST['id_h'];
 		if($incom_id_check == ''){
 			
 			Addincomming($c_date, $id_p, $phone, $person_name, $type, $results_id, $information_category_id, $information_sub_category_id, $content_id, $product_id,  $forward_id, $connect, $results_comment, $content, $task_type_id, $task_department_id, $persons_id, $comment, $call_vote, $source_id);
@@ -117,6 +119,16 @@ switch ($action) {
 		$data 	= 	array('cat'=>Getbank_object($cat_id));
 	
 		break;
+	case 'get-info' :
+        	 
+        	$start1  = $_REQUEST['start'];
+        	$end1  	= $_REQUEST['end'];
+        
+        
+        	$page				= GetInfoPage($start1, $end1);
+        	$data				= array('page'	=> $page);
+        	 
+        	break;
 	
 	case 'get_add_info':
 	
@@ -144,10 +156,46 @@ echo json_encode($data);
 * ******************************
 */
 
+function GetInfoPage($start, $end){
+	
+	$data = '';
+	
+	$res = mysql_query("
+						SELECT 	COUNT(*) AS `count`
+						FROM 	`incomming_call`
+						WHERE  	(DAYOFWEEK(date)=7 OR DAYOFWEEK(date) = 1) AND date BETWEEN '$start' AND '$end'
+						");
+	
+	$res1 = mysql_query("
+							SELECT 	COUNT(*) AS `count`
+							FROM 	`incomming_call`
+							WHERE  	(DAYOFWEEK(date) >= 2 AND DAYOFWEEK(date) <= 6) AND date BETWEEN '$start' AND '$end'
+							");
+
+	$row = mysql_fetch_assoc($res);
+	$row1 = mysql_fetch_assoc($res1);
+		
+		
+		$data .= '    <table >
+            				<tr>
+            					<td >სულ შაბათ-კვირა: </td>
+            					<td> '.$row[count].' ზარი</td>
+            				</tr>
+            				<tr>
+            					<td>სულ სამუშაო დღეს: </td>
+            					<td> '.$row1[count].' ზარი</td>
+            				</tr>
+            		</table>';
+
+	
+	
+	return $data;
+	
+}	
+
 function Addincomming($c_date, $id_p, $phone, $person_name, $type, $results_id, $information_category_id, $information_sub_category_id, $content_id, $product_id,  $forward_id, $connect, $results_comment, $content, $task_type_id, $task_department_id, $persons_id, $comment, $call_vote, $source_id){
 
 	$user		= $_SESSION['USERID'];
-	
 	mysql_query("INSERT INTO `incomming_call` 
 			(`id`, `user_id`, `date`, `phone`, `name`, `type`, `information_category_id`, `information_sub_category_id`, `product_id`, `source_id`, `content`, `results_id`, `results_comment`, `content_id`, `connect`, `forward_id`, `call_vote`, `actived`)
 			 VALUES 
@@ -216,7 +264,7 @@ function Saveincomming($c_date, $id_p, $phone, $person_name, $type, $results_id,
 						`personal_phone`			='$personal_phone',
 						`personal_contragent`		='$personal_contragent',
 						`personal_mail`				='$personal_mail',
-						`personal_addres`			='$personal_addres',
+						`personal_id`				='$personal_id',
 						`personal_addres`			='$personal_addres',
 						`personal_status`			='$personal_status'
 				WHERE   `incomming_call_id`			='$id_p'
@@ -934,7 +982,6 @@ function Getsource($source_id){
 							FROM 	source
 							");
 
-	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $source_id){
 			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
@@ -950,7 +997,8 @@ function Getincomming($incom_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
 														incomming_call.phone AS `phone`,
-														DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS call_date,
+														DATE_FORMAT(incomming_call.`date`,'%y-%m-%d %H:%i:%s') AS call_date,
+														DATE_FORMAT(incomming_call.`date`,'%y-%m-%d') AS date,
 														incomming_call.`name`,
 														incomming_call.type,
 														incomming_call.information_category_id,
@@ -971,7 +1019,7 @@ function Getincomming($incom_id)
 														personal_info.personal_addres,
 														personal_info.personal_status
 												FROM 	incomming_call
-												JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
+												LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
 												where   incomming_call.id = $incom_id
 														" ));
 	return $res;
@@ -989,64 +1037,232 @@ function GetPage($res='', $number)
 	}
 	
 	$data  .= '
+	<!-- jQuery Dialog -->
+    <div id="add-edit-goods-form" title="საქონელი">
+    	<!-- aJax -->
+	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 970px;">	
-			
-				<div id="dt_example" class="inner-table">
-			        <div style="width:100%;" id="container" >        	
-			            <div id="dynamic">
-			                <table class="" id="all_sell" style="width: 100%;">
-			                    <thead>
-									<tr  id="datatable_header">
-											
-			                           <th style="display:none">ID</th>
-										<th style="width:4%;">#</th>
-										<th style="">თარიღი</th>
-										<th style="">მომხმარებელი</th>
-										<th style="">ტელეფონი</th>
-										<th style="">პირადი №</th>
-										<th style="">ელ-ფოსტა</th>
-										<th style="">წიგნები</th>
-										<th style="">ფასი</th>
-										<th style="">ოპერატორი</th>
-									</tr>
-								</thead>
-								<thead>
-									<tr class="search_header">
-										<th class="colum_hidden">
-	                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-	                            		</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-										</th>
-										<th>
-											<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-										</th>
-									</tr>
-								</thead>
-			                </table>
-			            </div>
-			            <div class="spacer">
-			            </div>
-			        </div>
+			<div style="float: left; width: 800px;">	
+				<fieldset >
+				<fieldset style="width:300px; float:left;">
+			    	<legend>ძირითადი ინფორმაცია</legend>
+		
+			    	<table width="500px" class="dialog-form-table">
+						<tr>
+							<td style="width: 180px;"><label for="">მომართვა №</label></td>
+							<td style="width: 180px;"><label for="">თარიღი <span style="color:red; font-weight: bold; font-size: 120%">*</span></label></td>
+						</tr>							
+						
+						<tr>
+							<td style="width: 180px;">
+								<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('incomming_call')). '" disabled="disabled" />
+								<input style="display:none;" type="text" id="h_id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" disabled="disabled" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' . (($res['call_date']!='')?$res['call_date']:$c_date) . '" disabled="disabled" />
+							</td>				
+						</tr>
+						<tr>
+							<td style="width: 180px;"><label for="phone">ტელეფონი <span style="color:red; font-weight: bold; font-size: 120%">*</span></label></td>							
+							<td><label for="person_name">აბონენტის სახელი</label></td>
+						</tr>
+						<tr>
+							<td style="width: 180px;">
+								<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'"  value="' . $num . '" />
+							</td>
+							<td style="width: 69px;">
+								<input type="text" id="person_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' .  $res['name']. '" />
+							</td>	
+						</tr>
+						<tr>
+							<td>
+								<label for="source_id">წყარო</label>
+							</td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<select style="width: 165px;" id="source_id" class="idls object">'. Getsource($res['source_id']).'</select>
+							</td>
+							<td style="width: 69px;">
+								<button class="calls">ნომრები</button>
+							</td>
+						</tr>				
+					</table>
+				</fieldset>
+				<fieldset style="width:220px; float:left; margin-left:10px; height:75px;">
+			    	<legend>მომართვის ავტორი</legend>
+					<table id="" class="dialog-form-table" width="220px">						
+						<tr>
+							<td style="width: 220px;"><input style="float:left;" type="radio" name="x" value="1" checked><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
+					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="x" value="2" '.(($res['type']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:220px; float:left; margin-left:10px; height:85px;">
+			    	<legend>ზარის შეფასება</legend>
+					<table id="" class="dialog-form-table" width="220px">						
+						<tr>
+							<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">პოზიტიური</span></td>
+					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'><span style="margin-top:5px; display:block;"">ნეიტრალური</span></td>
+					  	</tr>
+					  	<tr>
+					  		<td style="width: 220px;"><input style="float:left;" type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'><span style="margin-top:5px; display:block;"">ნეგატიური</span></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:752px; float:left;">
+			    	<legend>ინფორმაცია</legend>
+					<table id="" class="dialog-form-table" width="500px">
+					  	<tr>
+					  		<td><label for="information_category_id">კატეგორია</label></td>
+					  	</tr>						
+						<tr>
+							<td><select style="width: 752px;" id="information_category_id" class="idls object">'. Getinformation_category($res['information_category_id']).'</select></td>
+						</tr>
+						<tr>
+					  		<td><label for="information_category_id">ქვე-კატეგორია</label></td>
+					  	</tr>
+						<tr>
+							<td><select style="width: 752px;" id="information_sub_category_id" class="idls object">'. Getinformation_sub_category($res['information_sub_category_id'],$res['information_category_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:370px; float:left;">
+			    	<legend>მომართვის შინაარსი</legend>
+					<table id="" class="dialog-form-table" width="350px">		
+						<tr>
+							<td style="width: 370px;"><select style="width: 368px;" id="content_id" class="idls object">'. Getcontent($res['content_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:350px; float:left; margin-left:10px;">
+			    	<legend>პროდუქტი</legend>
+					<table id="" class="dialog-form-table" width="350px">		
+						<tr>
+							<td style="width: 350px;"><select style="width: 350px;" id="product_id" class="idls object">'. Getproduct($res['product_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:755px; float:left;">
+			    	<legend>გადამისამართება</legend>
+					<table id="" class="dialog-form-table" width="230px">		
+						<tr>
+							<td style="width: 570px;"><label for="d_number">ქვე-განყოფილება</label></td>
+							<td><label style="margin-left: 35px;" for="d_number">კავშირი</label></td>
+						</tr>
+						<tr>
+							<td style="width: 250px;"><select style=" width: 570px;" id="forward_id" class="idls object">'. Getforward($res['forward_id']).'</select></td>
+							<td><input style="margin-left: 35px;" type="checkbox" id="connect" value="1" '.(($res['connect']=='1')?"checked":"").'></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:400px; float:left;">
+			    	<legend>შედეგი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="150px">	
+						<tr>
+							<td><select style="width: 400px;" id="results_id" class="idls object">'. Getresults($res['results_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:315px; float:left; margin-left: 10px;">
+			    	<legend>შედეგის კომენტარი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="150px">	
+						<tr>
+							<td><textarea  style="width:317px; resize: none;" id="results_comment" class="idle" name="content" cols="300" >' . $res['results_comment'] . '</textarea></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:557px; float:left;">
+			    	<legend>კომენტარი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table id="" class="dialog-form-table" width="150px">	
+						<tr>
+							<td><textarea  style="width: 750px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+						</tr>
+					</table>
+				</fieldset>
+				';
+												
+		$data  .= '
+		   
+				<fieldset style="margin-top: 5px;">
+			    	<legend>დავალების ფორმირება</legend>
+		
+			    	<table class="dialog-form-table">
+						<tr>
+							<td style="width: 280px;"><label for="d_number">დავალების ტიპი</label></td>
+							<td style="width: 280px;"><label for="d_number">სცენარი</label></td>
+							<td style="width: 280px;"><label for="d_number">პრიორიტეტი</label></td>
+						</tr>
+			    		<tr>
+							<td style="width: 280px;" id="task_type_change"><select style="width: 230px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 280px;"><select style="width: 230px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
+							<td style="width: 280px;"><select style="width: 230px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+						</tr>
+						<tr>
+							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
+							<td style="width: 150px;"><label for="content"></label></td>
+							<td style="width: 150px;"><label for="content"></label></td>
+						</tr>
+						<tr>
+							<td colspan="6">
+								<textarea  style="width: 747px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
+							</td>
+						</tr>
+					</table>
+		        </fieldset>
+			</div>
+			<div>
+				  </fieldset>
+			</div>
+			<div style="float: right;  width: 355px;">
+				 <fieldset>
+					<legend>მომართვის ავტორი <span style="color:red; font-weight: bold; font-size: 120%">*</span></legend>
+					<table style="height: 243px;">						
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
+							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="text" id="personal_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="personal_id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
+							</td>					
+						</tr>
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">კონტრაგენტი</td>
+							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
+						</tr>
+						<tr >
+							<td style="width: 180px;">
+								<input type="text" id="personal_contragent" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="personal_mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
+							</td>			
+						</tr>
+						<tr>
+							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
+						</tr>
+						<tr>
+							<td style="width: 180px;">
+								<input type="text" id="personal_addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
+							</td>
+							<td td style="width: 180px;">
+								<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+							</td>
+						</tr>
+					</table>
+				</fieldset>';
+				if(!empty($res[phone])){
+				$data .= GetRecordingsSection($res);
+				}
+				
+	  $data .= '</div>
 			</div>
     </div>';
 

@@ -3,6 +3,7 @@ require_once('../../includes/classes/core.php');
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
+
 switch ($action) {
 	case 'get_add_page':
 		$page		= GetPage();
@@ -10,8 +11,8 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page':
-		$callstatus_id		= $_REQUEST['id'];
-		$page		= GetPage(Getcall_status($callstatus_id));
+		$cardtype_id		= $_REQUEST['id'];
+		$page		= GetPage(Getcard_type($cardtype_id));
 		$data		= array('page'	=> $page);
 
 		break;
@@ -19,10 +20,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	call_status.id,
-										call_status.`name`
+		$rResult = mysql_query("SELECT 	id,
+										`name`
 							    FROM 	call_status
-							    WHERE 	call_status.actived=1");
+							    WHERE 	actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -43,30 +44,30 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_callstatus':
-		$callstatus_id 		= $_REQUEST['id'];
-		$callstatus_name    = $_REQUEST['name'];
+	case 'save_cardtype':
+		$cardtype_id 		= $_REQUEST['id'];
+		$cardtype_name    = $_REQUEST['name'];
 
 
 
-		if($callstatus_name != ''){
-			if(!Checkcall_statusExist($callstatus_name, $callstatus_id)){
-				if ($callstatus_id == '') {
-					Addcall_status( $callstatus_id, $callstatus_name);
+		if($cardtype_name != ''){
+			if(!Checkcard_typeExist($cardtype_name, $cardtype_id)){
+				if ($cardtype_id == '') {
+					Addcard_type( $cardtype_id, $cardtype_name);
 				}else {
-					Savecall_status($callstatus_id, $callstatus_name);
+					Savecard_type($cardtype_id, $cardtype_name);
 				}
 
 			} else {
-				$error = '"' . $callstatus_name . '" უკვე არის სიაში!';
+				$error = '"' . $cardtype_name . '" უკვე არის სიაში!';
 
 			}
 		}
 
 		break;
 	case 'disable':
-		$callstatus_id	= $_REQUEST['id'];
-		Disablecall_status($callstatus_id);
+		$cardtype_id	= $_REQUEST['id'];
+		Disablecard_type($cardtype_id);
 
 		break;
 	default:
@@ -83,35 +84,35 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addcall_status($callstatus_id, $callstatus_name)
+function Addcard_type($cardtype_id, $cardtype_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`call_status`
-	                                    (`name`,`user_id`)
-				VALUES 		('$callstatus_name','$user_id')");
+	mysql_query("INSERT INTO 	 `call_status`
+								(`user_id`,`name`)
+					VALUES 		('$user_id','$cardtype_name')");
 }
 
-function Savecall_status($callstatus_id, $callstatus_name)
+function Savecard_type($cardtype_id, $cardtype_name)
 {
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `call_status`
-					SET     `name` = '$callstatus_name',
-							`user_id`=$user_id
-					WHERE	`id` = $callstatus_id");
+					SET    `user_id`='$user_id',
+							 `name` = '$cardtype_name'
+					WHERE	`id` = $cardtype_id");
 }
 
-function Disablecall_status($callstatus_id)
+function Disablecard_type($cardtype_id)
 {
 	mysql_query("	UPDATE `call_status`
 					SET    `actived` = 0
-					WHERE  `id` = $callstatus_id");
+					WHERE  `id` = $cardtype_id");
 }
 
-function Checkcall_statusExist($callstatus_name)
+function Checkcard_typeExist($cardtype_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
 											FROM   `call_status`
-											WHERE  `name` = '$callstatus_name' && `actived` = 1"));
+											WHERE  `name` = '$cardtype_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
 	}
@@ -119,12 +120,12 @@ function Checkcall_statusExist($callstatus_name)
 }
 
 
-function Getcall_status($callstatus_id)
+function Getcard_type($cardtype_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
-			                                        `name`
+													`name`
 											FROM    `call_status`
-											WHERE   `id` = $callstatus_id" ));
+											WHERE   `id` = $cardtype_id" ));
 
 	return $res;
 }
@@ -146,7 +147,7 @@ function GetPage($res = '')
 
 			</table>
 			<!-- ID -->
-			<input type="hidden" id="callstatus_id" value="' . $res['id'] . '" />
+			<input type="hidden" id="cardtype_id" value="' . $res['id'] . '" />
         </fieldset>
     </div>
     ';
