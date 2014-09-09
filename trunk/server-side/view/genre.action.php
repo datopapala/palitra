@@ -21,10 +21,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 	  
-		$rResult = mysql_query("SELECT 	call_type.id,
-										call_type.`name`
-							    FROM 	call_type
-							    WHERE 	call_type.actived=1");
+		$rResult = mysql_query("SELECT 	id,
+										`name`
+							    FROM 	genre
+							    WHERE 	actived=1");
 								  
 		$data = array(
 				"aaData"	=> array()
@@ -84,7 +84,7 @@ echo json_encode($data);
 function AddCallType($call_id, $call_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	`call_type`
+	mysql_query("INSERT INTO 	`genre`
 								(`user_id`,`name`)
 					VALUES 		('$user_id','$call_name')");
 }
@@ -92,7 +92,7 @@ function AddCallType($call_id, $call_name)
 function SaveCallType($call_id, $call_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("UPDATE `call_type`
+	mysql_query("UPDATE `genre`
 				 SET    `user_id`='$user_id',
 				 		`name` = '$call_name'
 				 WHERE	`id` = $call_id");
@@ -100,7 +100,7 @@ function SaveCallType($call_id, $call_name)
 
 function DisableCallType($call_id)
 {
-	mysql_query("	UPDATE `call_type`
+	mysql_query("	UPDATE `genre`
 					SET    `actived` = 0
 					WHERE	`id` = $call_id");
 }
@@ -108,7 +108,7 @@ function DisableCallType($call_id)
 function CheckCallTypeExist($call_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `call_type`
+											FROM   `genre`
 											WHERE  `name` = '$call_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
@@ -121,7 +121,7 @@ function GetCallType($call_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("SELECT `id`,
 												`name`
-										FROM   `call_type`
+										FROM   `genre`
 										WHERE  `id` = $call_id" ));
 
 	return $res;

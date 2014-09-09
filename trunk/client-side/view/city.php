@@ -1,7 +1,7 @@
 <html>
 <head>
 	<script type="text/javascript">
-		var aJaxURL	= "server-side/view/pay_aparat.action.php";		//server side folder url
+		var aJaxURL	= "server-side/view/city.action.php";		//server side folder url
 		var tName	= "example";													//table name
 		var fName	= "add-edit-form";												//form name
 		    	
@@ -21,7 +21,7 @@
 		}
 		
 		function LoadDialog(){
-			var id		= $("#payaparat_id").val();
+			var id		= $("#paytype_id").val();
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 600, "auto", "");
@@ -31,8 +31,8 @@
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
 
-		    param.act		="save_payaparat";
-	    	param.id		= $("#payaparat_id").val();
+		    param.act		="save_paytype";
+	    	param.id		= $("#paytype_id").val();
 	    	param.name		= $("#name").val();
 	    	
 			if(param.name == ""){
@@ -63,7 +63,7 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">სწრაფი გადახდის აპარატები</h2>
+            	<h2 align="center">ქალაქი</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         			<button id="delete_button">წაშლა</button>
@@ -93,11 +93,10 @@
     </div>
     
     <!-- jQuery Dialog -->
-    <div id="add-edit-form" class="form-dialog" title="შემოტანის ფორმა">
+    <div id="add-edit-form" class="form-dialog" title="ქალაქი">
     	<!-- aJax -->
 	</div>
 </body>
 </html>
-
 
 

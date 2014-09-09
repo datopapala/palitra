@@ -25,10 +25,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	template.id,
-										template.`name`
-							    FROM 	template
-							    WHERE 	template.actived=1");
+		$rResult = mysql_query("SELECT 	pattern.id,
+										pattern.`name`
+							    FROM 	pattern
+							    WHERE 	pattern.actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -50,23 +50,28 @@ switch ($action) {
 
 		break;
 	case 'save_template':
+			$p1 = $_REQUEST['p1'];
+			$p2 = $_REQUEST['p2'];
+			$p3 = $_REQUEST['p3'];
+			$p4 = $_REQUEST['p4'];
+			$p5 = $_REQUEST['p5'];
+			$p6 = $_REQUEST['p6'];
+			$p7 = $_REQUEST['p7'];
+			$p8 = $_REQUEST['p8'];
+			$p9 = $_REQUEST['p9'];
+			$p10 = $_REQUEST['p10'];
+			$p11 = $_REQUEST['p11'];
+			$p12 = $_REQUEST['p12'];
+			$p13 = $_REQUEST['p13'];
+			$p14 = $_REQUEST['p14'];
+			$p15 = $_REQUEST['p15'];
+			$p16 = $_REQUEST['p16'];
+			$p17 = $_REQUEST['p17'];
+			$p18 = $_REQUEST['p18'];
+			$p19 = $_REQUEST['p19'];
+			$p20 = $_REQUEST['p20'];
 		
-
-
-		if($template_id != ''){
-			Savetemplate($template_id, $template_name, $content);
-			}
-			else{
-			if(!ChecktemplateExist($template_name, $template_id)){
-				if ($template_id == '') {
-					Addtemplate($template_name, $content);
-				}else {
-					
-				$error = '"' . $template_name . '" უკვე არის სიაში!';
-
-			}
-		}
-	}
+			Savetemplate($p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12,$p13,$p14,$p15,$p16,$p17,$p18,$p19,$p20);
 
 		break;
 	case 'disable':
@@ -88,27 +93,101 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addtemplate($template_name, $content)
-{
-	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`template`
-									(`user_id`,`name`, `actived`)
-								VALUES 	
-									('$user_id','$template_name', 1)");
-}
 
-function Savetemplate($template_id, $template_name, $content)
+function Savetemplate($p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12,$p13,$p14,$p15,$p16,$p17,$p18,$p19,$p20)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `template`
+	if($_REQUEST[p7])
+	{
+	mysql_query("	UPDATE `pattern_param`
 					SET     `user_id`	='$user_id',
-							`name` 		= '$template_name'
-					WHERE	`id` 		= $template_id");
+							`content` 	= '$p1'
+					WHERE	`id` 		= '1'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p2'
+					WHERE	`id` 		= '2'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p3'
+					WHERE	`id` 		= '3'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p4'
+					WHERE	`id` 		= '4'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p5'
+					WHERE	`id` 		= '5'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p6'
+					WHERE	`id` 		= '6'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p7'
+					WHERE	`id` 		= '7'");
+	
+	}else{
+	
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p8'
+					WHERE	`id` 		= '8'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p9'
+					WHERE	`id` 		= '9'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p10'
+					WHERE	`id` 		= '10'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p11'
+					WHERE	`id` 		= '11'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p12'
+					WHERE	`id` 		= '12'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p13'
+					WHERE	`id` 		= '13'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p14'
+					WHERE	`id` 		= '14'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p15'
+					WHERE	`id` 		= '15'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p16'
+					WHERE	`id` 		= '16'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p17'
+					WHERE	`id` 		= '17'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p18'
+					WHERE	`id` 		= '18'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p19'
+					WHERE	`id` 		= '19'");
+	mysql_query("	UPDATE `pattern_param`
+					SET     `user_id`	='$user_id',
+							`content` 	= '$p20'
+					WHERE	`id` 		= '20'");
+	}
 }
 
 function Disabletemplate($template_id)
 {
-	mysql_query("	UPDATE `template`
+	mysql_query("	UPDATE `pattern`
 					SET    `actived` = 0
 					WHERE  `id` = $template_id");
 }
@@ -116,7 +195,7 @@ function Disabletemplate($template_id)
 function ChecktemplateExist($template_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `template`
+											FROM   `pattern`
 											WHERE  `name` = '$template_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
@@ -129,7 +208,7 @@ function Gettemplate($template_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
 													`name`
-											FROM    `template`
+											FROM    `pattern`
 											WHERE   `id` = $template_id" ));
 
 	return $res;
@@ -137,6 +216,18 @@ function Gettemplate($template_id)
 
 function GetPage($res = '')
 {
+	function Getparttner($pattern_name){
+	$pattern = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
+														`pattern_name`,
+														`content`
+												FROM    `pattern_param`
+												WHERE	`pattern_name` = '$pattern_name'
+											" ));
+		$data = $pattern[content];
+		
+		return $data;
+	}
+	
 	if($res['id'] == 1){
 	$data = '
 	<div id="dialog-form">
@@ -155,7 +246,7 @@ function GetPage($res = '')
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="p1" class="idle" name="content" cols="300" >'.Getparttner('მისალმება').'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -174,7 +265,7 @@ function GetPage($res = '')
 								    	<legend>შეთავაზება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="p2" class="idle" name="content" cols="300" >' .Getparttner('შეთავაზება'). '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -185,7 +276,7 @@ function GetPage($res = '')
 								    	<legend>პროდუქტი</legend>
 										<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="p3" class="idle" name="content" cols="300" >' .Getparttner('პროდუქტი'). '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -196,7 +287,7 @@ function GetPage($res = '')
 								    	<legend>საჩუქარი</legend>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="p4" class="idle" name="content" cols="300" >' .Getparttner('საჩუქარი'). '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -216,7 +307,7 @@ function GetPage($res = '')
 										    	<legend>შედეგი</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="p5" class="idle" name="content" cols="300" >' .Getparttner('შედეგი'). '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -230,7 +321,7 @@ function GetPage($res = '')
 										    	<legend>მიწოდება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="p6" class="idle" name="content" cols="300" >' .Getparttner('მიწოდება'). '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -241,7 +332,7 @@ function GetPage($res = '')
 										    	<legend>ანგარიშსწორება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="p7" class="idle" name="content" cols="300" >' .Getparttner('ანგარიშსწორება'). '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -274,7 +365,7 @@ function GetPage($res = '')
 								    	<legend>შესავალი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="p8" class="idle" name="content" cols="300" >' .Getparttner('შესავალი'). '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -301,7 +392,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p9" class="idle" name="content" cols="300" >' .Getparttner('D1'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -321,7 +412,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p10" class="idle" name="content" cols="300" >' .Getparttner('D2'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -341,7 +432,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p11" class="idle" name="content" cols="300" >' .Getparttner('D3'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -361,7 +452,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p12" class="idle" name="content" cols="300" >' .Getparttner('D4'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -381,7 +472,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p13" class="idle" name="content" cols="300" >' .Getparttner('D5'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -401,7 +492,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p14" class="idle" name="content" cols="300" >' .Getparttner('D6'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -421,7 +512,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p15" class="idle" name="content" cols="300" >' .Getparttner('D7'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -441,7 +532,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p16" class="idle" name="content" cols="300" >' .Getparttner('D8'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -461,7 +552,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p17" class="idle" name="content" cols="300" >' .Getparttner('D9'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -481,7 +572,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p18" class="idle" name="content" cols="300" >' .Getparttner('D10'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -501,7 +592,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p19" class="idle" name="content" cols="300" >' .Getparttner('D11'). '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -521,7 +612,7 @@ function GetPage($res = '')
 									
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="p20" class="idle" name="content" cols="300" >' .Getparttner('D12'). '</textarea></td>
 												
 											</tr>
 											<tr>

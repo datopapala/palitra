@@ -1,7 +1,7 @@
 <html>
 <head>
 	<script type="text/javascript">
-		var aJaxURL	= "server-side/view/card_type.action.php";		//server side folder url
+		var aJaxURL	= "server-side/view/genre.action.php";		//server side folder url
 		var tName	= "example";													//table name
 		var fName	= "add-edit-form";												//form name
 		    	
@@ -21,7 +21,7 @@
 		}
 		
 		function LoadDialog(){
-			var id		= $("#cardtype_id").val();
+			var id		= $("#call_id").val();
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 600, "auto", "");
@@ -31,8 +31,8 @@
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
 
-		    param.act		="save_cardtype";
-	    	param.id		= $("#cardtype_id").val();
+		    param.act		="save_call_type";
+	    	param.id		= $("#call_id").val();
 	    	param.name		= $("#name").val();
 	    	
 			if(param.name == ""){
@@ -63,16 +63,16 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">ბარათის ტიპი</h2>
+            	<h2 align="center">ჟანრი</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         			<button id="delete_button">წაშლა</button>
         		</div>
-                <table class="display" id="example">
+                <table  class="display" id="example">
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 100%;">სახელი</th>
+                            <th style="width: 100%;">ზარის ტიპი</th>
                         	<th class="check">#</th>
                         </tr>
                     </thead>
@@ -93,10 +93,9 @@
     </div>
     
     <!-- jQuery Dialog -->
-    <div id="add-edit-form" class="form-dialog" title="ბარათის ტიპი">
+    <div id="add-edit-form" class="form-dialog" title="ჟანრი">
     	<!-- aJax -->
 	</div>
 </body>
 </html>
-
 

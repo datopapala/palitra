@@ -11,8 +11,8 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page':
-		$legal_status_id		= $_REQUEST['id'];
-		$page		= GetPage(Getlegal_status($legal_status_id));
+		$paytype_id		= $_REQUEST['id'];
+		$page		= GetPage(Getpay_type($paytype_id));
 		$data		= array('page'	=> $page);
 
 		break;
@@ -20,9 +20,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	legal_status.id,
-										legal_status.`name`
-							    FROM 	legal_status");
+		$rResult = mysql_query("SELECT 	id,
+										`name`
+							    FROM 	city
+							    WHERE 	actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -43,30 +44,30 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_legal_status':
-		$legal_status_id 		= $_REQUEST['id'];
-		$legal_status_name    = $_REQUEST['name'];
+	case 'save_paytype':
+		$paytype_id 		= $_REQUEST['id'];
+		$paytype_name    = $_REQUEST['name'];
 
 
 
-		if($legal_status_name != ''){
-			if(!Checklegal_statusExist($legal_status_name, $legal_status_id)){
-				if ($legal_status_id == '') {
-					Addlegal_status( $legal_status_id, $legal_status_name);
+		if($paytype_name != ''){
+			if(!Checkpay_typeExist($paytype_name, $paytype_id)){
+				if ($paytype_id == '') {
+					Addpay_type( $paytype_id, $paytype_name);
 				}else {
-					Savelegal_status($legal_status_id, $legal_status_name);
+					Savepay_type($paytype_id, $paytype_name);
 				}
 
 			} else {
-				$error = '"' . $legal_status_name . '" უკვე არის სიაში!';
+				$error = '"' . $paytype_name . '" უკვე არის სიაში!';
 
 			}
 		}
 
 		break;
 	case 'disable':
-		$legal_status_id	= $_REQUEST['id'];
-		Disablelegal_status($legal_status_id);
+		$paytype_id	= $_REQUEST['id'];
+		Disablepay_type($paytype_id);
 
 		break;
 	default:
@@ -83,35 +84,35 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addlegal_status($legal_status_id, $legal_status_name)
+function Addpay_type($paytype_id, $paytype_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 `legal_status`
-								(`user_id`,`name`)
-					VALUES 		('$user_id','$legal_status_name')");
+	mysql_query("INSERT INTO 	 	`city`
+									(`user_id`,`name`)
+						VALUES 		('$user_id','$paytype_name')");
 }
 
-function Savelegal_status($legal_status_id, $legal_status_name)
+function Savepay_type($paytype_id, $paytype_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `legal_status`
-					SET    `user_id`='$user_id',
-							 `name` = '$legal_status_name'
-					WHERE	`id` = $legal_status_id");
+	mysql_query("	UPDATE  `city`
+					SET     `user_id`='$user_id',
+							`name` = '$paytype_name'
+					WHERE	`id` = $paytype_id");
 }
 
-function Disablelegal_status($legal_status_id)
+function Disablepay_type($paytype_id)
 {
-	mysql_query("	UPDATE `legal_status`
+	mysql_query("	UPDATE `city`
 					SET    `actived` = 0
-					WHERE  `id` = $legal_status_id");
+					WHERE  `id` = $paytype_id");
 }
 
-function Checklegal_statusExist($legal_status_name)
+function Checkpay_typeExist($paytype_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `legal_status`
-											WHERE  `name` = '$legal_status_name' && `actived` = 1"));
+											FROM   `city`
+											WHERE  `name` = '$paytype_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
 	}
@@ -119,12 +120,12 @@ function Checklegal_statusExist($legal_status_name)
 }
 
 
-function Getlegal_status($legal_status_id)
+function Getpay_type($paytype_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
 													`name`
-											FROM    `legal_status`
-											WHERE   `id` = $legal_status_id" ));
+											FROM    `city`
+											WHERE   `id` = $paytype_id" ));
 
 	return $res;
 }
@@ -134,7 +135,7 @@ function GetPage($res = '')
 	$data = '
 	<div id="dialog-form">
 	    <fieldset>
-	    	<legend>იურიდიული ინფორმაცია</legend>
+	    	<legend>ძირითადი ინფორმაცია</legend>
 
 	    	<table class="dialog-form-table">
 				<tr>
@@ -146,7 +147,7 @@ function GetPage($res = '')
 
 			</table>
 			<!-- ID -->
-			<input type="hidden" id="legal_status_id" value="' . $res['id'] . '" />
+			<input type="hidden" id="paytype_id" value="' . $res['id'] . '" />
         </fieldset>
     </div>
     ';

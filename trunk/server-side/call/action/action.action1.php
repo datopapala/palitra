@@ -269,12 +269,6 @@ function GetPage($res='', $number)
 		$num=$res[phone]; 
 	}
 
-	$increm = mysql_query("	SELECT  `name`,
-									`rand_name`
-							FROM 	`file`
-							WHERE   `incomming_call_id` = $res[id]
-			");
-	
 	$data  .= '
 	<!-- jQuery Dialog -->
     <div id="add-edit-goods-form" title="აქცია">
@@ -348,6 +342,47 @@ function GetPage($res='', $number)
 			</div>
 			<div style="float: right;  width: 360px;">
 				</fieldset>
+										
+				<fieldset style="float: right;  width: 440px;">
+					<legend>განყოფილებები</legend>
+										
+			<div id="dt_example" class="inner-table">
+		        <div style="width:440px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            		<button id="" style="display:none;">დამატება</button>
+	        			</div>
+		                <table class="" id="example6" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:4%;">#</th>
+									<th style="width:25%; word-break:break-all;">ფილიალი</th>
+									<th style="width:20%; word-break:break-all;">მისამართი</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+
+				</fieldset>
+				
 				<fieldset style="float: right;  width: 440px;">
 					<legend>აქციის პროდუქტები</legend>
 										
@@ -355,9 +390,9 @@ function GetPage($res='', $number)
 		        <div style="width:440px;" id="container" >        	
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		<button id="add_button_p1">დამატება</button>
+		            		<button id="" style="display:none;">დამატება</button>
 	        			</div>
-		                <table class="" id="example4" style="width: 100%;">
+		                <table class="" id="example5" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
 										
@@ -372,7 +407,7 @@ function GetPage($res='', $number)
 							<thead>
 								<tr class="search_header">
 									<th class="colum_hidden">
-                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
 										<input style="width:70px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />

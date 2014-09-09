@@ -459,26 +459,6 @@ function Getcall_type($call_type_id)
 		}
 
 
-function Getdepartment($task_department_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-						FROM `department`
-						WHERE actived=1 AND id=37 ");
-
-
-		
-		while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $task_department_id){
-		$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-		$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-
 
 function Getpriority($priority_id)
 		{
@@ -612,7 +592,28 @@ function getCalls(){
 	return $data;
 
 
-}function Getincomming($task_id)
+}
+
+function Getdepartment($department_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	department
+							WHERE 	actived=1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $department_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getincomming($task_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT		task.id AS `id`,
 													incomming_call.id AS `call_id`,
@@ -672,6 +673,10 @@ function GetPage($res='', $number)
 		$num=$res[phone]; 
 	}
 
+	$pattern = mysql_query("SELECT content FROM pattern_param");
+	while ($pattern_param = mysql_fetch_assoc($pattern)){
+		$pattern_param_arr[] .= $pattern_param[content]; 
+	}
 		$data  .= '<div id="dialog-form">
 							<div style="float: left; width: 710px;">
 								<fieldset >
@@ -690,13 +695,14 @@ function GetPage($res='', $number)
 												<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['call_date']. '" disabled="disabled" />
 											</td>		
 										</tr>
-											</table>
+									</table><br>
+								
 														
 								<fieldset style="width:250px; float:left;">
 							    	<legend>დავალების ტიპი</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 270px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+											<td><select style="width: 305px;" id="task_type_id_seller" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>
@@ -704,7 +710,7 @@ function GetPage($res='', $number)
 							    	<legend>სცენარის დასახელება</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 360px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+											<td><select style="width: 380px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
 										</tr>
 									</table>
 								</fieldset>
@@ -719,12 +725,12 @@ function GetPage($res='', $number)
 										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
 									</ul>
 									<div id="seller-0">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:95%;">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;">
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[0] . '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -748,11 +754,11 @@ function GetPage($res='', $number)
 					  							<td><span>(ვასრულებთ)</span></td>
 					  						</tr>
 									</table>
-					  				<fieldset style="width:95%; float:left; ">
+					  				<fieldset style="width:97%; float:left; ">
 								    	<legend>კომენტარი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -764,19 +770,19 @@ function GetPage($res='', $number)
 														
 														
 									<div id="seller-1" class="dialog_hidden">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:95%;">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;">
 								    	<legend>შეთავაზება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[1] . '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 									</table>
 									</fieldset>
-									<fieldset style="width:96.6%;">
+									<fieldset style="width:97%;">
 								    	<legend>პროდუქტი</legend>
 									<div id="dt_example" class="inner-table">
 								        <div style="width:100%;" id="container" >        	
@@ -822,14 +828,14 @@ function GetPage($res='', $number)
 								        </div>
 										<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[2] . '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 										</table>
 									</fieldset>
-					  				<fieldset style="width:95%; float:left; ">
+					  				<fieldset style="width:97%; float:left; ">
 								    	<legend>საჩუქარი</legend>
 														
 									<div id="dt_example" class="inner-table">
@@ -876,7 +882,7 @@ function GetPage($res='', $number)
 								        </div>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[3] . '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -916,12 +922,12 @@ function GetPage($res='', $number)
 													
 									 </div>
 									 <div id="seller-2" class="dialog_hidden">
-											<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-											<fieldset style="width:95%;">
+											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset style="width:97%;">
 										    	<legend>შედეგი</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[4] . '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -957,11 +963,11 @@ function GetPage($res='', $number)
 											
 															
 																
-							  				<fieldset style="width:95%; float:left; ">
+							  				<fieldset style="width:97%; float:left; ">
 										    	<legend>მიწოდება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[5] . '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -977,11 +983,11 @@ function GetPage($res='', $number)
 													</tr>
 											</table>
 											</fieldset>
-											<fieldset style="width:95%; float:left; ">
+											<fieldset style="width:97%; float:left; ">
 										    	<legend>ანგარიშსწორება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[6] . '</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1002,7 +1008,7 @@ function GetPage($res='', $number)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 620px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 													</tr>
 											</table>
 											</fieldset>
@@ -1022,12 +1028,12 @@ function GetPage($res='', $number)
 										<li id="r2" onclick="research(this.id)" class="">ძირითადი ნაწილი</li>
 									</ul>
 									<div id="research-0">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:95%;">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;">
 								    	<legend>შესავალი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 620px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[7] . '</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1055,8 +1061,8 @@ function GetPage($res='', $number)
 
 											
 									<div id="research-1" class="dialog_hidden">
-									<fieldset style="width:95%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:95%;">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;">
 								    	<legend>დემოგრაფიული ბლოკი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
@@ -1079,7 +1085,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[8] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1110,7 +1116,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[9] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1150,7 +1156,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[10] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1197,7 +1203,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[11] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1227,7 +1233,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[12] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1274,7 +1280,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[13] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1316,7 +1322,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[14] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1362,7 +1368,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[15] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1408,7 +1414,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[16] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1439,7 +1445,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[17] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1477,7 +1483,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[18] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1508,7 +1514,7 @@ function GetPage($res='', $number)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 600px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[19] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1522,7 +1528,7 @@ function GetPage($res='', $number)
 									</div>
 														
 									 <div id="research-2" class="dialog_hidden">
-											<fieldset style="width:96.5%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
 											<fieldset>
 										    	<legend>რადიო</legend>
 											<table class="dialog-form-table">
@@ -1559,22 +1565,22 @@ function GetPage($res='', $number)
 							</div>';
 						// სატელეფონო კვლევა დასასრული
 						
-						  $data .= '<fieldset style="width:320px;; float:left;">
+						  $data .= '<fieldset style="width:350px;; float:left;">
 								    	<legend>ზარის დაზუსტება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 320px; height:70px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 350px; height:70px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 											</tr>
 									</table>
 									</fieldset>	
-									<fieldset style="width:240px;; float:left; margin-left:10px; max-height:90px;">
+									<fieldset style="width:300px;; float:left; margin-left:10px; max-height:90px;">
 								    	<legend>სტატუსი</legend>
 									<table class="dialog-form-table" style="height: 80px;">
 											<tr>
 												<td></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 305px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+												<td><select style="width: 330px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -1583,15 +1589,19 @@ function GetPage($res='', $number)
 							
 								    	<table class="dialog-form-table" >
 											<tr>
-												<td style="width: 190px;"><label for="d_number">განყოფილება</label></td>
-												<td style="width: 190px;"><label for="d_number">პასუხისმგებელი პირი</label></td>
-												<td style="width: 190px;"><label for="d_number">პრიორიტეტი</label></td>
+												<td style="width: 180px;"><label for="task_type_id">დავალების ტიპი</label></td>
+												<td style="width: 180px;"><label for="task_department_id">განყოფილება</label></td>
+												<td style="width: 180px;"><label for="persons_id">პასუხისმგებელი პირი</label></td>
+												<td style="width: 180px;"><label for="priority_id">პრიორიტეტი</label></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 180px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
-												<td><select style="width: 180px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-												<td><select style="width: 180px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+												<td><select style="width: 180px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+												<td><select style="width: 180px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+												<td><select style="width: 180px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
+												<td><select style="width: 180px;" id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 											</tr>
+											</table>
+											<table class="dialog-form-table" style="width: 700px;">
 											<tr>
 												<td style="width: 150px;"><label>შესრულების პერიოდი</label></td>
 												<td style="width: 150px;"><label></label></td>

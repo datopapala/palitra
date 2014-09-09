@@ -20,10 +20,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	pay_aparat.id,
-										pay_aparat.`name`
-							    FROM 	pay_aparat
-							    WHERE 	pay_aparat.actived=1");
+		$rResult = mysql_query("SELECT 	id,
+										`name`
+							    FROM 	family
+							    WHERE 	actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -87,7 +87,7 @@ echo json_encode($data);
 function Addpay_aparat($payaparat_id, $payaparat_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`pay_aparat`
+	mysql_query("INSERT INTO 	 	`family`
 									(`user_id`,`name`)
 					VALUES 		('$user_id','$payaparat_name')");
 }
@@ -95,7 +95,7 @@ function Addpay_aparat($payaparat_id, $payaparat_name)
 function Savepay_aparat($payaparat_id, $payaparat_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `pay_aparat`
+	mysql_query("	UPDATE `family`
 					SET     `user_id`='$user_id',
 							`name` = '$payaparat_name'
 					WHERE	`id` = $payaparat_id");
@@ -103,7 +103,7 @@ function Savepay_aparat($payaparat_id, $payaparat_name)
 
 function Disablepay_aparat($payaparat_id)
 {
-	mysql_query("	UPDATE `pay_aparat`
+	mysql_query("	UPDATE `family`
 					SET    `actived` = 0
 					WHERE  `id` = $payaparat_id");
 }
@@ -111,7 +111,7 @@ function Disablepay_aparat($payaparat_id)
 function Checkpay_aparatExist($payaparat_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `pay_aparat`
+											FROM   `family`
 											WHERE  `name` = '$payaparat_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
@@ -124,7 +124,7 @@ function Getpay_aparat($payaparat_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
 													`name`
-											FROM    `pay_aparat`
+											FROM    `family`
 											WHERE   `id` = $payaparat_id" ));
 
 	return $res;
