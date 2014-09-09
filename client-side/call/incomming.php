@@ -61,6 +61,13 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			GetButtons("add_button", "","");
 			SetEvents("add_button", "", "", tName, fName, aJaxURL);
 
+			
+
+		});
+		
+		$(document).on("click", "#button_calls", function () {
+			LoadDialogCalls();
+			$('#refresh-dialog').click(); 
 		});
 
 		function LoadTable(){
@@ -95,6 +102,13 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			$("#add_product").button({
 	            
 		    });
+		    
+			$("#choose_button").button({
+	            
+		    });
+
+			GetDateTimes("done_start_time");
+			GetDateTimes("done_end_time");
 		    
 			$(document).on("click", "#read_more", function () {
 				var button = {
@@ -139,92 +153,48 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 		    param.act						= "save_incomming";
 
-	    	param.id_p							= $("#id").val();
 	    	param.id_h							= $("#h_id").val();
-	    	param.c_date						= $("#c_date").val();
-	    	param.phone							= $("#phone").val();
-	    	param.person_name					= $("#person_name").val();
-	    	param.type							= $("input[name='x']:checked").val();
-	    	param.call_vote						= $("input[name='xx']:checked").val();
-	    	param.results_id					= $("#results_id").val();
-	    	param.information_category_id		= $("#information_category_id").val();
-	    	param.information_sub_category_id	= $("#information_sub_category_id").val();
-	    	param.content_id					= $("#content_id").val();
-	    	param.product_id					= $("#product_id").val();
-	    	param.forward_id					= $("#forward_id").val();
-	    	param.connect						= $("#connect:checked").val();
-	    	param.results_comment				= $("#results_comment").val();
-	    	param.content						= $("#content").val();
-	    	param.task_type_id					= $("#task_type_id").val();
-	    	param.task_department_id			= $("#task_department_id").val();
-	    	param.persons_id					= $("#persons_id").val();
-	    	param.comment						= $("#comment").val();
-	    	param.source_id						= $("#source_id").val();
-
-	    	// Personal Info
-	    	param.personal_phone				= $("#personal_phone").val();
-	    	param.personal_id					= $("#personal_id").val();
-	    	param.personal_contragent			= $("#personal_contragent").val();
-	    	param.personal_mail					= $("#personal_mail").val();
-	    	param.personal_addres				= $("#personal_addres").val();
-	    	param.personal_status				= $("#personal_status").val();
-	    	
-	    	
-			if(param.req_phone == ""){
-				alert("შეავსეთ ტელეფონის ნომერი!");
-			}else {
-			    $.ajax({
-			        url: aJaxURL,
-				    data: param,
-			        success: function(data) {
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								LoadTable();
-				        		CloseDialog();
-				        		console.log(data.error);
-							}
-						}
-				    }
-			    });
-			}
-		});
-
-		 // Send - Mail
-	    $(document).on("click", "#send_mail", function () {
-		    param 			= new Object();
-
-		    param.act						= "send_mail";
-
 	    	param.id_p							= $("#id").val();
 	    	param.c_date						= $("#c_date").val();
 	    	param.phone							= $("#phone").val();
 	    	param.person_name					= $("#person_name").val();
-	    	param.type							= $("input[name='x']:checked").val();
-	    	param.call_vote						= $("input[name='xx']:checked").val();
-	    	param.results_id					= $("#results_id").val();
+	    	param.type_id						= $("input[name='x']:checked").val();
+	    	param.call_type_id					= $("input[name='xx']:checked").val();
+	    	param.product_type_id				= $("input[name='xxx']:checked").val();
+	    	param.card_id						= $("input[name='xxxx']:checked").val();
+	    	param.source_id						= $("#source_id").val();
+	    	param.department_id					= $("#department_id").val();
 	    	param.information_category_id		= $("#information_category_id").val();
 	    	param.information_sub_category_id	= $("#information_sub_category_id").val();
-	    	param.content_id					= $("#content_id").val();
-	    	param.product_id					= $("#product_id").val();
-	    	param.forward_id					= $("#forward_id").val();
-	    	param.connect						= $("#connect:checked").val();
-	    	param.results_comment				= $("#results_comment").val();
+	    	param.production_category_id		= $("#production_category_id").val();
+	    	param.genre_id						= $("#genre_id").val();
+	    	param.production_id					= $("#production_id").val();
 	    	param.content						= $("#content").val();
+	    	param.sum_pirce						= $("#sum_pirce").val();
+	    	param.shipping_id					= $("#shipping_id").val();
+	    	param.module_id						= $("#module_id").val();
+	    	param.call_comment					= $("#call_comment").val();
+	    	param.call_status_id				= $("#call_status_id").val();
 	    	param.task_type_id					= $("#task_type_id").val();
 	    	param.task_department_id			= $("#task_department_id").val();
 	    	param.persons_id					= $("#persons_id").val();
+	    	param.priority_id					= $("#priority_id").val();
+	    	param.done_start_time				= $("#done_start_time").val();
+	    	param.done_end_time					= $("#done_end_time").val();
 	    	param.comment						= $("#comment").val();
-	    	param.source_id						= $("#source_id").val();
 	    	
+
 	    	// Personal Info
 	    	param.personal_phone				= $("#personal_phone").val();
 	    	param.personal_id					= $("#personal_id").val();
-	    	param.personal_contragent			= $("#personal_contragent").val();
+	    	param.personal_first_name			= $("#personal_first_name").val();
+	    	param.personal_last_name			= $("#personal_last_name").val();
+	    	param.personal_d_date				= $("#personal_d_date").val();
+	    	param.personal_city					= $("#personal_city").val();
 	    	param.personal_mail					= $("#personal_mail").val();
 	    	param.personal_addres				= $("#personal_addres").val();
 	    	param.personal_status				= $("#personal_status").val();
+	    	param.personal_profession			= $("#personal_profession").val();
 	    	
 			if(param.req_phone == ""){
 				alert("შეავსეთ ტელეფონის ნომერი!");
@@ -246,6 +216,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			    });
 			}
 		});
+
+
 
 	    function run(number){
 
@@ -299,6 +271,16 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    }
 	    });
 
+	    $(document).on("click", "input[name='xxx']:checked", function () {
+	    	var phone = $("input[name='xxx']:checked").val()
+	    	console.log(phone);
+	    	if(phone == 1){
+	    		$("#show_all").removeClass('dialog_hidden');
+		    }else{
+		    	$("#show_all").addClass('dialog_hidden');
+		    }
+	    });
+
 
 	    $(document).on("change", "#information_category_id",function(){
 		    var information_category_id = $("#information_category_id").val();
@@ -333,6 +315,46 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
  							alert(data.error);
  						}else{
  							$("#category_id").html(data.cat);
+ 						}
+ 					}
+ 			    }
+ 		    });
+        });
+
+    	$(document).on("change", "#production_category_id",function(){
+     	 	param 							= new Object();
+ 		 	param.act						= "production_category";
+ 		 	param.production_category_id   	= $("#production_category_id").val();
+ 		 	param.genre_id   				= $("#genre_id").val();
+ 	    	$.ajax({
+ 		        url: aJaxURL,
+ 			    data: param,
+ 		        success: function(data) {
+ 					if(typeof(data.error) != 'undefined'){
+ 						if(data.error != ''){
+ 							alert(data.error);
+ 						}else{
+ 							$("#production_id").html(data.page);
+ 						}
+ 					}
+ 			    }
+ 		    });
+        });
+
+    	$(document).on("change", "#genre_id",function(){
+     	 	param 							= new Object();
+ 		 	param.act						= "production_category";
+ 		 	param.production_category_id   	= $("#production_category_id").val();
+ 		 	param.genre_id   				= $("#genre_id").val();
+ 	    	$.ajax({
+ 		        url: aJaxURL,
+ 			    data: param,
+ 		        success: function(data) {
+ 					if(typeof(data.error) != 'undefined'){
+ 						if(data.error != ''){
+ 							alert(data.error);
+ 						}else{
+ 							$("#production_id").html(data.page);
  						}
  					}
  			    }
@@ -436,6 +458,122 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			GetDialogCalls('last_calls', 330, 550, button);
 		}
 
+	    // გადმოწერა
+	    $(document).on("click", "#download", function () {
+		      var download_file = $(this).val();
+		      var download_name  = $('#download_name').val();
+		      SaveToDisk(download_file, download_name);
+		     });
+
+		     function SaveToDisk(fileURL, fileName) {
+		         // for non-IE
+		         if (!window.ActiveXObject) {
+		             var save = document.createElement('a');
+		             save.href = fileURL;
+		             save.target = '_blank';
+		             save.download = fileName || 'unknown';
+
+		             var event = document.createEvent('Event');
+		             event.initEvent('click', true, true);
+		             save.dispatchEvent(event);
+		             (window.URL || window.webkitURL).revokeObjectURL(save.href);
+		         }
+		       // for IE
+		         else if ( !! window.ActiveXObject && document.execCommand)     {
+		             var _window = window.open(fileURL, "_blank");
+		             _window.document.close();
+		             _window.document.execCommand('SaveAs', true, fileName || fileURL)
+		             _window.close();
+		         }
+		     } 
+		    
+		     $(document).on("click", "#choose_button", function () {
+		      $("#choose_file").click();
+		  });
+
+		     $(document).on("click", "#delete", function () {
+		      var delete_id = $(this).val();
+		      
+		      $.ajax({
+		          url: aJaxURL,
+		       data: {
+		     act: "delete_file",
+		     delete_id: delete_id,
+		     edit_id: $("#action_id").val(),
+		    },
+		          success: function(data) {
+		           $("#file_div").html(data.page);
+		       }
+		      }); 
+		  });
+
+		     $(document).on("change", "#choose_file", function () {
+		      var file  = $(this).val();     
+		      var files   = this.files[0];
+		      var name  = uniqid();
+		      var path  = "../../media/uploads/file/";
+		      
+		      var ext = file.split('.').pop().toLowerCase();
+		         if($.inArray(ext, ['pdf']) == -1) { //echeck file type
+		          alert('This is not an allowed file type.');
+		                this.value = '';
+		         }else{
+		          file_name = files.name;
+		          rand_file = name + "." + ext;
+		          $.ajaxFileUpload({
+		        url: upJaxURL,
+		        secureuri: false,
+		        fileElementId: "choose_file",
+		        dataType: 'json',
+		        data:{
+		      act: "upload_file",
+		      path: path,
+		      file_name: name,
+		      type: ext
+		     },
+		        success: function (data, status){
+		         if(typeof(data.error) != 'undefined'){
+		          if(data.error != ''){
+		           alert(data.error);
+		          }
+		         }
+		           
+		         $.ajax({
+		             url: aJaxURL,
+		          data: {
+		        act: "up_now",
+		        rand_file: rand_file,
+		           file_name: file_name,
+		        edit_id: $("#action_id").val(),
+
+		       },
+		             success: function(data) {
+		              $("#file_div").html(data.page);
+		          }
+		         });                 
+		        },
+		        error: function (data, status, e)
+		        {
+		         alert(e);
+		        }        
+		       });
+		         }
+		  });
+			  
+	     function LoadDialogCalls(){
+				var button = {
+	               		"save": {
+	               			text: "განახლება",
+	               			id: "refresh-dialog",
+	               			click: function () {
+	               			}
+	               		}
+					};
+
+				/* Dialog Form Selector Name, Buttons Array */
+				GetDialogCalls('last_calls', 330, 550, button);
+			}
+
     </script>
 </head>
 
@@ -465,7 +603,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
                             </th>
                             <th>
-                            	<input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style=""></th>
+                            	<input style="width: 20px;" type="text" name="search_number" value="" class="search_init" style=""></th>
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>                            
