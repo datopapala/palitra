@@ -46,7 +46,9 @@ $color['dialout']="#d0303f";
 $color['ringing']="#d0d01f";
 $color['not in use']="#00ff00";
 $color['paused']="#000000";
-
+$queue = array(
+	'2555130'
+);
 foreach($queue as $qn) {
 	if($filter=="" || stristr($qn,$filter)) {
 		$contador=1;
