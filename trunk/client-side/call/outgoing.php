@@ -5,6 +5,7 @@
 		var aJaxURL2	= "server-side/call/outgoing/outgoing_tab2.action.php";		//server side folder url
 		var aJaxURL3	= "server-side/call/outgoing/outgoing_tab3.action.php";		//server side folder url
 		var aJaxURL4	= "server-side/call/outgoing/outgoing_tab4.action.php";		//server side folder url
+		var aJaxURL7	= "server-side/call/outgoing/outgoing_tab7.action.php";		//server side folder url
 		var aJaxURL5	= "server-side/call/outgoing/suboutgoing/outgoing_tab1.action.php";		//server side folder url
 		var aJaxURL6	= "server-side/call/outgoing/suboutgoing/outgoing_tab2.action.php";		//server side folder url
         var seoyURL		= "server-side/seoy/seoy.action.php";					//server side folder url
@@ -30,33 +31,36 @@
         		GetTable1();
             }else if(tab == 2){
             	GetTable2()
-            }else{
+            }else if(tab == 3){
             	GetTable3()
+            }else{
+            	GetTable4()
             }
         });
 
 		function GetTable0() {
             LoadTable0();
             SetEvents("add_button", "", "", "example0", fName, aJaxURL);
-           
         }
         
 		 function GetTable1() {
              LoadTable1();
              $("#add_button_n").button({
   	            
-  		    });
+  		     });
              SetEvents("add_button_n", "", "", "example1", "add-edit-form1", aJaxURL1);
          }
          
 		 function GetTable2() {
              LoadTable2();
-             SetEvents("", "", "", "example2", "add-edit-form2", aJaxURL2);
          }
          
 		 function GetTable3() {
              LoadTable3();
-             SetEvents("", "", "", "example3", fName, aJaxURL3);
+         }
+
+		 function GetTable4() {
+             LoadTable7();
          }
 
 		 function LoadTable0(){			
@@ -91,6 +95,10 @@
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("sub2", aJaxURL6, "get_list", 7, "", 0, "", 1, "asc", "");
 		}
+		function LoadTable7(){			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example5", aJaxURL7, "get_list", 7, "", 0, "", 1, "asc", "");
+		}
 
 		//SeoYyy
 		$(document.body).click(function (e) {
@@ -115,6 +123,8 @@
 				        } 
 				    };
 					GetDialog("add-edit-form", 790, "auto", buttons);
+					GetDateTimes("done_start_time");
+					GetDateTimes("done_end_time");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -134,7 +144,7 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form1", 1100, "auto", buttons);
+					GetDialog("add-edit-form1", 1150, "auto", buttons);
 					$(".done").button({
 			            
 				    });
@@ -611,8 +621,8 @@
 	        $(this).val(val); 
 	    });
 
-	    $(document).on("change", "#task_type_id",function(){
-		    var task_type = $("#task_type_id").val();
+	    $(document).on("change", "#task_type_id_seller",function(){
+		    var task_type = $("#task_type_id_seller").val();
 
 			if(task_type == 1){
 				$("#seller").removeClass('dialog_hidden');
@@ -629,18 +639,19 @@
 
 <body>
 
-<div id="tabs" style="width: 95%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">მენეჯერი</a></li>
 			<li><a href="#tab-1">პირველადი</a></li>
 			<li><a href="#tab-2">მიმდინარე</a></li>
 			<li><a href="#tab-3">დასრულებული</a></li>
+			<li><a href="#tab-4">არქივი</a></li>
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">გამავალი ზარები</h2>
+		            	<h2 align="center">მენეჯერი</h2>
 		            	<div id="button_area">
 		            		<button id="add_button">დამატება</button>
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
@@ -650,12 +661,12 @@
 								<tr id="datatable_header">
 		                            <th>ID</th>
 									<th style="width:6%;">ID</th>
-									<th style="width:19%;">პირადი №</th>
+									<th style="width:19%;">პირადი №<br>საიდ. კოდი</th>
 									<th style="width:19%;">დასახელება</th>
 									<th style="width:19%;">დავალების<br>ტიპი</th>
 									<th style="width:19%;">განყოფილება</th>
 									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
-									<th style="width:19%;">ზარის შემოსვილის<br>თარიღი</th>
+									<th style="width:19%;">ზარის შესრულების<br>თარიღი</th>
 									<th style="width:19%;">სტატუსი</th>
 									<th class="check">#</th>
 								</tr>
@@ -706,7 +717,7 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">გამავალი ზარები</h2>
+		            	<h2 align="center">პირველადი</h2>
 		            	<div id="button_area">
 		            		<button id="add_button_n">დამატება</button>
 	        			</div>
@@ -721,6 +732,7 @@
 									<th style="width:19%;">დავალების ტიპი</th>
 									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">ტელეფონი</th>
 									<th style="width:19%;">პრიორიტეტი</th>
 									<th style="width:19%;">სტატუსი</th>
 								</tr>
@@ -757,6 +769,9 @@
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
 									
 								</tr>
 							</thead>
@@ -771,20 +786,21 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">გამავალი ზარები</h2>
+		            	<h2 align="center">მიმდინარე</h2>
 		                <table class="display" id="example2">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
 									<th style="width:6%;">ID</th>
-									<th style="width:19%;">პირადი №</th>
+									<th style="width:19%;">შექმნის თარიღი</th>
+									<th style="width:19%;">დასაწისი</th>
+									<th style="width:19%;">დასასრული</th>
+									<th style="width:19%;">დავალების ტიპი</th>
+									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">დავალების<br>ტიპი</th>
-									<th style="width:19%;">განყოფილება</th>
-									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
-									<th style="width:19%;">ზარის შემოსვილის<br>თარიღი</th>
+									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">პრიორიტეტი</th>
 									<th style="width:19%;">სტატუსი</th>
-									<th class="check">#</th>
 								</tr>
 							</thead>
 							<thead>
@@ -817,7 +833,10 @@
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
-										<input type="checkbox" name="check-all" id="check-all-in"/>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									
 								</tr>
@@ -833,20 +852,21 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">გამავალი ზარები</h2>
+		            	<h2 align="center">დასრულებული</h2>
 		                <table class="display" id="example3">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
 									<th style="width:6%;">ID</th>
-									<th style="width:19%;">პირადი №</th>
+									<th style="width:19%;">შექმნის თარიღი</th>
+									<th style="width:19%;">დასაწისი</th>
+									<th style="width:19%;">დასასრული</th>
+									<th style="width:19%;">დავალების ტიპი</th>
+									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">დავალების<br>ტიპი</th>
-									<th style="width:19%;">განყოფილება</th>
-									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
-									<th style="width:19%;">ზარის შემოსვილის<br>თარიღი</th>
+									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">პრიორიტეტი</th>
 									<th style="width:19%;">სტატუსი</th>
-									<th class="check">#</th>
 								</tr>
 							</thead>
 							<thead>
@@ -879,7 +899,76 @@
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
-										<input type="checkbox" name="check-all" id="check-all-in"/>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+		    </div>
+		 </div>
+		 <div id="tab-4">
+		    <div id="dt_example" class="ex_highlight_row">
+		        <div id="container" style="width: 100%;">        	
+		            <div id="dynamic">
+		            	<h2 align="center">არქივი</h2>
+		                <table class="display" id="example5">
+		                    <thead>
+								<tr id="datatable_header">
+		                            <th>ID</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">შექმნის თარიღი</th>
+									<th style="width:19%;">დასაწისი</th>
+									<th style="width:19%;">დასასრული</th>
+									<th style="width:19%;">დავალების ტიპი</th>
+									<th style="width:19%;">სცენარი</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">პრიორიტეტი</th>
+									<th style="width:19%;">სტატუსი</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
+									</th>
+									<th>
+										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									
 								</tr>
@@ -893,7 +982,7 @@
 		 </div>
 </div>
 <!-- jQuery Dialog -->
-<div id="add-edit-form" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form" class="form-dialog" title="დავალების ფორმირება">
 <!-- aJax -->
 </div>
 

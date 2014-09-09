@@ -3,6 +3,7 @@
 		var aJaxURL		= "server-side/call/action/action.action.php";		//server side folder url
 		var aJaxURL1	= "server-side/call/action/action.action1.php";
 		var aJaxURL2	= "server-side/call/action/action.action2.php";		//server side folder url
+		var aJaxURL3	= "server-side/call/action/action.action3.php";		//server side folder url
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
@@ -47,11 +48,19 @@
 		}
 		function LoadTable2(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL2, "get_list", 6,"action_idd="+$("#action_id").val(), 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL2, "get_list", 6,"", 0, "", 1, "asc", "");
 		}
 		function LoadTable3(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL2, "get_list", 6,"action_idd="+$("#action_id").val(), 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL3, "get_list", 6,"", 0, "", 1, "asc", "");
+		}
+		function LoadTable4(){						
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example5", aJaxURL2, "get_list", 6,"", 0, "", 1, "asc", "");
+		}
+		function LoadTable5(){						
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example6", aJaxURL2, "get_list", 6,"", 0, "", 1, "asc", "");
 		}
 		
 
@@ -87,6 +96,7 @@
 						GetButtons("add_button_p","");
 						GetButtons("add_button_pp","");
 						SetEvents("add_button_p", "", "", "example3", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());						
+						SetEvents("add_button_pp", "", "", "example4", "add-edit-form2", aJaxURL3, "action_id="+$('#action_id').val());						
 						
 						
 				break;	
@@ -105,10 +115,9 @@
 				        }
 				       
 				    };
-					GetDialog("add-edit-form1", 1060, "auto", buttons);
-					GetButtons("add_button_p1","");
-					GetDataTable("example4", aJaxURL2, "get_list", 6, "", 0, "", 1, "asc", "");
-					SetEvents("add_button_p1", "", "", "example4", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());
+					GetDialog("add-edit-form1", 1080, "auto", buttons);
+					LoadTable4();
+					LoadTable5();
 				
 				break;	
 				case "add-edit-form2":
@@ -261,14 +270,14 @@
 
 <body>
 
-<div id="tabs" style="width: 80%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 95%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">მიმდინარე აქციები</a></li>
 			<li><a href="#tab-1">აქციების არქივი</a></li>
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 85%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">აქციები</h2>
 		            	<div id="button_area">
@@ -278,11 +287,11 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                           <th>ID</th>
-									<th style="width:5%;">#</th>
-									<th style="width:14%; word-break:break-all;">დასაწყისი</th>
-									<th style="width:14%; word-break:break-all;">დასასრული</th>
-									<th style="width:40%; word-break:break-all;">შინაარსი</th>
-									<th style="width:15%; word-break:break-all;">ავტორი</th>
+									<th style="width:7%;">#</th>
+									<th style="width:50%; word-break:break-all;">დასაწყისი</th>
+									<th style="width:50%; word-break:break-all;">დასასრული</th>
+									<th style="width:50%; word-break:break-all;">შინაარსი</th>
+									<th style="width:50%; word-break:break-all;">ავტორი</th>
 									
 								</tr>
 							</thead>
@@ -292,16 +301,16 @@
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:30px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:20px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
-										<input style="width:200px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
@@ -318,18 +327,18 @@
 		 </div>
 		<div id="tab-1">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 85%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">არქივი</h2>
 		                <table class="display" id="example1">
 		                     <thead>
 								<tr id="datatable_header">
 		                           <th>ID</th>
-									<th style="width:5%;">#</th>
-									<th style="width:14%; word-break:break-all;">დასაწყისი</th>
-									<th style="width:14%; word-break:break-all;">დასასრული</th>
-									<th style="width:40%; word-break:break-all;">შინაარსი</th>
-									<th style="width:15%; word-break:break-all;">ავტორი</th>
+									<th style="width:7%;">#</th>
+									<th style="width:50%; word-break:break-all;">დასაწყისი</th>
+									<th style="width:50%; word-break:break-all;">დასასრული</th>
+									<th style="width:50%; word-break:break-all;">შინაარსი</th>
+									<th style="width:50%; word-break:break-all;">ავტორი</th>
 									
 								</tr>
 							</thead>
@@ -339,16 +348,16 @@
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:30px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:20px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
-										<input style="width:200px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
@@ -376,7 +385,7 @@
 </div>
 
 <!-- jQuery Dialog -->
-<div id="add-edit-form2" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form2" class="form-dialog" title="აქციების პროდუქტები">
 <!-- aJax -->
 </div>
 
