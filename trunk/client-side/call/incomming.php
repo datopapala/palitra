@@ -48,7 +48,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		var aJaxURLl	= "server-side/call/incomming1.action.php";		//server side folder url
 		var upJaxURL		= "server-side/upload/file.action.php";	
 		var tName	= "example";										//table name
-		var fName	= "add-edit-form";									//form name
+		var fName	= "add-edit-form";									//form name s
 		var file_name = '';
 		var rand_file = '';
 
