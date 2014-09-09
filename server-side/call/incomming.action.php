@@ -45,6 +45,12 @@ $done_start_time				= $_REQUEST['done_start_time'];
 $done_end_time					= $_REQUEST['done_end_time'];
 $comment						= $_REQUEST['comment'];
 
+// file
+$rand_file				= $_REQUEST['rand_file'];
+$file					= $_REQUEST['file_name'];
+$hidden_inc				= $_REQUEST['hidden_inc'];
+$edit_id				= $_REQUEST['edit_id'];
+$delete_id				= $_REQUEST['delete_id'];
 
 switch ($action) {
 	case 'get_add_page':
@@ -125,68 +131,66 @@ switch ($action) {
 		
 	case 'delete_file':
 		
-		mysql_query("DELETE FROM file WHERE id = $delete_id");
-		
-		$increm = mysql_query("	SELECT  `name`,
-										`rand_name`,
-										`id`
-								FROM 	`file`
-								WHERE   `action_id` = $edit_id
-								");
-		
-		$data1 = '';
-		
-		while($increm_row = mysql_fetch_assoc($increm))	{
-			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-			          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-			          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-			          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
- 					  </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-		break;
-		
-	case 'up_now':
-		$user		= $_SESSION['USERID'];
-			if($rand_file != ''){
-			mysql_query("INSERT INTO 	`file`
-			( 	`user_id`,
-				`action_id`,
-				`name`,
-				`rand_name`
-			)
-			VALUES
-			(	'$user',
-				'$edit_id',
-				'$file',
-				'$rand_file'
-			);");
-				GLOBAL $log;
-				$log->setInsertLog('file');
-			}
+			mysql_query("DELETE FROM file WHERE id = $delete_id");
 		
 			$increm = mysql_query("	SELECT  `name`,
 					`rand_name`,
 					`id`
 					FROM 	`file`
-					WHERE   `action_id` = $edit_id
+					WHERE   `incomming_call_id` = $edit_id
 					");
 		
-					$data1 = '';
+			$data1 = '';
 		
 			while($increm_row = mysql_fetch_assoc($increm))	{
 			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
+				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
+				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+ 					  </tr>';
+		}
+		
+		$data = array('page' => $data1);
+		
+				break;
+		
+				case 'up_now':
+				$user		= $_SESSION['USERID'];
+				if($rand_file != ''){
+				mysql_query("INSERT INTO 	`file`
+				( 	`user_id`,
+				`incomming_call_id`,
+				`name`,
+				`rand_name`
+				)
+				VALUES
+				(	'$user',
+				'$edit_id',
+				'$file',
+				'$rand_file'
+				);");
+				}
+		
+				$increm = mysql_query("	SELECT  `name`,
+				`rand_name`,
+				`id`
+				FROM 	`file`
+				WHERE   `incomming_call_id` = $edit_id
+				");
+		
+				$data1 = '';
+		
+				while($increm_row = mysql_fetch_assoc($increm))	{
+				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
 				<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-			<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-			<td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+				<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
 						          </tr>';
 		}
 		
 		$data = array('page' => $data1);
 		
-			break;
+		break;
 	
 	case 'get_add_info':
 	
