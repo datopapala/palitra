@@ -61,7 +61,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			GetButtons("add_button", "","");
 			SetEvents("add_button", "", "", tName, fName, aJaxURL);
 
-			
+			$("#tabel").button({
+	            
+		    });
 
 		});
 		
@@ -585,6 +587,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
             	<h2 align="center">შემომავალი ზარები</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
+        			<button id="tabel" onclick="location.reload();location.href='index.php?pg=32'">ტაბელი</button>
         		</div>
                 <table class="display" id="example">
                     <thead>
