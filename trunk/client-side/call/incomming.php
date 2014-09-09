@@ -184,6 +184,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.done_start_time				= $("#done_start_time").val();
 	    	param.done_end_time					= $("#done_end_time").val();
 	    	param.comment						= $("#comment").val();
+	    	param.rand_file						= rand_file;
+	    	param.file_name						= file_name;
+	    	param.hidden_inc					= $("#hidden_inc").val();
 	    	
 
 	    	// Personal Info
@@ -462,105 +465,105 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 	    // გადმოწერა
 	    $(document).on("click", "#download", function () {
-		      var download_file = $(this).val();
-		      var download_name  = $('#download_name').val();
-		      SaveToDisk(download_file, download_name);
-		     });
+	    	var download_file	= $(this).val();
+	    	var download_name 	= $('#download_name').val();
+	    	SaveToDisk(download_file, download_name);
+	    });
 
-		     function SaveToDisk(fileURL, fileName) {
-		         // for non-IE
-		         if (!window.ActiveXObject) {
-		             var save = document.createElement('a');
-		             save.href = fileURL;
-		             save.target = '_blank';
-		             save.download = fileName || 'unknown';
+	    function SaveToDisk(fileURL, fileName) {
+	        // for non-IE
+	        if (!window.ActiveXObject) {
+	            var save = document.createElement('a');
+	            save.href = fileURL;
+	            save.target = '_blank';
+	            save.download = fileName || 'unknown';
 
-		             var event = document.createEvent('Event');
-		             event.initEvent('click', true, true);
-		             save.dispatchEvent(event);
-		             (window.URL || window.webkitURL).revokeObjectURL(save.href);
-		         }
-		       // for IE
-		         else if ( !! window.ActiveXObject && document.execCommand)     {
-		             var _window = window.open(fileURL, "_blank");
-		             _window.document.close();
-		             _window.document.execCommand('SaveAs', true, fileName || fileURL)
-		             _window.close();
-		         }
-		     } 
+	            var event = document.createEvent('Event');
+	            event.initEvent('click', true, true);
+	            save.dispatchEvent(event);
+	            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+	        }
+		     // for IE
+	        else if ( !! window.ActiveXObject && document.execCommand)     {
+	            var _window = window.open(fileURL, "_blank");
+	            _window.document.close();
+	            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+	            _window.close();
+	        }
+	    } 
+	    
+	    $(document).on("click", "#delete", function () {
+	    	var delete_id	= $(this).val();
+	    	
+	    	$.ajax({
+		        url: aJaxURL,
+			    data: {
+					act: "delete_file",
+					delete_id: delete_id,
+					edit_id: $("#id").val(),
+				},
+		        success: function(data) {
+			        $("#file_div").html(data.page);
+			    }
+		    });	
+		});
+		
+	    $(document).on("click", "#choose_button", function () {
+		    $("#choose_file").click();
+		});
+		
+	    $(document).on("change", "#choose_file", function () {
+	    	var file		= $(this).val();	    
+	    	var files 		= this.files[0];
+		    var name		= uniqid();
+		    var path		= "../../media/uploads/file/";
 		    
-		     $(document).on("click", "#choose_button", function () {
-		      $("#choose_file").click();
-		  });
+		    var ext = file.split('.').pop().toLowerCase();
+	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
+	        	alert('This is not an allowed file type.');
+                this.value = '';
+	        }else{
+	        	file_name = files.name;
+	        	rand_file = name + "." + ext;
+	        	$.ajaxFileUpload({
+	    			url: upJaxURL,
+	    			secureuri: false,
+	    			fileElementId: "choose_file",
+	    			dataType: 'json',
+	    			data:{
+						act: "upload_file",
+						path: path,
+						file_name: name,
+						type: ext
+					},
+	    			success: function (data, status){
+	    				if(typeof(data.error) != 'undefined'){
+    						if(data.error != ''){
+    							alert(data.error);
+    						}
+    					}
+    							
+	    				$.ajax({
+					        url: aJaxURL,
+						    data: {
+								act: "up_now",
+								rand_file: rand_file,
+					    		file_name: file_name,
+								edit_id: $("#id").val(),
 
-		     $(document).on("click", "#delete", function () {
-		      var delete_id = $(this).val();
-		      
-		      $.ajax({
-		          url: aJaxURL,
-		       data: {
-		     act: "delete_file",
-		     delete_id: delete_id,
-		     edit_id: $("#action_id").val(),
-		    },
-		          success: function(data) {
-		           $("#file_div").html(data.page);
-		       }
-		      }); 
-		  });
-
-		     $(document).on("change", "#choose_file", function () {
-		      var file  = $(this).val();     
-		      var files   = this.files[0];
-		      var name  = uniqid();
-		      var path  = "../../media/uploads/file/";
-		      
-		      var ext = file.split('.').pop().toLowerCase();
-		         if($.inArray(ext, ['pdf']) == -1) { //echeck file type
-		          alert('This is not an allowed file type.');
-		                this.value = '';
-		         }else{
-		          file_name = files.name;
-		          rand_file = name + "." + ext;
-		          $.ajaxFileUpload({
-		        url: upJaxURL,
-		        secureuri: false,
-		        fileElementId: "choose_file",
-		        dataType: 'json',
-		        data:{
-		      act: "upload_file",
-		      path: path,
-		      file_name: name,
-		      type: ext
-		     },
-		        success: function (data, status){
-		         if(typeof(data.error) != 'undefined'){
-		          if(data.error != ''){
-		           alert(data.error);
-		          }
-		         }
-		           
-		         $.ajax({
-		             url: aJaxURL,
-		          data: {
-		        act: "up_now",
-		        rand_file: rand_file,
-		           file_name: file_name,
-		        edit_id: $("#action_id").val(),
-
-		       },
-		             success: function(data) {
-		              $("#file_div").html(data.page);
-		          }
-		         });                 
-		        },
-		        error: function (data, status, e)
-		        {
-		         alert(e);
-		        }        
-		       });
-		         }
-		  });
+							},
+					        success: function(data) {
+						        $("#file_div").html(data.page);
+						    }
+					    });	   					    				
+    				},
+    				error: function (data, status, e)
+    				{
+    					alert(e);
+    				}    				
+    			});
+	        }
+		});
 			  
 	     function LoadDialogCalls(){
 				var button = {
