@@ -1240,12 +1240,15 @@ function GetPage($res='', $number)
             
   $data .= '
     </table>
-				</fieldset>				
+				</fieldset>	
+  					
 						';
 				if(!empty($res[phone])){
 					$data .= GetRecordingsSection($res);
 				}
-	  $data .= '</div>
+	  $data .= '
+	  		<button type="button" class="save-dialog" id="save-dialog" style="margin-top:10px;">შენახვა</button>
+	  		</div>
 			</div>
     </div>';
 

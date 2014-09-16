@@ -112,6 +112,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			$(".download").button({
 	            
 		    });
+		    
+			$(".save-dialog").button({
+	            
+		    });
 
 			GetDateTimes("done_start_time");
 			GetDateTimes("done_end_time");
