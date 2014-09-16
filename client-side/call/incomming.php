@@ -632,7 +632,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		   &nbsp;
 		</td>
 		<td style="width: 450px;">
-		   <div id="jq" style="width: 450px; position: fixed;"></div>
+		   <div id="jq" style="width: 450px; position: absolute;"></div>
 		</td>
 	</tr>
 </table>
