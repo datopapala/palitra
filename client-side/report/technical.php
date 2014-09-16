@@ -1435,7 +1435,10 @@
 							ხელმისაწვდომია<br><br>
 						    <select name="List_Queue_available" multiple="multiple" id="myform_List_Queue_from" size="10" style="height: 100px;width: 125px;" >
 								
-							    <option value="2470017">2470017</option>
+							    <option value="2196013">2196013</option>
+							    <option value="2196053">2196053</option>
+							    <option value="2420421">2420421</option>
+							    <option value="2486844">2486844</option>
 						    </select>
 						</td>
 						<td align="left">
@@ -1463,10 +1466,10 @@
 					<tbody><tr>
 					   <td>ხელმისაწვდომია<br><br>
 					    <select size="10" name="List_Agent_available" multiple="multiple" id="myform_List_Agent_from" style="height: 100px;width: 125px;">
-							<option value="ALF1">ALF1</option>
-							<option value="ALF2">ALF2</option>
-							<option value="ALF3">ALF3</option>
-							<option value="ALF4">ALF4</option>    
+							<option value="EXT100">EXT100</option>
+							<option value="EXT101">EXT101</option>
+							<option value="EXT250">EXT250</option>
+							<option value="EXT150">EXT150</option>    
 						</select>
 					</td>
 					<td align="left">
