@@ -79,7 +79,7 @@ switch ($action) {
 											  	DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
 												info_category.`name`,
 												incomming_call.phone,
-	  											incomming_call.content
+	  											incomming_call.call_comment
 								FROM 			incomming_call
 								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
 	  							WHERE 			incomming_call.actived = 1");
