@@ -1255,12 +1255,12 @@ function GetPage($res='', $number)
 
 function GetRecordingsSection($res)
 {
-	$db2 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
+	$db2 = new sql_db ( "92.241.82.243", "root", "Gl-1114", "asteriskcdrdb" );
 
 	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 			`userfield`
 			FROM     `cdr`
-			WHERE     (`dst` = 2470017 && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
+			WHERE     ((`dst` = 2196013 or `dst` = 2196053 or `dst` = 2420421 or `dst` = 2486844) && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
 			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[date]');");
 
 	$data .= '

@@ -47,7 +47,10 @@ $color['ringing']="#d0d01f";
 $color['not in use']="#00ff00";
 $color['paused']="#000000";
 $queue = array(
-	'2555130'
+	'2196013',
+	'2196053',
+	'2420421',
+	'2486844'
 );
 foreach($queue as $qn) {
 	if($filter=="" || stristr($qn,$filter)) {
