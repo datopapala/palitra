@@ -1242,11 +1242,9 @@ function GetPage($res='', $number)
     </table>
 				</fieldset>				
 						';
-				$data .= GetRecordingsSection($res='');
-				$data .= '<div id="additional_info">';
-					if (!empty($res['personal_pin'])){
-							$data .= get_addition_all_info($res['personal_pin']);
-						}
+				if(!empty($res[phone])){
+					$data .= GetRecordingsSection($res);
+				}
 	  $data .= '</div>
 			</div>
     </div>';
@@ -1256,8 +1254,12 @@ function GetPage($res='', $number)
 
 function GetRecordingsSection($res)
 {
-	$db2 = new sql_db ( "92.241.82.243", "root", "Gl-1114", "asteriskcdrdb" );
-
+	mysql_close();
+	$conn = mysql_connect('92.241.82.243', 'root', 'Gl-1114');
+	if (!$conn) {
+		$error = 'dgfhg';
+	}
+	mysql_select_db('asteriskcdrdb');
 	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 			`userfield`
 			FROM     `cdr`
