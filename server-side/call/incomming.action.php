@@ -1260,8 +1260,8 @@ function GetRecordingsSection($res)
 	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 			`userfield`
 			FROM     `cdr`
-			WHERE     ((`dst` = 2196013 or `dst` = 2196053 or `dst` = 2420421 or `dst` = 2486844) && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
-			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[date]');");
+			WHERE     ((`dst` = 2196013 or `dst` = 2196053 or `dst` = 2420421 or `dst` = 2486844) && `userfield` != '' && DATE(`calldate`) = '$res[call_date]' && `src` LIKE '%$res[phone]%')
+			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[call_date]');");
 
 	$data .= '
         <fieldset style="margin-top: 10px; width: 150px; float: right;">
