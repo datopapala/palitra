@@ -64,7 +64,7 @@ switch ($action) {
 												incomming_call.id,
 											  	DATE_FORMAT(incomming_call.`date`,'%y-%m-%d %H:%i:%s'),
 												info_category.`name`,
-												incomming_call.phone,
+												IF(incomming_call.phone != '',incomming_call.phone,'ჩატი'),
 	  											incomming_call.content
 								FROM 			incomming_call
 								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
@@ -633,7 +633,7 @@ function Getpersons($persons_id)
 }
 
 function getCalls(){
-	$db1 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
+	$db1 = new sql_db ( "212.72.155.175", "root", "Gl-1114", "asteriskcdrdb" );
 
 	$req = mysql_query("
 
@@ -1271,7 +1271,7 @@ function GetPage($res='', $number)
 
 function GetRecordingsSection($res)
 {
-	$db2 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
+	$db2 = new sql_db ( "212.72.155.175", "root", "Gl-1114", "asteriskcdrdb" );
 
 	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 			`userfield`

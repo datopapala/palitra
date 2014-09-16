@@ -1,7 +1,5 @@
 <?php
 
-require_once('../../includes/classes/core.php');
-
 //----------------------------- ცვლადი
 
 $agent	= $_REQUEST['agent'];
@@ -10,15 +8,201 @@ $start_time = $_REQUEST['start_time'];
 $end_time 	= $_REQUEST['end_time'];
 $day = (strtotime($end_time)) -  (strtotime($start_time));
 $day_format = ($day / (60*60*24)) + 1;
+
+
 // ----------------------------------
+
+if($_REQUEST['act'] =='answear_dialog_table'){
+	mysql_close();
+	$conn = mysql_connect('212.72.155.175', 'root', 'Gl-1114');
+	if (!$conn) {
+		$error = 'dgfhg';
+	}
+	mysql_select_db('asteriskcdrdb');
+	$data		= array('page' => array(
+			'answear_dialog' => ''
+	));
+	$count = 		$_REQUEST['count'];
+	$hidden = 		$_REQUEST['hidden'];
+	$rResult = mysql_query("SELECT 	cdr.calldate,
+									cdr.calldate,
+									cdr.src,
+									cdr.dst,
+									qagent.agent,
+									CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
+									CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 35),'.wav', '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://212.72.155.175:8181/records/', SUBSTRING(cdr.userfield, 35),'.wav', '\">ჩამოტვირთვა</a>') AS `dwn`
+							FROM 	queue_stats
+							JOIN 	cdr ON queue_stats.uniqueid = cdr.uniqueid
+							JOIN 	qagent ON queue_stats.qagent = qagent.agent_id
+							JOIN 	qname ON queue_stats.qname = qname.qname_id
+							WHERE 	queue_stats.qevent in (7,8)
+							AND 	DATE(queue_stats.`datetime`) >= '$start_time'
+							AND 	DATE(queue_stats.`datetime`) <= '$end_time'
+							AND 	qname.queue IN ($queue)
+							AND		qagent.agent IN ($agent)");
+	$data = array(
+			"aaData"	=> array()
+	);
+		
+	while ( $aRow = mysql_fetch_array( $rResult ) )
+	{
+		$row = array();
+		for ( $i = 0 ; $i < $count ; $i++ )
+		{
+			/* General output */
+			$row[] = $aRow[$i];
+		}
+		$data['aaData'][] = $row;
+	}
+		
+}
+else
+if($_REQUEST['act'] =='unanswear_dialog_table'){
+	mysql_close();
+	$conn = mysql_connect('212.72.155.175', 'root', 'Gl-1114');
+	if (!$conn) {
+		$error = 'dgfhg';
+	}
+	mysql_select_db('asteriskcdrdb');
+	$data		= array('page' => array(
+			'answear_dialog' => ''
+	));
+	$count = 		$_REQUEST['count'];
+	$hidden = 		$_REQUEST['hidden'];
+	$rResult = mysql_query("SELECT 	cdr.calldate,
+									cdr.calldate,
+									cdr.src,
+									cdr.dst,
+									CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`
+							FROM	queue_stats
+							JOIN	qname ON	queue_stats.qname = qname.qname_id
+							JOIN	qevent ON	queue_stats.qevent = qevent.event_id
+							JOIN	cdr ON	queue_stats.uniqueid = cdr.uniqueid
+							WHERE 	DATE(queue_stats.datetime) >= '$start_time'
+							AND 	DATE(queue_stats.datetime) <= '$end_time' 
+							AND 	qname.queue IN ($queue) 
+							AND 	qevent.`event` IN ('ABANDON')");
+	$data = array(
+			"aaData"	=> array()
+	);
+
+	while ( $aRow = mysql_fetch_array( $rResult ) )
+	{
+		$row = array();
+		for ( $i = 0 ; $i < $count ; $i++ )
+		{
+			/* General output */
+			$row[] = $aRow[$i];
+		}
+		$data['aaData'][] = $row;
+	}
+
+}
+else
+if($_REQUEST['act'] =='answear_dialog'){
+
+				$data['page']['answear_dialog'] = '
+															
+													
+												                <table class="display" id="example">
+												                    <thead>
+												                        <tr id="datatable_header">
+												                            <th>ID</th>
+												                            <th style="width: 100%;">თარიღი</th>
+												                            <th style="width: 120px;">წყარო</th>
+												                            <th style="width: 120px;">ადრესატი</th>
+																			<th style="width: 80px;">ოპერატორი</th>
+												                            <th style="width: 80px;">დრო</th>
+												                            <th style="width: 100px;">ქმედება</th>
+												                        </tr>
+												                    </thead>
+												                    <thead>
+												                        <tr class="search_header">
+												                            <th class="colum_hidden">
+												                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
+												                            </th>
+												                            <th>
+												                            	<input type="text" name="search_number" value="ფილტრი" class="search_init" style="">
+																			</th>
+												                            <th>
+												                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+												                            </th>                            
+												                            <th>
+												                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+												                            </th>
+												                            <th>
+												                                <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 70px;"/>
+												                            </th>
+												                            <th>
+												                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 70px;" />
+												                            </th>
+																			<th>
+												                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+												                            </th>
+												                            
+												                        </tr>
+												                    </thead>
+												                </table>
+												        
+						
+													';
+			
+			
+}
+else
+if($_REQUEST['act'] =='unanswear_dialog'){
+
+	$data['page']['answear_dialog'] = '
+								
+							
+												                <table class="display" id="example">
+												                    <thead>
+												                        <tr id="datatable_header">
+												                            <th>ID</th>
+												                            <th style="width: 100%;">თარიღი</th>
+												                            <th style="width: 120px;">წყარო</th>
+												                            <th style="width: 100px;">ადრესატი</th>
+												                            <th style="width: 80px;">დრო</th>
+												                        </tr>
+												                    </thead>
+												                    <thead>
+												                        <tr class="search_header">
+												                            <th class="colum_hidden">
+												                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
+												                            </th>
+												                            <th>
+												                            	<input type="text" name="search_number" value="ფილტრი" class="search_init" style="">
+																			</th>
+												                            <th>
+												                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+												                            </th>
+												                            <th>
+												                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+												                            </th>
+																			<th>
+												                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 70px;" />
+												                            </th>
+												                        </tr>
+												                    </thead>
+												                </table>
+
+
+													';
+		
+		
+}
+else
+{
+	
+require_once('../../includes/classes/core.php');
 
 $row_done_blank = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `count`
 		FROM `incomming_call`
 		WHERE DATE(date) >= '$start_time' AND DATE(date) <= '$end_time' AND phone != '' "));
 
 mysql_close();
-$conn = mysql_connect('212.72.155.176', 'root', 'Gl-1114');
-mysql_select_db('stats');
+$conn = mysql_connect('212.72.155.175', 'root', 'Gl-1114');
+mysql_select_db('asteriskcdrdb');
 
 
 $data		= array('page' => array(
@@ -38,7 +222,7 @@ $data		= array('page' => array(
 										'service_level' => ''
 								));
 
-
+$data['error'] = $error;
 //------------------------------- ტექნიკური ინფორმაცია
 
 	$row_answer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
@@ -77,12 +261,12 @@ $data		= array('page' => array(
 							
                     <td>ზარი</td>
                     <td>'.($row_answer[count] + $row_abadon[count]).'</td>
-                    <td>'.$row_answer[count].'</td>
-                    <td>'.$row_abadon[count].'</td>
+                    <td id="answear_dialog" style="cursor: pointer; text-decoration: underline;">'.$row_answer[count].'</td>
+                    <td id="unanswear_dialog" style="cursor: pointer; text-decoration: underline;">'.$row_abadon[count].'</td>
                     <td>'.$row_done_blank[count].'</td>
                     <td>'.round(((($row_answer[count]) / ($row_answer[count] + $row_abadon[count])) * 100),2).' %</td>
                     <td>'.round(((($row_abadon[count]) / ($row_answer[count] + $row_abadon[count])) * 100),2).' %</td>
-                    <td>'.round(((($row_done_blank[count]) / ($row_answer[count] + $row_abadon[count])) * 100),2).' %</td>
+                    <td>'.round(((($row_done_blank[count]) / ($row_answer[count])) * 100),2).' %</td>
                 
 							';
 // -----------------------------------------------------
@@ -225,22 +409,21 @@ $data		= array('page' => array(
 
 	$data['page']['report_info'] = '
 				
-                    <tr>
-                    <td>რიგი:</td>
+                <tr>
+                    <td class="tdstyle">რიგი:</td>
                     <td>'.$queue.'</td>
                 </tr>
-                
-                       <tr><td>საწყისი თარიღი:</td>
-                       <td>'.$start_time.'</td>
-                </tr>
-                
                 <tr>
-                       <td>დასრულების თარიღი:</td>
-                       <td>'.$end_time.'</td>
+                    <td class="tdstyle">საწყისი თარიღი:</td>
+                    <td>'.$start_time.'</td>
                 </tr>
                 <tr>
-                       <td>პერიოდი:</td>
-                       <td>'.$day_format.' დღე</td>
+                    <td class="tdstyle">დასრულების თარიღი:</td>
+                    <td>'.$end_time.'</td>
+                </tr>
+                <tr>
+                    <td class="tdstyle">პერიოდი:</td>
+                    <td>'.$day_format.' დღე</td>
                 </tr>
 
 							';
@@ -285,23 +468,23 @@ $row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT
 	$data['page']['answer_call_info'] = '
 
                    	<tr>
-					<td>ნაპასუხები ზარები</td>
+					<td class="tdstyle">ნაპასუხები ზარები</td>
 					<td>'.$row_answer[count].' ზარი</td>
 					</tr>
 					<tr>
-					<td>გადამისამართებული ზარები</td>
+					<td class="tdstyle">გადამისამართებული ზარები</td>
 					<td>'.$row_transfer[count].' ზარი</td>
 					</tr>
 					<tr>
-					<td>საშ. ხანგძლივობა:</td>
+					<td class="tdstyle">საშ. ხანგძლივობა:</td>
 					<td>'.$row_clock[sec].' წამი</td>
 					</tr>
 					<tr>
-					<td>სულ საუბრის ხანგძლივობა:</td>
+					<td class="tdstyle">სულ საუბრის ხანგძლივობა:</td>
 					<td>'.$row_clock[min].' წუთი</td>
 					</tr>
 					<tr>
-					<td>ლოდინის საშ. ხანგძლივობა:</td>
+					<td class="tdstyle">ლოდინის საშ. ხანგძლივობა:</td>
 					<td>'.$row_clock[hold].' წამი</td>
 					</tr>
 
@@ -408,12 +591,12 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	$data['page']['disconnection_cause'] = '
 
                    <tr>
-					<td>ოპერატორმა გათიშა:</td>
+					<td class="tdstyle">ოპერატორმა გათიშა:</td>
 					<td>'.$row_COMPLETEAGENT[count].' ზარი</td>
 					<td>0.00 %</td>
 					</tr>
 					<tr>
-					<td>აბონენტმა გათიშა:</td>
+					<td class="tdstyle">აბონენტმა გათიშა:</td>
 					<td>'.$row_COMPLETECALLER[count].' ზარი</td>
 					<td>0.00 %</td>
 					</tr>
@@ -428,19 +611,19 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	$data['page']['unanswer_call'] = '
 
                    	<tr>
-					<td>უპასუხო ზარების რაოდენობა:</td>
+					<td class="tdstyle">უპასუხო ზარების რაოდენობა:</td>
 					<td>'.$row_abadon[count].' ზარი</td>
 					</tr>
 					<tr>
-					<td>ლოდინის საშ. დრო კავშირის გაწყვეტამდე:</td>
+					<td class="tdstyle">ლოდინის საშ. დრო კავშირის გაწყვეტამდე:</td>
 					<td>'.$row_abadon[sec].' წამი</td>
 					</tr>
 					<tr>
-					<td>საშ. რიგში პოზიცია კავშირის გაწყვეტამდე:</td>
+					<td class="tdstyle">საშ. რიგში პოზიცია კავშირის გაწყვეტამდე:</td>
 					<td>1</td>
 					</tr>
 					<tr>
-					<td>საშ. საწყისი პოზიცია რიგში:</td>
+					<td class="tdstyle">საშ. საწყისი პოზიცია რიგში:</td>
 					<td>1</td>
 					</tr>
 
@@ -469,12 +652,12 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	$data['page']['disconnection_cause_unanswer'] = '
 
                   <tr> 
-                  <td>აბონენტმა გათიშა</td>
+                  <td class="tdstyle">აბონენტმა გათიშა</td>
 			      <td>'.$row_abadon[count].' ზარი</td>
 			      <td>'.round((($row_abadon[count] / $row_abadon[count]) * 100),2).' %</td>
 		        </tr>
 			    <tr> 
-                  <td>დრო ამოიწურა</td>
+                  <td class="tdstyle">დრო ამოიწურა</td>
 			      <td>'.$row_timeout[count].' ზარი</td>
 			      <td>'.round((($row_timeout[count] / $row_timeout[count]) * 100),2).' %</td>
 		        </tr>
@@ -512,19 +695,19 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	$data['page']['totals'] = '
 
                    	<tr> 
-                  <td>ნაპასუხები ზარების რაოდენობა:</td>
+                  <td class="tdstyle">ნაპასუხები ზარების რაოდენობა:</td>
 		          <td>'.$row_answer[count].' ზარი</td>
 	            </tr>
                 <tr>
-                  <td>უპასუხო ზარების რაოდენობა:</td>
+                  <td class="tdstyle">უპასუხო ზარების რაოდენობა:</td>
                   <td>'.$row_abadon[count].' ზარი</td>
                 </tr>
 		        <tr>
-                  <td>ოპერატორი შევიდა:</td>
+                  <td class="tdstyle">ოპერატორი შევიდა:</td>
 		          <td>0</td>
 	            </tr>
                 <tr>
-                  <td>ოპერატორი გავიდა:</td>
+                  <td class="tdstyle">ოპერატორი გავიდა:</td>
                   <td>0</td>
                 </tr>
 
@@ -628,7 +811,7 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	
 	
 	
-		for($key=0;$key<24;$key++){
+
 			
 			$res124 = mysql_query("
 					SELECT  HOUR(qs.datetime) AS `datetime`,
@@ -660,7 +843,6 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 					AND DATE(qs.datetime) <= '$end_time'
 					AND q.queue IN ($queue,'NONE')
 					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-					AND HOUR(qs.datetime) = $key
 					GROUP BY HOUR(qs.datetime)
 					");
 			
@@ -692,15 +874,15 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 					AND DATE(qs.datetime) <= '$end_time'
 					AND q.queue IN ($queue,'NONE')
 					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-					AND HOUR(qs.datetime) = $key
+					AND HOUR(qs.datetime) > 9
 					GROUP BY HOUR(qs.datetime)
 					");
 			
-		$row = mysql_fetch_assoc($res124);
+		while($row = mysql_fetch_assoc($res124)){
 		$roww = mysql_fetch_assoc($res1244);
 			$data['page']['call_distribution_per_hour'] .= '
 				<tr class="odd">
-						<td>'.$key.':00</td>
+						<td>'.$row[datetime].':00</td>
 						<td>'.(($row[answer_count]!='')?$row[answer_count]:"0").'</td>
 						<td>'.(($row[call_answer_pr]!='')?$row[call_answer_pr]:"0").' %</td>
 						<td>'.(($roww[unanswer_count]!='')?$roww[unanswer_count]:"0").'</td>
@@ -718,7 +900,7 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 
 //------------------------------ ზარის განაწილება კვირების მიხედვით
 
-		for($i=1;$i<=7;$i++){
+
 $res12 = mysql_query("
 					SELECT  CASE
 									WHEN DAYOFWEEK(qs.datetime) = 1 THEN 'კვირა'
@@ -757,7 +939,6 @@ $res12 = mysql_query("
 					AND DATE(qs.datetime) <= '$end_time'
 					AND q.queue IN ($queue,'NONE')
 					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-					AND DAYOFWEEK(qs.datetime) = $i
 					GROUP BY DAYOFWEEK(qs.datetime)
 					");
 
@@ -789,43 +970,15 @@ $res122 = mysql_query("
 					AND DATE(qs.datetime) <= '$end_time'
 					AND q.queue IN ($queue,'NONE')
 					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-					AND DAYOFWEEK(qs.datetime) = $i
 					GROUP BY DAYOFWEEK(qs.datetime)
 					");
 
-
-	$row = mysql_fetch_assoc($res12);
+	while($row = mysql_fetch_assoc($res12)){
 	$roww = mysql_fetch_assoc($res122);
-	
-	switch ($i)
-	{
-		case 1:
-			$week = 'კვირა';
-			break;
-		case 2:
-			$week = 'ორშაბათი';
-			break;
-		case 3:
-			$week = 'სამშაბათი';
-			break;
-		case 4:
-			$week = 'ოთხშაბათი';
-			break;
-		case 5:
-			$week = 'ხუთშაბათი';
-			break;
-		case 6:
-			$week = 'პარასკევი';
-			break;
-		case 7:
-			$week = 'შაბათი';
-			break;
-	}
-	
 	$data['page']['call_distribution_per_day_of_week'] .= '
 
                    	<tr class="odd">
-					<td>'.$week.'</td>
+					<td>'.$row[datetime].'</td>
 					<td>'.(($row[answer_count]!='')?$row[answer_count]:"0").'</td>
 					<td>'.(($row[call_answer_pr]!='')?$row[call_answer_pr]:"0").' %</td>
 					<td>'.(($roww[unanswer_count]!='')?$roww[unanswer_count]:"0").'</td>
@@ -840,7 +993,7 @@ $res122 = mysql_query("
 }
 
 //---------------------------------------------------
-
+}
 
 echo json_encode($data);
 
