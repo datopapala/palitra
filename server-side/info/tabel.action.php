@@ -152,11 +152,11 @@ function BackTimeOut($person_id){
 
 function CheckPassword($person_id, $pwd){
 	$check = false;
-	$res = mysql_fetch_assoc(mysql_query("SELECT `password` AS `pwd`
-											FROM   persons
-											WHERE  id = $person_id"));
+	$res = mysql_fetch_assoc(mysql_query("	SELECT `password` AS `pwd`
+											FROM   users
+											WHERE  person_id = $person_id"));
 	
-	if($res['pwd'] == $pwd){
+	if($res['pwd'] == md5($pwd)){
 		$check = true;
 	}
 	
