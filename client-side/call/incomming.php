@@ -136,7 +136,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		                        $("#" + "read_more_dialog").html(data.page);
 		                        if ($.isFunction(window.LoadDialog)) {
 		                            //execute it
-		                        	GetDataTable("all_sell", aJaxURLl, "get_list", 6,"", 0, "", 1, "asc", "");
+		                        	GetDataTable("all_sell", aJaxURLl, "get_list", 11,"", 0, "", 1, "asc", "");
 		                        }
 		                    }
 		                }
