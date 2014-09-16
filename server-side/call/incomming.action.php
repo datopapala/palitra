@@ -845,6 +845,7 @@ function Getincomming($incom_id)
 	$res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
 														incomming_call.source_id,
 														DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS call_date,
+														incomming_call.`date` AS date,
 														incomming_call.`phone`,
 														incomming_call.first_name,
 														incomming_call.type_id,
@@ -1260,8 +1261,8 @@ function GetRecordingsSection($res)
 	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 			`userfield`
 			FROM     `cdr`
-			WHERE     ((`dst` = 2196013 or `dst` = 2196053 or `dst` = 2420421 or `dst` = 2486844) && `userfield` != '' && DATE(`calldate`) = '$res[call_date]' && `src` LIKE '%$res[phone]%')
-			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[call_date]');");
+			WHERE     ((`dst` = 2196013 or `dst` = 2196053 or `dst` = 2420421 or `dst` = 2486844) && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
+			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[date]');");
 
 	$data .= '
         <fieldset style="margin-top: 10px; width: 150px; float: right;">
