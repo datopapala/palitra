@@ -92,7 +92,8 @@
 		$(document).on("tabsactivate", "#tabs", function() {
         	var tab = GetSelectedTab(tbName);
         	if (tab == 0) {
-        		$(this).css('height','500px');
+        		drawFirstLevel();
+        		$(this).css('height','700px');
         	}else if(tab == 1){
         		getData();
        			getData11();
@@ -1040,90 +1041,79 @@
 		}
 
 		 function drawFirstLevel(){
-			 
-
-		        // Build the chart
-			 var options = {
-		                chart: {
-		                    renderTo: 'chart_container0',
-		                    plotBackgroundColor: null,
-		                    plotBorderWidth: null,
-		                    plotShadow: false
-		                },
-		                title: {
-		                    text: 'რეპორტ ინფო'
-		                },
-		                tooltip: {
-		                    formatter: function() {
-		                        return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
-		                    }
-		                },
-		                plotOptions: {
-		                	pie: {
-		                        allowPointSelect: true,
-		                        cursor: 'pointer',
-		                        dataLabels: {
-		                            enabled: true,
-		                            color: '#000000',
-		                            connectorColor: '#000000',
-		                            formatter: function() {
-		                                return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
-		                            }
-		                        },
-		                        point: {
-		                            events: {
-		                                click: function() {
-			                                var nm = this.name.split("<",1);
-			                                $("#hidden_name").val(nm);
-			                                var st	= $("#search_start").val();
-			                        		var en		= $("#search_end").val();
-		                                	drawSecondLevel(this.name, st, en);  
-		                                	GetProductionSum(nm, st, en);
-		                                	LoadTable2(nm, st, en);                      
-		                                }
-		                            }
-		                        }
-		                    }
-		                },
-		                series: [{
-		                    type: 'pie',
-		                    name: 'áƒ™áƒ�áƒ¢áƒ”áƒ’áƒ�áƒ áƒ˜áƒ”áƒ‘áƒ˜',
-		                    data: []
-		                }]
-			 }
-			 var i=0;
-				
-				agent	= '';
-				queuet = '';
-			
-				var optionss = $('#myform_List_Queue_to option');
-				var values = $.map(optionss ,function(option) {
-					if(queuet != ""){
-						queuet+=",";
-						
-					}
-					queuet+="'"+option.value+"'";
-				});
-			
-			var optionss = $('#myform_List_Agent_to option');
-			var values = $.map(optionss ,function(option) {
-				if(agent != ''){
-					agent+=',';
-					
-				}
-				agent+="'"+option.value+"'";
-			});
-			
-			start_time = $('#start_time').val();
-			end_time = $('#end_time').val();
-		            
-		            $.getJSON("server-side/report/prod_category_statistics.action.php?start="+start_time + "&end=" + end_time + "&queuet=" + queuet, function(json) {
-		                options.series[0].data = json;
-		               // alert(options);
-		                chart = new Highcharts.Chart(parseInt(options[0]));
-		                
-		            });
-		 }
+			    var options = {
+			                  chart: {
+			                      renderTo: 'chart_container0',
+			                      plotBackgroundColor: null,
+			                      plotBorderWidth: null,
+			                      plotShadow: '#FA3A3A'
+			                  },
+			                  title: {
+			                      text: 'ტექნიკური ინფორმაცია'
+			                  },
+			                  tooltip: {
+			                      formatter: function() {
+			                          return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
+			                      }
+			                  },
+			                  plotOptions: {
+			                   pie: {
+			                          allowPointSelect: true,
+			                          cursor: 'pointer',
+			                          dataLabels: {
+			                              enabled: true,
+			                              color: '#000000',
+			                              connectorColor: '#FA3A3A',
+			                              formatter: function() {
+			                                  return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
+			                              }
+			                          },
+			                          point: {
+			                              events: {
+			                                  click: function() {                   
+			                                  }
+			                              }
+			                          }
+			                      }
+			                  },
+			                  series: [{
+			                      type: 'pie',
+			                      name: 'კატეგორიები',
+			                     // color: '#FA3A3A',
+			                      data: []
+			                  }]
+			              }
+			    var i=0;
+			    
+			    agent = '';
+			    queuet = '';
+			   
+			    var optionss = $('#myform_List_Queue_to option');
+			    var values = $.map(optionss ,function(option) {
+			     if(queuet != ""){
+			      queuet+=",";
+			      
+			     }
+			     queuet+="'"+option.value+"'";
+			    });
+			   
+			   var optionss = $('#myform_List_Agent_to option');
+			   var values = $.map(optionss ,function(option) {
+			    if(agent != ''){
+			     agent+=',';
+			     
+			    }
+			    agent+="'"+option.value+"'";
+			   });
+			   
+			   start_time = $('#start_time').val();
+			   end_time = $('#end_time').val();
+			              $.getJSON("server-side/report/prod_category_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			                  options.series[0].data = json;
+			                  chart = new Highcharts.Chart(options);
+			              });
+			   }
+		 
 		 function getData11(){
 			 var options = {
 			        chart: {
@@ -1261,6 +1251,7 @@
 			//getData9();
 			//getData10();
 			//getData11();
+			drawFirstLevel();
 			
 			var options = $('#myform_List_Queue_to option');
 			var values = $.map(options ,function(option) {
@@ -1416,7 +1407,7 @@
 
 <body>
 
-<div id="tabs" style="width: 95%; margin: 0 auto; height:500px; margin-top: 50px;">
+<div id="tabs" style="width: 95%; margin: 0 auto; height:800px; margin-top: 50px;">
 		<ul>
 			<li><a href="#tab-0">მთავარი</a></li>
 			<li><a href="#tab-1">ნაპასუხები</a></li>
@@ -1532,6 +1523,7 @@
                 </tr>
                 </tbody>
                 </table>
+                <div id="chart_container0" style="width: 50%; height: 300px;"></div>
 		</div>
 		 </div>
 		<div id="tab-1">
