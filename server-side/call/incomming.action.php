@@ -845,7 +845,7 @@ function Getincomming($incom_id)
 	$res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
 														incomming_call.source_id,
 														DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS call_date,
-														DATE_FORMAT(incomming_call.`date`,'%y-%m-%d') AS date,
+														DATE_FORMAT(incomming_call.`date`,'%y-%m-%d') AS `date`,
 														incomming_call.`phone`,
 														incomming_call.first_name,
 														incomming_call.type_id,
