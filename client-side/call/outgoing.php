@@ -231,6 +231,43 @@
 			};
 			GetDialog("add-responsible-person", 280, "auto", buttons);
 		}
+		
+		 $(document).on("click", "#add_button_pp", function () {
+			 param 			= new Object();
+			 param.act		= "get_task";
+			 $.ajax({
+			        url: aJaxURL,
+				    data: param,
+			        success: function(data) {       
+						if(typeof(data.error) != "undefined"){
+							if(data.error != ""){
+								alert(data.error);
+							}else{
+								var buttons = {
+								        "save": {
+								            text: "შენახვა",
+								            id: "save-task",
+								            click: function () {
+								            	add_task();			            
+								            }
+								        },
+										"cancel": {
+								            text: "დახურვა",
+								            id: "cancel-dialog",
+								            click: function () {
+								                $(this).dialog("close");
+								            }
+								        }
+								};
+								$("#add_task").html(data.page);
+								GetDialog("add_task", 400, "auto", buttons);
+								
+							}
+						}
+				    }
+			    });
+
+		 });
 
 
 		function seller(id){
@@ -294,18 +331,9 @@
 	    	param.call_date				= $("#call_date").val();
 	    	param.problem_date			= $("#problem_date").val();
 			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-			param.template_id			= $("#template_id").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
+			param.persons_id			= $("#persons_id").val();
+			param.persons_id			= $("#persons_id").val();
+			
 	 
 		    $.ajax({
 		        url: aJaxURL,
@@ -543,46 +571,35 @@
 	    });	
 	}
 
-	function Change_person(formName){
-	    var data = $(".check:checked").map(function () {
-	        return this.value;
-	    }).get();
-	    
-	    var letters = [];
-	    
-	    for (var i = 0; i < data.length; i++) {
-	    	letters.push(data[i]);        
-	    }
+	function add_task(formName){
     	param = new Object();
-    	param.act	= "change_responsible_person";
-    	param.lt	= letters;
-	    param.rp	= $("#responsible_person").val();
-
-	    var link	=  GetAjaxData(param);
-	    
-	    if(param.rp == "0"){
-		    alert("აირჩიეთ პასუხისმგებელი პირი!");
-		}else if(param.ci == "0"){
-		    alert("აირჩიეთ ავტომობილი");		
-		}else{	    
+    	param.act			= "save_task";
+	    param.phone			= $("#phone").val();
+	    param.person_n		= $("#person_n").val();
+	    param.first_name	= $("#first_name").val();
+	    param.mail			= $("#mail").val();
+	    param.last_name		= $("#last_name").val();
+	    param.person_status	= $("#person_status").val();
+	    param.addres		= $("#addres").val();
+	        
 	        $.ajax({
 	            url: aJaxURL,
 	            type: "POST",
-	            data: link,
+	            data: param,
 	            dataType: "json", 
 	            success: function (data) {
 	                if (typeof (data.error) != "undefined") {
 	                    if (data.error != "") {
 	                        alert(data.error);
 	                    }else{
-	                        $("#add-responsible-person").dialog("close");
-	                        LoadTable0();
+	                        $("#add_task").dialog("close");
+	                        LoadTable4();
 	                    }
 	                }
 	            }
-	        });
-		}	    		
+	        });	    		
 	}
+	
 	$(document).on("change", "#category_parent_id",function(){
  	 	param 			= new Object();
 		 	param.act		= "sub_category";
@@ -694,7 +711,7 @@
 
 <div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
-			<li><a href="#tab-0">მენეჯერი</a></li>
+			<li><a href="#tab-0">დავალების ფორმირება</a></li>
 			<li><a href="#tab-1">პირველადი</a></li>
 			<li><a href="#tab-2">მიმდინარე</a></li>
 			<li><a href="#tab-3">დასრულებული</a></li>
@@ -1050,6 +1067,9 @@
 </div>
 
 <div id="add-responsible-person" class="form-dialog" title="პასუხისმგებელი პირი">
+<!-- aJax -->
+</div>
+<div id="add_task" class="form-dialog" title="დავალების დამატება">
 <!-- aJax -->
 </div>
 </body>

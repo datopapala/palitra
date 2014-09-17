@@ -52,28 +52,15 @@ switch ($action) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
 	     
-	    $rResult = mysql_query("SELECT 	 	`task`.id,
-											`task`.id,
-											`site_user`.`name`,
-											`site_user`.`pin`,
-											`person1`.`name` ,
-											`person2`.`name` ,
-											`incomming_call`.date,
-											`status`.`call_status`
-								FROM 		task			
-								LEFT JOIN 		incomming_call ON task.incomming_call_id=incomming_call.id
-								LEFT JOIN 	site_user		ON incomming_call.id=site_user.incomming_call_id
-								
-								
-								JOIN 		users AS `user1`			ON task.responsible_user_id=user1.id
-								JOIN 		persons AS `person1`		ON user1.person_id=person1.id
-								
-								JOIN 		users AS `user2`			ON task.user_id=user2.id
-								JOIN 		persons AS `person2`		ON user2.person_id=person2.id
-								
-								LEFT JOIN `status`  	ON	task.`status`= `status`.id
-								
-								WHERE 		task.task_type_id=1 AND task.`status`=3");
+	    $rResult = mysql_query("SELECT 	 	`task_detail`.`id`,
+											`task_detail`.`person_n`,
+											CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
+											`task_detail`.`person_status` ,
+											`task_detail`.`phone` ,
+											`task_detail`.`mail`,
+											`task_detail`.`addres`
+								FROM 		`task_detail`			
+								WHERE 		`task_detail`.`actived`=1");
 	    
 										    		
 		$data = array(

@@ -10,13 +10,7 @@ $error	= '';
 $data	= '';
 
 
-$task_id				= $_REQUEST['id'];
-$call_date				= $_REQUEST['call_date'];
-$phone					= $_REQUEST['phone'];
-$persons_id				= $_REQUEST['persons_id'];
-$call_duration 			= $_REQUEST['call_duration'];
-$planned_end_date 		= $_REQUEST['planned_end_date'];
-$fact_end_date 			= $_REQUEST['fact_end_date'];
+
 $priority_id			= $_REQUEST['priority_id'];
 $template_id			= $_REQUEST['template_id'];
 
@@ -38,6 +32,11 @@ switch ($action) {
 		$page		= GetPage($res='', $number);
 		$data		= array('page'	=> $page);
 		
+        break;
+    case 'get_task':
+        $page		= Gettask();
+        $data		= array('page'	=> $page);
+        
         break;
     case 'get_edit_page':
 	   
@@ -122,6 +121,24 @@ switch ($action) {
     case 'get_responsible_person_add_page':
         $page 		= GetResoniblePersonPage();
         $data		= array('page'	=> $page);
+        
+        break;
+    case 'save_task':
+    	// task_detail------------------------
+    	$phone				= $_REQUEST['phone'];
+    	$person_n			= $_REQUEST['person_n'];
+    	$first_name			= $_REQUEST['first_name'];
+    	$mail				= $_REQUEST['mail'];
+    	$last_name 			= $_REQUEST['last_name'];
+    	$person_status 		= $_REQUEST['person_status'];
+    	$addres 			= $_REQUEST['addres'];
+    	$user				= $_SESSION['USERID'];
+    	//------------------------------------
+    	
+    	mysql_query("INSERT INTO `task_detail` 
+    			( `user_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `actived`) 
+    			VALUES 
+    			( '$user', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '1')");
         
         break;
         
@@ -708,6 +725,66 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT		task.id AS `id`,
 	return $res;
 }
 
+function Gettask(){
+	$data  .= '<div id="dialog-form">
+							<div style="float: left; width: 380px;">
+								<fieldset >
+							    	<legend>ძირითადი ინფორმაცია</legend>
+	
+							    	<table style="height: 243px;">						
+									<tr>
+										<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
+										<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
+										</td>
+										<td style="width: 180px;">
+											<input type="text" id="person_n" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
+										</td>					
+									</tr>
+									<tr>
+										<td style="width: 180px; color: #3C7FB1;">სახელი</td>
+										<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
+									</tr>
+									<tr >
+										<td style="width: 180px;">
+											<input type="text" id="first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
+										</td>
+										<td style="width: 180px;">
+											<input type="text" id="mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
+										</td>			
+									</tr>
+									<tr>
+										<td td style="width: 180px; color: #3C7FB1;">გვარი</td>
+										<td td style="width: 180px; color: #3C7FB1;">ფიზიკური პირი</td>
+									</tr>
+									<tr>
+										<td style="width: 180px;">
+											<input type="text" id="last_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
+										</td>
+										<td td style="width: 180px;">
+											<input type="text" id="person_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+										</td>
+									</tr>
+									<tr>
+										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+									</tr>
+									<tr>
+										<td td style="width: 180px;">
+											<input type="text" id="addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_status'] . '" />		
+										</td>
+									</tr>
+								</table>
+									
+					</fieldset>
+				</div>
+		    </div>';
+	
+	
+	return $data;
+}
 
 function GetPage($res='', $number)
 {
@@ -718,6 +795,8 @@ function GetPage($res='', $number)
 		$num=$res[phone]; 
 	}
 
+		$c_date		= date('Y-m-d H:i:s');
+		
 		$data  .= '<div id="dialog-form">
 							<div style="float: left; width: 760px;">
 								<fieldset >
@@ -732,10 +811,10 @@ function GetPage($res='', $number)
 										</tr>
 										<tr>
 											<td style="width: 150px;">
-												<input style="width: 150px;" type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" />
+												<input style="width: 150px;" type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('task')). '" />
 											</td>
 											<td style="width: 150px;">
-												<input style="width: 150px;" type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" />
+												<input style="width: 150px;" type="text" id="cur_date" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['call_date']!='')?$res['call_date']:$c_date). '" />
 											</td>
 											<td style="width: 200px;">
 												<input style="float:left;" type="text" id="done_start_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['call_date']. '"  /><span style="float:left; margin-top:5px;">-დან</span>
@@ -757,7 +836,7 @@ function GetPage($res='', $number)
 							    	<legend>სცენარი</legend>	
 									<table width="100%" class="dialog-form-table">
 										<tr>
-											<td style="width: 350px;"><select style="width: 420px;" id="" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
+											<td style="width: 350px;"><select style="width: 420px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
 										</tr>
 									</table>
 									</fieldset>
