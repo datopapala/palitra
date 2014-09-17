@@ -604,11 +604,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 35px;" >№</th>
-                            <th style="width: 150px;">თარიღი</th>
-                            <th style="width: 150px;">კატეგორია</th>
-                            <th style="width: 150px;">ტელეფონი</th>
-                            <th style="width: 150px;">ზარის დაზუსტება</th>
+                            <th style="width: 50px;" >№</th>
+                            <th style="width: 130px;">თარიღი</th>
+                            <th>კატეგორია</th>
+                            <th style="width: 120px;">ტელეფონი</th>
+                            <th>ზარის დაზუსტება</th>
                         </tr>
                     </thead>
                     <thead>

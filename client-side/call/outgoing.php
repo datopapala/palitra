@@ -232,6 +232,23 @@
 			GetDialog("add-responsible-person", 280, "auto", buttons);
 		}
 
+		$(document).on("change", "#shabloni",function(){
+	 	 		param 			= new Object();
+			 	param.act		= "get_add_page";
+			 	param.shabloni   	= $("#shabloni").val();
+		    	$.ajax({
+			        url: aJaxURL,
+				    data: param,
+			        success: function(data) {
+						if(typeof(data.error) != 'undefined'){
+							if(data.error != ''){
+								alert(data.error);
+							}else{
+								$("#category_id").html(data.page);
+							}
+						}
+				    }
+		});
 
 		function seller(id){
 			if(id == '0'){

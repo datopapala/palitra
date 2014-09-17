@@ -1,178 +1,140 @@
 <html>
 <head>
+	<style type="text/css">
+	.hidden{
+		display : none;
+	}
+	</style>
 	<script type="text/javascript">
 		var aJaxURL	= "server-side/view/template.action.php";		//server side folder url
-		var tbName	= "tabs";												//tabs name
-		var tName	= "example";													//table name
-		var fName	= "add-edit-form";												//form name
-		    	
-		$(document).ready(function () {        	
-			GetTabs(tbName);
-			LoadTable();	
-						
+		var tName	= "example";											//table name
+		var fName	= "add-edit-form";										//form name
+		var img_name		= "0.jpg";
+
+		$(document).ready(function () {
+			LoadTable();
+
 			/* Add Button ID, Delete Button ID */
-			GetButtons("add_button", "delete_button");			
+			GetButtons("add_button", "delete_button");
+
 			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
-			
 		});
 
-        
 		function LoadTable(){
-			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 2, "", 0, "", 1, "desc");
-    		
+			GetDataTable(tName, aJaxURL, "get_list", 2, "", 0, "");
 		}
-		function LoadDialog(){
-			var id		= $("#template_id").val();
-			
-			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 800, "auto", "");
-			$(".done").button({
-	            
-		    });
-			$(".next").button({
-	            
-		    });
-			$(".back").button({
-	            
-		    });
-			$("#add_button_product").button({
-	            
-		    });
-			$("#add_button_gift").button({
-			    
-			});
-			$("#complete").button({
-			    
-			});
-		}
-		
-	    // Add - Save
-	    $(document).on("click", "#save-dialog", function () {
-		    param 			= new Object();
 
-		    param.act		="save_template";
-	    	param.id		= $("#template_id").val();
-	    	param.name		= $("#name").val();
-	    	param.content	= $("#content").val();
-	    	
-			if(param.name == ""){
-				alert("შეავსეთ ველი!");
-			}else {
-			    $.ajax({
-			        url: aJaxURL,
-				    data: param,
-			        success: function(data) {			        
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								LoadTable();
-				        		CloseDialog(fName);
-							}
-						}
-				    }
-			    });
-			}
+		function LoadDialog(){
+
+			/* Dialog Form Selector Name, Buttons Array */
+			GetDialog(fName, 450, "auto", "");
+
+			var group_id = $("#group_id").val();
+
+			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id, 2, "", 0, "", "", "", "", "280px", "true");
+
+		}
+
+	    // Add - Save
+		$(document).on("click", "#save-dialog", function () {
+
+		    var data = $(".check1:checked").map(function () { //Get Checked checkbox array
+		        return this.value;
+		    }).get();
+
+			var pages = new Array;
+
+ 		    for (var i = 0; i < data.length; i++) {
+ 		    	pages.push(data[i]);
+ 		    }
+
+     		param = new Object();
+     	    //Action
+     		param.act	   = "save_group";
+ 			param.nam	   = $("#group_name").val();
+ 			param.pag	   = JSON.stringify(pages);
+ 			param.group_id = $("#group_id").val();
+ 			param.scenar_id = $("#scenar_id").val();
+
+ 			//var link	=  GetAjaxData(param);
+
+ 			if( param.nam == "" ){
+ 				alert("შეიყვანეთ ჯგუფის სახელი!");
+ 			}else{
+ 	    	    $.ajax({
+ 	    	        url: aJaxURL,
+ 	    		    data: param,
+ 	    	        success: function(data) {
+ 	    				if(typeof(data.error) != "undefined"){
+ 	    					if(data.error != ""){
+ 	    						alert(data.error);
+ 	    					}else{
+ 	    						$("#add-edit-form").dialog("close");
+ 	    						LoadTable();
+ 	    					}
+ 	    				}
+ 	    		    }
+ 	    	    });
+ 			}
+
+
 		});
 
-	    function seller(id){
-			if(id == '0'){
-				$('#seller-0').removeClass('dialog_hidden');
-	            $('#0').addClass('seller_select');
-	            $('#seller-1').addClass('dialog_hidden');
-	            $('#seller-2').addClass('dialog_hidden');
-	            $('#1').removeClass('seller_select');
-	            $('#2').removeClass('seller_select');
-			}else if(id == '1'){
-				$('#seller-1').removeClass('dialog_hidden');
-	            $('#1').addClass('seller_select');
-	            $('#seller-0').addClass('dialog_hidden');
-	            $('#seller-2').addClass('dialog_hidden');
-	            $('#0').removeClass('seller_select');
-	            $('#2').removeClass('seller_select');
-			}else if(id == '2'){
-				$('#seller-2').removeClass('dialog_hidden');
-	            $('#2').addClass('seller_select');
-	            $('#seller-1').addClass('dialog_hidden');
-	            $('#seller-0').addClass('dialog_hidden');
-	            $('#1').removeClass('seller_select');
-	            $('#0').removeClass('seller_select');
-			}
-		}
+		$(document).on("change", "#scenar_id",function(){
+			var scenar_id = $("#scenar_id").val();
+			GetDataTable1("pages", aJaxURL, "get_pages_list&scenar_id=" + scenar_id, 2, "", 0, "", "", "", "", "280px", "true");
+		});
 
-	    function research(id){
-			if(id == 'r0'){
-				$('#research-0').removeClass('dialog_hidden');
-	            $('#r0').addClass('seller_select');
-	            $('#research-1').addClass('dialog_hidden');
-	            $('#research-2').addClass('dialog_hidden');
-	            $('#r1').removeClass('seller_select');
-	            $('#r2').removeClass('seller_select');
-			}else if(id == 'r1'){
-				$('#research-1').removeClass('dialog_hidden');
-	            $('#r1').addClass('seller_select');
-	            $('#research-0').addClass('dialog_hidden');
-	            $('#research-2').addClass('dialog_hidden');
-	            $('#r0').removeClass('seller_select');
-	            $('#r2').removeClass('seller_select');
-			}else if(id == 'r2'){
-				$('#research-2').removeClass('dialog_hidden');
-	            $('#r2').addClass('seller_select');
-	            $('#research-1').addClass('dialog_hidden');
-	            $('#research-0').addClass('dialog_hidden');
-	            $('#r1').removeClass('seller_select');
-	            $('#r0').removeClass('seller_select');
-			}
-		}
-
-	   
     </script>
 </head>
 
 <body>
-    <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
-        <div id="container">        	
+    <div id="dt_example" class="ex_highlight_row">
+        <div id="container">
             <div id="dynamic">
-            	<h2 align="center">შაბლონი</h2>
-            	<div id="button_area">
-        			<button id="add_button">დამატება</button>
-        			<button id="delete_button">წაშლა</button>
-        		</div>
+                <h2 align="center">შაბლონი</h2>
+	        	<div id="button_area">
+	        		<button id="add_button">დამატება</button><button id="delete_button" style="visibility: hidden;">წაშლა</button>
+	        	</div>
                 <table class="display" id="example">
-                    <thead >
+                    <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 100%;">დასახელება</th>
-                        	<th class="check">#</th>
+                            <th style="width: 100%">შაბლონის სახელი</th>
+                            <th class="check">#</th>
                         </tr>
                     </thead>
                     <thead>
                         <tr class="search_header">
                             <th class="colum_hidden">
-                            <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" />
                             </th>
-                          <th>
+                            <th>
+                                <input type="text" name="search_address" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
                             	<input type="checkbox" name="check-all" id="check-all">
                             </th>
                         </tr>
                     </thead>
                 </table>
             </div>
+            <div class="spacer">
+            </div>
         </div>
     </div>
-    
+
     <!-- jQuery Dialog -->
-    <div id="add-edit-form" class="form-dialog" title="შაბლონი">
+    <div id="add-edit-form" class="form-dialog" title="შჰაბლონი">
     	<!-- aJax -->
+	</div>
+    <!-- jQuery Dialog -->
+    <div id="image-form" class="form-dialog" title="პროდუქციის სურათი">
+    	<img id="view_img" src="media/uploads/images/worker/0.jpg">
+	</div>
+	 <!-- jQuery Dialog -->
+    <div id="add-group-form" class="form-dialog" title="ჯგუფი">
 	</div>
 </body>
 </html>
-
-
-
-
-
-

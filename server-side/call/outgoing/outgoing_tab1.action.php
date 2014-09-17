@@ -10,6 +10,7 @@ $error	= '';
 $data	= '';
 
 $task_id				= $_REQUEST['id'];
+$shabloni				= $_REQUEST['shabloni'];
 $call_date				= $_REQUEST['call_date'];
 $phone					= $_REQUEST['phone'];
 $problem_comment 		= $_REQUEST['problem_comment'];
@@ -28,7 +29,7 @@ $file					= $_REQUEST['file_name'];
 
 switch ($action) {
 	case 'get_add_page':
-		$page		= GetPage();
+		$page		= GetPage('','',$shabloni);
 		$data		= array('page'	=> $page);
 		
         break;
@@ -613,6 +614,24 @@ function Getdepartment($department_id){
 	return $data;
 }
 
+function Getshablon($department_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	shabloni
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $department_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
 function Getincomming($task_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT		task.id AS `id`,
@@ -664,7 +683,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT		task.id AS `id`,
 }
 
 
-function GetPage($res='', $number)
+function GetPage($res='', $number,$shabloni)
 {
 	$num = 0;
 	if($res[phone]==""){
@@ -710,7 +729,7 @@ function GetPage($res='', $number)
 							    	<legend>სცენარის დასახელება</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 380px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+											<td><select style="width: 380px;" id="shabloni" class="idls object">'.Getshablon($res['task_type_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>

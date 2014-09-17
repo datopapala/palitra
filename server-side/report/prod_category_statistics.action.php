@@ -1,14 +1,21 @@
 <?php
-mysql_close();
-$conn = mysql_connect('92.241.82.243', 'root', 'Gl-1114');
-mysql_select_db('asteriskcdrdb');
-
-
 header('Content-Type: application/json');
 $start = $_REQUEST['start'];
 $end   = $_REQUEST['end'];
 $agent = $_REQUEST['agent'];
 $queuet = $_REQUEST['queuet'];
+require_once('../../includes/classes/core.php');
+
+$row_done_blank = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `count`
+		FROM `incomming_call`
+		WHERE DATE(date) >= '$start' AND DATE(date) <= '$end' AND phone != '' "));
+
+mysql_close();
+$conn = mysql_connect('92.241.82.243', 'root', 'Gl-1114');
+mysql_select_db('asteriskcdrdb');
+
+
+
 
 $result = mysql_query("SELECT	COUNT(*) AS `count1`,
 								CONCAT('ნაპასუხები ზარები-',COUNT(*)) AS `cause` 
@@ -45,6 +52,11 @@ while($r = mysql_fetch_array($result)) {
 	$row[1] = $r[0];
 	array_push($rows,$row);
 }
+
+$rr = mysql_fetch_assoc($result);
+$rows1[0] = $rr[1];
+$rows1[1] = $rr[0];
+
 
 echo json_encode($rows, JSON_NUMERIC_CHECK);
 

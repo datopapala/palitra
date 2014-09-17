@@ -1523,6 +1523,7 @@
                 </tr>
                 </tbody>
                 </table>
+                <br>
                 <div id="chart_container0" style="width: 50%; height: 300px;"></div>
 		</div>
 		 </div>
