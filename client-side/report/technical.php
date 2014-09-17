@@ -1935,7 +1935,7 @@
 			  <div id="chart_container9" style="float:right; width: 47%; height: 300px; margin-left: 20px;"></div>
 			<br>
 			<table width="99%" cellpadding="1" cellspacing="1" border="0" class="sortable" id="table3">
-			<caption>ზარის განაწილება კვირების მიხედვით</caption>
+			<caption>ზარის განაწილება კვირების დღეების მიხედვით</caption>
 				<thead>
 				<tr>
                     <th><a  class="sortheader" onclick="ts_resortTable(this, 0);return false;">დღე<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>

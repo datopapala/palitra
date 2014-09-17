@@ -290,7 +290,7 @@ $data['error'] = $error;
 	
 	while ($rr = mysql_fetch_assoc($g)){								
 	$data['page']['answer_call'] .= '
-							<tr><td>'.$rr[queue].'</td><td>'.$rr[count].' ზარი</td><td>'.round(((($rr[count]) / ($rr[count])) * 100)).' %</td></tr>
+							<tr><td>'.$rr[queue].'</td><td>'.$rr[count].' ზარი</td><td>'.round(((($rr[count]) / ($row_answer[count])) * 100)).' %</td></tr>
 							';
 	}
 //-------------------------------------------------------
@@ -700,7 +700,7 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	while ($Unanswered_Calls_by_Queue = mysql_fetch_assoc($r)){
 	$data['page']['unanswered_calls_by_queue'] .= '
 
-                   	<tr><td>'.$Unanswered_Calls_by_Queue[queue].'</td><td>'.$Unanswered_Calls_by_Queue[count].' ზარი</td><td>'.round((($Unanswered_Calls_by_Queue[count] / $Unanswered_Calls_by_Queue[count]) * 100),2).' %</td></tr>
+                   	<tr><td>'.$Unanswered_Calls_by_Queue[queue].'</td><td>'.$Unanswered_Calls_by_Queue[count].' ზარი</td><td>'.round((($Unanswered_Calls_by_Queue[count] / $row_abadon[count]) * 100),2).' %</td></tr>
 
 							';
 	}
