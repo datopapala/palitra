@@ -608,7 +608,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                             <th style="width: 130px;">თარიღი</th>
                             <th>კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
-                            <th>ზარის დაზუსტება</th>
+                            <th>ზარის სტატუსი</th>
                         </tr>
                     </thead>
                     <thead>

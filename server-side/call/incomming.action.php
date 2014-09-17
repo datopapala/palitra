@@ -74,15 +74,16 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
-	  	$rResult = mysql_query("select  		incomming_call.id,           
-												incomming_call.id,
-											  	DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
-												info_category.`name`,
-												incomming_call.phone,
-	  											incomming_call.call_comment
-								FROM 			incomming_call
-								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
-	  							WHERE 			incomming_call.actived = 1");
+	  	$rResult = mysql_query("select  	incomming_call.id,           
+											incomming_call.id,
+											DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
+											info_category.`name`,
+											incomming_call.phone,
+	  										call_status.`name` AS `c_status`
+								FROM 		incomming_call
+								LEFT JOIN 	info_category  ON incomming_call.information_category_id=info_category.id
+	  							LEFT JOIN	call_status ON incomming_call.call_status_id = call_status.id
+	  							WHERE 		incomming_call.actived = 1");
 	  
 		$data = array(
 				"aaData"	=> array()

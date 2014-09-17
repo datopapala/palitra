@@ -47,10 +47,7 @@ $color['ringing']="#d0d01f";
 $color['not in use']="#00ff00";
 $color['paused']="#000000";
 $queue = array(
-	'2196013',
-	'2196053',
-	'2420421',
-	'2486844'
+	'2196013'
 );
 foreach($queue as $qn) {
 	if($filter=="" || stristr($qn,$filter)) {
@@ -87,10 +84,9 @@ foreach($queue as $qn) {
 				// Skip
 			} else {
 				if($contador==1) {
-					echo "<table width='520' cellpadding=3 cellspacing=3 border=0 id='box-table-b'>\n";
+					echo "<table width='450' cellpadding=3 cellspacing=3 border=0 id='box-table-b'>\n";
 					echo "<thead>";
 					echo "<tr>";
-					echo "<th style='width: 10%;'>".$lang[$language]['queue']."</th>";
 					echo "<th style='width: 8%;'>".$lang[$language]['agent']."</th>";
 					echo "<th style='width: 35%;'>".$lang[$language]['state']."</th>";
 					echo "<th style='width: 10%;'>".$lang[$language]['durat']."</th>";
@@ -115,7 +111,6 @@ foreach($queue as $qn) {
 				$agent_name = agent_name($aname);
 
 				echo "<tr $odd>";
-				echo "<td width=200>$qn</td>";
 				echo "<td width=200>$agent_name</td>";
 
 				if($stat<>"") {
