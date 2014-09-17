@@ -232,23 +232,6 @@
 			GetDialog("add-responsible-person", 280, "auto", buttons);
 		}
 
-		$(document).on("change", "#shabloni",function(){
-	 	 		param 			= new Object();
-			 	param.act		= "get_add_page";
-			 	param.shabloni   	= $("#shabloni").val();
-		    	$.ajax({
-			        url: aJaxURL,
-				    data: param,
-			        success: function(data) {
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								$("#category_id").html(data.page);
-							}
-						}
-				    }
-		});
 
 		function seller(id){
 			if(id == '0'){
@@ -638,18 +621,71 @@
 	        $(this).val(val); 
 	    });
 
-	    $(document).on("change", "#task_type_id_seller",function(){
-		    var task_type = $("#task_type_id_seller").val();
+	   
 
-			if(task_type == 1){
-				$("#seller").removeClass('dialog_hidden');
-				$("#research").addClass('dialog_hidden');
-			}else{
-				$("#research").removeClass('dialog_hidden');
-				$("#seller").addClass('dialog_hidden');
-			}
-		    
+	    $(document).on("change", "#shabloni",function(){
+	    		
+	 	 		param 			= new Object();
+			 	param.act		= "quest";
+			 	param.shabloni   = $("#shabloni").val();
+			 	
+		    	$.ajax({
+			        url: aJaxURL1,
+				    data: param,
+			        success: function(data) {
+						if(typeof(data.error) != 'undefined'){
+							if(data.error != ''){
+								alert(data.error);
+							}else{
+								$("#quest").html(data.page);
+								$(".done").button({
+						            
+							    });
+								$(".next").button({
+						            
+							    });
+								$(".back").button({
+						            
+							    });
+								$("#add_button_product").button({
+						            
+							    });
+								$("#add_button_gift").button({
+								    
+								});
+								$("#complete").button({
+								    
+								});
+								LoadTable5();
+								LoadTable6();
+								GetDateTimes("send_time");
+							}
+						}
+				    }
+			    });
 	    });
+
+	    $(document).on("change", "#task_type_id_seller",function(){
+    		
+ 	 		param 			= new Object();
+		 	param.act		= "shablon";
+		 	param.task_type_id_seller   = $("#task_type_id_seller").val();
+		 	
+	    	$.ajax({
+		        url: aJaxURL1,
+			    data: param,
+		        success: function(data) {
+					if(typeof(data.error) != 'undefined'){
+						if(data.error != ''){
+							alert(data.error);
+						}else{
+							$("#shabloni").html(data.page);
+							
+						}
+					}
+			    }
+		    });
+    });
 		
     </script>
 </head>

@@ -215,7 +215,7 @@ $res5 =mysql_query("SELECT 	COUNT(*) AS `answer_count3`,
 							AND DATE(qs.datetime) >= '$start' AND DATE(qs.datetime) <= '$end'
 							AND q.queue IN ($queuet)
 							AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
-							ORDER BY ag.agent");
+							GROUP BY q.queue");
 
 		while($row7 = mysql_fetch_assoc($res7)){
 
@@ -423,7 +423,15 @@ $res4 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
 			$w91++;
 			
 			}	
-$mas = array($w15,$w30,$w45,$w60,$w75,$w90,$w91);
+			
+			$d30 = $w30 - $w15;
+			$d45 = $w45 - $w30;
+			$d60 = $w60 - $w45;
+			$d75 = $w75 - $w60;
+			$d90 = $w90 - $w75;
+			$d91 = $w91 - $w90;
+						
+$mas = array($w15,$d30,$d45,$d60,$d75,$d90,$d91);
 $call_second=array('15 წამში','30 წამში','45წამში','60 წამში','75 წამში','90 წამში','90+წამში');			
 							
 $unit[]="ზარი";

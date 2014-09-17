@@ -56,12 +56,14 @@ switch ($action) {
 		$count    = $_REQUEST['count'];
 		$hidden   = $_REQUEST['hidden'];
 		$group_id = $_REQUEST['group_id'];
+		$scenar_id = $_REQUEST['scenar_id'];
 		
 
 		
 			$rResult = mysql_query("SELECT    	`quest`.`id`,
 								          		`quest`.`name`
 									FROM      	`quest`
+									WHERE 		`quest`.`scenar_id` = '$scenar_id'
 									");
 										
 		$data = array(

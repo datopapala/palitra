@@ -273,10 +273,26 @@ $data['error'] = $error;
 
 //------------------------------- ნაპასუხები ზარები რიგის მიხედვით
 
-	$data['page']['answer_call'] = '
-							<tr><td>'.$row_answer[queue].'</td><td>'.$row_answer[count].' ზარი</td><td>'.round(((($row_answer[count]) / ($row_answer[count])) * 100)).' %</td></tr>
+	$g = mysql_query("	SELECT	COUNT(*) AS `count`,
+									q.queue AS `queue`
+									FROM	queue_stats AS qs,
+									qname AS q,
+									qagent AS ag,
+									qevent AS ac
+									WHERE qs.qname = q.qname_id
+									AND qs.qagent = ag.agent_id
+									AND qs.qevent = ac.event_id
+									AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+									AND q.queue IN ($queue)
+									AND ag.agent in ($agent)
+									AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
+									GROUP BY q.queue");
+	
+	while ($rr = mysql_fetch_assoc($g)){								
+	$data['page']['answer_call'] .= '
+							<tr><td>'.$rr[queue].'</td><td>'.$rr[count].' ზარი</td><td>'.round(((($rr[count]) / ($rr[count])) * 100)).' %</td></tr>
 							';
-
+	}
 //-------------------------------------------------------
 
 //------------------------------- მომსახურების დონე(Service Level)
