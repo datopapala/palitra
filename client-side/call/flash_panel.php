@@ -18,7 +18,7 @@ require_once("AsteriskManager/config.php");
             	async: false,
             	dataType: "html",
 		        url: 'AsteriskManager/liveState.php',
-			    data: 'sesvar=hideloggedoff&value=true',
+			    data: 'sesvar=hideloggedoff&value=true&stst=1',
 		        success: function(data) {
 					$("#jq").html(data);						
 			    }
