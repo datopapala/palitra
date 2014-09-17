@@ -684,26 +684,27 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 
 //------------------------------ უპასუხო ზარები რიგის მიხედვით
 
-	$Unanswered_Calls_by_Queue = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) AS `count`,
-			q.queue as `queue`
-			FROM 	queue_stats AS qs,
-			qname AS q,
-			qagent AS ag,
-			qevent AS ac
-			WHERE qs.qname = q.qname_id
-			AND qs.qagent = ag.agent_id
-			AND qs.qevent = ac.event_id
-			AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-			AND q.queue IN ($queue)
-			AND ac.event IN ('ABANDON')
-			ORDER BY qs.datetime"));
-	
-	$data['page']['unanswered_calls_by_queue'] = '
+	$r = mysql_query("	SELECT 	COUNT(*) AS `count`,
+										q.queue as `queue`
+										FROM 	queue_stats AS qs,
+										qname AS q,
+										qagent AS ag,
+										qevent AS ac
+										WHERE qs.qname = q.qname_id
+										AND qs.qagent = ag.agent_id
+										AND qs.qevent = ac.event_id
+										AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+										AND q.queue IN ($queue)
+										AND ac.event IN ('ABANDON')
+										GROUP BY q.queue");
+	while ($Unanswered_Calls_by_Queue = mysql_fetch_assoc($r)){
+	$data['page']['unanswered_calls_by_queue'] .= '
 
                    	<tr><td>'.$Unanswered_Calls_by_Queue[queue].'</td><td>'.$Unanswered_Calls_by_Queue[count].' ზარი</td><td>'.round((($Unanswered_Calls_by_Queue[count] / $Unanswered_Calls_by_Queue[count]) * 100),2).' %</td></tr>
 
 							';
-
+	}
+	
 //---------------------------------------------------
 
 //------------------------------------------- სულ
