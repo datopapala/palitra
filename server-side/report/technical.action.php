@@ -252,7 +252,7 @@ $data['error'] = $error;
 													AND DATE(qs.datetime) >= '$start_time'
 													AND DATE(qs.datetime) <= '$end_time' 
 													AND q.queue IN ($queue) 
-													AND ac.event IN ('ABANDON', 'EXITWITHTIMEOUT')"));
+													AND ac.event IN ('ABANDON')"));
 	
 	
 	
