@@ -286,7 +286,9 @@ $totaltime = ($endtime - $begintime);
 	
 	///QUEUE details
 	echo "<BR><h2>".$lang[$language]['calls_waiting_detail']."</h2><BR>";
-		
+	$queue = array(
+			'2196013','2196053','2420421','2486844'
+	);
 	foreach($queue as $qn) {
 		$position=1;
 		if(!isset($queues[$qn]['calls']))  continue;
