@@ -980,8 +980,8 @@ function Getquest($shabloni){
 										<li id="1" onclick="seller(this.id)" class="">შეთავაზება</li>
 										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
 									</ul>
-									<div id="seller-0">
-									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;" class="'.((in_array('1',$rows_shablon))?"":"dialog_hidden").'">
+									<div id="seller-0" >
+									<fieldset style="width:97%;  float:left; overflow-y:scroll; max-height:400px;" class="'.((in_array('1',$rows_shablon))?"":"dialog_hidden").'">
 									<fieldset style="width:97%;" >
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">

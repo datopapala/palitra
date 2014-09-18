@@ -75,9 +75,9 @@ if($_REQUEST['act'] =='unanswear_dialog_table'){
 									cdr.dst,
 									CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`
 							FROM	queue_stats
-							JOIN	qname ON	queue_stats.qname = qname.qname_id
-							JOIN	qevent ON	queue_stats.qevent = qevent.event_id
-							JOIN	cdr ON	queue_stats.uniqueid = cdr.uniqueid
+							left JOIN	qname ON	queue_stats.qname = qname.qname_id
+							left JOIN	qevent ON	queue_stats.qevent = qevent.event_id
+							left JOIN	cdr ON	queue_stats.uniqueid = cdr.uniqueid
 							WHERE 	DATE(queue_stats.datetime) >= '$start_time'
 							AND 	DATE(queue_stats.datetime) <= '$end_time' 
 							AND 	qname.queue IN ($queue) 

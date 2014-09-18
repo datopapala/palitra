@@ -93,7 +93,7 @@
     <div id="dt_example" class="ex_highlight_row">
         <div id="container">
             <div id="dynamic">
-                <h2 align="center">შაბლონი</h2>
+                <h2 align="center">სცენარები</h2>
 	        	<div id="button_area">
 	        		<button id="add_button">დამატება</button><button id="delete_button" style="visibility: hidden;">წაშლა</button>
 	        	</div>
