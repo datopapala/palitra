@@ -295,7 +295,7 @@ $totaltime = ($endtime - $begintime);
 	
 		foreach($queues[$qn]['calls'] as $key=>$val) {
 			if($position==1) {
-				echo "<table width='520' cellpadding=3 cellspacing=3 border=0 class='sortable' id='box-table-b' >\n";
+				echo "<table width='450' cellpadding=3 cellspacing=3 border=0 class='sortable' id='box-table-b' >\n";
 				echo "<thead>";
 				echo "<tr>";
 				echo "<th>".$lang[$language]['queue']."</th>";
