@@ -252,7 +252,6 @@ $data['error'] = $error;
 													AND DATE(qs.datetime) >= '$start_time'
 													AND DATE(qs.datetime) <= '$end_time' 
 													AND q.queue IN ($queue) 
-													AND HOUR(qs.datetime) > 9
 													AND ac.event IN ('ABANDON')"));
 	
 	
