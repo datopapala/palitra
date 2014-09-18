@@ -60,7 +60,7 @@ switch ($action) {
 											`task_detail`.`mail`,
 											`task_detail`.`addres`
 								FROM 		`task_detail`			
-								WHERE 		`task_detail`.`actived`=1");
+								WHERE 		`task_detail`.`actived`=1 AND `task_detail`.task_id='$task_id'");
 	    
 										    		
 		$data = array(

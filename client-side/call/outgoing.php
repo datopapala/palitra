@@ -70,7 +70,7 @@
 			
 		function LoadTable1(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL1, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 
 		function LoadTable2(){			
@@ -85,7 +85,7 @@
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 10, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -326,12 +326,12 @@
 			param 			= new Object();
 			param.act			= "save_outgoing";
 			
-			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.persons_id			= $("#persons_id").val();
+			param.cur_date				= $("#cur_date").val();
+	    	param.done_start_time		= $("#done_start_time").val();
+	    	param.done_end_time			= $("#done_end_time").val();
+			param.task_type_id			= $("#task_type_id").val();
+			param.template_id			= $("#template_id").val();
+			param.task_department_id	= $("#task_department_id").val();
 			param.persons_id			= $("#persons_id").val();
 			
 	 
@@ -574,6 +574,7 @@
 	function add_task(formName){
     	param = new Object();
     	param.act			= "save_task";
+    	param.id			= $("#id").val();
 	    param.phone			= $("#phone").val();
 	    param.person_n		= $("#person_n").val();
 	    param.first_name	= $("#first_name").val();

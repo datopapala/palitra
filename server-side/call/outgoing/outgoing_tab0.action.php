@@ -9,27 +9,22 @@ $action = $_REQUEST['act'];
 $error	= '';
 $data	= '';
 
+$user				= $_SESSION['USERID'];
+$task_id 			= $_REQUEST['id'];
 
-
-$priority_id			= $_REQUEST['priority_id'];
-$template_id			= $_REQUEST['template_id'];
-
-$problem_comment 		= $_REQUEST['problem_comment'];
-$comment 	        	= $_REQUEST['comment'];
-$hidden_inc				= $_REQUEST['hidden_inc'];
-$edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
-
-// file
-$rand_file				= $_REQUEST['rand_file'];
-$file					= $_REQUEST['file_name'];
+$cur_date			= $_REQUEST['cur_date'];
+$done_start_time	= $_REQUEST['done_start_time'];
+$done_end_time		= $_REQUEST['done_end_time'];
+$task_type_id		= $_REQUEST['task_type_id'];
+$template_id		= $_REQUEST['template_id'];
+$task_department_id	= $_REQUEST['task_department_id'];
+$persons_id			= $_REQUEST['persons_id'];
 
 
 
 switch ($action) {
 	case 'get_add_page':
-		$number		= $_REQUEST['number'];
-		$page		= GetPage($res='', $number);
+		$page		= GetPage($res='');
 		$data		= array('page'	=> $page);
 		
         break;
@@ -107,11 +102,11 @@ switch ($action) {
 		
 		if(empty($task_id)){
 			$task_id = mysql_insert_id();
-			Addtask( $persons_id, $planned_end_date, $fact_end_date,$call_duration,  $priority_id, $template_id, $phone, $comment, $problem_comment,$file,$rand_file,$hidden_inc);
-			Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
+			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id);
+			//Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
 		}else{
 			
-			Savetask($task_id, $persons_id, $planned_end_date, $fact_end_date,$call_duration,  $priority_id, $template_id, $phone, $comment, $problem_comment,$file,$rand_file);
+			Savetask($task_id, $cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id);
 			//Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id);
 			
 		}
@@ -136,9 +131,9 @@ switch ($action) {
     	//------------------------------------
     	
     	mysql_query("INSERT INTO `task_detail` 
-    			( `user_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `actived`) 
+    			( `user_id`, `task_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `actived`) 
     			VALUES 
-    			( '$user', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '1')");
+    			( '$user', '$task_id', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '1')");
         
         break;
         
@@ -239,29 +234,14 @@ function checkgroup($user){
 }
 
 
-function Addtask( $persons_id, $planned_end_date, $fact_end_date,$call_duration,  $priority_id, $template_id, $phone, $comment, $problem_comment,$file,$rand_file,$hidden_inc)
+function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id)
 {  
-	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO `task` (`user_id`, `responsible_user_id`, `date`, `planned_end_date`, `fact_end_date`,`call_duration`,`priority_id`, `task_type_id`, `template_id`, `phone`, `comment`, `problem_comment`, `status`, `actived`)
-						VALUES 
-									('$user', '$persons_id', '$c_date', '$planned_end_date', '$fact_end_date', '$call_duration',  '$priority_id', '1', '$template_id', '$phone', '$comment', '$problem_comment', '0', '1');
-	");
-	
-	if($rand_file != ''){
-		mysql_query("INSERT INTO 	`file`
-		( 	`user_id`,
-		`task_id`,
-		`name`,
-		`rand_name`
-		)
-		VALUES
-		(	'$user',
-		'$hidden_inc',
-		'$file',
-		'$rand_file'
-		);");
-	}
+	mysql_query("INSERT INTO `task` 
+				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `actived`)
+				VALUES
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '1')
+				");
 
 }
 function Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id)
@@ -275,7 +255,7 @@ function Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_
 }
 				
 
-function Savetask($task_id, $persons_id, $planned_end_date, $fact_end_date,$call_duration,  $priority_id, $template_id, $phone, $comment, $problem_comment,$rand_file, $file)
+function Savetask($task_id, $cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id)
 {
 	$c_date		= date('Y-m-d H:i:s');
 	$user  = $_SESSION['USERID'];
@@ -675,52 +655,29 @@ function Getpersonss($persons_id)
 	return $data;
 }
 
+function Getpattern($id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `pattern`
+						WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+
 function Getincomming($task_id)
 {
-$res = mysql_fetch_assoc(mysql_query("	SELECT		task.id AS `id`,
-													incomming_call.id AS `call_id`,
-													IF(ISNULL(task.phone), incomming_call.phone, task.phone) AS `phone`,
-													IF(ISNULL(incomming_call.date), task.date, incomming_call.date) AS call_date,
-													incomming_call.call_type_id AS call_type_id,
-													incomming_call.call_category_id AS category_id,
-													IF(ISNULL(task.`status`), 3, task.`status`) AS `status`,
-													incomming_call.call_subcategory_id AS category_parent_id,
-													incomming_call.problem_date ,
-													incomming_call.call_content AS call_content,
-													incomming_call.pay_type_id AS pay_type_id,
-													incomming_call.bank_id AS bank_id,
-													incomming_call.bank_object_id AS bank_object_id,
-													incomming_call.card_type_id AS card_type_id,
-													incomming_call.card_type_id AS card_type1_id,
-													incomming_call.pay_aparat_id AS pay_aparat_id,
-													incomming_call.object_id AS object_id,
-													site_user.`name` AS `name`,
-													site_user.mail AS mail,
-													site_user.personal_id AS personal_id,
-													site_user.phone AS personal_phone,
-													site_user.pin AS personal_pin,
-													site_user.friend_pin AS friend_pin,
-													site_user.`name` AS `name1`,
-													site_user.`mail` AS `mail`,
-													site_user.`user` AS `user`,
-													task.task_type_id AS task_type_id,
-													task.responsible_user_id AS persons_id,
-													task.priority_id AS priority_id,
-													task.planned_end_date AS planned_end_date,
-													task.fact_end_date   AS fact_end_date,
-													task.call_duration   AS 	call_duration,
-													task.department_id AS task_department_id,
-													task.phone AS phone,
-													task.`comment` AS `comment`,
-													task.problem_comment AS problem_comment,
-													template.id AS template_id
-
-										FROM 	   	task
-										LEFT JOIN  	incomming_call  ON incomming_call.id = task.incomming_call_id
-										LEFT JOIN  	site_user ON incomming_call.id = site_user.incomming_call_id
-										LEFT JOIN  	template ON task.template_id = template.id
-										WHERE      	task.id = $task_id
-			" ));
+$res = mysql_fetch_assoc(mysql_query("" ));
 	
 	return $res;
 }
@@ -836,7 +793,7 @@ function GetPage($res='', $number)
 							    	<legend>სცენარი</legend>	
 									<table width="100%" class="dialog-form-table">
 										<tr>
-											<td style="width: 350px;"><select style="width: 420px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
+											<td style="width: 350px;"><select style="width: 420px;" id="template_id" class="idls object">'. Getpattern($res['template_id']).'</select></td>
 										</tr>
 									</table>
 									</fieldset>
@@ -844,7 +801,7 @@ function GetPage($res='', $number)
 							    	<legend>ქვე-განყოფილება</legend>	
 									<table width="100%" class="dialog-form-table">
 										<tr>
-											<td style="width: 200px;"><select style="width: 260px;" id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
+											<td style="width: 200px;"><select style="width: 260px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
 										</tr>
 									</table>
 									</fieldset>
