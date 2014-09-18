@@ -575,13 +575,17 @@
     	param = new Object();
     	param.act			= "save_task";
     	param.id			= $("#id").val();
-	    param.phone			= $("#phone").val();
-	    param.person_n		= $("#person_n").val();
-	    param.first_name	= $("#first_name").val();
-	    param.mail			= $("#mail").val();
-	    param.last_name		= $("#last_name").val();
-	    param.person_status	= $("#person_status").val();
-	    param.addres		= $("#addres").val();
+	    param.p_phone			= $("#p_phone").val();
+	    param.p_person_n		= $("#p_person_n").val();
+	    param.p_first_name		= $("#p_first_name").val();
+	    param.p_mail			= $("#p_mail").val();
+	    param.p_last_name		= $("#p_last_name").val();
+	    param.p_person_status	= $("#p_person_status").val();
+	    param.p_addres			= $("#p_addres").val();
+	    param.p_b_day			= $("#p_b_day").val();
+	    param.p_city_id			= $("#p_city_id").val();
+	    param.p_family_id		= $("#p_family_id").val();
+	    param.p_profesion		= $("#p_profesion").val();
 	        
 	        $.ajax({
 	            url: aJaxURL,

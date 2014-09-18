@@ -120,20 +120,24 @@ switch ($action) {
         break;
     case 'save_task':
     	// task_detail------------------------
-    	$phone				= $_REQUEST['phone'];
-    	$person_n			= $_REQUEST['person_n'];
-    	$first_name			= $_REQUEST['first_name'];
-    	$mail				= $_REQUEST['mail'];
-    	$last_name 			= $_REQUEST['last_name'];
-    	$person_status 		= $_REQUEST['person_status'];
-    	$addres 			= $_REQUEST['addres'];
+    	$phone				= $_REQUEST['p_phone'];
+    	$person_n			= $_REQUEST['p_person_n'];
+    	$first_name			= $_REQUEST['p_first_name'];
+    	$mail				= $_REQUEST['p_mail'];
+    	$last_name 			= $_REQUEST['p_last_name'];
+    	$person_status 		= $_REQUEST['p_person_status'];
+    	$addres 			= $_REQUEST['p_addres'];
+    	$b_day				= $_REQUEST['p_b_day'];
+    	$city_id 			= $_REQUEST['p_city_id'];
+    	$family_id 			= $_REQUEST['p_family_id'];
+    	$profesion 			= $_REQUEST['p_profesion'];
     	$user				= $_SESSION['USERID'];
     	//------------------------------------
     	
     	mysql_query("INSERT INTO `task_detail` 
-    			( `user_id`, `task_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `actived`) 
+    			( `user_id`, `task_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `b_day`, `city_id`, `family_id`, `profesion`, `actived`) 
     			VALUES 
-    			( '$user', '$task_id', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '1')");
+    			( '$user', '$task_id', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '$b_day', '$city_id', '$family_id', '$profesion', '1')");
         
         break;
         
@@ -238,9 +242,9 @@ function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $te
 {  
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
-				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `actived`)
+				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`)
 				VALUES
-				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '1')
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '2', '1')
 				");
 
 }
@@ -682,6 +686,44 @@ $res = mysql_fetch_assoc(mysql_query("" ));
 	return $res;
 }
 
+function Getfamily($family_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	family
+							WHERE 	actived=1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $family_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getcity($city_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	city
+							WHERE 	actived=1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $city_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
 function Gettask(){
 	$data  .= '<div id="dialog-form">
 							<div style="float: left; width: 380px;">
@@ -695,10 +737,10 @@ function Gettask(){
 									</tr>
 									<tr>
 										<td>
-											<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
+											<input type="text" id="p_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="person_n" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
+											<input type="text" id="p_person_n" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
 										</td>					
 									</tr>
 									<tr>
@@ -707,30 +749,50 @@ function Gettask(){
 									</tr>
 									<tr >
 										<td style="width: 180px;">
-											<input type="text" id="first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
+											<input type="text" id="p_first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
+											<input type="text" id="p_mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
 										</td>			
 									</tr>
 									<tr>
 										<td td style="width: 180px; color: #3C7FB1;">გვარი</td>
-										<td td style="width: 180px; color: #3C7FB1;">ფიზიკური პირი</td>
+										<td td style="width: 180px; color: #3C7FB1;">ფიზ / იურ. პირი</td>
 									</tr>
 									<tr>
 										<td style="width: 180px;">
-											<input type="text" id="last_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
+											<input type="text" id="p_last_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
 										</td>
 										<td td style="width: 180px;">
-											<input type="text" id="person_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+											<input type="text" id="p_person_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
 										</td>
 									</tr>
 									<tr>
 										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარირი</td>
 									</tr>
 									<tr>
 										<td td style="width: 180px;">
-											<input type="text" id="addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_status'] . '" />		
+											<input type="text" id="p_addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_status'] . '" />		
+										</td>
+										<td td style="width: 180px;">
+											<input type="text" id="p_b_day" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
+										</td>
+									</tr>
+									<tr>
+										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
+										<td td style="width: 180px; color: #3C7FB1;">ოჯახური სტატუსი</td>
+									</tr>
+									<tr>
+										<td><select style="width: 165px;" id="p_city_id" class="idls object">'.Getcity($res['city_id']).'</select></td>
+										<td><select style="width: 165px;" id="p_family_id" class="idls object">'.Getfamily($res['family_id']).'</select></td>
+									</tr>
+									<tr>
+										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
+									</tr>
+									<tr>
+										<td td style="width: 180px;">
+											<input type="text" id="p_profesion" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profesion'] . '" />		
 										</td>
 									</tr>
 								</table>

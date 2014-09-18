@@ -77,9 +77,9 @@ switch ($action) {
 										'',
 										IF(task_detail.actived= 1, 'დაუსრულებელი','') AS `status`
 								FROM 	`task`
-								JOIN	task_detail ON task.id = task_detail.task_id
-								JOIN	task_type ON task.task_type_id = task_type.id
-								JOIN	pattern ON task.template_id = pattern.id
+								LEFT JOIN	task_detail ON task.id = task_detail.task_id
+								LEFT JOIN	task_type ON task.task_type_id = task_type.id
+								LEFT JOIN	pattern ON task.template_id = pattern.id
 	    						WHERE	task_detail.actived=1");
 	    
 										    		
@@ -629,7 +629,7 @@ function Getshablon($id){
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $department_id){
+		if($res['id'] == $id){
 			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
 			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
@@ -639,58 +639,95 @@ function Getshablon($id){
 	return $data;
 }
 
+function Getstatus($status){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	status
+						
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $status){
+			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getfamily($family_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	family
+							WHERE 	actived=1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $family_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Getcity($city_id){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	city
+							WHERE 	actived=1
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $city_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
 function Getincomming($task_id)
 {
-$res = mysql_fetch_assoc(mysql_query("	SELECT		task.id AS `id`,
-													incomming_call.id AS `call_id`,
-													IF(ISNULL(task.phone), incomming_call.phone, task.phone) AS `phone`,
-													IF(ISNULL(incomming_call.date), task.date, incomming_call.date) AS call_date,
-													incomming_call.call_type_id AS call_type_id,
-													incomming_call.call_category_id AS category_id,
-													IF(ISNULL(task.`status`), 3, task.`status`) AS `status`,
-													incomming_call.call_subcategory_id AS category_parent_id,
-													incomming_call.problem_date ,
-													incomming_call.call_content AS call_content,
-													incomming_call.pay_type_id AS pay_type_id,
-													incomming_call.bank_id AS bank_id,
-													incomming_call.bank_object_id AS bank_object_id,
-													incomming_call.card_type_id AS card_type_id,
-													incomming_call.card_type_id AS card_type1_id,
-													incomming_call.pay_aparat_id AS pay_aparat_id,
-													incomming_call.object_id AS object_id,
-													site_user.`name` AS `name`,
-													site_user.mail AS mail,
-													site_user.personal_id AS personal_id,
-													site_user.phone AS personal_phone,
-													site_user.pin AS personal_pin,
-													site_user.friend_pin AS friend_pin,
-													site_user.`name` AS `name1`,
-													site_user.`mail` AS `mail`,
-													site_user.`user` AS `user`,
-													task.task_type_id AS task_type_id,
-													task.responsible_user_id AS persons_id,
-													task.priority_id AS priority_id,
-													task.planned_end_date AS planned_end_date,
-													task.fact_end_date   AS fact_end_date,
-													task.call_duration   AS 	call_duration,
-													task.department_id AS task_department_id,
-													task.phone AS phone,
-													task.`comment` AS `comment`,
-													task.problem_comment AS problem_comment,
-													template.id AS template_id
-
-										FROM 	   	task
-										LEFT JOIN  	incomming_call  ON incomming_call.id = task.incomming_call_id
-										LEFT JOIN  	site_user ON incomming_call.id = site_user.incomming_call_id
-										LEFT JOIN  	template ON task.template_id = template.id
-										WHERE      	task.id = $task_id
+$res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
+	    								`task`.`date`,
+										`task`.status,
+										`task`.start_date,
+										task.end_date,
+										task.`task_type_id`,
+										task.`template_id`,
+										`task_detail`.`first_name`,
+										`task_detail`.`last_name`,
+										task_detail.person_n,
+										task_detail.person_status,
+										task_detail.phone,
+										task_detail.mail,
+										task_detail.addres,
+										task_detail.city_id,
+										task_detail.family_id,
+										task_detail.b_day,
+										task_detail.profesion
+								FROM 	`task`
+								LEFT JOIN	task_detail ON task.id = task_detail.task_id
+								LEFT JOIN	task_type ON task.task_type_id = task_type.id
+								LEFT JOIN	pattern ON task.template_id = pattern.id
+	    						WHERE	task_detail.actived=1 AND task_detail.id = '1'
 			" ));
 	
 	return $res;
 }
 
 
-function GetPage($shabloni)
+function GetPage($res='', $shabloni)
 {
 	$num = 0;
 	if($res[phone]==""){
@@ -714,7 +751,7 @@ function GetPage($shabloni)
 												<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" disabled="disabled" />
 											</td>
 											<td>
-												<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['call_date']. '" disabled="disabled" />
+												<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['date']. '" disabled="disabled" />
 											</td>		
 										</tr>
 									</table><br>
@@ -732,7 +769,7 @@ function GetPage($shabloni)
 							    	<legend>სცენარის დასახელება</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 380px;" id="shabloni" class="idls object">'.Getshablon($res['task_type_id']).'</select></td>
+											<td><select style="width: 380px;" id="shabloni" class="idls object">'.Getshablon($res['template_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>
@@ -760,7 +797,7 @@ function GetPage($shabloni)
 												<td></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 330px;" id="" class="idls object">'.$res['task_type_id'].'</select></td>
+												<td><select style="width: 330px;" id="status" class="idls object">'.Getstatus($res['status']).'</select></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -821,10 +858,10 @@ function GetPage($shabloni)
 									</tr>
 									<tr>
 										<td>
-											<input type="text" id="personal_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
+											<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="personal_id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
+											<input type="text" id="person_n" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
 										</td>					
 									</tr>
 									<tr>
@@ -833,10 +870,10 @@ function GetPage($shabloni)
 									</tr>
 									<tr >
 										<td style="width: 180px;">
-											<input type="text" id="personal_contragent" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
+											<input type="text" id="first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="personal_mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
+											<input type="text" id="mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['mail'] . '" />
 										</td>			
 									</tr>
 									<tr>
@@ -845,10 +882,10 @@ function GetPage($shabloni)
 									</tr>
 									<tr>
 										<td style="width: 180px;">
-											<input type="text" id="personal_addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
+											<input type="text" id="last_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['last_name'] . '" />		
 										</td>
 										<td td style="width: 180px;">
-											<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+											<input type="text" id="b_day" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
 										</td>
 									</tr>
 									<tr>
@@ -856,9 +893,9 @@ function GetPage($shabloni)
 										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 									</tr>
 									<tr>
-										<td><select style="width: 165px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+										<td><select style="width: 165px;" id="city_id" class="idls object">'.Getcity($res['city_id']).'</select></td>
 										<td td style="width: 180px;">
-											<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+											<input type="text" id="addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
 										</td>
 									</tr>
 									<tr>
@@ -866,9 +903,9 @@ function GetPage($shabloni)
 										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
 									</tr>
 									<tr>
-										<td><select style="width: 165px;" id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+										<td><select style="width: 165px;" id="family_id" class="idls object">'.Getfamily($res['family_id']).'</select></td>
 										<td td style="width: 180px;">
-											<input type="text" id="personal_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
+											<input type="text" id="profesion" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profesion'] . '" />		
 										</td>
 									</tr>
 								</table>
