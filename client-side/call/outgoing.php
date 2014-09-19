@@ -629,6 +629,17 @@
 			$("#additional").addClass('hidden');
 		}
     });
+
+	$(document).on("change", "#task_type_id_seller",function(){
+		var task = $("#task_type_id_seller").val();
+		if(task==1){
+			$("#research").addClass('dialog_hidden');
+			$("#seller").removeClass('dialog_hidden');
+		}else{
+			$("#seller").addClass('dialog_hidden');
+			$("#research").removeClass('dialog_hidden');
+		}
+    });
     
 	
 	    $(document).on("keyup", "#req_time1, #req_time2", function() {
@@ -681,6 +692,14 @@
 								LoadTable5();
 								LoadTable6();
 								GetDateTimes("send_time");
+								var task = $("#task_type_id_seller").val();
+								if(task==1){
+									$("#research").addClass('dialog_hidden');
+									$("#seller").removeClass('dialog_hidden');
+								}else{
+									$("#seller").addClass('dialog_hidden');
+									$("#research").removeClass('dialog_hidden');
+								}
 							}
 						}
 				    }
@@ -716,11 +735,9 @@
 
 <div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
-			<li><a href="#tab-0">დავალების ფორმირება</a></li>
-			<li><a href="#tab-1">პირველადი</a></li>
-			<li><a href="#tab-2">მიმდინარე</a></li>
-			<li><a href="#tab-3">დასრულებული</a></li>
-			<li><a href="#tab-4">არქივი</a></li>
+			<li><a href="#tab-0">მენეჯერი</a></li>
+			<li><a href="#tab-1">მიმდინარე</a></li>
+			<li><a href="#tab-2">დასრულებული</a></li>
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
@@ -863,138 +880,6 @@
 		            <div id="dynamic">
 		            	<h2 align="center">მიმდინარე</h2>
 		                <table class="display" id="example2">
-		                    <thead>
-								<tr id="datatable_header">
-		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
-									<th style="width:19%;">შექმნის თარიღი</th>
-									<th style="width:19%;">დასაწისი</th>
-									<th style="width:19%;">დასასრული</th>
-									<th style="width:19%;">დავალების ტიპი</th>
-									<th style="width:19%;">სცენარი</th>
-									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">ტელეფონი</th>
-									<th style="width:19%;">პრიორიტეტი</th>
-									<th style="width:19%;">სტატუსი</th>
-								</tr>
-							</thead>
-							<thead>
-								<tr class="search_header">
-									<th class="colum_hidden">
-                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-                            		</th>
-									<th>
-										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									
-								</tr>
-							</thead>
-		                </table>
-		            </div>
-		            <div class="spacer">
-		            </div>
-		        </div>
-		    </div>
-		 </div>
-		 <div id="tab-3">
-		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
-		            <div id="dynamic">
-		            	<h2 align="center">დასრულებული</h2>
-		                <table class="display" id="example3">
-		                    <thead>
-								<tr id="datatable_header">
-		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
-									<th style="width:19%;">შექმნის თარიღი</th>
-									<th style="width:19%;">დასაწისი</th>
-									<th style="width:19%;">დასასრული</th>
-									<th style="width:19%;">დავალების ტიპი</th>
-									<th style="width:19%;">სცენარი</th>
-									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">ტელეფონი</th>
-									<th style="width:19%;">პრიორიტეტი</th>
-									<th style="width:19%;">სტატუსი</th>
-								</tr>
-							</thead>
-							<thead>
-								<tr class="search_header">
-									<th class="colum_hidden">
-                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-                            		</th>
-									<th>
-										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>
-									
-								</tr>
-							</thead>
-		                </table>
-		            </div>
-		            <div class="spacer">
-		            </div>
-		        </div>
-		    </div>
-		 </div>
-		 <div id="tab-4">
-		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
-		            <div id="dynamic">
-		            	<h2 align="center">არქივი</h2>
-		                <table class="display" id="example5">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>

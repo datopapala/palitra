@@ -81,7 +81,7 @@ a.minimize{
 	border: 1px solid #99bce8;
 	cursor: default;
 	background: #f0f0f0;
-	padding: 2px;
+	padding: 1px;
 	box-shadow: rgb(136, 136, 136) 0px 0px 4px;
 }
 
@@ -161,7 +161,7 @@ a.minimize{
 	margin-top: 2px;
 	padding: 0 20px;
 	display: block;
-	font-size: 13px;
+	font-size: 11px;
 	text-decoration: none;
 	white-space: nowrap;
 	line-height: 26px;

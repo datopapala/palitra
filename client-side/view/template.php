@@ -28,14 +28,16 @@
 		function LoadDialog(){
 
 			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 450, "auto", "");
+			GetDialog(fName, 750, "auto", "");
 
 			var group_id = $("#group_id").val();
-
-			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id, 2, "", 0, "", "", "", "", "280px", "true");
+			
+			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id, 3, "", 0, "", "", "", "", "280px", "true");
 
 		}
+		
 
+		
 	    // Add - Save
 		$(document).on("click", "#save-dialog", function () {
 
@@ -43,10 +45,15 @@
 		        return this.value;
 		    }).get();
 
-			var pages = new Array;
+			var pages = [];
+			
+			var val1;
 
  		    for (var i = 0; i < data.length; i++) {
- 		    	pages.push(data[i]);
+ 	 		    
+ 		    	val1 = $("#" + data[i]).val();
+ 		    	pages.push([ id = data[i], val= val1 ])
+ 		    	
  		    }
 
      		param = new Object();
@@ -85,7 +92,7 @@
 			var scenar_id = $("#scenar_id").val();
 			GetDataTable1("pages", aJaxURL, "get_pages_list&scenar_id=" + scenar_id, 2, "", 0, "", "", "", "", "280px", "true");
 		});
-
+	    
     </script>
 </head>
 
@@ -95,7 +102,8 @@
             <div id="dynamic">
                 <h2 align="center">სცენარები</h2>
 	        	<div id="button_area">
-	        		<button id="add_button">დამატება</button><button id="delete_button" style="visibility: hidden;">წაშლა</button>
+	        		<button id="add_button">დამატება</button>
+	        		<button id="delete_button">წაშლა</button>
 	        	</div>
                 <table class="display" id="example">
                     <thead>
@@ -126,7 +134,7 @@
     </div>
 
     <!-- jQuery Dialog -->
-    <div id="add-edit-form" class="form-dialog" title="შჰაბლონი">
+    <div id="add-edit-form" class="form-dialog" title="სცენარი">
     	<!-- aJax -->
 	</div>
     <!-- jQuery Dialog -->

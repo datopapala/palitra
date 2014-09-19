@@ -20,7 +20,7 @@ switch ($action) {
 		break;
 	case 'get_edit_page':
 	    $group_id		= $_REQUEST['id'];
-		$page		    = GetGroupPage($group_id);
+		$page		    = GetGroupPage(GetPage($group_id));
         
         $data		= array('page'	=> $page);
         
@@ -82,6 +82,8 @@ switch ($action) {
 					if($aRow['check'] != 0){
 						$check.="checked";
 					}
+					$row[] ='<td><textarea  style="width: 400px; height:60px; resize: none;" id="'.$aRow[0].'" class="idle" name="content" cols="300" ></textarea></td>';
+					
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check1" value="' . $aRow[$hidden] . '" '.$check.'/>';
 				}
 			}
@@ -91,23 +93,32 @@ switch ($action) {
 		break;
 	case 'save_group':
 		$group_name		= $_REQUEST['nam'];
-		$group_pages	= json_decode(stripslashes($_REQUEST['pag']));
+		$group_pages	= json_decode($_REQUEST['pag']);
 		$group_id       = $_REQUEST['group_id'];	
 		$scenar_id       = $_REQUEST['scenar_id'];
-
-		if(empty($group_id)){
-			SaveGroup($group_name, $group_pages, $scenar_id);
-		}else{
-			ClearForUpdate($group_id);
-			UpdateGroup($group_id, $group_pages, $group_name);
+		
+		for ($i = 0; $i < count($group_pages); $i++) {
+			$rr = $group_pages[$i][0];
+			$gg = $group_pages[$i][1];
+			mysql_query("INSERT	INTO `shabloni`
+						(`shabloni`.`name`, `shabloni`.`quest_id`,`shabloni`.`notes`, `shabloni`.`scenar_id`)
+						VALUES
+						('$group_name','$rr','$gg','$scenar_id')");
+			
 		}
-  		
+
+		
 		break;        
     case 'disable':
 		$group_id = $_REQUEST['id'];
-		DisableGroup($group_id);
+		$delete = mysql_fetch_assoc(mysql_query("SELECT   `name`
+										     	FROM   `shabloni`
+												WHERE   `id` = $group_id"));
+		$delete_row = $delete['name'];
+		
+		DisableGroup($delete_row);
 				
-        break;           
+        break;  
     default:
        $error = 'Action is Null';
 }
@@ -123,18 +134,6 @@ echo json_encode($data);
  */
 
 
-function SaveGroup($group_name, $group_pages, $scenar_id){
-	
-	foreach($group_pages as $group_page) {
-		mysql_query("INSERT	INTO `shabloni`
-						(`shabloni`.`name`, `shabloni`.`quest_id`, `shabloni`.`scenar_id`)
-					VALUES
-						('$group_name','$group_page','$scenar_id')");
-	}
-
-		
-}
-
 function UpdateGroup($group_id, $group_pages, $group_name){
 	
 
@@ -143,10 +142,10 @@ function UpdateGroup($group_id, $group_pages, $group_name){
 
 
 
-function DisableGroup($group_id)
+function DisableGroup($delete_row)
 {
-    mysql_query("DELETE FROM `group`
-				 WHERE  `id` = '$group_id'");
+    mysql_query("DELETE FROM shabloni
+				WHERE `name` = '$delete_row'");
 }	
 
 
@@ -164,42 +163,55 @@ function ClearForUpdate($group_id){
 				       WHERE group_id = $group_id");
 }
 
-function Getscenari($group_id){
-	$req = mysql_query("SELECT id,name FROM `pattern`");
+function Getscenari($scenar_id){
+	$req = mysql_query("SELECT id,name FROM `task_type`");
 	
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
-		
+		if($res[id] == $scenar_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		}else{
 			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		
+		}
 	}
 	return $data;
+}
+
+function GetPage($group_id){
+	$res = mysql_fetch_assoc(mysql_query("
+										SELECT 	scenar_id,
+												`name`
+										FROM shabloni
+										WHERE id = '$group_id'
+										"));
+	return $res;
 }
 
 function GetGroupPage($res = ''){
 	
 	$data = '
 	<div id="dialog-form">
- 	    <fieldset style="width: 400px;">
-	    	<legend>შაბლონი</legend>
+ 	    <fieldset style="width: 99% !important;">
+	    	<legend>სცენარი</legend>
 			<div style=" margin-top: 2px; ">
 				<div style="width: 170px; display: inline;">
-					<label for="group_name">შაბლონის სახელი :</label>
-					<input type="text" id="group_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" style="display: inline; margin-left: 25px;" value="'.GetGroupNameById($res).'"/>
-					<BR><BR><label for="">სცენარის სახელი :</label>
-					<select style="display: inline; margin-left: 30px;" id="scenar_id" class="idls object">'.Getscenari().'</select>					
+					<label for="group_name">სცენარის სახელი :</label>
+					<input type="text" id="group_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" style="display: inline; margin-left: 30px;" value="'.$res[name].'"/>
+					<BR><BR><label for="">შაბლონის სახელი :</label>
+					<select style="display: inline; margin-left: 24px;" id="scenar_id" class="idls object">'.Getscenari($res[scenar_id]).'</select>					
 				</div>
 			</div>
         </fieldset>	
  	    <fieldset>
 	    	<legend>კინხვები</legend>									
             <div id="dynamic">
-                <table class="display" id="pages" style="width: 380px !important; ">
+                <table class="display" id="pages" style="width: 99% !important; ">
                     <thead>
                         <tr style=" white-space: no-wrap;" id="datatable_header">
                             <th >ID</th> 
-                            <th style="width: 315px  !important;">კითხვები</th>
-                            <th style="width: 65px !important;">#</th>   
+                            <th style="width: 180px!important;">კითხვები</th>
+							<th style="">მინიშნება</th>
+                            <th style="width: 30px !important;">#</th>   
                         </tr>
                     </thead>
                 </table>
@@ -212,5 +224,4 @@ function GetGroupPage($res = ''){
     ';
 	return $data;
 }
-
 ?>
