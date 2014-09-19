@@ -93,7 +93,6 @@
         	var tab = GetSelectedTab(tbName);
         	if (tab == 0) {
         		drawFirstLevel();
-        		drawFirstLevel1();
         		$(this).css('height','700px');
         	}else if(tab == 1){
         		getData();
@@ -126,7 +125,10 @@
 			            text: 'ნაპასუხები ზარები ოპერატორების მიხედვით',
 			            x: -20 
 			        },
-			       
+			        subtitle: {
+			            text: '',
+			            x: -20
+			        },
 			        xAxis: {
 			            categories: [],
 			            labels: {
@@ -367,7 +369,7 @@
 			            margin: [ 50, 50, 100, 80]
 			        },
 			        title: {
-			            text: 'ნაპასუხები ზარები კვირის დღეების მიხედვით',
+			            text: 'ნაპასუხები ზარები კვირეების მიხედვით',
 			            x: -20 
 			        },
 			        subtitle: {
@@ -1111,79 +1113,6 @@
 			                  chart = new Highcharts.Chart(options);
 			              });
 			   }
-		 function drawFirstLevel1(){
-			    var options = {
-			                  chart: {
-			                      renderTo: 'chart_container0r',
-			                      plotBackgroundColor: null,
-			                      plotBorderWidth: null,
-			                      plotShadow: '#FA3A3A'
-			                  },
-			                  title: {
-			                      text: 'ტექნიკური ინფორმაცია'
-			                  },
-			                  tooltip: {
-			                      formatter: function() {
-			                          return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
-			                      }
-			                  },
-			                  plotOptions: {
-			                   pie: {
-			                          allowPointSelect: true,
-			                          cursor: 'pointer',
-			                          dataLabels: {
-			                              enabled: true,
-			                              color: '#000000',
-			                              connectorColor: '#FA3A3A',
-			                              formatter: function() {
-			                                  return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
-			                              }
-			                          },
-			                          point: {
-			                              events: {
-			                                  click: function() {                   
-			                                  }
-			                              }
-			                          }
-			                      }
-			                  },
-			                  series: [{
-			                      type: 'pie',
-			                      name: 'კატეგორიები',
-			                     // color: '#FA3A3A',
-			                      data: []
-			                  }]
-			              }
-			    var i=0;
-			    
-			    agent = '';
-			    queuet = '';
-			   
-			    var optionss = $('#myform_List_Queue_to option');
-			    var values = $.map(optionss ,function(option) {
-			     if(queuet != ""){
-			      queuet+=",";
-			      
-			     }
-			     queuet+="'"+option.value+"'";
-			    });
-			   
-			   var optionss = $('#myform_List_Agent_to option');
-			   var values = $.map(optionss ,function(option) {
-			    if(agent != ''){
-			     agent+=',';
-			     
-			    }
-			    agent+="'"+option.value+"'";
-			   });
-			   
-			   start_time = $('#start_time').val();
-			   end_time = $('#end_time').val();
-			              $.getJSON("server-side/report/prod_category_statistics1.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
-			                  options.series[0].data = json;
-			                  chart = new Highcharts.Chart(options);
-			              });
-			   }
 		 
 		 function getData11(){
 			 var options = {
@@ -1323,7 +1252,6 @@
 			//getData10();
 			//getData11();
 			drawFirstLevel();
-			drawFirstLevel1();
 			
 			var options = $('#myform_List_Queue_to option');
 			var values = $.map(options ,function(option) {
@@ -1479,7 +1407,7 @@
 
 <body>
 
-<div id="tabs" style="width: 99%; margin: 0 auto; height:800px; margin-top: 50px;">
+<div id="tabs" style="width: 95%; margin: 0 auto; height:800px; margin-top: 50px;">
 		<ul>
 			<li><a href="#tab-0">მთავარი</a></li>
 			<li><a href="#tab-1">ნაპასუხები</a></li>
@@ -1487,7 +1415,7 @@
 			<li><a href="#tab-3">ზარების განაწილება</a></li>
 		</ul>
 		<div id="tab-0">
-			<div style="width: 27%; float:left;">
+			<div style="width: 48%; float:left;">
 			<span>აირჩიე რიგი</span>
 			<hr>
 			
@@ -1522,7 +1450,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div style="width: 27%; float:left; margin-left:20px;">
+			<div style="width: 50%; float:left; margin-left:20px;">
 				<span>აირჩიე ოპერატორი</span>
 				<hr>
 				<table border="0" cellspacing="0" cellpadding="8">
@@ -1570,7 +1498,7 @@
             		<input style="margin-left: 15px;" id="show_report" name="show_report" type="submit" value="რეპორტების ჩვენება">
             	
 				
-                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 50px">
+                <table width="70%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 50px">
                 <caption>ტექნიკური ინფორმაცია</caption>
                 <tbody>
                 <tr>
@@ -1596,8 +1524,7 @@
                 </tbody>
                 </table>
                 <br>
-                <div id="chart_container0" style="float:left;" width: 50%; height: 300px;"></div>
-                 <div id="chart_container0r" style="float:left;" width: 50%; height: 300px;"></div>
+                <div id="chart_container0" style="width: 50%; height: 300px;"></div>
 		</div>
 		 </div>
 		<div id="tab-1">

@@ -25,6 +25,14 @@ switch ($action) {
         $data		= array('page'	=> $page);
         
 	    break;
+	case 'get_notes':
+	    $group_id		= $_REQUEST['id'];
+	    $page		    = GetNotes($group_id);
+	    
+	    $data		= array('page'	=> $page);
+	    
+	    break;
+	    
 	case 'get_list':
 	    $count = $_REQUEST['count'];
 	    $hidden = $_REQUEST['hidden'];
@@ -82,7 +90,6 @@ switch ($action) {
 					if($aRow['check'] != 0){
 						$check.="checked";
 					}
-					$row[] ='<td><textarea  style="width: 400px; height:60px; resize: none;" id="'.$aRow[0].'" class="idle" name="content" cols="300" ></textarea></td>';
 					
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check1" value="' . $aRow[$hidden] . '" '.$check.'/>';
 				}
@@ -191,7 +198,7 @@ function GetGroupPage($res = ''){
 	
 	$data = '
 	<div id="dialog-form">
- 	    <fieldset style="width: 99% !important;">
+ 	    <fieldset style="width: 97% !important;">
 	    	<legend>სცენარი</legend>
 			<div style=" margin-top: 2px; ">
 				<div style="width: 170px; display: inline;">
@@ -210,7 +217,6 @@ function GetGroupPage($res = ''){
                         <tr style=" white-space: no-wrap;" id="datatable_header">
                             <th >ID</th> 
                             <th style="width: 180px!important;">კითხვები</th>
-							<th style="">მინიშნება</th>
                             <th style="width: 30px !important;">#</th>   
                         </tr>
                     </thead>
@@ -224,4 +230,22 @@ function GetGroupPage($res = ''){
     ';
 	return $data;
 }
+
+function GetNotes($id){
+
+	$data = '
+	<div id="dialog-form">
+ 	    <fieldset>
+			<table>
+			<tr>
+	    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="$id" class="idle" name="content" cols="300" ></textarea></td>
+			</tr>
+			</table>
+        </fieldset>
+    </div>
+		
+    ';
+	return $data;
+}
+
 ?>

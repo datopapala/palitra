@@ -33,7 +33,35 @@
 			var group_id = $("#group_id").val();
 			
 			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id, 3, "", 0, "", "", "", "", "280px", "true");
-
+			
+			$("#pages tbody").on("dblclick", "tr", function () {
+		        var nTds = $("td", this);
+		        var empty = $(nTds[0]).attr("class");
+				
+		        if (empty != "dataTables_empty") {
+		            var rID = $(nTds[0]).text();
+		           
+		            $.ajax({
+		                url: aJaxURL,
+		                type: "POST",
+		                data: "act=get_notes&id=" + rID,
+		                dataType: "json",
+		                success: function (data) {
+		                    if (typeof (data.error) != "undefined") {
+		                        if (data.error != "") {
+		                            alert(data.error);
+		                        } else {
+		                            $("#add-group-form").html(data.page);
+		                            if ($.isFunction(window.LoadDialog)) {
+		                                //execute it
+		                            	GetDialog("add-group-form", 450, "auto", "");
+		                            }
+		                        }
+		                    }
+		                }
+		            });
+		        }
+		    });
 		}
 		
 
@@ -142,7 +170,7 @@
     	<img id="view_img" src="media/uploads/images/worker/0.jpg">
 	</div>
 	 <!-- jQuery Dialog -->
-    <div id="add-group-form" class="form-dialog" title="ჯგუფი">
+    <div id="add-group-form" class="form-dialog" title="მინიშნება">
 	</div>
 </body>
 </html>
