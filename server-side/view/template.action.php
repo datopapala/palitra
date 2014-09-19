@@ -236,14 +236,25 @@ function GetNotes($id){
 	$data = '
 	<div id="dialog-form">
  	    <fieldset>
+			<legend>მინიშნება</legend>
 			<table>
 			<tr>
-	    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="$id" class="idle" name="content" cols="300" ></textarea></td>
+	    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
 			</tr>
 			</table>
         </fieldset>
+		<fieldset>
+			<legend>ქვოტა</legend>
+			<table>
+				<tr>
+		    		<td>
+						<input type="text" id="qvota" class="idle" onblur="this.className=\'idle\'"/>
+					</td>
+				</tr>
+			</table>
+        </fieldset>
     </div>
-		
+		<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
     ';
 	return $data;
 }

@@ -54,7 +54,20 @@
 		                            $("#add-group-form").html(data.page);
 		                            if ($.isFunction(window.LoadDialog)) {
 		                                //execute it
-		                            	GetDialog("add-group-form", 450, "auto", "");
+		                            	var buttons = {
+		                						"save": {
+		                				            text: "შენახვა",
+		                				            id: "save_notes"
+		                				        }, 
+		                			        	"cancel": {
+		                				            text: "დახურვა",
+		                				            id: "cancel-dialog",
+		                				            click: function () {
+		                				            	$(this).dialog("close");
+		                				            }
+		                				        } 
+		                				    };
+		                            	GetDialog("add-group-form", 450, "auto", buttons);
 		                            }
 		                        }
 		                    }
@@ -67,6 +80,33 @@
 
 		
 	    // Add - Save
+		$(document).on("click", "#save_notes", function () {
+
+
+     		param = new Object();
+     	    //Action
+     		param.act			= "save_notes";
+ 			param.minishneba	= $("#minishneba").val();
+ 			param.qvota 		= $("#qvota").val();
+ 			param.hidden_id 	= $("#hidden_id").val();
+
+ 	    	    $.ajax({
+ 	    	        url: aJaxURL,
+ 	    		    data: param,
+ 	    	        success: function(data) {
+ 	    				if(typeof(data.error) != "undefined"){
+ 	    					if(data.error != ""){
+ 	    						alert(data.error);
+ 	    					}else{
+ 	    						$("#add-edit-form").dialog("close");
+ 	    						LoadTable();
+ 	    					}
+ 	    				}
+ 	    		    }
+ 	    	    });
+ 			
+		});
+
 		$(document).on("click", "#save-dialog", function () {
 
 		    var data = $(".check1:checked").map(function () { //Get Checked checkbox array
@@ -115,6 +155,7 @@
 
 
 		});
+		
 
 		$(document).on("change", "#scenar_id",function(){
 			var scenar_id = $("#scenar_id").val();
@@ -170,7 +211,7 @@
     	<img id="view_img" src="media/uploads/images/worker/0.jpg">
 	</div>
 	 <!-- jQuery Dialog -->
-    <div id="add-group-form" class="form-dialog" title="მინიშნება">
+    <div id="add-group-form" class="form-dialog" title="მინიშნება / ქვოტა">
 	</div>
 </body>
 </html>
