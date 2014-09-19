@@ -65,7 +65,7 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
@@ -113,6 +113,7 @@
 						"save": {
 				            text: "შენახვა",
 				            id: "save-dialog"
+					            
 				        }, 
 			        	"cancel": {
 				            text: "დახურვა",
@@ -212,13 +213,54 @@
 		    });
 		}
 
+        $(document).on("click", "#save-printer", function () {
+	       	 var data = $(".check:checked").map(function () {
+	  	        return this.value;
+	  	    }).get();
+	  	    
+	  	    var letters = [];
+	  	    
+	  	    for (var i = 0; i < data.length; i++) {
+	  	    	letters.push(data[i]);        
+	  	    }
+	      	param = new Object();
+	      	param.act	= "change_responsible_person";
+	      	param.lt	= letters;
+	  	    param.rp	= $("#responsible_person").val();
+	
+	  	    var link	=  GetAjaxData(param);
+	  	    
+	  	    if(param.rp == "0"){
+	  		    alert("აირჩიეთ პასუხისმგებელი პირი!");
+	  		}else if(param.ci == "0"){
+	  		    alert("აირჩიეთ ავტომობილი");		
+	  		}else{	    
+	  	        $.ajax({
+	  	            url: aJaxURL,
+	  	            type: "POST",
+	  	            data: link,
+	  	            dataType: "json", 
+	  	            success: function (data) {
+	  	                if (typeof (data.error) != "undefined") {
+	  	                    if (data.error != "") {
+	  	                        alert(data.error);
+	  	                    }else{
+	  	                        $("#add-responsible-person").dialog("close");
+	  	                        LoadTable0();
+	  	                    }
+	  	                }
+	  	            }
+	  	        });
+	  		}
+        });
+
 		function LoadDialog1(){
 			var buttons = {
 			        "save": {
 			            text: "შენახვა",
 			            id: "save-printer",
 			            click: function () {
-			            	Change_person();			            
+			            	$(this).dialog("close");			            
 			            }
 			        },
 					"cancel": {

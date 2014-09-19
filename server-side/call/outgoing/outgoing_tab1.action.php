@@ -71,16 +71,16 @@ switch ($action) {
 										`task`.start_date,
 										task.end_date,
 										task_type.`name`,
-										pattern.`name`,
+										task.`template_id`,
 										CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
 										task_detail.phone,
 										'',
-										IF(task_detail.actived= 1, 'დაუსრულებელი','') AS `status`
+										IF(task_detail.status= 2, 'მიმდინარე','') AS `status`
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
 								LEFT JOIN	pattern ON task.template_id = pattern.id
-	    						WHERE	task_detail.actived=1");
+	    						WHERE	task_detail.status=2");
 	    
 										    		
 		$data = array(
@@ -623,16 +623,16 @@ function Getshablon($id){
 	$req = mysql_query("	SELECT 	`id`,
 									`name`
 							FROM 	shabloni
-							WHERE 	scenar_id = $id
+							WHERE 	id = $id
 							GROUP BY 	`shabloni`.`name`
 							");
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $id){
-			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
 		}
 	}
 
@@ -806,19 +806,17 @@ function GetPage($res='', $shabloni)
 							
 								    	<table class="dialog-form-table" >
 											<tr>
-												<td style="width: 180px;"><label for="task_type_id">დავალების ტიპი</label></td>
-												<td style="width: 180px;"><label for="task_department_id">განყოფილება</label></td>
-												<td style="width: 180px;"><label for="persons_id">პასუხისმგებელი პირი</label></td>
-												<td style="width: 180px;"><label for="priority_id">პრიორიტეტი</label></td>
+												<td style="width: 280px;"><label for="task_department_id">განყოფილება</label></td>
+												<td style="width: 280px;"><label for="persons_id">პასუხისმგებელი პირი</label></td>
+												<td style="width: 280px;"><label for="priority_id">პრიორიტეტი</label></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 180px;" id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-												<td><select style="width: 180px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
-												<td><select style="width: 180px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
-												<td><select style="width: 180px;" id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+												<td><select style="width: 200px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+												<td><select style="width: 200px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
+												<td><select style="width: 200px;" id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 											</tr>
 											</table>
-											<table class="dialog-form-table" style="width: 700px;">
+											<table class="dialog-form-table" style="width: 720px;">
 											<tr>
 												<td style="width: 150px;"><label>შესრულების პერიოდი</label></td>
 												<td style="width: 150px;"><label></label></td>
@@ -828,7 +826,7 @@ function GetPage($res='', $shabloni)
 												<td><input style="width: 130px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">დან</span></td>
 										  		<td><input style="width: 130px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">მდე</span></td>
 												<td>
-													<textarea  style="width: 250px; resize: none;" id="comment" class="idle" name="content" cols="300">' . $res['comment'] . '</textarea>
+													<textarea  style="width: 270px; resize: none;" id="comment" class="idle" name="content" cols="300">' . $res['comment'] . '</textarea>
 												</td>
 											</tr>
 										</table>

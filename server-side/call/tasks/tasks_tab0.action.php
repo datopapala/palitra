@@ -53,7 +53,22 @@ switch ($action) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
 		    	
-    	$rResult = mysql_query("");
+    	$rResult = mysql_query("SELECT 	task_detail.id,
+										task_detail.id,
+										task_detail.person_n,
+										CONCAT(task_detail.first_name,' ',task_detail.last_name),
+										task_type.`name`,
+										department.`name`,
+										users.username,
+										task.end_date,
+										'მიმდინარე'
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN task_detail ON task.id = task_detail.task_id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+								
+    							");
 		    
 		$data = array(
 			"aaData"	=> array()
@@ -114,9 +129,9 @@ switch ($action) {
     	//------------------------------------
     	
     	mysql_query("INSERT INTO `task_detail` 
-    			( `user_id`, `task_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `b_day`, `city_id`, `family_id`, `profesion`, `actived`) 
+    			( `user_id`, `task_id`, `person_n`, `first_name`, `last_name`, `person_status`, `phone`, `mail`, `addres`, `b_day`, `city_id`, `family_id`, `profesion`, `status`, `actived`) 
     			VALUES 
-    			( '$user', '$task_id', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '$b_day', '$city_id', '$family_id', '$profesion', '1')");
+    			( '$user', '$task_id', '$person_n', '$first_name', '$last_name', '$person_status', '$phone', '$mail', '$addres', '$b_day', '$city_id', '$family_id', '$profesion', '1', '1')");
         
         break;
         
@@ -713,9 +728,9 @@ function Getscenar(){
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $id){
-			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
 		}
 	}
 

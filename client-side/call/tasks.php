@@ -101,7 +101,7 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
@@ -1052,6 +1052,17 @@
 	
 	<!-- jQuery Dialog -->
 	<div id="last_calls" title="ბოლო ზარები">
+	</div>
+	<div id="add_task" class="form-dialog" title="დავალების დამატება">
+	<!-- aJax -->
+	</div>
+	<!-- jQuery Dialog -->
+	<div id="add-edit-form2" class="form-dialog" title="გამავალი ზარი">
+	<!-- aJax -->
+	</div>
+	
+	<div id="add-responsible-person" class="form-dialog" title="პასუხისმგებელი პირი">
+	<!-- aJax -->
 	</div>
 </body>
 	
