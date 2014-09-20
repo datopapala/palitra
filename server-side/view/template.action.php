@@ -170,13 +170,6 @@ echo json_encode($data);
  * ******************************
  */
 
-function UpdateGroup($group_id, $group_pages, $group_name){
-	
-
-	
-}
-
-
 
 function DisableGroup($delete_row)
 {
