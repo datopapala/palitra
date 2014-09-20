@@ -25,6 +25,19 @@ switch ($action) {
         $data		= array('page'	=> $page);
         
 	    break;
+	case 'save_notes':
+		$minishneba 	= $_REQUEST['minishneba'];
+		$qvota			= $_REQUEST['qvota'];
+		$hidden_id		= $_REQUEST['hidden_id'];
+		$group_name		= $_REQUEST['group_name'];
+		$scenar_id		= $_REQUEST['scenar_id'];
+		
+		mysql_query("INSERT	INTO `tmp_shabloni`
+							(`name`, `quest_id`,`notes`,`scenar_id`,`qvota`)
+								VALUES
+							('$group_name','$hidden_id','$minishneba','$scenar_id','$qvota')");
+		
+	    break;
 	case 'get_notes':
 	    $group_id		= $_REQUEST['id'];
 	    $page		    = GetNotes($group_id);
@@ -104,17 +117,34 @@ switch ($action) {
 		$group_id       = $_REQUEST['group_id'];	
 		$scenar_id       = $_REQUEST['scenar_id'];
 		
-		for ($i = 0; $i < count($group_pages); $i++) {
-			$rr = $group_pages[$i][0];
-			$gg = $group_pages[$i][1];
-			mysql_query("INSERT	INTO `shabloni`
-						(`shabloni`.`name`, `shabloni`.`quest_id`,`shabloni`.`notes`, `shabloni`.`scenar_id`)
-						VALUES
-						('$group_name','$rr','$gg','$scenar_id')");
+		$req = mysql_query("SELECT 	qvota,
+									notes,
+									quest_id,
+									scenar_id,
+									name
+							FROM 	tmp_shabloni");
+		$jora = array();
+		while ($res_row = mysql_fetch_assoc($req)) {
+			$gela = ['qvota'=>$res_row[qvota], 'notes'=>$res_row[notes], 'quest_id'=>$res_row[quest_id], 'scenar_id'=>$res_row[scenar_id], 'name'=>$res_row[name]];
+			$jora[] =$gela;
+		}
+		
+		for ($i = 0; $i < count($jora); $i++) {
 			
+			$name_a = $jora[$i][name];
+			$quest_id_a = $jora[$i][quest_id];
+			$notes_a = $jora[$i][notes];
+			$qvota_a = $jora[$i][qvota];
+			$scenar_id_a = $jora[$i][scenar_id];
+			 
+			mysql_query("INSERT	INTO `shabloni`
+						(`name`, `quest_id`, `notes`, `scenar_id`, `qvota`)
+							VALUES
+						('$name_a','$quest_id_a','$notes_a','$scenar_id_a','$qvota_a')");
 		}
 
-		
+		mysql_query("DELETE FROM tmp_shabloni
+					");
 		break;        
     case 'disable':
 		$group_id = $_REQUEST['id'];

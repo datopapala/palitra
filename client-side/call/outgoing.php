@@ -75,7 +75,7 @@
 
 		function LoadTable2(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "asc", "");
+			GetDataTable("example2", aJaxURL2, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable3(){			
@@ -437,21 +437,91 @@
  			param.act			= "done_outgoing";
 		    	
  			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
+			param.hello_quest			= $("input[name='hello_quest']:checked").val();
+	    	param.hello_comment			= $("#hello_comment").val();
+	    	param.info_quest			= $("input[name='info_quest']:checked").val();
+			param.info_comment			= $("#info_comment").val();
+			param.result_quest			= $("input[name='result_quest']:checked").val();
+	    	param.result_comment		= $("#result_comment").val();
+			param.payment_quest			= $("input[name='payment_quest']:checked").val();
+			param.payment_comment		= $("#payment_comment").val();
+			param.send_date				= $("#send_date").val();
+
+			param.preface_name			= $("#preface_name").val();
+			param.preface_quest			= $("input[name='preface_quest']:checked").val();
+			param.d1					= $("input[name='d1']:checked").val();
+			param.d2					= $("input[name='d2']:checked").val();
+			param.d3					= $("input[name='d3']:checked").val();
+			param.d4					= $("input[name='d4']:checked").val();
+			param.d5					= $("input[name='d5']:checked").val();
+			param.d6					= $("input[name='d6']:checked").val();
+			param.d7					= $("input[name='d7']:checked").val();
+			param.d8					= $("input[name='d8']:checked").val();
+			param.d9					= $("input[name='d9']:checked").val();
+			param.d10					= $("input[name='d10']:checked").val();
+			param.d11					= $("input[name='d11']:checked").val();
+			param.d12					= $("input[name='d12']:checked").val();
+			param.q1					= $("input[name='q1']:checked").val();
+
+			param.call_content			= $("#call_content").val();
+			param.status				= $("#status").val();
+
+			
+			
+	 
+ 	    	$.ajax({
+ 		        url: aJaxURL1,
+ 			    data: param,
+ 		        success: function(data) {       
+ 					if(typeof(data.error) != "undefined"){
+ 						if(data.error != ""){
+ 							alert(data.error);
+ 						}else{
+							LoadTable1();
+ 							CloseDialog("add-edit-form1");
+ 						}
+ 					}
+ 		    	}
+ 		   });
+		});
+
+	    $(document).on("click", ".done", function () {
+			   
+			param 				= new Object();
+ 			param.act			= "done_outgoing";
+		    	
+ 			param.id					= $("#id").val();
+			param.hello_quest			= $("input[name='hello_quest']:checked").val();
+	    	param.hello_comment			= $("#hello_comment").val();
+	    	param.info_quest			= $("input[name='info_quest']:checked").val();
+			param.info_comment			= $("#info_comment").val();
+			param.result_quest			= $("input[name='result_quest']:checked").val();
+	    	param.result_comment		= $("#result_comment").val();
+			param.payment_quest			= $("input[name='payment_quest']:checked").val();
+			param.payment_comment		= $("#payment_comment").val();
+			param.send_date				= $("#send_date").val();
+
+			param.preface_name			= $("#preface_name").val();
+			param.preface_quest			= $("input[name='preface_quest']:checked").val();
+			param.d1					= $("input[name='d1']:checked").val();
+			param.d2					= $("input[name='d2']:checked").val();
+			param.d3					= $("input[name='d3']:checked").val();
+			param.d4					= $("input[name='d4']:checked").val();
+			param.d5					= $("input[name='d5']:checked").val();
+			param.d6					= $("input[name='d6']:checked").val();
+			param.d7					= $("input[name='d7']:checked").val();
+			param.d8					= $("input[name='d8']:checked").val();
+			param.d9					= $("input[name='d9']:checked").val();
+			param.d10					= $("input[name='d10']:checked").val();
+			param.d11					= $("input[name='d11']:checked").val();
+			param.d12					= $("input[name='d12']:checked").val();
+			param.q1					= $("input[name='q1']:checked").val();
+
+			param.call_content			= $("#call_content").val();
+			param.status				= $("#status").val();
+
+			
+			
 	 
  	    	$.ajax({
  		        url: aJaxURL1,

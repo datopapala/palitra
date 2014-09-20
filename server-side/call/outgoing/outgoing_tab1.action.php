@@ -81,7 +81,7 @@ switch ($action) {
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
 								LEFT JOIN	pattern ON task.template_id = pattern.id
 	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
-	    						WHERE	task_detail.status=2");
+	    						WHERE	task_detail.status=2 and task.responsible_user_id=$user");
 	    
 										    		
 		$data = array(
@@ -164,15 +164,44 @@ switch ($action) {
 		break;
     case 'save_outgoing':
 	
-		$user_id		= $_SESSION['USERID'];
 		
 		Savetask($task_id, $problem_comment, $file, $rand_file);
         break;
         case 'done_outgoing':
         
-        	$user_id		= $_SESSION['USERID'];
+        	$user_id			= $_SESSION['USERID'];
+			$task_detail_id		= $_REQUEST['id'];
+			$hello_quest		= $_REQUEST['hello_quest'];
+			$hello_comment		= $_REQUEST['hello_comment'];
+			$info_quest			= $_REQUEST['info_quest'];
+			$info_comment		= $_REQUEST['info_comment'];
+			$result_quest		= $_REQUEST['result_quest'];
+			$result_comment		= $_REQUEST['result_comment'];
+			$payment_quest		= $_REQUEST['payment_quest'];
+			$payment_comment	= $_REQUEST['payment_comment'];
+			$send_date			= $_REQUEST['send_date'];
+			
+			$preface_name			= $_REQUEST['preface_name'];
+			$preface_quest		= $_REQUEST['preface_quest'];
+			$d1			= $_REQUEST['d1'];
+			$d2			= $_REQUEST['d2'];
+			$d3			= $_REQUEST['d3'];
+			$d4			= $_REQUEST['d4'];
+			$d5			= $_REQUEST['d5'];
+			$d6			= $_REQUEST['d6'];
+			$d7			= $_REQUEST['d7'];
+			$d8			= $_REQUEST['d8'];
+			$d9			= $_REQUEST['d9'];
+			$d10		= $_REQUEST['d10'];
+			$d11		= $_REQUEST['d11'];
+			$d12		= $_REQUEST['d12'];
+			$q1			= $_REQUEST['q1'];
+			
+			$call_content		= $_REQUEST['call_content'];
+			$status				= $_REQUEST['status'];
         
-        	Savetask1($task_id, $problem_comment, $file, $rand_file);
+        	Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1);
+        	Savetask2($task_detail_id, $call_content, $status);
         	break;
     default:
        $error = 'Action is Null';
@@ -200,28 +229,22 @@ function checkgroup($user){
 
 
 
-function Savetask($task_id, $problem_comment, $file, $rand_file)
+function Savetask2($task_detail_id, $call_content, $status)
 {
-	$c_date		= date('Y-m-d H:i:s');
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET  
-								`user_id`			='$user',
-								`problem_comment`	='$problem_comment', 
-								`status`	='2', 
-								`actived`	='1'
-								 WHERE `id`			='$task_id'
+
+	mysql_query("UPDATE `task_detail` SET  
+						`call_content` = '$call_content',
+						`status`	='3'
+				 WHERE  `id`		='$task_detail_id'
 									");
 
 }
-function Savetask1($task_id, $problem_comment, $file, $rand_file)
+function Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1)
 {
-	$c_date		= date('Y-m-d H:i:s');
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET
-								`user_id`			='$user',
-								`problem_comment`	='$problem_comment',
-								`status`	='3'
-				WHERE 			`id`				='$task_id'
+	mysql_query("INSERT INTO `task_scenar`
+(`task_detail_id`, `hello_comment`, `hello_quest`, `info_comment`, `info_quest`, `result_comment`, `result_quest`, `send_date`, `payment_comment`, `payment_quest`, `preface_name`, `preface_quest`, `d1`, `d2`, `d3`, `d4`, `d5`, `d6`, `d7`, `d8`, `d9`, `d10`, `d11`, `d12`, `q1`)
+VALUES
+( '$task_detail_id', '$hello_comment', '$hello_quest', '$info_comment', '$info_quest', '$result_comment', '$result_quest', '$send_date', '$payment_comment', '$payment_quest', '$preface_name', '$preface_quest', '$d1', '$d2', '$d3', '$d4', '$d5', '$d6', '$d7', '$d8', '$d9', '$d10', '$d11', '$d12', '$q1')
 	");
 
 }
@@ -724,28 +747,53 @@ function Getcity($city_id){
 function Getincomming($task_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
-	    								`task`.`date`,
-										`task_detail`.status,
-										`task`.start_date,
-										task.end_date,
-										task.`task_type_id`,
-										task.`template_id`,
-										`task_detail`.`first_name`,
-										`task_detail`.`last_name`,
-										task_detail.person_n,
-										task_detail.person_status,
-										task_detail.phone,
-										task_detail.mail,
-										task_detail.addres,
-										task_detail.city_id,
-										task_detail.family_id,
-										task_detail.b_day,
-										task_detail.profesion
-								FROM 	`task`
-								LEFT JOIN	task_detail ON task.id = task_detail.task_id
-								LEFT JOIN	task_type ON task.task_type_id = task_type.id
-								LEFT JOIN	pattern ON task.template_id = pattern.id
-	    						WHERE	task_detail.id = '$task_id'
+			    								`task`.`date`,
+												`task_detail`.`status`,
+												`task`.start_date,
+												task.end_date,
+												task.`task_type_id`,
+												task.`template_id`,
+												`task_detail`.`first_name`,
+												`task_detail`.`last_name`,
+												task_detail.person_n,
+												task_detail.person_status,
+												task_detail.phone,
+												task_detail.mail,
+												task_detail.addres,
+												task_detail.city_id,
+												task_detail.family_id,
+												task_detail.b_day,
+												task_detail.profesion,
+												task_scenar.hello_comment,
+												task_scenar.hello_quest,
+												task_scenar.info_comment,
+												task_scenar.info_quest,
+												task_scenar.payment_comment,
+												task_scenar.payment_quest,
+												task_scenar.result_comment,
+												task_scenar.result_quest,
+												task_scenar.send_date,
+												task_scenar.preface_quest,
+												task_scenar.preface_name,
+												task_scenar.d1,
+												task_scenar.d2,
+												task_scenar.d3,
+												task_scenar.d4,
+												task_scenar.d5,
+												task_scenar.d6,
+												task_scenar.d7,
+												task_scenar.d8,
+												task_scenar.d9,
+												task_scenar.d10,
+												task_scenar.d11,
+												task_scenar.d12,
+												task_scenar.q1
+										FROM 	`task`
+										LEFT JOIN	task_detail ON task.id = task_detail.task_id
+										LEFT JOIN	task_type ON task.task_type_id = task_type.id
+										LEFT JOIN	pattern ON task.template_id = pattern.id
+										LEFT JOIN	task_scenar ON task_detail.id = task_scenar.task_detail_id
+			    					WHERE	task_detail.id = '$task_id'
 			" ));
 	
 	return $res;
@@ -802,37 +850,39 @@ function GetPage($res='', $shabloni)
 						        ';
 		
 						$test = Getshabl($res['template_id']);
-						$rows = mysql_query("SELECT quest_id,notes
-								FROM shabloni
-								WHERE `name`='$test'");
-						$notes = array();
-						$a 	= 	array();
-						while ($rows_shab = mysql_fetch_assoc($rows)){
-							$rows_shablon[] = $rows_shab[quest_id];
-							$a		 = ['id'=>$rows_shab[quest_id],'name'=>$rows_shab[notes]];
-							$notes[] = $a;
+						
+						//$notes = array();
+						//$a 	= 	array();
+						
+						for($key=1;$key<23;$key++){
+						
+						$rows1 = mysql_query("	SELECT 	quest_id,
+														notes,
+														qvota
+												FROM 	shabloni
+												WHERE 	`name`='$test' and quest_id='$key'");
+						$row = mysql_fetch_assoc($rows1);
+							
+								$notes[] = ['id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]];
+							
 						}
-						$pattern = mysql_query("SELECT content FROM pattern_param");
-						while ($pattern_param = mysql_fetch_assoc($pattern)){
-							$pattern_param_arr[] .= $pattern_param[content];
-						}
-		
+					
 						// სატელეფონო გაყიდვები დასაწყისი
 						$data .= '
 							<div id="quest">
-						<div id="seller" class="'.((in_array('1',$rows_shablon))?"":"dialog_hidden").'" >
+						<div id="seller" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'" >
 									<ul>
 										<li style="margin-left:0;" id="0" onclick="seller(this.id)" class="seller_select">მისალმება</li>
 										<li id="1" onclick="seller(this.id)" class="">შეთავაზება</li>
 										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
 									</ul>
 									<div id="seller-0" >
-									<fieldset style="width:97%; border: 4px solid #CDCDCD; float:left; overflow-y:scroll; max-height:400px;" class="'.((in_array('1',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;  background:#5F98DF; float:left; overflow-y:scroll; max-height:400px;" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'">
 									<fieldset style="width:97%;" >
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -842,17 +892,17 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table" style="width:500px;">
 								    		<tr>
 												<td style="text-align:right;"><span>აქვს</span></td>
-					  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+					  							<td><input type="radio" name="hello_quest" value="1" '.(($res['hello_quest']=='1')?"checked":"").'></td>
 					  							<td><span>(ვაგრძელებთ)</span></td>
 					  						</tr>
 											<tr>
 												<td style="text-align:right;"><span>სურს სხვა დროს</span></td>
-					  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+					  							<td><input type="radio" name="hello_quest" value="2" '.(($res['hello_quest']=='2')?"checked":"").'></td>
 					  							<td><span>(ვიფორმირებთ დავალებას)</span></td>
 					  						</tr>
 					  						<tr>
 												<td style="text-align:right;"><span>არ სურს</span></td>
-					  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+					  							<td><input type="radio" name="hello_quest" value="3" '.(($res['hello_quest']=='3')?"checked":"").'></td>
 					  							<td><span>(ვასრულებთ)</span></td>
 					  						</tr>
 									</table>
@@ -860,7 +910,7 @@ function GetPage($res='', $shabloni)
 								    	<legend>კომენტარი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="hello_comment" class="idle" name="content" cols="300" >' . $res['hello_comment'] . '</textarea></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -873,18 +923,18 @@ function GetPage($res='', $shabloni)
 														
 									<div id="seller-1" class="dialog_hidden">
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:97%;" class="'.((in_array('2',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" class="'.(($notes[1][id]!="")?"":"dialog_hidden").'">
 								    	<legend>შეთავაზება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 									</table>
 									</fieldset>
-									<fieldset style="width:97%;" class="'.((in_array('3',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" class="'.(($notes[2][id]!="")?"":"dialog_hidden").'">
 								    	<legend>პროდუქტი</legend>
 									<div id="dt_example" class="inner-table">
 								        <div style="width:100%;" id="container" >        	
@@ -930,16 +980,15 @@ function GetPage($res='', $shabloni)
 								        </div>
 										<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][name].'</textarea></td>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 										</table>
 									</fieldset>
-					  				<fieldset style="width:97%; float:left; " class="'.((in_array('4',$rows_shablon))?"":"dialog_hidden").'">
-								    	<legend>საჩუქარი</legend>
-														
+					  				<fieldset style="width:97%; float:left; " class="'.(($notes[3][id]!="")?"":"dialog_hidden").'">
+								    	<legend>საჩუქარი</legend>														
 									<div id="dt_example" class="inner-table">
 								        <div style="width:100%;" id="container" >        	
 								            <div id="dynamic">
@@ -984,28 +1033,28 @@ function GetPage($res='', $shabloni)
 								        </div>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 									</table>
 									</fieldset>
-											<fieldset class="'.((in_array('21',$rows_shablon))?"":"dialog_hidden").'">
+											<fieldset class="'.(($notes[20][id]!="")?"":"dialog_hidden").'">
 												<legend>ინფორმაცია</legend>
 											<table class="dialog-form-table" style="width:250px; float:left;">
 									    		<tr>
 													<td style="text-align:right;">მოისმინა ბოლომდე</td>
-													<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+													<td><input type="radio" name="info_quest" value="1" '.(($res['info_quest']=='1')?"checked":"").'></td>
 													
 												</tr>
 												<tr>
 													<td style="text-align:right;">მოისმინა და კითხვები დაგვისვა</td>
-													<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>		
+													<td><input type="radio" name="info_quest" value="2" '.(($res['info_quest']=='2')?"checked":"").'></td>		
 												</tr>
 												<tr>
 													<td style="text-align:right;">შეგვაწყვეტინა</td>
-													<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+													<td><input type="radio" name="info_quest" value="3" '.(($res['info_quest']=='3')?"checked":"").'></td>
 												</tr>
 											</table>
 											<table class="dialog-form-table" style="width:350px; float:left; margin-left: 15px;">
@@ -1013,7 +1062,7 @@ function GetPage($res='', $shabloni)
 													<td>კომენტარი</td>
 												</tr>
 									    		<tr>
-													<td><textarea  style="width: 100%; height:50px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+													<td><textarea  style="width: 100%; height:50px; resize: none;" id="info_comment" class="idle" name="content" cols="300" >' . $res['info_comment'] . '</textarea></td>
 												</tr>
 											</table>
 											</fieldset>
@@ -1025,11 +1074,11 @@ function GetPage($res='', $shabloni)
 									 </div>
 									 <div id="seller-2" class="dialog_hidden">
 											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-											<fieldset style="width:97%;" class="'.((in_array('5',$rows_shablon))?"":"dialog_hidden").'">
+											<fieldset style="width:97%;" class="'.(($notes[4][id]!="")?"":"dialog_hidden").'">
 										    	<legend>შედეგი</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][name].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1038,17 +1087,17 @@ function GetPage($res='', $shabloni)
 											<table class="dialog-form-table">
 										    	<tr>
 													<td style="text-align:right;"><span>დადებითი</span></td>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td><input type="radio" name="result_quest" value="1" '.(($res['result_quest']=='1')?"checked":"").'></td>
 						  							<td><span>(ვაგრძელებთ)</span></td>
 						  						</tr>
 												<tr>
 													<td style="text-align:right;"><span>უარყოფითი</span></td>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td><input type="radio" name="result_quest" value="2" '.(($res['result_quest']=='2')?"checked":"").'></td>
 						  							<td><span>(ვასრულებთ)</span></td>
 						  						</tr>
 						  						<tr>
 													<td style="text-align:right;"><span>მოიფიქრებს</span></td>
-						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  							<td><input type="radio" name="result_quest" value="3" '.(($res['result_quest']=='3')?"checked":"").'></td>
 						  							<td><span>(ვუთანხმებთ განმეორებითი ზარის დროს. ვიფორმირებთ დავალებას)</span></td>
 						  						</tr>	
 											</table>
@@ -1057,7 +1106,7 @@ function GetPage($res='', $shabloni)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
 														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
 													</tr>
 											</table>
@@ -1065,11 +1114,11 @@ function GetPage($res='', $shabloni)
 											
 															
 																
-							  				<fieldset style="width:97%; float:left; " class="'.((in_array('6',$rows_shablon))?"":"dialog_hidden").'">
+							  				<fieldset style="width:97%; float:left; " class="'.(($notes[5][id]!="")?"":"dialog_hidden").'">
 										    	<legend>მიწოდება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][name].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1079,17 +1128,17 @@ function GetPage($res='', $shabloni)
 										    		<tr>
 														<td style="width:150px;">მიწოდება დაიწყება</td>
 														<td>
-															<input type="text" id="send_time" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['call_date']. '" />
+															<input type="text" id="send_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['send_date']. '" />
 														</td>
 														<td> -დან</td>
 													</tr>
 											</table>
 											</fieldset>
-											<fieldset style="width:97%; float:left; " class="'.((in_array('7',$rows_shablon))?"":"dialog_hidden").'">
+											<fieldset style="width:97%; float:left; " class="'.(($notes[6][id]!="")?"":"dialog_hidden").'">
 										    	<legend>ანგარიშსწორება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][name].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1097,11 +1146,11 @@ function GetPage($res='', $shabloni)
 											</table>
 											<table class="dialog-form-table">
 										    	<tr>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td><input type="radio" name="payment_quest" value="1" '.(($res['payment_quest']=='1')?"checked":"").'></td>
 						  							<td><span>ნაღდი</span></td>
 						  						</tr>
 												<tr>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td><input type="radio" name="payment_quest" value="2" '.(($res['payment_quest']=='2')?"checked":"").'></td>
 						  							<td><span>უნაღდო</span></td>
 						  						</tr>
 											</table>
@@ -1110,7 +1159,7 @@ function GetPage($res='', $shabloni)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
 													</tr>
 											</table>
 											</fieldset>
@@ -1123,7 +1172,7 @@ function GetPage($res='', $shabloni)
 							// სატელეფონო გაყიდვები დასასრული
 
 						// სატელეფონო კვლევა დასაწყისი
-						$data .= '<div id="research" class="'.((in_array('8',$rows_shablon))?"":"dialog_hidden").'">
+						$data .= '<div id="research" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
 									<ul>
 										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
 										<li id="r1" onclick="research(this.id)" class="">დემოგრაფიული ბლოკი</li>
@@ -1131,11 +1180,11 @@ function GetPage($res='', $shabloni)
 									</ul>
 									<div id="research-0">
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:97%;" class="'.((in_array('8',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
 								    	<legend>შესავალი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[7][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1144,7 +1193,7 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table" style="width:500px;">
 								    		<tr>
 												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
-					  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+					  							<td><input type="radio" name="preface_quest" value="1" '.(($res['preface_quest']=='1')?"checked":"").'></td>
 					  							<td><button class="done">დასრულება</button></td>
 					  						</tr>
 									</table>
@@ -1154,7 +1203,7 @@ function GetPage($res='', $shabloni)
 												<td style="font-weight:bold;">თქვენი სახელი, როგორ მოგმართოთ?</td>
 					  						</tr>
 											<tr>
-												<td><input type="text" style="width:100%;" id="" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" /></td>
+												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
 					  						</tr>
 									</table>
 											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
@@ -1166,7 +1215,7 @@ function GetPage($res='', $shabloni)
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
 									<fieldset style="width:97%;">
 								    	<legend>დემოგრაფიული ბლოკი</legend>
-														<div class="'.((in_array('9',$rows_shablon))?"":"dialog_hidden").'">
+														<div class="'.(($notes[8][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D1</td>
@@ -1177,18 +1226,18 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d1" value="1" '.(($res['d1']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d1" value="2" '.(($res['d1']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[8][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[8][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1198,7 +1247,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('10',$rows_shablon))?"":"dialog_hidden").'">
+									<div class="'.(($notes[9][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D2</td>
@@ -1209,18 +1258,18 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d2" value="1" '.(($res['d2']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d2" value="2" '.(($res['d2']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[9][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1230,7 +1279,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('11',$rows_shablon))?"":"dialog_hidden").'">
+									<div class="'.(($notes[10][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D3</td>
@@ -1241,27 +1290,27 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:150px; text-align:right;">ვაკე-საბურთალო</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="1" '.(($res['d3']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">გლდანი-ნაძალადევი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="2" '.(($res['d3']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">დიდუბე-ჩუღურეთი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="3" '.(($res['d3']=='3')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">ისანი-სამგორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="4" '.(($res['d3']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">ძვ.თბილისი</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="5" '.(($res['d3']=='5')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">ვდიდგორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="6" '.(($res['d3']=='6')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[10] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1271,7 +1320,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 												</div>
 															
-									<div class="'.((in_array('12',$rows_shablon))?"":"dialog_hidden").'">
+									<div class="'.(($notes[11][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D4</td>
@@ -1282,34 +1331,34 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:250px;">ტელევიზია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="1" '.(($res['d4']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>რადიო (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="2" '.(($res['d4']=='2')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>პრესა, ბეჭდვითი მედია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="3" '.(($res['d4']=='3')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>სარეკლამო  (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="4" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="4" '.(($res['d4']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>კვლევითი კომპანია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="5" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="5" '.(($res['d4']=='5')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 											<tr>
 												<td>არცერთი (გააგრძელეთ)</td>
-												<td><input type="radio" name="xx" value="6" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="6" '.(($res['d4']=='6')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[11] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1319,7 +1368,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 												</div>
 																
-									<div class="'.((in_array('13',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[12][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D5</td>
@@ -1330,17 +1379,17 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px;">მამაკაცი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d5" value="1" '.(($res['d5']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>ქალი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d5" value="2" '.(($res['d5']=='2')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[12] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1350,7 +1399,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('14',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[13][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D6</td>
@@ -1361,34 +1410,34 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px; text-align:right;">12-17</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="1" '.(($res['d6']=='1')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">35-44</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="2" '.(($res['d6']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">18-24</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="3" '.(($res['d6']=='3')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">45-54</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="4" '.(($res['d6']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">25-34</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="5" '.(($res['d6']=='5')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">55-65</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="6" '.(($res['d6']=='6')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td style="width:50px; text-align:right;">65 +</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="7" '.(($res['d6']=='7')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[13] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1398,7 +1447,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 													</div>
 															
-									<div class="'.((in_array('15',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[14][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D7</td>
@@ -1409,29 +1458,29 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:150px;">ძალიან დაბალი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="1" '.(($res['d7']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>დაბალი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="2" '.(($res['d7']=='2')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>საშუალო</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="3" '.(($res['d7']=='3')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>მაღალი</td>
-												<td><input type="radio" name="xx" value="4" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="4" '.(($res['d7']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>კძალიან მაღალი</td>
-												<td><input type="radio" name="xx" value="5" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="5" '.(($res['d7']=='5')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[14] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1441,7 +1490,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('16',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[15][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D8</td>
@@ -1452,33 +1501,33 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:90px; text-align:right;">200 ლარამდე</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="1" '.(($res['d8']=='1')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">100-1500</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="2" '.(($res['d8']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">200-500</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="3" '.(($res['d8']=='3')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">1500-2000</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="4" '.(($res['d8']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">500-1000</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="5" '.(($res['d8']=='5')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">2000+</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="6" '.(($res['d8']=='6')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td style="width:80px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="7" '.(($res['d8']=='7')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[15] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1488,7 +1537,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('17',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[16][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D9</td>
@@ -1499,33 +1548,33 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:90px; text-align:right;">200 ლარამდე</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="1" '.(($res['d9']=='1')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">100-1500</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="2" '.(($res['d9']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">200-500</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="3" '.(($res['d9']=='3')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">1500-2000</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="4" '.(($res['d9']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">500-1000</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="5" '.(($res['d9']=='5')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">2000+</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="6" '.(($res['d9']=='6')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td style="width:80px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="7" '.(($res['d9']=='7')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[16] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1535,7 +1584,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('18',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[17][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D10</td>
@@ -1546,18 +1595,18 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px; text-align:right;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d10" value="1" '.(($res['d10']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d10" value="2" '.(($res['d10']=='2')?"checked":"").'></td>
 											</tr>
 											
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[17] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1567,7 +1616,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('19',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[18][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D11</td>
@@ -1578,25 +1627,25 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:150px; text-align:right;">კერძო სექტორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="1" '.(($res['d11']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">თვითდასაქმებული</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="2" '.(($res['d11']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">საჯარო სამსახური</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="3" '.(($res['d11']=='3')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="4" '.(($res['d11']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">არასამთავრობო/td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="5" '.(($res['d11']=='5')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[18] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1606,7 +1655,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 													</div>
 															
-									<div class="'.((in_array('20',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[19][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D12</td>
@@ -1617,18 +1666,18 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px; text-align:right;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d12" value="1" '.(($res['d12']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d12" value="2" '.(($res['d12']=='2')?"checked":"").'></td>
 											</tr>
 											
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[19] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1644,7 +1693,7 @@ function GetPage($res='', $shabloni)
 														
 									 <div id="research-2" class="dialog_hidden">
 											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-											<fieldset '.((in_array('22',$rows_shablon))?"":"dialog_hidden").'>
+											<fieldset '.(($notes[21][id]!="")?"":"dialog_hidden").'>
 										    	<legend>რადიო</legend>
 											<table class="dialog-form-table">
 										    		<tr>
@@ -1655,13 +1704,13 @@ function GetPage($res='', $shabloni)
 											<table class="dialog-form-table">
 										    	<tr>
 													<td><span>რადიო 1</span></td>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td><input type="radio" name="q1" value="1" '.(($res['q1']=='1')?"checked":"").'></td>
 						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
-						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  							<td><input type="radio" name="q1" value="2" '.(($res['q1']=='2')?"checked":"").'></td>
 						  						</tr>
 												<tr>
 													<td><span>რადიო 2</span></td>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td><input type="radio" name="q1" value="3" '.(($res['q1']=='3')?"checked":"").'></td>
 						  						</tr>
 											</table>
 						  					<table class="dialog-form-table">
@@ -1686,7 +1735,7 @@ function GetPage($res='', $shabloni)
 								    	<legend>ზარის დაზუსტება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 350px; height:70px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 350px; height:70px; resize: none;" id="call_content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
 											</tr>
 									</table>
 									</fieldset>	
@@ -1874,19 +1923,19 @@ function Getquest($shabloni){
 		$pattern_param_arr[] .= $pattern_param[content];
 	}
 	
-	$data .='<div id="seller" class="" >
+	$data .='<div id="seller" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'" >
 									<ul>
 										<li style="margin-left:0;" id="0" onclick="seller(this.id)" class="seller_select">მისალმება</li>
 										<li id="1" onclick="seller(this.id)" class="">შეთავაზება</li>
 										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
 									</ul>
 									<div id="seller-0" >
-									<fieldset style="width:97%; border: 4px solid #CDCDCD; float:left; overflow-y:scroll; max-height:400px;" class="'.((in_array('1',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%; border: 4px solid #CDCDCD; float:left; overflow-y:scroll; max-height:400px;" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'">
 									<fieldset style="width:97%;" >
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -1896,17 +1945,17 @@ function Getquest($shabloni){
 									<table class="dialog-form-table" style="width:500px;">
 								    		<tr>
 												<td style="text-align:right;"><span>აქვს</span></td>
-					  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+					  							<td><input type="radio" name="hello_quest" value="1" '.(($res['hello_quest']=='1')?"checked":"").'></td>
 					  							<td><span>(ვაგრძელებთ)</span></td>
 					  						</tr>
 											<tr>
 												<td style="text-align:right;"><span>სურს სხვა დროს</span></td>
-					  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+					  							<td><input type="radio" name="hello_quest" value="2" '.(($res['hello_quest']=='2')?"checked":"").'></td>
 					  							<td><span>(ვიფორმირებთ დავალებას)</span></td>
 					  						</tr>
 					  						<tr>
 												<td style="text-align:right;"><span>არ სურს</span></td>
-					  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+					  							<td><input type="radio" name="hello_quest" value="3" '.(($res['hello_quest']=='3')?"checked":"").'></td>
 					  							<td><span>(ვასრულებთ)</span></td>
 					  						</tr>
 									</table>
@@ -1914,7 +1963,7 @@ function Getquest($shabloni){
 								    	<legend>კომენტარი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="hello_comment" class="idle" name="content" cols="300" >' . $res['hello_comment'] . '</textarea></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -1927,18 +1976,18 @@ function Getquest($shabloni){
 														
 									<div id="seller-1" class="dialog_hidden">
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:97%;" class="'.((in_array('2',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" class="'.(($notes[1][id]!="")?"":"dialog_hidden").'">
 								    	<legend>შეთავაზება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 									</table>
 									</fieldset>
-									<fieldset style="width:97%;" class="'.((in_array('3',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" class="'.(($notes[2][id]!="")?"":"dialog_hidden").'">
 								    	<legend>პროდუქტი</legend>
 									<div id="dt_example" class="inner-table">
 								        <div style="width:100%;" id="container" >        	
@@ -1984,16 +2033,15 @@ function Getquest($shabloni){
 								        </div>
 										<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][name].'</textarea></td>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 										</table>
 									</fieldset>
-					  				<fieldset style="width:97%; float:left; " class="'.((in_array('4',$rows_shablon))?"":"dialog_hidden").'">
-								    	<legend>საჩუქარი</legend>
-														
+					  				<fieldset style="width:97%; float:left; " class="'.(($notes[3][id]!="")?"":"dialog_hidden").'">
+								    	<legend>საჩუქარი</legend>														
 									<div id="dt_example" class="inner-table">
 								        <div style="width:100%;" id="container" >        	
 								            <div id="dynamic">
@@ -2038,28 +2086,28 @@ function Getquest($shabloni){
 								        </div>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][name].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
 											</tr>
 									</table>
 									</fieldset>
-											<fieldset class="'.((in_array('21',$rows_shablon))?"":"dialog_hidden").'">
+											<fieldset class="'.(($notes[20][id]!="")?"":"dialog_hidden").'">
 												<legend>ინფორმაცია</legend>
 											<table class="dialog-form-table" style="width:250px; float:left;">
 									    		<tr>
 													<td style="text-align:right;">მოისმინა ბოლომდე</td>
-													<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+													<td><input type="radio" name="info_quest" value="1" '.(($res['info_quest']=='1')?"checked":"").'></td>
 													
 												</tr>
 												<tr>
 													<td style="text-align:right;">მოისმინა და კითხვები დაგვისვა</td>
-													<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>		
+													<td><input type="radio" name="info_quest" value="2" '.(($res['info_quest']=='2')?"checked":"").'></td>		
 												</tr>
 												<tr>
 													<td style="text-align:right;">შეგვაწყვეტინა</td>
-													<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+													<td><input type="radio" name="info_quest" value="3" '.(($res['info_quest']=='3')?"checked":"").'></td>
 												</tr>
 											</table>
 											<table class="dialog-form-table" style="width:350px; float:left; margin-left: 15px;">
@@ -2067,7 +2115,7 @@ function Getquest($shabloni){
 													<td>კომენტარი</td>
 												</tr>
 									    		<tr>
-													<td><textarea  style="width: 100%; height:50px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+													<td><textarea  style="width: 100%; height:50px; resize: none;" id="info_comment" class="idle" name="content" cols="300" >' . $res['info_comment'] . '</textarea></td>
 												</tr>
 											</table>
 											</fieldset>
@@ -2079,11 +2127,11 @@ function Getquest($shabloni){
 									 </div>
 									 <div id="seller-2" class="dialog_hidden">
 											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-											<fieldset style="width:97%;" class="'.((in_array('5',$rows_shablon))?"":"dialog_hidden").'">
+											<fieldset style="width:97%;" class="'.(($notes[4][id]!="")?"":"dialog_hidden").'">
 										    	<legend>შედეგი</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][name].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -2092,17 +2140,17 @@ function Getquest($shabloni){
 											<table class="dialog-form-table">
 										    	<tr>
 													<td style="text-align:right;"><span>დადებითი</span></td>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td><input type="radio" name="result_quest" value="1" '.(($res['result_quest']=='1')?"checked":"").'></td>
 						  							<td><span>(ვაგრძელებთ)</span></td>
 						  						</tr>
 												<tr>
 													<td style="text-align:right;"><span>უარყოფითი</span></td>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td><input type="radio" name="result_quest" value="2" '.(($res['result_quest']=='2')?"checked":"").'></td>
 						  							<td><span>(ვასრულებთ)</span></td>
 						  						</tr>
 						  						<tr>
 													<td style="text-align:right;"><span>მოიფიქრებს</span></td>
-						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  							<td><input type="radio" name="result_quest" value="3" '.(($res['result_quest']=='3')?"checked":"").'></td>
 						  							<td><span>(ვუთანხმებთ განმეორებითი ზარის დროს. ვიფორმირებთ დავალებას)</span></td>
 						  						</tr>	
 											</table>
@@ -2111,7 +2159,7 @@ function Getquest($shabloni){
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
 														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
 													</tr>
 											</table>
@@ -2119,11 +2167,11 @@ function Getquest($shabloni){
 											
 															
 																
-							  				<fieldset style="width:97%; float:left; " class="'.((in_array('6',$rows_shablon))?"":"dialog_hidden").'">
+							  				<fieldset style="width:97%; float:left; " class="'.(($notes[5][id]!="")?"":"dialog_hidden").'">
 										    	<legend>მიწოდება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][name].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -2133,17 +2181,17 @@ function Getquest($shabloni){
 										    		<tr>
 														<td style="width:150px;">მიწოდება დაიწყება</td>
 														<td>
-															<input type="text" id="send_time" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['call_date']. '" />
+															<input type="text" id="send_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['send_date']. '" />
 														</td>
 														<td> -დან</td>
 													</tr>
 											</table>
 											</fieldset>
-											<fieldset style="width:97%; float:left; " class="'.((in_array('7',$rows_shablon))?"":"dialog_hidden").'">
+											<fieldset style="width:97%; float:left; " class="'.(($notes[6][id]!="")?"":"dialog_hidden").'">
 										    	<legend>ანგარიშსწორება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][name].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
 													</tr>
 													<tr>
 														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -2151,11 +2199,11 @@ function Getquest($shabloni){
 											</table>
 											<table class="dialog-form-table">
 										    	<tr>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td><input type="radio" name="payment_quest" value="1" '.(($res['payment_quest']=='1')?"checked":"").'></td>
 						  							<td><span>ნაღდი</span></td>
 						  						</tr>
 												<tr>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td><input type="radio" name="payment_quest" value="2" '.(($res['payment_quest']=='2')?"checked":"").'></td>
 						  							<td><span>უნაღდო</span></td>
 						  						</tr>
 											</table>
@@ -2164,7 +2212,7 @@ function Getquest($shabloni){
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
 													</tr>
 											</table>
 											</fieldset>
@@ -2177,7 +2225,7 @@ function Getquest($shabloni){
 							// სატელეფონო გაყიდვები დასასრული
 
 						// სატელეფონო კვლევა დასაწყისი
-						$data .= '<div id="research" class="">
+						$data .= '<div id="research" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
 									<ul>
 										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
 										<li id="r1" onclick="research(this.id)" class="">დემოგრაფიული ბლოკი</li>
@@ -2185,11 +2233,11 @@ function Getquest($shabloni){
 									</ul>
 									<div id="research-0">
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-									<fieldset style="width:97%;" class="'.((in_array('8',$rows_shablon))?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
 								    	<legend>შესავალი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[7] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
@@ -2198,7 +2246,7 @@ function Getquest($shabloni){
 									<table class="dialog-form-table" style="width:500px;">
 								    		<tr>
 												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
-					  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+					  							<td><input type="radio" name="preface_quest" value="1" '.(($res['preface_quest']=='1')?"checked":"").'></td>
 					  							<td><button class="done">დასრულება</button></td>
 					  						</tr>
 									</table>
@@ -2208,7 +2256,7 @@ function Getquest($shabloni){
 												<td style="font-weight:bold;">თქვენი სახელი, როგორ მოგმართოთ?</td>
 					  						</tr>
 											<tr>
-												<td><input type="text" style="width:100%;" id="" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" /></td>
+												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
 					  						</tr>
 									</table>
 											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
@@ -2220,7 +2268,7 @@ function Getquest($shabloni){
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
 									<fieldset style="width:97%;">
 								    	<legend>დემოგრაფიული ბლოკი</legend>
-														<div class="'.((in_array('9',$rows_shablon))?"":"dialog_hidden").'">
+														<div class="'.(($notes[8][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D1</td>
@@ -2231,18 +2279,18 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d1" value="1" '.(($res['d1']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d1" value="2" '.(($res['d1']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[8] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[8][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2252,7 +2300,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('10',$rows_shablon))?"":"dialog_hidden").'">
+									<div class="'.(($notes[9][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D2</td>
@@ -2263,18 +2311,18 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d2" value="1" '.(($res['d2']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d2" value="2" '.(($res['d2']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[9] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2284,7 +2332,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('11',$rows_shablon))?"":"dialog_hidden").'">
+									<div class="'.(($notes[10][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D3</td>
@@ -2295,27 +2343,27 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:150px; text-align:right;">ვაკე-საბურთალო</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="1" '.(($res['d3']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">გლდანი-ნაძალადევი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="2" '.(($res['d3']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">დიდუბე-ჩუღურეთი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="3" '.(($res['d3']=='3')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">ისანი-სამგორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="4" '.(($res['d3']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">ძვ.თბილისი</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="5" '.(($res['d3']=='5')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">ვდიდგორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d3" value="6" '.(($res['d3']=='6')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[10] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2325,7 +2373,7 @@ function Getquest($shabloni){
 									<hr>
 												</div>
 															
-									<div class="'.((in_array('12',$rows_shablon))?"":"dialog_hidden").'">
+									<div class="'.(($notes[11][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D4</td>
@@ -2336,34 +2384,34 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:250px;">ტელევიზია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="1" '.(($res['d4']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>რადიო (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="2" '.(($res['d4']=='2')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>პრესა, ბეჭდვითი მედია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="3" '.(($res['d4']=='3')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>სარეკლამო  (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="4" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="4" '.(($res['d4']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>კვლევითი კომპანია (დაასრულეთ)</td>
-												<td><input type="radio" name="xx" value="5" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="5" '.(($res['d4']=='5')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 											<tr>
 												<td>არცერთი (გააგრძელეთ)</td>
-												<td><input type="radio" name="xx" value="6" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d4" value="6" '.(($res['d4']=='6')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[11] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2373,7 +2421,7 @@ function Getquest($shabloni){
 									<hr>
 												</div>
 																
-									<div class="'.((in_array('13',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[12][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D5</td>
@@ -2384,17 +2432,17 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px;">მამაკაცი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d5" value="1" '.(($res['d5']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>ქალი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d5" value="2" '.(($res['d5']=='2')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[12] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2404,7 +2452,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('14',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[13][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D6</td>
@@ -2415,34 +2463,34 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px; text-align:right;">12-17</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="1" '.(($res['d6']=='1')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">35-44</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="2" '.(($res['d6']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">18-24</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="3" '.(($res['d6']=='3')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">45-54</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="4" '.(($res['d6']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">25-34</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="5" '.(($res['d6']=='5')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">55-65</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="6" '.(($res['d6']=='6')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td style="width:50px; text-align:right;">65 +</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d6" value="7" '.(($res['d6']=='7')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[13] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2452,7 +2500,7 @@ function Getquest($shabloni){
 									<hr>
 													</div>
 															
-									<div class="'.((in_array('15',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[14][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D7</td>
@@ -2463,29 +2511,29 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:150px;">ძალიან დაბალი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="1" '.(($res['d7']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td>დაბალი</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="2" '.(($res['d7']=='2')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>საშუალო</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="3" '.(($res['d7']=='3')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>მაღალი</td>
-												<td><input type="radio" name="xx" value="4" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="4" '.(($res['d7']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td>კძალიან მაღალი</td>
-												<td><input type="radio" name="xx" value="5" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d7" value="5" '.(($res['d7']=='5')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[14] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2495,7 +2543,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('16',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[15][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D8</td>
@@ -2506,33 +2554,33 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:90px; text-align:right;">200 ლარამდე</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="1" '.(($res['d8']=='1')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">100-1500</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="2" '.(($res['d8']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">200-500</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="3" '.(($res['d8']=='3')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">1500-2000</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="4" '.(($res['d8']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">500-1000</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="5" '.(($res['d8']=='5')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">2000+</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="6" '.(($res['d8']=='6')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td style="width:80px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d8" value="7" '.(($res['d8']=='7')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[15] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2542,7 +2590,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('17',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[16][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D9</td>
@@ -2553,33 +2601,33 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:90px; text-align:right;">200 ლარამდე</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="1" '.(($res['d9']=='1')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">100-1500</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="2" '.(($res['d9']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">200-500</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="3" '.(($res['d9']=='3')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">1500-2000</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="4" '.(($res['d9']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:80px; text-align:right;">500-1000</td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="5" '.(($res['d9']=='5')?"checked":"").'></td>
 												<td style="width:80px; text-align:right;">2000+</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="6" '.(($res['d9']=='6')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td></td>
 												<td></td>
 												<td style="width:80px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d9" value="7" '.(($res['d9']=='7')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[16] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2589,7 +2637,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('18',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[17][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D10</td>
@@ -2600,18 +2648,18 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px; text-align:right;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d10" value="1" '.(($res['d10']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d10" value="2" '.(($res['d10']=='2')?"checked":"").'></td>
 											</tr>
 											
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[17] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2621,7 +2669,7 @@ function Getquest($shabloni){
 									<hr>
 														</div>
 														
-									<div class="'.((in_array('19',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[18][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D11</td>
@@ -2632,25 +2680,25 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:150px; text-align:right;">კერძო სექტორი</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="1" '.(($res['d11']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">თვითდასაქმებული</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="2" '.(($res['d11']=='2')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">საჯარო სამსახური</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="3" '.(($res['d11']=='3')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">მპგ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="4" '.(($res['d11']=='4')?"checked":"").'></td>
 											</tr>
 											<tr>
 												<td style="width:150px; text-align:right;">არასამთავრობო/td>
-												<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d11" value="5" '.(($res['d11']=='5')?"checked":"").'></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[18] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2660,7 +2708,7 @@ function Getquest($shabloni){
 									<hr>
 													</div>
 															
-									<div class="'.((in_array('20',$rows_shablon))?"":"dialog_hidden").'">					
+									<div class="'.(($notes[19][id]!="")?"":"dialog_hidden").'">					
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">D12</td>
@@ -2671,18 +2719,18 @@ function Getquest($shabloni){
 									<table class="dialog-form-table">
 											<tr>
 												<td style="width:50px; text-align:right;">დიახ</td>
-												<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d12" value="1" '.(($res['d12']=='1')?"checked":"").'></td>
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 											<tr>
 												<td style="width:50px; text-align:right;">არა</td>
-												<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='1')?"checked":"").'></td>
+												<td><input type="radio" name="d12" value="2" '.(($res['d12']=='2')?"checked":"").'></td>
 											</tr>
 											
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $pattern_param_arr[19] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -2698,7 +2746,7 @@ function Getquest($shabloni){
 														
 									 <div id="research-2" class="dialog_hidden">
 											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
-											<fieldset '.((in_array('22',$rows_shablon))?"":"dialog_hidden").'>
+											<fieldset '.(($notes[21][id]!="")?"":"dialog_hidden").'>
 										    	<legend>რადიო</legend>
 											<table class="dialog-form-table">
 										    		<tr>
@@ -2709,13 +2757,13 @@ function Getquest($shabloni){
 											<table class="dialog-form-table">
 										    	<tr>
 													<td><span>რადიო 1</span></td>
-						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td><input type="radio" name="q1" value="1" '.(($res['q1']=='1')?"checked":"").'></td>
 						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
-						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  							<td><input type="radio" name="q1" value="2" '.(($res['q1']=='2')?"checked":"").'></td>
 						  						</tr>
 												<tr>
 													<td><span>რადიო 2</span></td>
-						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td><input type="radio" name="q1" value="3" '.(($res['q1']=='3')?"checked":"").'></td>
 						  						</tr>
 											</table>
 						  					<table class="dialog-form-table">

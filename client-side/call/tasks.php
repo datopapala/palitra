@@ -763,7 +763,50 @@
 			    }
 		    });
     });
-		
+
+
+	    $(document).on("click", "#choose_button", function () {
+		    $("#choose_file").click();
+		});
+
+	    $(document).on("change", "#choose_file", function () {
+	    	var file		= $(this).val();
+		    var name		= uniqid();
+		    var path		= "../../media/uploads/images/client/";
+
+		    var ext = file.split('.').pop().toLowerCase();
+	        if($.inArray(ext, ['xls']) == -1) { //echeck file type
+	        	alert('This is not an allowed file type.');
+                this.value = '';
+	        }else{
+	        	img_name = name + "." + ext;
+	        //	$("#choose_button").button("disable");
+	        	$.ajaxFileUpload({
+	    			url: 'import.php',
+	    			secureuri: false,
+	    			fileElementId: "choose_file",
+	    			dataType: 'json',
+	    			data:{
+	    				task_id:$("#id").val(),
+						act: "upload_file",
+						path: path,
+						file_name: name,
+						type: ext
+					},
+	    			success: function(data){alert("ghj");
+	    				if(typeof(data.error) != 'undefined'){
+    						if(data.error != ''){
+    							alert(data.error);
+    						}else{
+    							alert("ghj");
+    						}
+    					}
+    				},
+
+    			});
+
+	        }
+		});
     </script>
 </head>
 

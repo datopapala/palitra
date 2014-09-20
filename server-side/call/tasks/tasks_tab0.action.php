@@ -61,12 +61,13 @@ switch ($action) {
 										department.`name`,
 										users.username,
 										task.end_date,
-										'მიმდინარე'
+										status.`name`
 								FROM task
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
 								LEFT JOIN users ON task.responsible_user_id = users.id
+    							LEFT JOIN status ON task_detail.status = status.id
 								
     							");
 		    
@@ -888,7 +889,12 @@ function GetPage($res='', $number)
 										</tr>
 									</table>
 									</fieldset>
-									
+													
+										<div class="file-uploader">
+										<input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
+										<button id="choose_button" class="center">აირჩიეთ ფაილი</button>
+										</div>
+													
 									<div id="dt_example" class="inner-table">
 							        <div style="width:100%;" id="container" >        	
 							            <div id="dynamic">

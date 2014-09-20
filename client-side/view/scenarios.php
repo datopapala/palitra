@@ -12,7 +12,7 @@
 						
 			/* Add Button ID, Delete Button ID */
 			GetButtons("add_button", "delete_button");			
-			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
+			SetEvents("", "", "", tName, fName, aJaxURL);
 			
 		});
 
@@ -28,6 +28,8 @@
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 800, "auto", "");
+			GetDataTable("sub1", aJaxURL, "", 9, "", 0, "", 1, "asc", "");
+			GetDataTable("sub2", aJaxURL, "", 9, "", 0, "", 1, "asc", "");
 			$(".done").button({
 	            
 		    });
@@ -50,49 +52,9 @@
 		
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
-		    param 			= new Object();
-
-		    param.act	="save_template";
-	    	param.id	= $("#template_id").val();
-	    	param.p1		= $("#p1").val();
-	    	param.p2		= $("#p2").val();
-	    	param.p3		= $("#p3").val();
-	    	param.p4		= $("#p4").val();
-	    	param.p5		= $("#p5").val();
-	    	param.p6		= $("#p6").val();
-	    	param.p7		= $("#p7").val();
-	    	param.p8		= $("#p8").val();
-	    	param.p9		= $("#p9").val();
-	    	param.p10		= $("#p10").val();
-	    	param.p11		= $("#p11").val();
-	    	param.p12		= $("#p12").val();
-	    	param.p13		= $("#p13").val();
-	    	param.p14		= $("#p14").val();
-	    	param.p15		= $("#p15").val();
-	    	param.p16		= $("#p16").val();
-	    	param.p17		= $("#p17").val();
-	    	param.p18		= $("#p18").val();
-	    	param.p19		= $("#p19").val();
-	    	param.p20		= $("#p20").val();
-	    	
-			if(param.name == ""){
-				alert("შეავსეთ ველი!");
-			}else {
-			    $.ajax({
-			        url: aJaxURL,
-				    data: param,
-			        success: function(data) {			        
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								LoadTable();
+		    
 				        		CloseDialog(fName);
-							}
-						}
-				    }
-			    });
-			}
+					
 		});
 
 	    function seller(id){
@@ -163,7 +125,6 @@
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 100%;">დასახელება</th>
-                        	<th class="check">#</th>
                         </tr>
                     </thead>
                     <thead>
@@ -172,9 +133,7 @@
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
-                          <th>
-                            	<input type="checkbox" name="check-all" id="check-all">
-                            </th>
+                          
                         </tr>
                     </thead>
                 </table>

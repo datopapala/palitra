@@ -89,6 +89,8 @@
  			param.minishneba	= $("#minishneba").val();
  			param.qvota 		= $("#qvota").val();
  			param.hidden_id 	= $("#hidden_id").val();
+ 			param.group_name 	= $("#group_name").val();
+ 			param.scenar_id 	= $("#scenar_id").val();
 
  	    	    $.ajax({
  	    	        url: aJaxURL,
@@ -98,8 +100,8 @@
  	    					if(data.error != ""){
  	    						alert(data.error);
  	    					}else{
- 	    						$("#add-edit-form").dialog("close");
- 	    						LoadTable();
+ 	    						$("#add-group-form").dialog("close");
+ 	    						
  	    					}
  	    				}
  	    		    }
