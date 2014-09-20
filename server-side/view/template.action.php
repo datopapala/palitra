@@ -79,8 +79,6 @@ switch ($action) {
 		$group_id = $_REQUEST['group_id'];
 		$scenar_id = $_REQUEST['scenar_id'];
 		
-
-		
 			$rResult = mysql_query("SELECT    	`quest`.`id`,
 								          		`quest`.`name`
 									FROM      	`quest`
@@ -233,7 +231,7 @@ function GetGroupPage($res = ''){
 			</div>
         </fieldset>	
  	    <fieldset>
-	    	<legend>კინხვები</legend>									
+	    	<legend>კითხვები</legend>									
             <div id="dynamic">
                 <table class="display" id="pages" style="width: 99% !important; ">
                     <thead>

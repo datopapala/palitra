@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php require_once(dirname(__FILE__) . '/config.php'); ?>
 
 <?php if ($_SESSION['USERID'] == ''): ?>
