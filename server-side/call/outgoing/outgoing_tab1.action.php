@@ -863,7 +863,7 @@ function GetPage($res='', $shabloni)
 												WHERE 	`name`='$test' and quest_id='$key'");
 						$row = mysql_fetch_assoc($rows1);
 							
-								$notes[] = ['id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]];
+								$notes[] = array('id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]);
 							
 						}
 					
