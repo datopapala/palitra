@@ -125,7 +125,7 @@ switch ($action) {
 							FROM 	tmp_shabloni");
 		$jora = array();
 		while ($res_row = mysql_fetch_assoc($req)) {
-			$gela = ['qvota'=>($res_row[qvota]), 'notes'=>($res_row[notes]), 'quest_id'=>($res_row[quest_id]), 'scenar_id'=>($res_row[scenar_id]), 'name'=>($res_row[name]) ];
+			$gela = [ 'qvota'=>($res_row[qvota]), 'notes'=>($res_row[notes]), 'quest_id'=>($res_row[quest_id]), 'scenar_id'=>($res_row[scenar_id]), 'name'=>($res_row[name]) ];
 			$jora[] =$gela;
 		}
 		
