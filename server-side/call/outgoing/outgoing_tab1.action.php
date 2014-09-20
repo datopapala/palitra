@@ -1908,20 +1908,20 @@ function GetRecordingsSection($res)
 }
 
 function Getquest($shabloni){
-	$rows = mysql_query("SELECT quest_id,notes
-			FROM shabloni
-			WHERE `name`='$shabloni'");
-	$notes = array();
-	$a 	= 	array();
-	while ($rows_shab = mysql_fetch_assoc($rows)){
-		$rows_shablon[] = $rows_shab[quest_id];
-		$a		 = ['id'=>$rows_shab[quest_id],'name'=>$rows_shab[notes]];
-		$notes[] = $a;
-	}
-	$pattern = mysql_query("SELECT content FROM pattern_param");
-	while ($pattern_param = mysql_fetch_assoc($pattern)){
-		$pattern_param_arr[] .= $pattern_param[content];
-	}
+		$test = Getshabl($res['template_id']);
+						
+		for($key=1;$key<23;$key++){
+		
+		$rows1 = mysql_query("	SELECT 	quest_id,
+										notes,
+										qvota
+								FROM 	shabloni
+								WHERE 	`name`='$test' and quest_id='$key'");
+		$row = mysql_fetch_assoc($rows1);
+			
+				$notes[] = array('id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]);
+			
+		}
 	
 	$data .='<div id="seller" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'" >
 									<ul>
