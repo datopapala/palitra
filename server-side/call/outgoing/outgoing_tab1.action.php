@@ -822,10 +822,10 @@ function GetPage($res='', $shabloni)
 										</tr>
 										<tr>
 											<td>
-												<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '" disabled="disabled" />
+												<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" disabled value="' . $res['id']. '" disabled="disabled" />
 											</td>
 											<td>
-												<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['date']. '" disabled="disabled" />
+												<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" disabled  value="' .  $res['date']. '" disabled="disabled" />
 											</td>		
 										</tr>
 									</table><br>
@@ -835,7 +835,7 @@ function GetPage($res='', $shabloni)
 							    	<legend>დავალების ტიპი</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 305px;" id="task_type_id_seller" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+											<td><select style="width: 305px;" id="task_type_id_seller" disabled class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>
@@ -843,7 +843,7 @@ function GetPage($res='', $shabloni)
 							    	<legend>სცენარის დასახელება</legend>
 								<table class="dialog-form-table">
 							    		<tr>
-											<td><select style="width: 380px;" id="shabloni" class="idls object">'.Getshablon('',$res['template_id']).'</select></td>
+											<td><select style="width: 380px;" id="shabloni" disabled class="idls object">'.Getshablon('',$res['template_id']).'</select></td>
 										</tr>
 									</table>
 								</fieldset>
@@ -882,10 +882,10 @@ function GetPage($res='', $shabloni)
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -927,10 +927,10 @@ function GetPage($res='', $shabloni)
 								    	<legend>შეთავაზება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -980,10 +980,10 @@ function GetPage($res='', $shabloni)
 								        </div>
 										<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 										</table>
 									</fieldset>
@@ -1033,10 +1033,10 @@ function GetPage($res='', $shabloni)
 								        </div>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -1078,10 +1078,10 @@ function GetPage($res='', $shabloni)
 										    	<legend>შედეგი</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
 													</tr>
 													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+														<td style="text-align:right;"><span></span></td>
 													</tr>
 											</table>
 											<table class="dialog-form-table">
@@ -1118,10 +1118,10 @@ function GetPage($res='', $shabloni)
 										    	<legend>მიწოდება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
 													</tr>
 													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+														<td style="text-align:right;"><span></span></td>
 													</tr>
 											</table>
 											<table class="dialog-form-table">
@@ -1138,10 +1138,10 @@ function GetPage($res='', $shabloni)
 										    	<legend>ანგარიშსწორება</legend>
 											<table class="dialog-form-table">
 										    		<tr>
-														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
 													</tr>
 													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+														<td style="text-align:right;"><span></span></td>
 													</tr>
 											</table>
 											<table class="dialog-form-table">
@@ -1184,10 +1184,10 @@ function GetPage($res='', $shabloni)
 								    	<legend>შესავალი</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="width:500px;">
@@ -1237,11 +1237,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[8][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[8][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1269,11 +1269,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1310,11 +1310,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1358,11 +1358,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1389,11 +1389,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1437,11 +1437,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1480,11 +1480,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1527,11 +1527,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1574,11 +1574,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1606,11 +1606,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1645,11 +1645,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1677,11 +1677,11 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1760,7 +1760,7 @@ function GetPage($res='', $shabloni)
 												<td style="width: 280px;"><label for="priority_id">პრიორიტეტი</label></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 200px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+												<td><select style="width: 200px;"  id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
 												<td><select style="width: 200px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
 												<td><select style="width: 200px;" id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 											</tr>
@@ -1805,10 +1805,10 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr>
 										<td>
-											<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
+											<input type="text" id="phone" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="person_n" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
+											<input type="text" id="person_n" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
 										</td>					
 									</tr>
 									<tr>
@@ -1817,10 +1817,10 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr >
 										<td style="width: 180px;">
-											<input type="text" id="first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />
+											<input type="text" id="first_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['mail'] . '" />
+											<input type="text" id="mail" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['mail'] . '" />
 										</td>			
 									</tr>
 									<tr>
@@ -1829,10 +1829,10 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr>
 										<td style="width: 180px;">
-											<input type="text" id="last_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['last_name'] . '" />		
+											<input type="text" id="last_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['last_name'] . '" />		
 										</td>
 										<td td style="width: 180px;">
-											<input type="text" id="b_day" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
+											<input type="text" id="b_day" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
 										</td>
 									</tr>
 									<tr>
@@ -1840,9 +1840,9 @@ function GetPage($res='', $shabloni)
 										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 									</tr>
 									<tr>
-										<td><select style="width: 165px;" id="city_id" class="idls object">'.Getcity($res['city_id']).'</select></td>
+										<td><select style="width: 165px;" id="city_id" disabled class="idls object">'.Getcity($res['city_id']).'</select></td>
 										<td td style="width: 180px;">
-											<input type="text" id="addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
 										</td>
 									</tr>
 									<tr>
@@ -1850,9 +1850,9 @@ function GetPage($res='', $shabloni)
 										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
 									</tr>
 									<tr>
-										<td><select style="width: 165px;" id="family_id" class="idls object">'.Getfamily($res['family_id']).'</select></td>
+										<td><select style="width: 165px;" disabled id="family_id" class="idls object">'.Getfamily($res['family_id']).'</select></td>
 										<td td style="width: 180px;">
-											<input type="text" id="profesion" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profesion'] . '" />		
+											<input type="text" id="profesion" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profesion'] . '" />		
 										</td>
 									</tr>
 								</table>
@@ -1938,7 +1938,7 @@ function Getquest($shabloni){
 												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -1983,7 +1983,7 @@ function Getquest($shabloni){
 												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -2036,7 +2036,7 @@ function Getquest($shabloni){
 												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 										</table>
 									</fieldset>
@@ -2089,7 +2089,7 @@ function Getquest($shabloni){
 												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									</fieldset>
@@ -2134,7 +2134,7 @@ function Getquest($shabloni){
 														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
 													</tr>
 													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+														<td style="text-align:right;"><span></span></td>
 													</tr>
 											</table>
 											<table class="dialog-form-table">
@@ -2174,7 +2174,7 @@ function Getquest($shabloni){
 														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
 													</tr>
 													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+														<td style="text-align:right;"><span></span></td>
 													</tr>
 											</table>
 											<table class="dialog-form-table">
@@ -2194,7 +2194,7 @@ function Getquest($shabloni){
 														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
 													</tr>
 													<tr>
-														<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+														<td style="text-align:right;"><span></span></td>
 													</tr>
 											</table>
 											<table class="dialog-form-table">
@@ -2240,7 +2240,7 @@ function Getquest($shabloni){
 												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
 											</tr>
 											<tr>
-												<td style="text-align:right;"><span>შეიყვანეთ ტექსტი</span></td>
+												<td style="text-align:right;"><span></span></td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="width:500px;">
@@ -2294,7 +2294,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2326,7 +2326,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2367,7 +2367,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2415,7 +2415,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2446,7 +2446,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2494,7 +2494,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2537,7 +2537,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2584,7 +2584,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2631,7 +2631,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2663,7 +2663,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2702,7 +2702,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -2734,7 +2734,7 @@ function Getquest($shabloni){
 												
 											</tr>
 											<tr>
-												<td style="text-align:right;">შეიყვანეთ ტექსტი</td>
+												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>

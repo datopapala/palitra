@@ -923,7 +923,6 @@
 		            <div id="dynamic">
 		            	<h2 align="center">პირველადი</h2>
 		            	<div id="button_area">
-		            		<button id="add_button_n">დამატება</button>
 	        			</div>
 		                <table class="display" id="example1">
 		                    <thead>
