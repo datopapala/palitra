@@ -126,12 +126,7 @@ switch ($action) {
 		$jora = array();
 		$gela = array();
 		while ($res_row = mysql_fetch_assoc($req)) {
-			$a = $res_row[qvota];
-			$s = $res_row[notes];
-			$d = $res_row[quest_id];
-			$f = $res_row[scenar_id];
-			$g = $res_row[name];
-			$gela = ['qvota'=>$a, 'notes'=>$s, 'quest_id'=>$d, 'scenar_id'=>$f, 'name'=>$g ];
+			$gela = array('qvota'=>$res_row[qvota], 'notes'=>$res_row[notes], 'quest_id'=>$res_row[quest_id], 'scenar_id'=>$res_row[scenar_id], 'name'=>$res_row[name] );
 			$jora[] =$gela;
 		}
 		
