@@ -6,11 +6,6 @@ $end   = $_REQUEST['end'];
 $agent = $_REQUEST['agent'];
 $queuet = $_REQUEST['queuet'];
 
-$row_done_blank = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `count`
-		FROM `incomming_call`
-		WHERE DATE(date) >= '$start' AND DATE(date) <= '$end' AND phone != '' "));
-
-
 $result = mysql_query("SELECT	COUNT(*) AS `count1`,
 								CONCAT('ნაპასუხები ზარები-',COUNT(*)) AS `cause` 
 								FROM	queue_stats AS qs,
