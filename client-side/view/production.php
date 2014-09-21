@@ -16,7 +16,7 @@
 		function LoadTable(){
 
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 5, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 6, "", 0, "", 1, "desc");
 
 		}
 
@@ -64,6 +64,11 @@
 
 
     </script>
+ <style type="text/css">
+ :nth-child(6){
+	text-align: right;
+ }
+ </style>
 </head>
 
 <body>
@@ -82,7 +87,8 @@
                             <th style="width: 100%;">პროდუქტი</th>
                             <th style="width: 100%;">ჟანრი</th>
                             <th style="width: 100%;">კატეგორია</th>
-                            <th style="width: 100%;">ფასი</th>
+                            <th style="width: 100%;">აღწერილობა</th>
+                            <th style="width: 80px;">ფასი</th>
                         	<th class="check">#</th>
                         </tr>
                     </thead>
@@ -92,6 +98,9 @@
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
@@ -99,7 +108,7 @@
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                              <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="" />
                             </th>
                           <th>
                             	<input type="checkbox" name="check-all" id="check-all">
