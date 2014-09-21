@@ -45,7 +45,7 @@
 		var aJaxURL5	= "server-side/call/tasks/subtasks/tasks_tab1.action.php";		//server side folder url
 		var aJaxURL6	= "server-side/call/tasks/subtasks/tasks_tab2.action.php";		//server side folder url
         var seoyURL		= "server-side/seoy/seoy.action.php";					//server side folder url
-		var upJaxURL		= "server-side/upload/file.action.php";	
+		var upJaxURL	= "server-side/upload/file.action.php";	
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name

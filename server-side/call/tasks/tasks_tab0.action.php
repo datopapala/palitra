@@ -144,70 +144,7 @@ switch ($action) {
         
         break;
         
-        case 'delete_file':
-        
-        	mysql_query("DELETE FROM file WHERE id = $delete_id");
-        
-        	$increm = mysql_query("	SELECT  `name`,
-        			`rand_name`,
-        			`id`
-        			FROM 	`file`
-        			WHERE   `task_id` = $edit_id
-        			");
-        
-        	$data1 = '';
-        
-        	while($increm_row = mysql_fetch_assoc($increm))	{
-        	$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-        				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
- 					  </tr>';
-		}
-        
-		$data = array('page' => $data1);
-        
-        		break;
-        
-        		case 'up_now':
-        		$user		= $_SESSION['USERID'];
-        		if($rand_file != ''){
-        		mysql_query("INSERT INTO 	`file`
-        		( 	`user_id`,
-        		`task_id`,
-        		`name`,
-        		`rand_name`
-        		)
-        		VALUES
-        		(	'$user',
-        		'$edit_id',
-        		'$file',
-        		'$rand_file'
-        		);");
-        		}
-        
-        		$increm = mysql_query("	SELECT  `name`,
-        		`rand_name`,
-        		`id`
-        		FROM 	`file`
-        		WHERE   `task_id` = $edit_id
-        		");
-        
-        		$data1 = '';
-        
-        		while($increm_row = mysql_fetch_assoc($increm))	{
-        		$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-        		<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-        		<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
-        				          </tr>';
-		}
-        
-		$data = array('page' => $data1);
-		
-		break;
-        
-    case '':
+    
     default:
        $error = 'Action is Null';
 }
@@ -857,43 +794,42 @@ function GetPage($res='', $number)
 											</td>
 										</tr>
 									</table>
-									<fieldset style="width:200px; float:left;">
-							    	<legend>დავალების ტიპი</legend>	
+											
 									<table width="100%" class="dialog-form-table">
+									   <tr>
+											<td style="width: 220px;">დავალების ტიპი</select></td>
+										    <td style="width: 220px;">ქვე-განყოფილება</select></td>
+											<td style="width: 220px;">პასუხისმგებელი პირი</select></td> 
+										</tr>
 										<tr>
-											<td style="width: 200px;"><select style="width: 260px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
+											<td style="width: 220px;"><select style="width: 220px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
+										    <td style="width: 220px;"><select style="width: 220px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+											<td style="width: 220px;"><select style="width: 217px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td> 
 										</tr>
 									</table>
-									</fieldset>
-									<fieldset style="width:390px; float:left; margin-left:10px;">
-							    	<legend>სცენარი</legend>	
+											    
+    									
+                                </fieldset>
+    											    
+    							<fieldset>
+							    	<legend>კლიენტთა ბაზა</legend>
+									
+											    
 									<table width="100%" class="dialog-form-table">
+									    <tr>
+                                            <td>სცენარი</td>
+											 <td>ფაილის ატვირთვა</td>
+									   </tr>
 										<tr>
-											<td style="width: 350px;"><select style="width: 420px;" id="template_id" class="idls object">'. Getscenar($res['template_id']).'</select></td>
+											<td style="width: 200px;"><select style="width: 200px;" id="template_id" class="idls object">'. Getscenar($res['template_id']).'</select></td>
+											<td style="width: 200px;">
+											    <div class="file-uploader">
+									               <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
+									               <button style="margin-left: 0px !important;" id="choose_button" class="center">აირჩიეთ ფაილი</button>
+									            </div>
+											</td>
 										</tr>
-									</table>
-									</fieldset>
-									<fieldset style="width:200px; float:left;">
-							    	<legend>ქვე-განყოფილება</legend>	
-									<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 200px;"><select style="width: 260px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
-										</tr>
-									</table>
-									</fieldset>
-									<fieldset style="width:390px; float:left; margin-left:10px; margin-bottom:15px;">
-							    	<legend>პასუხისმგებელი პირი</legend>	
-									<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 350px;"><select style="width: 420px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
-										</tr>
-									</table>
-									</fieldset>
-													
-										<div class="file-uploader">
-										<input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
-										<button id="choose_button" class="center">აირჩიეთ ფაილი</button>
-										</div>
+    								</table>
 													
 									<div id="dt_example" class="inner-table">
 							        <div style="width:100%;" id="container" >        	
