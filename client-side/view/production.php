@@ -4,29 +4,29 @@
 		var aJaxURL	= "server-side/view/production.action.php";		//server side folder url
 		var tName	= "example";													//table name
 		var fName	= "add-edit-form";												//form name
-		    	
-		$(document).ready(function () {        	
-			LoadTable();	
-						
+
+		$(document).ready(function () {
+			LoadTable();
+
 			/* Add Button ID, Delete Button ID */
-			GetButtons("add_button", "delete_button");			
+			GetButtons("add_button", "delete_button");
 			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
 		});
-        
+
 		function LoadTable(){
-			
+
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 4, "", 0, "", 1, "desc");
-    		
+			GetDataTable(tName, aJaxURL, "get_list", 5, "", 0, "", 1, "desc");
+
 		}
-		
+
 		function LoadDialog(){
 			var id		= $("#priority_id").val();
-			
+
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 600, "auto", "");
 		}
-		
+
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
@@ -36,14 +36,19 @@
 	    	param.name							= $("#name").val();
 	    	param.genre_id						= $("#genre_id").val();
 	    	param.production_category_id		= $("#production_category_id").val();
-	    	
+	    	param.par_id						= $("#parent_id").val();
+	    	param.comment   					= $('#comment').val();
+	    	param.decription 					= $('#decription').val();
+	    	param.price 						= $('#price').val();
+
+
 			if(param.name == ""){
 				alert("შეავსეთ ველი!");
 			}else {
 			    $.ajax({
 			        url: aJaxURL,
 				    data: param,
-			        success: function(data) {			        
+			        success: function(data) {
 						if(typeof(data.error) != 'undefined'){
 							if(data.error != ''){
 								alert(data.error);
@@ -57,13 +62,13 @@
 			}
 		});
 
-	   
+
     </script>
 </head>
 
 <body>
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
-        <div id="container">        	
+        <div id="container">
             <div id="dynamic">
             	<h2 align="center">პრიორიტეტები</h2>
             	<div id="button_area">
@@ -77,6 +82,7 @@
                             <th style="width: 100%;">პროდუქტი</th>
                             <th style="width: 100%;">ჟანრი</th>
                             <th style="width: 100%;">კატეგორია</th>
+                            <th style="width: 100%;">ფასი</th>
                         	<th class="check">#</th>
                         </tr>
                     </thead>
@@ -92,6 +98,9 @@
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
                           <th>
                             	<input type="checkbox" name="check-all" id="check-all">
                             </th>
@@ -101,7 +110,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- jQuery Dialog -->
     <div id="add-edit-form" class="form-dialog" title="პრიორიტეტები">
     	<!-- aJax -->
