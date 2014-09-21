@@ -37,16 +37,16 @@ $result = mysql_query("SELECT	COUNT(*) AS `count1`,
 $row = array();
 $rows = array();
 while($r = mysql_fetch_array($result)) {
-	$row[0] = $r[1];
-	$row[1] = $r[0];
+	$row[0] = mysql_real_escape_string($r[1]);
+	$row[1] = mysql_real_escape_string($r[0]);
 	array_push($rows,$row);
 }
 
 $rr = mysql_fetch_assoc($result);
-$rows1[0] = $rr[1];
-$rows1[1] = $rr[0];
+$rows1[0] = mysql_real_escape_string($rr[1]);
+$rows1[1] = mysql_real_escape_string($rr[0]);
 
 
-echo json_encode($rows, JSON_NUMERIC_CHECK);
+echo json_encode(mysql_real_escape_string($rows), JSON_NUMERIC_CHECK);
 
 ?>
