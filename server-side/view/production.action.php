@@ -23,7 +23,9 @@ switch ($action) {
 										`production`.`name`,
 										`genre`.`name`,
 										`production_category`.`name`,
+										`production`.`decription`,
 										`production`.`price`
+
 								FROM 	`production`
 								LEFT JOIN	`genre` ON 	`production`.`genre_id` = `genre`.`id`
 								LEFT JOIN	`production_category` ON `production`.`production_category_id` = `production_category`.`id`
