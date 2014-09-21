@@ -47,6 +47,6 @@ $rows1[0] = mysql_real_escape_string($rr[1]);
 $rows1[1] = mysql_real_escape_string($rr[0]);
 
 
-echo json_encode(mysql_real_escape_string($rows), JSON_NUMERIC_CHECK);
+echo json_encode($rows, JSON_NUMERIC_CHECK);
 
 ?>
