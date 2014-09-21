@@ -91,6 +91,7 @@
  			param.hidden_id 	= $("#hidden_id").val();
  			param.group_name 	= $("#group_name").val();
  			param.scenar_id 	= $("#scenar_id").val();
+ 			param.product_id	= $("#product_id").val();
 
  	    	    $.ajax({
  	    	        url: aJaxURL,

@@ -31,11 +31,12 @@ switch ($action) {
 		$hidden_id		= $_REQUEST['hidden_id'];
 		$group_name		= $_REQUEST['group_name'];
 		$scenar_id		= $_REQUEST['scenar_id'];
+		$product_id		= $_REQUEST['product_id'];
 		
 		mysql_query("INSERT	INTO `tmp_shabloni`
-							(`name`, `quest_id`,`notes`,`scenar_id`,`qvota`)
+							(`name`, `quest_id`,`notes`,`scenar_id`,`qvota`,`product_id`)
 								VALUES
-							('$group_name','$hidden_id','$minishneba','$scenar_id','$qvota')");
+							('$group_name','$hidden_id','$minishneba','$scenar_id','$qvota','$product_id')");
 		
 	    break;
 	case 'get_notes':
@@ -119,12 +120,13 @@ switch ($action) {
 									notes,
 									quest_id,
 									scenar_id,
-									name
+									name,
+									product_id
 							FROM 	tmp_shabloni");
 		$jora = array();
 		$gela = array();
 		while ($res_row = mysql_fetch_assoc($req)) {
-			$gela = array('qvota'=>$res_row[qvota], 'notes'=>$res_row[notes], 'quest_id'=>$res_row[quest_id], 'scenar_id'=>$res_row[scenar_id], 'name'=>$res_row[name] );
+			$gela = array('qvota'=>$res_row[qvota], 'notes'=>$res_row[notes], 'quest_id'=>$res_row[quest_id], 'scenar_id'=>$res_row[scenar_id], 'name'=>$res_row[name], 'product_id'=>$res_row[product_id] );
 			$jora[] =$gela;
 		}
 		
@@ -135,11 +137,12 @@ switch ($action) {
 			$notes_a = $jora[$i][notes];
 			$qvota_a = $jora[$i][qvota];
 			$scenar_id_a = $jora[$i][scenar_id];
+			$product_id_a = $jora[$i][product_id];
 			 
 			mysql_query("INSERT	INTO `shabloni`
-						(`name`, `quest_id`, `notes`, `scenar_id`, `qvota`)
+						(`name`, `quest_id`, `notes`, `scenar_id`, `qvota`, `product_id`)
 							VALUES
-						('$name_a','$quest_id_a','$notes_a','$scenar_id_a','$qvota_a')");
+						('$name_a','$quest_id_a','$notes_a','$scenar_id_a','$qvota_a', '$product_id_a')");
 		}
 
 		mysql_query("DELETE FROM tmp_shabloni
@@ -252,31 +255,83 @@ function GetGroupPage($res = ''){
 	return $data;
 }
 
-function GetNotes($id){
+function GetProduct(){
+	$req = mysql_query("	SELECT id,`name`
+							FROM `production`
+							WHERE actived = 1
+							");
 
-	$data = '
-	<div id="dialog-form">
- 	    <fieldset>
-			<legend>მინიშნება</legend>
-			<table>
-			<tr>
-	    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
-			</tr>
-			</table>
-        </fieldset>
-		<fieldset>
-			<legend>ქვოტა</legend>
-			<table>
+	$data1 .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+			$data1 .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+	}
+
+	return $data1;
+}
+
+function GetNotes($id){
+	if(($id < 8) or ($id == 21)){
+		$data = '
+		<div id="dialog-form">
+	 	    <fieldset>
+				<legend>მინიშნება</legend>
+				<table>
 				<tr>
-		    		<td>
-						<input type="text" id="qvota" class="idle" onblur="this.className=\'idle\'"/>
-					</td>
+		    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
 				</tr>
-			</table>
-        </fieldset>
-    </div>
-		<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
+				</table>
+	        </fieldset>
+			
+	    </div>
+			<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
     ';
+	}
+	if($id == 3 or $id == 4){
+	$data = '
+		<div id="dialog-form">
+	 	    <fieldset>
+				<legend>მინიშნება</legend>
+				<table>
+				<tr>
+		    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
+				</tr>
+				</table>
+	        </fieldset>
+			<fieldset>
+				<legend>პროდუქტი</legend>
+				
+			    		<td><select style="width: 305px;" id="product_id" class="idls object">'.GetProduct().'</select>
+					
+	        </fieldset>
+	    </div>
+			<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
+    ';
+	}
+	if($id>7 and $id != 21){
+		$data = '
+			<div id="dialog-form">
+		 	    <fieldset>
+					<legend>მინიშნება</legend>
+					<table>
+					<tr>
+			    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
+					</tr>
+					</table>
+		        </fieldset>
+				<fieldset>
+					<legend>ქვოტა</legend>
+					<table>
+						<tr>
+				    		<td>
+								<input type="text" id="qvota" class="idle" onblur="this.className=\'idle\'"/>
+							</td>
+						</tr>
+					</table>
+		        </fieldset>
+		    </div>
+				<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
+    ';
+	}
 	return $data;
 }
 
