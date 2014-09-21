@@ -55,7 +55,6 @@
 		$(document).ready(function () {     
 			GetTabs(tbName);   	
 			GetTable0();
-			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
 		});
 
@@ -99,7 +98,8 @@
              LoadTable7();
          }
 
-		 function LoadTable0(){			
+		 function LoadTable0(){		
+			 SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");	
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
 		}
@@ -891,9 +891,7 @@
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">პირველადი</h2>
-		            	<div id="button_area">
-		            		<button id="add_button_n">დამატება</button>
-	        			</div>
+		            	
 		                <table class="display" id="example1">
 		                    <thead>
 								<tr id="datatable_header">
