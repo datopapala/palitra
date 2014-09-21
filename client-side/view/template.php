@@ -67,7 +67,8 @@
 		                				            }
 		                				        } 
 		                				    };
-		                            	GetDialog("add-group-form", 450, "auto", buttons);
+		                            	GetDialog("add-group-form", 700, "auto", buttons);
+		                            	GetDataTable("example1", aJaxURL, "get_list_product", 6, "", 0, "", 1, "desc");
 		                            }
 		                        }
 		                    }
@@ -79,23 +80,34 @@
 		
 
 		
+		$(document).on("click", "#check-all", function () {
+			
+			if($("#example1 #check-all").is(':checked')){
+				 $("#example1 .check").prop('checked', true);
+			}else{
+				$("#example1 .check").prop('checked', false);
+			}
+		});
+		
 	    // Add - Save
 		$(document).on("click", "#save_notes", function () {
-
-
-     		param = new Object();
+			var data = $("#example1 .check:checked").map(function () { //Get Checked checkbox array
+	            return this.value;
+	        }).get();
+	        if(data !=''){
+			for (var i = 0; i < data.length; i++) {
+	
      	    //Action
-     		param.act			= "save_notes";
- 			param.minishneba	= $("#minishneba").val();
- 			param.qvota 		= $("#qvota").val();
- 			param.hidden_id 	= $("#hidden_id").val();
- 			param.group_name 	= $("#group_name").val();
- 			param.scenar_id 	= $("#scenar_id").val();
- 			param.product_id	= $("#product_id").val();
+     		var act			= "save_notes";
+ 			var minishneba	= $("#minishneba").val();
+ 			var qvota 		= $("#qvota").val();
+ 			var hidden_id 	= $("#hidden_id").val();
+ 			var group_name 	= $("#group_name").val();
+ 			var scenar_id 	= $("#scenar_id").val();
 
  	    	    $.ajax({
  	    	        url: aJaxURL,
- 	    		    data: param,
+ 	    		    data: "act="+act+"&minishneba="+minishneba+"&qvota="+qvota+"&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id+"&product_id="+data[i],
  	    	        success: function(data) {
  	    				if(typeof(data.error) != "undefined"){
  	    					if(data.error != ""){
@@ -107,6 +119,33 @@
  	    				}
  	    		    }
  	    	    });
+			}
+	        }else{
+	        	var data		= '';
+	        	var qvota		= '';
+	        	//Action
+	     		var act			= "save_notes";
+	 			var minishneba	= $("#minishneba").val();
+	 			qvota 			= $("#qvota").val();
+	 			var hidden_id 	= $("#hidden_id").val();
+	 			var group_name 	= $("#group_name").val();
+	 			var scenar_id 	= $("#scenar_id").val();
+
+	 	    	    $.ajax({
+	 	    	        url: aJaxURL,
+	 	    		    data: "act="+act+"&minishneba="+minishneba+"&qvota="+qvota+"&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id+"&product_id="+data[i],
+	 	    	        success: function(data) {
+	 	    				if(typeof(data.error) != "undefined"){
+	 	    					if(data.error != ""){
+	 	    						alert(data.error);
+	 	    					}else{
+	 	    						$("#add-group-form").dialog("close");
+	 	    						
+	 	    					}
+	 	    				}
+	 	    		    }
+	 	    	    });
+	        }
  			
 		});
 

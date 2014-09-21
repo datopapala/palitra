@@ -33,6 +33,7 @@ switch ($action) {
 		$scenar_id		= $_REQUEST['scenar_id'];
 		$product_id		= $_REQUEST['product_id'];
 		
+		
 		mysql_query("INSERT	INTO `tmp_shabloni`
 							(`name`, `quest_id`,`notes`,`scenar_id`,`qvota`,`product_id`)
 								VALUES
@@ -46,7 +47,39 @@ switch ($action) {
 	    $data		= array('page'	=> $page);
 	    
 	    break;
-	    
+	case 'get_list_product':
+		$count	= $_REQUEST['count'];
+		$hidden	= $_REQUEST['hidden'];
+		$rResult = mysql_query("SELECT 	`production`.`id`,
+										`production`.`name`,
+										`genre`.`name`,
+										`production_category`.`name`,
+										`production`.`decription`,
+										`production`.`price`
+		
+								FROM 	`production`
+								LEFT JOIN	`genre` ON 	`production`.`genre_id` = `genre`.`id`
+								LEFT JOIN	`production_category` ON `production`.`production_category_id` = `production_category`.`id`
+								WHERE 	`production`.`actived`=1");
+		
+		$data = array(
+				"aaData"	=> array()
+		);
+		
+		while ( $aRow = mysql_fetch_array( $rResult ) )
+		{
+			$row = array();
+			for ( $i = 0 ; $i < $count ; $i++ )
+			{
+				/* General output */
+				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+				}
+			}
+			$data['aaData'][] = $row;
+		}
+	break;
 	case 'get_list':
 	    $count = $_REQUEST['count'];
 	    $hidden = $_REQUEST['hidden'];
@@ -293,15 +326,48 @@ function GetNotes($id){
 				<legend>მინიშნება</legend>
 				<table>
 				<tr>
-		    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
+		    	<td><textarea  style="width: 640px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
 				</tr>
 				</table>
 	        </fieldset>
 			<fieldset>
-				<legend>პროდუქტი</legend>
-				
-			    		<td><select style="width: 305px;" id="product_id" class="idls object">'.GetProduct().'</select>
-					
+				<legend style="margin-bottom: 20px;">პროდუქტი</legend>
+				<table class="display" id="example1" >
+                    <thead >
+                        <tr id="datatable_header">
+                            <th>ID</th>
+                            <th style="width: 50%;">პროდუქტი</th>
+                            <th style="width: 50%;">ჟანრი</th>
+                            <th style="width: 50%;">კატეგორია</th>
+                            <th style="width: 50%;">აღწერილობა</th>
+                            <th style="width: 80px;">ფასი</th>
+                        	<th class="check">#</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="search_header">
+                            <th class="colum_hidden">
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="" />
+                            </th>
+                          <th>
+                            	<input type="checkbox" name="check-all" id="check-all">
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
 	        </fieldset>
 	    </div>
 			<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
