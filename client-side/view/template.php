@@ -40,7 +40,7 @@
 				
 		        if (empty != "dataTables_empty") {
 		            var rID = $(nTds[0]).text();
-		           
+		            $("#pages INPUT[name='check_"+rID+"']").prop('checked', true);
 		            $.ajax({
 		                url: aJaxURL,
 		                type: "POST",

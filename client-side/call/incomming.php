@@ -694,7 +694,7 @@ table.display tbody td
 </head>
 
 <body>
-<div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 98%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">ჩემი ზარები დღეს</a></li>
 			<li><a href="#tab-1">ჩემი ზარები</a></li>

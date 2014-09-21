@@ -192,7 +192,7 @@ function ClearForUpdate($group_id){
 }
 
 function Getscenari($scenar_id){
-	$req = mysql_query("SELECT id,name FROM `task_type`");
+	$req = mysql_query("SELECT id,name FROM `pattern`");
 	
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
