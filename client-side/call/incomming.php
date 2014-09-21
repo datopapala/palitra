@@ -27,6 +27,7 @@ table.display tbody td
    -moz-hyphens: auto;
         hyphens: auto;
 	white-space: normal !important;
+	vertical-align: middle !important;
 }
 
 #box-table-b
@@ -112,7 +113,15 @@ table.display tbody td
          }
          
 		 function GetTable3() {
-             LoadTable3();
+			LoadTable3(0,0);
+
+			GetDate("search_start");
+			GetDate("search_end");
+
+			var start 	= $("#search_start").val();
+			var end 	= $("#search_end").val();
+			GetInfo(start, end);
+             //LoadTable3();
          }
 
 
@@ -131,10 +140,40 @@ table.display tbody td
 			GetDataTable("example2", aJaxURL_call_now, "get_list",9, "", 0, "", 1, "desc");
 		}
 		
-		function LoadTable3(){
+		function LoadTable3(start, end){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL_all_call, "get_list",9, "", 0, "", 1, "desc");
+			GetDataTable("example3", aJaxURL_all_call, "get_list", 9, "start=" + start + "&end=" + end, 0, "", 1, "desc");
 		}
+
+		$(document).on("change", "#search_start", function () {
+	    	var start	= $(this).val();
+	    	var end		= $("#search_end").val();
+	    	LoadTable3(start, end);
+	    	GetInfo(start, end);
+	    });
+	    
+	    $(document).on("change", "#search_end", function () {
+	    	var start	= $("#search_start").val();
+	    	var end		= $(this).val();
+	    	LoadTable3(start, end);
+	    	GetInfo(start, end);
+	    });
+
+		function GetInfo(start, end){
+				    
+			$.ajax({
+				url: aJaxURL_all_call,
+				data: "act=get-info&start=" + start + "&end=" + end,
+				success: function(data) {
+					if (data.error != "") {
+	                    alert(data.error);
+	                } else {
+	                	$("#get-info").html(data.page);	
+	                }
+				}
+			});
+			
+	    }
 
 		$(document).on("click", "#button_calls", function () {
 			LoadDialogCalls();
@@ -666,8 +705,8 @@ table.display tbody td
 		<table style="width: 1100px; margin: 0 0 0 30px; padding-top:25px; display: block;">
 		<tr style="width: 1000px">
 			<td>
-            	<h2 align="center">შემომავალი ზარები</h2>
-            	<div id="button_area">
+            	<h2 align="center" >შემომავალი ზარები</h2>
+            	<div id="button_area" >
         			<button id="add_button">დამატება</button>
         			<button id="tabel" onclick="location.reload();location.href='index.php?pg=32'">ტაბელი</button>
         		</div>
@@ -833,9 +872,18 @@ table.display tbody td
 		<table style="width: 1100px; margin: 0 0 0 100px; padding-top:25px; display: block;">
 		<tr style="width: 1000px">
 			<td>
-            	<h2 align="center">ყველა ზარი</h2>
-            	<div id="button_area">
-        		</div>
+            	<h2 align="center"style="margin-bottom:  40px;">ყველა ზარი</h2>
+            	<div id="button_area" >
+	            	<div class="left" style="width: 250px;">
+	            		<label for="search_start" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_start" id="search_start" class="inpt left"/>
+	            	</div>
+	            	<div class="right" style="">
+	            		<label for="search_end" class="left" style="margin: 5px 0 0 9px;">დასასრული</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_end" id="search_end" class="inpt right" />
+            		</div>	
+            	</div>
+            	<div id="get-info" style="float : left; margin-left: 30px;"></div>
                 <table class="display" id="example3">
                     <thead>
                         <tr id="datatable_header">
