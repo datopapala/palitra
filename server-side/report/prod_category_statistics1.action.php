@@ -47,6 +47,6 @@ while($r1 = mysql_fetch_array($row_done_blank)) {
 	array_push($rows,$row1);
 }
 
-echo json_encode($rows, JSON_NUMERIC_CHECK);
+echo json_encode($rows);
 
 ?>
