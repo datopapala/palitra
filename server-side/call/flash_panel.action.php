@@ -1,6 +1,6 @@
 <?php
 
-mysql_connect('92.241.82.243', 'root', 'Gl-1114');
+mysql_connect('localhost', 'root', 'Gl-1114');
 mysql_select_db('asteriskcdrdb');
 
 //require_once '../../includes/classes/asteriskcore.php';

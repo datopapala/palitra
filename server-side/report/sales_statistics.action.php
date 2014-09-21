@@ -1,6 +1,6 @@
 <?php
 mysql_close();
-$conn = mysql_connect('92.241.82.243', 'root', 'Gl-1114');
+$conn = mysql_connect('localhost', 'root', 'Gl-1114');
 mysql_select_db('asteriskcdrdb');
 
 header('Content-Type: application/json');

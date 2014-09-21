@@ -1055,7 +1055,7 @@ function GetPage($res='', $number)
 
 function GetRecordingsSection($res)
 {
-	$db2 = new sql_db ( "92.241.82.243", "root", "Gl-1114", "asteriskcdrdb" );
+	$db2 = new sql_db ( "localhost", "root", "Gl-1114", "asteriskcdrdb" );
 
 	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 			`userfield`

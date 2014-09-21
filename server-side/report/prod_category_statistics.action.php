@@ -11,7 +11,7 @@ $row_done_blank = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `count`
 		WHERE DATE(date) >= '$start' AND DATE(date) <= '$end' AND phone != '' "));
 
 mysql_close();
-$conn = mysql_connect('92.241.82.243', 'root', 'Gl-1114');
+$conn = mysql_connect('localhost', 'root', 'Gl-1114');
 mysql_select_db('asteriskcdrdb');
 
 

@@ -68,7 +68,7 @@ class AsteriskManager
         return $parameters;
     }
     
-    function connect($server='92.241.82.243', $username='admin', $secret='sudobash') {
+    function connect($server='localhost', $username='admin', $secret='sudobash') {
         // Extract port if specified
         if(strpos($server, ':') !== false) {
             $parts = explode(':', $server);
