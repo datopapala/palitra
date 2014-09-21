@@ -1,10 +1,10 @@
 <?php
+require_once('../../includes/classes/core.php');
 header('Content-Type: application/json');
 $start = $_REQUEST['start'];
 $end   = $_REQUEST['end'];
 $agent = $_REQUEST['agent'];
 $queuet = $_REQUEST['queuet'];
-require_once('../../includes/classes/core.php');
 
 $row_done_blank = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `count`
 		FROM `incomming_call`
@@ -44,7 +44,7 @@ $rows = array();
 while($r = mysql_fetch_array($result)) {
 	$row[0] = $r[1];
 	$row[1] = $r[0];
-	$rows[] = array($row);
+	array_push($rows,$row);
 }
 
 $rr = mysql_fetch_assoc($result);
