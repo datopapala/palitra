@@ -14,6 +14,20 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 .hidden{
 	display: none;
 }
+table.display tbody td
+{
+	word-break: break-all !important;
+	word-wrap: break-word !important;
+	text-overflow: ellipsis !important;
+	overflow: hidden !important;
+	-ms-word-break: break-all;
+     word-break: break-all;
+     word-break: break-word;
+	-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
+	white-space: normal !important;
+}
 
 #box-table-b
 {
@@ -662,11 +676,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 50px;" >№</th>
-                            <th style="width: 130px;">თარიღი</th>
+                            <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
-                            <th>კატეგორია</th>
+                            <th style="width: 100%;">კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
-                            <th>ზარის სტატუსი</th>
+                            <th style="width: 80%;">ზარის სტატუსი</th>
                         </tr>
                     </thead>
                     <thead>
@@ -718,11 +732,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 50px;" >№</th>
-                            <th style="width: 130px;">თარიღი</th>
+                            <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
-                            <th>კატეგორია</th>
+                            <th style="width: 100%;">კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
-                            <th>ზარის სტატუსი</th>
+                            <th style="width: 80%;">ზარის სტატუსი</th>
                         </tr>
                     </thead>
                     <thead>
@@ -774,7 +788,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 50px;" >№</th>
-                            <th style="width: 130px;">თარიღი</th>
+                            <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
                             <th>კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
@@ -827,7 +841,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 50px;" >№</th>
-                            <th style="width: 130px;">თარიღი</th>
+                            <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
                             <th>კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
