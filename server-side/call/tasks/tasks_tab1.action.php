@@ -965,10 +965,9 @@ function Getquest($shabloni){
 			FROM shabloni
 			WHERE `name`='$shabloni'");
 	$notes = array();
-	$a 	= 	array();
 	while ($rows_shab = mysql_fetch_assoc($rows)){
 		$rows_shablon[] = $rows_shab[quest_id];
-		$a		 = ['id'=>$rows_shab[quest_id],'name'=>$rows_shab[notes]];
+		$a		 = array('id'=>$rows_shab[quest_id],'name'=>$rows_shab[notes]);
 		$notes[] = $a;
 	}
 	$pattern = mysql_query("SELECT content FROM pattern_param");
