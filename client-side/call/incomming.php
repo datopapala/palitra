@@ -79,7 +79,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 		$(document).on("click", ".download", function () {
             var link = $(this).attr("str");
-            link = "http://localhost:8181/records/" + link + ".wav";
+            link = "http://92.241.82.243:8181/records/" + link + ".wav";
 
             var newWin = window.open(link, "JSSite", "width=420,height=230,resizable=yes,scrollbars=yes,status=yes");
             newWin.focus();
