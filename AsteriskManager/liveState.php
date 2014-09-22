@@ -221,8 +221,15 @@ $totaltime = ($endtime - $begintime);
 						$dur = $channels[$inuse[$key]]['duration_str'];
 					}
 				}
+				$queue = array(
+						'2196013','2196053','2420421','2486844'
+				);
+				foreach($queue as $qn) {
+					$last = $queues[$qn]['members'][$key]['lastcall'];
+					echo $last;
+				}
 				$stat = $queues[$qn]['members'][$key]['status'];
-				$last = $queues[$qn]['members'][$key]['lastcall'];
+				
 	
 				if(($aval == "unavailable" || $aval == "unknown") && $ocultar=="true") {
 					// Skip
