@@ -279,12 +279,12 @@ $totaltime = ($endtime - $begintime);
 					//-----------
 					foreach($queue as $qn) {
 							
-						if ($queues[$qn]['members'][$key]['lastcall'] < 10 ) {
+						if ($queues[$qn]['members'][$key]['lastcall'] > 0 ) {
 							$last = $queues[$qn]['members'][$key]['lastcall'];
 						}
-							
+					}		
 						echo "<td>$last</td>";
-					}
+					
 					//------------
 					echo "</tr>";
 					$contador++;
