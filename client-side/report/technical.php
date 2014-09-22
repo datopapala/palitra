@@ -87,6 +87,10 @@
 			$("#show_report").button({
 	            
 		    });
+			$("#excel_tech_info").button({
+	            
+		    });
+			
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -1473,6 +1477,75 @@
 			    }
 		    });
 		}
+
+
+
+		 $(document).on("click", "#excel_tech_info", function () {	
+			 var i=0;
+				
+				parame 			= new Object();
+				parame.agent	= '';
+				parame.queuet = '';
+
+				var options = $('#myform_List_Queue_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.queuet != ""){
+						parame.queuet+=",";
+						
+					}
+					parame.queuet+="'"+option.value+"'";
+				});
+
+				
+				var options = $('#myform_List_Agent_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.agent != ''){
+						parame.agent+=',';
+						
+					}
+					parame.agent+="'"+option.value+"'";
+				});
+				
+				parame.start_time = $('#start_time').val();
+				parame.end_time = $('#end_time').val();
+
+		    	$.ajax({
+	 		        url: 'server-side/report/technical/excel_tech_info.php',
+	 			    data: parame,
+			        success: function(data) {
+				        if(data == 1){
+					        alert('ჩანაწერი არ მოიძებნა');
+				        }else{
+			        	SaveToDisk('server-side/report/technical/excel.xls', 'excel.xls');
+				        }
+	 			    }
+	 		    });
+		    	
+			});
+
+
+		 function SaveToDisk(fileURL, fileName) {
+		        // for non-IE
+		        if (!window.ActiveXObject) {
+		            var save = document.createElement('a');
+		            save.href = fileURL;
+		            save.target = '_blank';
+		            save.download = fileName || 'unknown';
+
+		            var event = document.createEvent('Event');
+		            event.initEvent('click', true, true);
+		            save.dispatchEvent(event);
+		            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+		        }
+			     // for IE
+		        else if ( !! window.ActiveXObject && document.execCommand)     {
+		            var _window = window.open(fileURL, "_blank");
+		            _window.document.close();
+		            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+		            _window.close();
+		        }
+		    } 
+		
     </script>
     
 </head>
@@ -1571,7 +1644,7 @@
             	
 				
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 50px">
-                <caption>ტექნიკური ინფორმაცია</caption>
+                <caption>ტექნიკური ინფორმაცია</caption> 
                 <tbody>
                 <tr>
                 	<th></th>
@@ -1592,6 +1665,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                </tr>
+                <tr>
+                <td><button id="excel_tech_info">Excel</button></td>
                 </tr>
                 </tbody>
                 </table>
