@@ -18,6 +18,23 @@ switch ($action) {
 		$data		= array('page'	=> $page);
 		
 		break;
+	case 'get_product_dialog':
+			$page		= GetProductDialog();
+			$data		= array('page'	=> $page);
+		
+		break;
+	case 'save_product':
+			$page		= SaveProduct();
+			$data		= array('page'	=> $page);
+		
+		break;
+	case 'get_product_search':
+		$title 	= $_REQUEST['title'];
+		$page		= GetProductDialog(GetProductSearch($title));
+		$data		= array('page'	=> $page);
+		
+		break;
+		
 	case 'get_edit_page':
 	    $group_id		= $_REQUEST['id'];
 		$page		    = GetGroupPage(GetPage($group_id));
@@ -56,10 +73,10 @@ switch ($action) {
 										`production_category`.`name`,
 										`production`.`decription`,
 										`production`.`price`
-		
 								FROM 	`production`
 								LEFT JOIN	`genre` ON 	`production`.`genre_id` = `genre`.`id`
 								LEFT JOIN	`production_category` ON `production`.`production_category_id` = `production_category`.`id`
+								JOIN tmp_shabloni ON production.id = tmp_shabloni.product_id
 								WHERE 	`production`.`actived`=1");
 		
 		$data = array(
@@ -73,9 +90,7 @@ switch ($action) {
 			{
 				/* General output */
 				$row[] = $aRow[$i];
-				if($i == ($count - 1)){
-					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
-				}
+				
 			}
 			$data['aaData'][] = $row;
 		}
@@ -205,6 +220,33 @@ echo json_encode($data);
  * ******************************
  */
 
+function SaveProduct(){
+	$quest_id		= $_REQUEST['hidden_id'];
+	$name			= $_REQUEST['group_name'];
+	$scenar_id      = $_REQUEST['scenar_id'];
+	$notes		= $_REQUEST['minishneba'];
+	$product_id 	= $_REQUEST['hidden_product_id'];
+	
+	mysql_query("INSERT	INTO `tmp_shabloni`
+							(`name`, `quest_id`,`notes`,`scenar_id`,`product_id`)
+								VALUES
+							('$name','$quest_id','$notes','$scenar_id','$product_id')");
+}
+
+function GetProductSearch($title){
+	$res = mysql_fetch_assoc(mysql_query("SELECT 	`production`.`id`,
+													`production`.`name` AS `product_name`,
+													`genre`.`name` AS `genre_name`,
+													`production_category`.`name` AS `category_name`,
+													`production`.`decription`,
+													`production`.`price`
+											FROM 	`production`
+											LEFT JOIN	`genre` ON 	`production`.`genre_id` = `genre`.`id`
+											LEFT JOIN	`production_category` ON `production`.`production_category_id` = `production_category`.`id`
+											WHERE 	`production`.`actived`=1 and `production`.`name` = '$title'"));
+	
+	return $res;
+}
 
 function DisableGroup($delete_row)
 {
@@ -314,9 +356,9 @@ function GetNotes($id){
 				</tr>
 				</table>
 	        </fieldset>
-			
-	    </div>
 			<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
+		    
+	    </div>
     ';
 	}
 	if($id == 3 or $id == 4){
@@ -331,7 +373,10 @@ function GetNotes($id){
 				</table>
 	        </fieldset>
 			<fieldset>
-				<legend style="margin-bottom: 20px;">პროდუქტი</legend>
+				<legend style="">პროდუქტი</legend>
+				<div id="button_area" >
+        			<button id="add_product">დამატება</button>
+        		</div>
 				<table class="display" id="example1" >
                     <thead >
                         <tr id="datatable_header">
@@ -341,12 +386,11 @@ function GetNotes($id){
                             <th style="width: 50%;">კატეგორია</th>
                             <th style="width: 50%;">აღწერილობა</th>
                             <th style="width: 80px;">ფასი</th>
-                        	<th class="check">#</th>
                         </tr>
                     </thead>
                     <thead>
                         <tr class="search_header">
-                            <th class="colum_hidden">
+                            <th class="colum_hidden"></th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
@@ -362,15 +406,14 @@ function GetNotes($id){
                              <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="" />
                             </th>
-                          <th>
-                            	<input type="checkbox" name="check-all" id="check-all">
-                            </th>
+                        
                         </tr>
                     </thead>
                 </table>
 	        </fieldset>
 	    </div>
 			<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
+					<input type="text" id="checker_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="0"/>
     ';
 	}
 	if($id>7 and $id != 21){
@@ -398,6 +441,44 @@ function GetNotes($id){
 				<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$id.'"/>
     ';
 	}
+	return $data;
+}
+
+function GetProductDialog($res = ''){		
+	$quset_id		= $_REQUEST['hidden_id'];
+	$data = '
+			<div id="dialog-form">
+		 	    <fieldset>
+					<legend>პროდუქტი</legend>
+					<table>
+						<tr>
+							<td style="width:120px;">დასახელება</td>
+							<td><input type="text" style="margin-bottom: 10px;" id="title" class="idle" onblur="this.className=\'idle\'" value="'.$res[product_name].'"/></td>
+				    	</tr>
+						<tr>
+							<td>ჟანრი</td>
+							<td><input type="text" style="margin-bottom: 10px;" id="ganre" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[genre_name].'"/></td>
+						</tr>
+						<tr>
+							<td>კატეგორია</td>
+							<td><input type="text" style="margin-bottom: 10px;" id="category" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[category_name].'"/></td>
+						</tr>
+						<tr>
+							<td>აღწერილობა</td>
+							<td><input type="text" style="margin-bottom: 10px;" id="description" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[decription].'"/></td>
+						</tr>
+						<tr>
+							<td>ფასი</td>
+							<td><input type="text" style="margin-bottom: 10px;" id="pirce" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[price].'"/></td>
+						</tr>
+					</table>
+		        </fieldset>
+						<input type="text" id="hidden_product_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$res[id].'"/>
+						<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$quset_id.'"/>
+		    </div>
+
+    ';
+	
 	return $data;
 }
 

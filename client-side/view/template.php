@@ -67,6 +67,7 @@
 		                				            }
 		                				        } 
 		                				    };
+		                            	GetButtons("add_product");
 		                            	GetDialog("add-group-form", 700, "auto", buttons);
 		                            	GetDataTable("example1", aJaxURL, "get_list_product", 6, "", 0, "", 1, "desc");
 		                            }
@@ -78,6 +79,69 @@
 		    });
 		}
 		
+		$(document).on("click", "#add_product", function () {
+			var buttons = {
+					"save": {
+			            text: "შენახვა",
+			            id: "save_product"
+			        }, 
+		        	"cancel": {
+			            text: "დახურვა",
+			            id: "cancel-dialog",
+			            click: function () {
+			            	$(this).dialog("close");
+			            }
+			        } 
+			    };
+		    
+			GetDialog("add_product_dialog", 400, "auto", buttons);
+			
+			var minishneba	= $("#minishneba").val();
+ 			var qvota 		= $("#qvota").val();
+ 			var hidden_id 	= $("#hidden_id").val();
+ 			var group_name 	= $("#group_name").val();
+ 			var scenar_id 	= $("#scenar_id").val();
+			$.ajax({
+                url: aJaxURL,
+                type: "POST",
+                data: "act=get_product_dialog&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id+"&minishneba="+minishneba,
+                dataType: "json",
+                success: function (data) {
+                    if (typeof (data.error) != "undefined") {
+                        if (data.error != "") {
+                            alert(data.error);
+                        } else {
+                            $("#add_product_dialog").html(data.page);
+                            
+                            $("#title").keypress(function(event) {
+                    		    if (event.which === 13) {
+                    		    	var title = $("#title").val();
+                        		    	
+	                   		    	$.ajax({
+	              		                url: aJaxURL,
+	              		                type: "POST",
+	              		                data: "act=get_product_search&title="+title,
+	              		                dataType: "json",
+	              		                success: function (data) {
+	              		                    if (typeof (data.error) != "undefined") {
+	              		                        if (data.error != "") {
+	              		                            alert(data.error);
+	              		                        } else {
+	              		                            $("#add_product_dialog").html(data.page);
+	              		                           
+	              		                        }
+	              		                    }
+	              		                }
+	              		            });
+                        		    
+                    		    }
+                    		});
+                    		
+                        }
+                    }
+                }
+            });
+		});
 
 		
 		$(document).on("click", "#check-all", function () {
@@ -88,38 +152,41 @@
 				$("#example1 .check").prop('checked', false);
 			}
 		});
+
+		$(document).on("click", "#save_product", function () {
+			var minishneba				= $("#minishneba").val();
+ 			var hidden_product_id 		= $("#hidden_product_id").val();
+ 			var hidden_id 				= $("#hidden_id").val();
+ 			var group_name 				= $("#group_name").val();
+ 			var scenar_id 				= $("#scenar_id").val();
+ 			if(hidden_product_id == ''){
+ 	 			alert('ჯერ ამოირჩიეთ პროდუქტი')
+ 			}else{
+			$.ajax({
+                url: aJaxURL,
+                type: "POST",
+                data: "act=save_product&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id+"&minishneba="+minishneba+"&hidden_product_id="+hidden_product_id,
+                dataType: "json",
+                success: function (data) {
+                    if (typeof (data.error) != "undefined") {
+                        if (data.error != "") {
+                            alert(data.error);
+                        } else {
+                        	$("#add_product_dialog").dialog("close");
+                        	GetDataTable("example1", aJaxURL, "get_list_product", 6, "", 0, "", 1, "desc");
+                        }
+                    }
+                }
+            });
+ 			}
+		});
 		
 	    // Add - Save
 		$(document).on("click", "#save_notes", function () {
-			var data = $("#example1 .check:checked").map(function () { //Get Checked checkbox array
-	            return this.value;
-	        }).get();
-	        if(data !=''){
-			for (var i = 0; i < data.length; i++) {
-	
-     	    //Action
-     		var act			= "save_notes";
- 			var minishneba	= $("#minishneba").val();
- 			var qvota 		= $("#qvota").val();
- 			var hidden_id 	= $("#hidden_id").val();
- 			var group_name 	= $("#group_name").val();
- 			var scenar_id 	= $("#scenar_id").val();
-
- 	    	    $.ajax({
- 	    	        url: aJaxURL,
- 	    		    data: "act="+act+"&minishneba="+minishneba+"&qvota="+qvota+"&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id+"&product_id="+data[i],
- 	    	        success: function(data) {
- 	    				if(typeof(data.error) != "undefined"){
- 	    					if(data.error != ""){
- 	    						alert(data.error);
- 	    					}else{
- 	    						$("#add-group-form").dialog("close");
- 	    						
- 	    					}
- 	    				}
- 	    		    }
- 	    	    });
-			}
+			var checker_id 	= $("#checker_id").val();
+			if(checker_id == 0){
+				$("#add-group-form").dialog("close");
+			
 	        }else{
 	        	var data		= '';
 	        	var qvota		= '';
@@ -133,7 +200,7 @@
 
 	 	    	    $.ajax({
 	 	    	        url: aJaxURL,
-	 	    		    data: "act="+act+"&minishneba="+minishneba+"&qvota="+qvota+"&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id+"&product_id="+data[i],
+	 	    		    data: "act="+act+"&minishneba="+minishneba+"&qvota="+qvota+"&hidden_id="+hidden_id+"&group_name="+group_name+"&scenar_id="+scenar_id,
 	 	    	        success: function(data) {
 	 	    				if(typeof(data.error) != "undefined"){
 	 	    					if(data.error != ""){
@@ -254,6 +321,9 @@
 	</div>
 	 <!-- jQuery Dialog -->
     <div id="add-group-form" class="form-dialog" title="მინიშნება / ქვოტა">
+	</div>
+	 <!-- jQuery Dialog -->
+    <div id="add_product_dialog" class="form-dialog" title="პროდუქტის დამატება">
 	</div>
 </body>
 </html>
