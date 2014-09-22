@@ -161,6 +161,13 @@
 					GetDialog("add-edit-form", 790, "auto", buttons);
 					GetDateTimes("done_start_time");
 					GetDateTimes("done_end_time");
+
+					var cat_id = $("#task_type_id").val();
+
+					if(cat_id == 1 || cat_id == 2){
+						$("#additional").removeClass('hidden');
+					}
+					
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -225,7 +232,7 @@
 					
 			    break;
 			}
-			LoadTable4()
+			LoadTable4();
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
 	
@@ -521,7 +528,18 @@
                 event.preventDefault();
             }
         });
-//
+///
+
+	    $(document).on("change", "#task_type_id",function(){
+
+			if(this.value == 1 || this.value == 2){
+				$("#additional").removeClass('hidden');
+			}else{
+				$("#additional").addClass('hidden');
+			}
+        });
+///
+	    
 	    $(document).on("keydown", "#personal_id", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
 

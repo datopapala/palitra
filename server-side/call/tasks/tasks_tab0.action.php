@@ -618,44 +618,6 @@ $res = mysql_fetch_assoc(mysql_query("" ));
 	return $res;
 }
 
-function Getfamily($family_id){
-	$req = mysql_query("	SELECT 	`id`,
-									`name`
-							FROM 	family
-							WHERE 	actived=1
-							");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $family_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-
-function Getcity($city_id){
-	$req = mysql_query("	SELECT 	`id`,
-									`name`
-							FROM 	city
-							WHERE 	actived=1
-							");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $city_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-
 function Getscenar(){
 	$req = mysql_query("	SELECT 	`id`,
 									`name`
@@ -768,122 +730,120 @@ function GetPage($res='', $number)
 		$c_date		= date('Y-m-d H:i:s');
 		
 		$data  .= '<div id="dialog-form">
-							<div style="float: left; width: 760px;">
-								<fieldset >
-							    	<legend>ძირითადი ინფორმაცია</legend>
-						
-							    	<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 180px;"><label for="req_num">დავალების №</label></td>
-											<td style="width: 180px;"><label for="req_num">შექმნის თარიღი</label></td>
-											<td style="width: 180px;"><label for="req_data">შესრულების პერიოდი</label></td>
-											<td style="width: 180px;"><label for="req_phone"></label></td>
-										</tr>
-										<tr>
-											<td style="width: 150px;">
-												<input style="width: 150px;" type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('task')). '" />
-											</td>
-											<td style="width: 150px;">
-												<input style="width: 150px;" type="text" id="cur_date" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['call_date']!='')?$res['call_date']:$c_date). '" />
-											</td>
-											<td style="width: 200px;">
-												<input style="float:left;" type="text" id="done_start_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['call_date']. '"  /><span style="float:left; margin-top:5px;">-დან</span>
-											</td>
-											<td style="width: 200px;">
-												<input style="float:left;" type="text" id="done_end_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['phone'] . '" /><span style="float:left; margin-top:5px;">-მდე</span>
-											</td>
-										</tr>
-									</table>
-											
-									<table width="100%" class="dialog-form-table">
-									   <tr>
-											<td style="width: 220px;">დავალების ტიპი</select></td>
-										    <td style="width: 220px;">ქვე-განყოფილება</select></td>
-											<td style="width: 220px;">პასუხისმგებელი პირი</select></td> 
-										</tr>
-										<tr>
-											<td style="width: 220px;"><select style="width: 220px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
-										    <td style="width: 220px;"><select style="width: 220px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
-											<td style="width: 220px;"><select style="width: 217px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td> 
-										</tr>
-									</table>
-											    
-    									
-                                </fieldset>
+						<div style="float: left; width: 760px;">
+							<fieldset >
+						    	<legend>ძირითადი ინფორმაცია</legend>
+					
+						    	<table width="100%" class="dialog-form-table">
+									<tr>
+										<td style="width: 180px;"><label for="req_num">დავალების №</label></td>
+										<td style="width: 180px;"><label for="req_num">შექმნის თარიღი</label></td>
+										<td style="width: 180px;"><label for="req_data">შესრულების პერიოდი</label></td>
+										<td style="width: 180px;"><label for="req_phone"></label></td>
+									</tr>
+									<tr>
+										<td style="width: 150px;">
+											<input style="width: 150px;" type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('task')). '" />
+										</td>
+										<td style="width: 150px;">
+											<input style="width: 150px;" type="text" id="cur_date" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['call_date']!='')?$res['call_date']:$c_date). '" />
+										</td>
+										<td style="width: 200px;">
+											<input style="float:left;" type="text" id="done_start_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['call_date']. '"  /><span style="float:left; margin-top:5px;">-დან</span>
+										</td>
+										<td style="width: 200px;">
+											<input style="float:left;" type="text" id="done_end_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['phone'] . '" /><span style="float:left; margin-top:5px;">-მდე</span>
+										</td>
+									</tr>
+								</table>
+										
+								<table width="100%" class="dialog-form-table">
+								   <tr>
+										<td style="width: 220px;">დავალების ტიპი</select></td>
+									    <td style="width: 220px;">ქვე-განყოფილება</select></td>
+										<td style="width: 220px;">პასუხისმგებელი პირი</select></td> 
+									</tr>
+									<tr>
+										<td style="width: 220px;"><select style="width: 220px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
+									    <td style="width: 220px;"><select style="width: 220px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+										<td style="width: 220px;"><select style="width: 217px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td> 
+									</tr>
+								</table>
+                            </fieldset>';
+		              
+		                //if (Gettask_type($res['task_type_id']) == 1 && Gettask_type($res['task_type_id']) == 2) {
+		                
     											    
-    							<fieldset>
-							    	<legend>კლიენტთა ბაზა</legend>
-									
-											    
-									<table width="100%" class="dialog-form-table">
-									    <tr>
-                                            <td>სცენარი</td>
-											 <td>ფაილის ატვირთვა</td>
-									   </tr>
-										<tr>
-											<td style="width: 200px;"><select style="width: 200px;" id="template_id" class="idls object">'. Getscenar($res['template_id']).'</select></td>
-											<td style="width: 200px;">
-											    <div class="file-uploader">
-									               <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
-									               <button style="margin-left: 0px !important;" id="choose_button" class="center">აირჩიეთ ფაილი</button>
-									            </div>
-											</td>
-										</tr>
-    								</table>
-													
-									<div id="dt_example" class="inner-table">
-							        <div style="width:100%;" id="container" >        	
-							            <div id="dynamic">
-							            	<div id="button_area">
-							            		<button id="add_button_pp">დამატება</button>
-						        			</div>
-							                <table class="" id="example4" style="width: 100%;">
-							                    <thead>
-													<tr  id="datatable_header">
-							                           <th style="display:none">ID</th>
-														<th style="width:4%;">#</th>
-														<th style="width:%; word-break:break-all;">პირადი №<br>საიდ. კოდი</th>
-														<th style="width:%; word-break:break-all;">დასახელება</th>
-														<th style="width:%; word-break:break-all;">ფიზ / იურ.<br> პირი</th>
-														<th style="width:%; word-break:break-all;">ტელეფონი</th>
-														<th style="width:%; word-break:break-all;">ელ-ფოსტა</th>
-														<th style="width:%; word-break:break-all;">მისამართი</th>
-													</tr>
-												</thead>
-												<thead>
-													<tr class="search_header">
-														<th class="colum_hidden">
-					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-					                            		</th>
-														<th>
-															<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-														</th>
-														<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													</tr>
-												</thead>
-							                </table>
-							            </div>
-							            <div class="spacer">
-							            </div>
-							        </div>
-								</fieldset>';
-				
-	
-				         
+    					   $data.='<fieldset id="additional" class="hidden">
+    							    	<legend>კლიენტთა ბაზა</legend>
+    									<table width="100%" class="dialog-form-table">
+    									    <tr>
+                                                <td>სცენარი</td>
+    											 <td style="text-align: right;">ფაილის ატვირთვა</td>
+    									   </tr>
+    										<tr>
+    											<td style="width: 200px;"><select style="width: 200px;" id="template_id" class="idls object">'. Getscenar($res['template_id']).'</select></td>
+    											<td style="width: 200px;">
+    											    <div class="file-uploader">
+    									               <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
+    									               <button style="margin-right: 0px !important;" id="choose_button" class="center">აირჩიეთ ფაილი</button>
+    									            </div>
+    											</td>
+    										</tr>
+        								</table>
+    													
+    									<div id="dt_example" class="inner-table">
+    							        <div style="width:100%;" id="container" >        	
+    							            <div id="dynamic">
+    							            	<div id="button_area">
+    							            		<button id="add_button_pp">დამატება</button>
+    						        			</div>
+    							                <table class="" id="example4" style="width: 100%;">
+    							                    <thead>
+    													<tr  id="datatable_header">
+    							                           <th style="display:none">ID</th>
+    														<th style="width:4%;">#</th>
+    														<th style="width:%; word-break:break-all;">პირადი №<br>საიდ. კოდი</th>
+    														<th style="width:%; word-break:break-all;">დასახელება</th>
+    														<th style="width:%; word-break:break-all;">ფიზ / იურ.<br> პირი</th>
+    														<th style="width:%; word-break:break-all;">ტელეფონი</th>
+    														<th style="width:%; word-break:break-all;">ელ-ფოსტა</th>
+    														<th style="width:%; word-break:break-all;">მისამართი</th>
+    													</tr>
+    												</thead>
+    												<thead>
+    													<tr class="search_header">
+    														<th class="colum_hidden">
+    					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+    					                            		</th>
+    														<th>
+    															<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+    														</th>
+    														<th>
+    															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+    														</th>
+    													<th>
+    															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+    														</th>
+    													<th>
+    															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+    														</th>
+    													<th>
+    															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+    														</th>
+    													<th>
+    															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+    														</th>
+    													</tr>
+    												</thead>
+    							                </table>
+    							            </div>
+    							            <div class="spacer">
+    							            </div>
+    							        </div>
+								    </fieldset>';
+    					
+		               // }
 		 $data .= '
  					</table>
 					</fieldset>
