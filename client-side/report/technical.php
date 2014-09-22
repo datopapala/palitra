@@ -1942,7 +1942,7 @@
         <br>
           <div id="chart_container" style="float:left; width: 90%; height: 300px; margin-left: 20px;"></div>
       <br>
-      <div style="margin-top: 300px; position: absolute; left: 400px;"><button id="excel_answer_service_level_info">Excel</button></div>
+      <div style="margin-top: 290px; position: absolute; left: 570px;"><button id="excel_answer_service_level_info">Excel</button></div>
         <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
             <caption>მომსახურების დონე(Service Level)</caption>
             <thead>
