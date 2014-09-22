@@ -11,7 +11,9 @@ $count = $_REQUEST["count"];
 $action = $_REQUEST['act'];
 $name = $_REQUEST['name'];
 $title=$_REQUEST[title];
-
+$c1=3;
+if ($_REQUEST['cc']=="ინფორმაციული")  $c1=1;
+elseif ($_REQUEST['cc']=="პრეტენზია") $c1=2;
 switch ($title){ //-----------------------query---------------------------------
 case $text[0]:
 	$c=3;
@@ -29,11 +31,12 @@ case $text[0]:
 	case $text[1]:
 			$result = mysql_query("SELECT info_category.`name` as c_name,
 			COUNT(*),
-			CONCAT(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN info_category ON info_category.id=incomming_call.information_category_id WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' GROUP BY c_name)*100,'%')
+			CONCAT(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN info_category ON info_category.id=incomming_call.information_category_id WHERE DATE(`incomming_call`.`date`) >= '$start'
+			AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$name' and incomming_call.call_type_id=$c1 GROUP BY c_name)*100,'%')
 			FROM incomming_call
 			JOIN info_category ON info_category.id=incomming_call.information_category_id
 			JOIN department ON incomming_call.department_id=department.id
-			WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$name'
+			WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$name' and incomming_call.call_type_id=$c1
 			GROUP BY c_name");
 		$text[0]=$text[2];
 	break;
@@ -47,13 +50,13 @@ case $text[0]:
 			JOIN info_category AS inf1 ON inf1.`name`='$name'
 			JOIN info_category ON info_category.id=incomming_call.information_sub_category_id AND info_category.parent_id=inf1.id
 			JOIN department ON incomming_call.department_id=department.id
-			WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$_REQUEST[name1]'
+			WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$_REQUEST[name1]' and incomming_call.call_type_id=$c1
 			)*100,'%')
 			FROM incomming_call
 			JOIN info_category AS inf1 ON inf1.`name`='$name'
 			JOIN info_category ON info_category.id=incomming_call.information_sub_category_id AND info_category.parent_id=inf1.id
 			JOIN department ON incomming_call.department_id=department.id
-			WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$_REQUEST[name1]'
+			WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$_REQUEST[name1]' and incomming_call.call_type_id=$c1
 			GROUP BY c_name");
 		$text[0]=$text[3];
 		break;
