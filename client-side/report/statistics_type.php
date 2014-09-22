@@ -8,8 +8,8 @@ var old_title='';
 var old_name='';
 var name1='';
 var i=0;
-var done_n =['','','',''];
-var done_t =['','','',''];
+var done_n =['','','','','','',''];
+var done_t =['','','','','','',''];
 	var aJaxURL	= "server-side/report/statistics_type.action.php";		//server side folder url
 	var url     = "server-side/report/prod_category_statistics/get_category_sum.php";
 	var tName   = "report";
@@ -21,10 +21,12 @@ var done_t =['','','',''];
 		$("#back").button({ disabled: true });
 		$("#back").button({ icons: { primary: "ui-icon-arrowthick-1-w" }});
 	    $('#back').click(function(){
+
 		    i--;
 		    i--;
 		    title=done_t[i];
 	    	drawFirstLevel(done_n[i]);
+	    	if(i==0)$("#back").button({ disabled: true });
 	     });
 
 	    drawFirstLevel(name1);
