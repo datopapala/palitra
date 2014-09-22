@@ -225,7 +225,7 @@ $totaltime = ($endtime - $begintime);
 						'2196013','2196053','2420421','2486844'
 				);
 				foreach($queue as $qn) {
-					if ($queues[$qn]['members'][$key]['lastcall'] > 0 ) {
+					if ($queues[$qn]['members'][$key]['lastcall'] < 10 ) {
 						$last = $queues[$qn]['members'][$key]['lastcall'];
 					}
 					
