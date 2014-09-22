@@ -76,7 +76,8 @@
 		                				    };
 		                            	GetButtons("add_product");
 		                            	GetDialog("add-group-form", 700, "auto", buttons);
-		                            	GetDataTable("example1", aJaxURL, "get_list_product", 6, "", 0, "", 1, "desc");
+		                            	var filter 	= $("#hidden_id").val();
+		                            	GetDataTable("example1", aJaxURL, "get_list_product&filter="+filter, 6, "", 0, "", 1, "desc");
 		                            }
 		                        }
 		                    }
@@ -183,7 +184,9 @@
                             alert(data.error);
                         } else {
                         	$("#add_product_dialog").dialog("close");
-                        	GetDataTable("example1", aJaxURL, "get_list_product", 6, "", 0, "", 1, "desc");
+                        	var filter 	= $("#hidden_id").val();
+                        	var group_name = $("#group_name").val();
+                        	GetDataTable("example1", aJaxURL, "get_list_product&filter="+filter+"&group_name="+group_name, 6, "", 0, "", 1, "desc");
                         }
                     }
                 }
@@ -307,6 +310,7 @@
 	                            $("#category").val(data.category);
 	                            $("#description").val(data.description);
 	                            $("#price").val(data.price);
+	                            $("#hidden_product_id").val(data.id);
 	                        }
 	                    }
 	                }

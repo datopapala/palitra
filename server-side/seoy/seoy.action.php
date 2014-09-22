@@ -11,7 +11,8 @@ $data = '';
 switch ($action) {
 	case 'production_name':
         $rResult = mysql_query("SELECT	`name`
-								FROM 	`production`");
+								FROM 	`production`
+        						WHERE 	`production`.`actived` = 1");
 
 		$data = array();
 		$s = 0;

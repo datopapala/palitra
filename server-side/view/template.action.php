@@ -65,19 +65,21 @@ switch ($action) {
 	    
 	    break;
 	case 'get_list_product':
-		$count	= $_REQUEST['count'];
-		$hidden	= $_REQUEST['hidden'];
+		$count		= $_REQUEST['count'];
+		$hidden		= $_REQUEST['hidden'];
+		$filter		= $_REQUEST['filter'];
+		$group_name	= $_REQUEST['group_name'];
 		$rResult = mysql_query("SELECT 	`production`.`id`,
 										`production`.`name`,
 										`genre`.`name`,
 										`production_category`.`name`,
-										`production`.`decription`,
+										`production`.`description`,
 										`production`.`price`
 								FROM 	`production`
 								LEFT JOIN	`genre` ON 	`production`.`genre_id` = `genre`.`id`
 								LEFT JOIN	`production_category` ON `production`.`production_category_id` = `production_category`.`id`
 								JOIN tmp_shabloni ON production.id = tmp_shabloni.product_id
-								WHERE 	`production`.`actived`=1");
+								WHERE 	`production`.`actived`=1 AND tmp_shabloni.quest_id = '$filter' AND tmp_shabloni.`name` = '$group_name'");
 		
 		$data = array(
 				"aaData"	=> array()
@@ -213,10 +215,11 @@ switch ($action) {
         if(!$res){
             $error = 'პროდუქტი ვერ მოიძებნა!';
         }else{
-            $data = array(  'genre'	         => $res['genre'],
-                            'category'	     => $res['category'],
-                            'description'	 => $res['description'],
-                            'price'	         => $res['price']);
+            $data = array(  'genre'	         		=> $res['genre'],
+                            'category'	     		=> $res['category'],
+                            'description'	 		=> $res['description'],
+                            'price'	        		=> $res['price'],
+            				'id'	    			=> $res['id']);
         }
     
         break;
@@ -505,11 +508,12 @@ function GetProductInfo($name)
     $res = mysql_query("SELECT  genre.`name` AS `genre`,
     							production_category.`name` AS `category`,
     							production.description,
-    							production.price
+    							production.price,
+    							production.id
                         FROM    production
                         JOIN 	genre ON production.genre_id = genre.id
                         JOIN 	production_category ON production.production_category_id = production_category.id
-                        WHERE   production.`name` = '$name'
+                        WHERE   production.`name` = '$name' AND production.actived = 1
         ");
 
     if (mysql_num_rows($res) == 0){

@@ -1642,7 +1642,7 @@
             	
             		<input style="margin-left: 15px;" id="show_report" name="show_report" type="submit" value="რეპორტების ჩვენება">
             	
-				
+				<div style="margin-top: 55px; position: absolute; right: 30px;"><button id="excel_tech_info">Excel</button></div>
                 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-top: 50px">
                 <caption>ტექნიკური ინფორმაცია</caption> 
                 <tbody>
@@ -1665,9 +1665,6 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                </tr>
-                <tr>
-                <td><button id="excel_tech_info">Excel</button></td>
                 </tr>
                 </tbody>
                 </table>
