@@ -87,8 +87,8 @@ var done_t =['','','','','','',''];
 	            }
 					var start	= $("#search_start").val();
 					var end		= $("#search_end").val();
-	           		$.getJSON(aJaxURL+"?act=get_category&start="+start+"&end="+end+"&name="+name+"&title="+title+"&name1="+$("#hidden_name").val(), function(json) {
-	            	GetDataTable(tName, aJaxURL, "get_list", 4, "start="+start+"&end="+end+"&name="+name+"&title="+title+"&name1="+$("#hidden_name").val(), 0, "", 1, "desc",[2]);
+	           		$.getJSON(aJaxURL+"?act=get_category&start="+start+"&end="+end+"&name="+name+"&title="+title+"&name1="+$("#hidden_name").val()+"&cc="+done_n[1], function(json) {
+	            	GetDataTable(tName, aJaxURL, "get_list", 4, "start="+start+"&end="+end+"&name="+name+"&title="+title+"&name1="+$("#hidden_name").val()+"&cc="+done_n[1], 0, "", 1, "desc",[2]);
 	                options.series[0].data = json.data;
 	                options.title['text']=json.text;
 	                chart = new Highcharts.Chart(options);
