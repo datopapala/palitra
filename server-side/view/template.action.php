@@ -206,6 +206,21 @@ switch ($action) {
 		DisableGroup($delete_row);
 				
         break;  
+        
+    case 'get_product_info':
+        $name 			= $_REQUEST[name];
+        $res 			= GetProductInfo($name);
+        if(!$res){
+            $error = 'პროდუქტი ვერ მოიძებნა!';
+        }else{
+            $data = array(  'genre'	         => $res['genre'],
+                            'category'	     => $res['category'],
+                            'description'	 => $res['description'],
+                            'price'	         => $res['price']);
+        }
+    
+        break;
+        
     default:
        $error = 'Action is Null';
 }
@@ -452,12 +467,17 @@ function GetProductDialog($res = ''){
 					<legend>პროდუქტი</legend>
 					<table>
 						<tr>
-							<td style="width:120px;">დასახელება</td>
-							<td><input type="text" style="margin-bottom: 10px;" id="title" class="idle" onblur="this.className=\'idle\'" value="'.$res[product_name].'"/></td>
+							  <td style="width:120px;">დასახელება</td>
+                              <td>
+            						<div class="seoy-row" id="goods_name_seoy">
+            							<input type="text" id="production_name" class="idle seoy-address" onblur="this.className=\'idle seoy-address\'" onfocus="this.className=\'activeField seoy-address\'" value="' . $res[product_name] . '" />
+            							<button id="goods_name_btn" class="combobox">production_name</button>
+            						</div>
+    				          </td>
 				    	</tr>
 						<tr>
-							<td>ჟანრი</td>
-							<td><input type="text" style="margin-bottom: 10px;" id="ganre" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[genre_name].'"/></td>
+							<td style="padding-top: 11px;">ჟანრი</td>
+							<td style="padding-top: 11px;"><input type="text" style="margin-bottom: 10px;" id="genre" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[genre_name].'"/></td>
 						</tr>
 						<tr>
 							<td>კატეგორია</td>
@@ -469,17 +489,35 @@ function GetProductDialog($res = ''){
 						</tr>
 						<tr>
 							<td>ფასი</td>
-							<td><input type="text" style="margin-bottom: 10px;" id="pirce" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[price].'"/></td>
+							<td><input type="text" style="margin-bottom: 10px;" id="price" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[price].'"/></td>
 						</tr>
 					</table>
 		        </fieldset>
 						<input type="text" id="hidden_product_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$res[id].'"/>
 						<input type="text" id="hidden_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$quset_id.'"/>
-		    </div>
-
-    ';
+		    </div> ';
 	
 	return $data;
+}
+
+function GetProductInfo($name)
+{
+    $res = mysql_query("SELECT  genre.`name` AS `genre`,
+    							production_category.`name` AS `category`,
+    							production.description,
+    							production.price
+                        FROM    production
+                        JOIN 	genre ON production.genre_id = genre.id
+                        JOIN 	production_category ON production.production_category_id = production_category.id
+                        WHERE   production.`name` = '$name'
+        ");
+
+    if (mysql_num_rows($res) == 0){
+        return false;
+    }
+    
+    $row = mysql_fetch_assoc($res);
+    return $row;
 }
 
 ?>

@@ -7,6 +7,7 @@
 	</style>
 	<script type="text/javascript">
 		var aJaxURL	= "server-side/view/template.action.php";		//server side folder url
+		var seoyURL	= "server-side/seoy/seoy.action.php";							//server side folder url
 		var tName	= "example";											//table name
 		var fName	= "add-edit-form";										//form name
 		var img_name		= "0.jpg";
@@ -18,6 +19,8 @@
 			GetButtons("add_button", "delete_button");
 
 			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
+
+			
 		});
 
 		function LoadTable(){
@@ -26,6 +29,7 @@
 		}
 
 		function LoadDialog(){
+			 
 
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 750, "auto", "");
@@ -35,6 +39,9 @@
 			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id, 3, "", 0, "", "", "", "", "280px", "true");
 			
 			$("#pages tbody").on("dblclick", "tr", function () {
+
+				
+				
 		        var nTds = $("td", this);
 		        var empty = $(nTds[0]).attr("class");
 				
@@ -80,6 +87,8 @@
 		}
 		
 		$(document).on("click", "#add_product", function () {
+			
+			
 			var buttons = {
 					"save": {
 			            text: "შენახვა",
@@ -95,6 +104,8 @@
 			    };
 		    
 			GetDialog("add_product_dialog", 400, "auto", buttons);
+			//alert("test");
+			//SeoY("production_name", seoyURL, "production_name", "", 0);
 			
 			var minishneba	= $("#minishneba").val();
  			var qvota 		= $("#qvota").val();
@@ -112,6 +123,7 @@
                             alert(data.error);
                         } else {
                             $("#add_product_dialog").html(data.page);
+                            SeoY("production_name", seoyURL, "production_name", "", 0);
                             
                             $("#title").keypress(function(event) {
                     		    if (event.which === 13) {
@@ -128,15 +140,13 @@
 	              		                            alert(data.error);
 	              		                        } else {
 	              		                            $("#add_product_dialog").html(data.page);
-	              		                           
 	              		                        }
 	              		                    }
 	              		                }
 	              		            });
-                        		    
                     		    }
                     		});
-                    		
+                            SeoY("production_name", seoyURL, "production_name", "", 0);
                         }
                     }
                 }
@@ -243,7 +253,7 @@
 
  			//var link	=  GetAjaxData(param);
 
- 			if( param.nam == "" ){
+ 			if( param.name == "" ){
  				alert("შეიყვანეთ ჯგუფის სახელი!");
  			}else{
  	    	    $.ajax({
@@ -270,7 +280,38 @@
 			var scenar_id = $("#scenar_id").val();
 			GetDataTable1("pages", aJaxURL, "get_pages_list&scenar_id=" + scenar_id, 2, "", 0, "", "", "", "", "280px", "true");
 		});
-	    
+
+		 $(document).on("click", ".combobox", function(event) {
+	            var i = $(this).text();
+	            $("#" + i).autocomplete("search", "");
+	        });
+
+		$(document).on("keydown", "#production_name", function(event) {
+            if (event.keyCode == $.ui.keyCode.ENTER) {
+            	GetProductionInfo(this.value);
+                event.preventDefault();
+            }
+        });
+
+
+		 function GetProductionInfo(name) {
+	            $.ajax({
+	                url: aJaxURL,
+	                data: "act=get_product_info&name=" + name,
+	                success: function(data) {
+	                    if (typeof(data.error) != "undefined") {
+	                        if (data.error != "") {
+	                            alert(data.error);
+	                        } else {
+	                            $("#genre").val(data.genre);
+	                            $("#category").val(data.category);
+	                            $("#description").val(data.description);
+	                            $("#price").val(data.price);
+	                        }
+	                    }
+	                }
+	            });
+	        }
     </script>
 </head>
 
