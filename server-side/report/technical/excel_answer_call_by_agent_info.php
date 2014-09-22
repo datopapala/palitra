@@ -55,22 +55,22 @@ while($row = mysql_fetch_assoc($ress)){
 								<ss:Data ss:Type="String">'.$row[num].'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[call_pr].'</ss:Data>
+								<ss:Data ss:Type="String">'.$row[call_pr].' %</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[call_time].'</ss:Data>
+								<ss:Data ss:Type="String">'.$row[call_time].' წუთი</ss:Data>
 							</ss:Cell>							
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[call_time_pr].'</ss:Data>
+								<ss:Data ss:Type="String">'.$row[call_time_pr].' %</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[avg_call_time].' %</ss:Data>
+								<ss:Data ss:Type="String">'.$row[avg_call_time].' წუთი</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[hold_time].' %</ss:Data>
+								<ss:Data ss:Type="String">'.$row[hold_time].' წამი</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[avg_hold_time].' %</ss:Data>
+								<ss:Data ss:Type="String">'.$row[avg_hold_time].' წამი</ss:Data>
 							</ss:Cell>
 						</ss:Row>';
 }
@@ -125,7 +125,7 @@ $data = '
 			<ss:NamedRange ss:Name="Print_Titles" ss:RefersTo="=\' '.$name.' \'!R1:R2" />
 		</ss:Names>
 		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="6">
-			<ss:Column ss:AutoFitWidth="1" ss:Width="50" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
@@ -143,7 +143,40 @@ $data = '
 					<ss:NamedCell ss:Name="Print_Titles" />
 				</ss:Cell>
 			</ss:Row>
-			
+			<ss:Row ss:AutoFitHeight="1" ss:Height="100">
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">ოპერატორი</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">ზარები</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">% ზარები</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">ზარის დრო</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>				
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">% ზარის დრო </ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">საშ. ზარის ხანგძლივობა</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">ლოდინის დრო</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">საშ. ლოდისნის ხანგძლივობა</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+			</ss:Row>
 		
 '; 
 $data .= $dat; 
