@@ -352,7 +352,7 @@ function GetNotes($id){
 				<legend>მინიშნება</legend>
 				<table>
 				<tr>
-		    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
+		    	<td><textarea  style="width: 640px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
 				</tr>
 				</table>
 	        </fieldset>
@@ -423,7 +423,7 @@ function GetNotes($id){
 					<legend>მინიშნება</legend>
 					<table>
 					<tr>
-			    	<td><textarea  style="width: 400px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
+			    	<td><textarea  style="width: 640px; height:60px; resize: none;" id="minishneba" class="idle" name="content" cols="300" ></textarea></td>
 					</tr>
 					</table>
 		        </fieldset>
