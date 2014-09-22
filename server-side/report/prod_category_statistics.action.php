@@ -38,13 +38,13 @@ $row = array();
 $rows = array();
 while($r = mysql_fetch_array($result)) {
 	$row[0] = $r[1];
-	$row[1] = $r[0];
+	$row[1] = (float)$r[0];
 	array_push($rows,$row);
 }
 
 $rr = mysql_fetch_assoc($result);
 $rows1[0] = $rr[1];
-$rows1[1] = $rr[0];
+$rows1[1] = (float)$rr[0];
 
 
 echo json_encode($rows);
