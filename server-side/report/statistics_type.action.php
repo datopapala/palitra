@@ -89,11 +89,11 @@ switch ($action) {///---------------act---------------------------
 		$rows = array();
 		while($r = mysql_fetch_array($result)) {
 			$row[0] = $r[0];
-			$row[1] = $r[1];
+			$row[1] = (float) $r[1];
 			$rows['data'][]=$row;
 		}
 		$rows['text']=$text[0];
-		print json_encode($rows, JSON_NUMERIC_CHECK);
+		echo json_encode($rows);
 		break;
 	default :
 		echo "Action Is Null!";
