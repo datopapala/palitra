@@ -611,6 +611,45 @@ function Getpattern($id)
 }
 
 
+function Getcity($city_id){
+    $req = mysql_query(" SELECT  `id`,
+         `name`
+       FROM  city
+       WHERE  actived=1
+       ");
+
+    $data .= '<option value="0" selected="selected">----</option>';
+    while( $res = mysql_fetch_assoc($req)){
+        if($res['id'] == $city_id){
+            $data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+        } else {
+            $data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+        }
+    }
+
+    return $data;
+}
+
+function Getfamily($family_id){
+    $req = mysql_query(" SELECT  `id`,
+         `name`
+       FROM  family
+       WHERE  actived=1
+       ");
+
+    $data .= '<option value="0" selected="selected">----</option>';
+    while( $res = mysql_fetch_assoc($req)){
+        if($res['id'] == $family_id){
+            $data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+        } else {
+            $data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+        }
+    }
+
+    return $data;
+}
+
+
 function Getincomming($task_id)
 {
 $res = mysql_fetch_assoc(mysql_query("" ));
