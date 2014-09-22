@@ -118,13 +118,13 @@ $data = '
 		</ss:Names>
 		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="3">
 			<ss:Column ss:AutoFitWidth="1" ss:Width="50" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="80" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Row ss:Height="38">
 				<ss:Cell ss:StyleID="title" ss:MergeAcross="7">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
