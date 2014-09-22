@@ -224,15 +224,7 @@ $totaltime = ($endtime - $begintime);
 				$queue = array(
 						'2196013','2196053','2420421','2486844'
 				);
-				foreach($queue as $qn) {
-					foreach($queues[$qn]['members'] as $key=>$val) {
-					if ($queues[$qn]['members'][$key]['lastcall'] < 10 ) {
-						$last = $queues[$qn]['members'][$key]['lastcall'];
-					}
-					
-					echo $last;
-					}
-				}
+				
 				$stat = $queues[$qn]['members'][$key]['status'];
 				
 	
@@ -284,7 +276,16 @@ $totaltime = ($endtime - $begintime);
 					echo "<td><div style='float: left; background: ".$color[$aval]."; width: 1em;'>&nbsp;</div>&nbsp; $mystringaval</td>";
 					echo "<td>$dur</td>";
 					echo "<td style='cursor: pointer;' id='cid' class='number' number='$clid'>$clid</td>";
-					echo "<td>$last</td>";
+					//-----------
+					foreach($queue as $qn) {
+							
+						if ($queues[$qn]['members'][$key]['lastcall'] < 10 ) {
+							$last = $queues[$qn]['members'][$key]['lastcall'];
+						}
+							
+						echo "<td>$last</td>";
+					}
+					//------------
 					echo "</tr>";
 					$contador++;
 			}
