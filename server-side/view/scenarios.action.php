@@ -952,10 +952,450 @@ function GetPage($res = '')
 														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
 													</tr>
 											</table>
+						  					<hr>
+						  									
+						  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q2</td>
+														<td style="font-weight:bold; font-size:12px;">გთხოვთ მითხრათ, რა საშუალებებით მოუსმინეთ  რადიოს?</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>მობილური ტელეფონი</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>რადიომიმღები</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  							
+						  						</tr>
+			  									
+												<tr>
+													<td style="width:180px; "><span>ინტერნეტი</span></td>
+						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>ავტომობილის პლეერი</span></td>
+						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  						</tr>
+						  						<tr>
+			  										<td style="width:180px;"><span>პლეერი (აიპადი, <br>აიპოდი, მპ3 პლეერი)</span></td>
+			  										<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+			  									</tr>
+											</table>
+						  					<table class="dialog-form-table" style="margin-top:10px;">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+						  					<hr>
+			  												
+			  								<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q3</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით რადიოსადგურებს და თქვენ მიპასუხეთ, რომელ რადიოს უსმენდით   ბოლო ერთი კვირის განმავლობაში?  კიდევ, კიდევ.</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>რადიო 1</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  						</tr>
+												<tr>
+													<td><span>რადიო 2</span></td>
+						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  						</tr>
+											</table>
+						  					<table class="dialog-form-table">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+						  					<hr>
+						  									
+						  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q4</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით რადიოსადგურებს და თქვენ მიპასუხეთ, რომელ რადიოს უსმენდით ბოლო ერთი თვის განმავლობაში? კიდევ, კიდევ.</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>რადიო 1</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  						</tr>
+												<tr>
+													<td><span>რადიო 2</span></td>
+						  							<td><input type="radio" name="xx" value="2" '.(($res['call_vote']=='2')?"checked":"").'></td>
+						  						</tr>
+											</table>
+						  					<table class="dialog-form-table">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+						  					<hr>
+						  									
+						  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q5</td>
+														<td style="font-weight:bold; font-size:12px;">მოგისმენიათ თუ არა ‘რადიო პალიტრისთვის’ ბოლო ერთი თვის განმავლობაში?</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>დიახ</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  						</tr>
+												
+											</table>
+						  					<table class="dialog-form-table">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+						  					<hr>	
+						  										
+						  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q6</td>
+														<td style="font-weight:bold; font-size:12px;">ძირითადად, სად უსმენთ რადიოს?</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>სახლში</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>სამსახურში/სასწავლებელში</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  						</tr>
+						  						<tr>
+													<td><span>საკუთარ ავტომობილში</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>სხვა ტრანსპორტში</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  						</tr>
+						  						<tr>
+													<td><span>ქუჩაში/სეირნობისას</span></td>
+						  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>სხვა შენობაში</span></td>
+						  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+						  						</tr>
+												
+											</table>
+						  					<table class="dialog-form-table">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+						  					<hr>			
 											</fieldset>
-											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="back"> << </button>
 											
-										</fieldset>
+						  									
+						  				<fieldset>
+										    	<legend>ტელევიზია</legend>
+						  						<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">T1</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით ტელეარხებს და თქვენ მიპასუხეთ, რომელ  ტელეარხებს უყურებდით გუშინ თუნდაც ხუთი წუთით? კიდევ, კიდევ?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>არ ვუყურებდი</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">T2</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით ტელეარხებს და თქვენ მიპასუხეთ, რომელ  ტელეარხებს უყურებდით ბოლო ერთი კვირის განმავლობაში?  კიდევ, კიდევ?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>არ ვუყურებდი</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">T3</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით ტელეარხებს და თქვენ მიპასუხეთ, რომელ  ტელეარხებს უყურებდით ბოლო ერთი თვის განმავლობაში? კიდევ, კიდევ?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>არ ვუყურებდი</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">T4</td>
+														<td style="font-weight:bold; font-size:12px;">გთხოვთ მითხრათ, გიყურებიათ თუ არა პალიტრისთვის TV-თვის ბოლო ერთი თვის განმავლობაში?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>დიახ</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+							  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">T5</td>
+														<td style="font-weight:bold; font-size:12px;">პალიტრა TV -ის რომელ გადაცემებს უყურებთ ყველაზე ხშირად? </td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>დიახ</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+							  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+						  				</fieldset>
+
+										
+							  			<fieldset>
+										    	<legend>პრესა</legend>
+						  						<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P1</td>
+														<td style="font-weight:bold; font-size:12px;">კითხულობთ თუ არა ჟურნალ-გაზეთებს?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>მხოლოდ გაზეთებს </span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td><span>მხოლოდ ჟურნალებს </span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+							  						<tr>
+														<td><span>ვკითხულობ ორივეს</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td><span>არ ვკითხულობ (დაასრულეთ)</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P2</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით გაზეთებს და დამისახელეთ, რომელი წაგიკითხავთ ბოლო ერთი კვირის განმავლობაში? კიდევ, კიდევ?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>არ ვუყურებდი</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P3</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით გაზეთებს და დამისახელეთ, რომელი წაგიკითხავთ ბოლო ერთი თვის განმავლობაში?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>არ ვუყურებდი</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P4</td>
+														<td style="font-weight:bold; font-size:12px;">გთხოვთ, დაასახელოთ მიზეზი, რის გამოც ირჩევთ ამ გამოცემას?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>დიახ</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+							  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+											    	
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P5</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით ჟურნალებს და დამისახელეთ, რომელი წაგიკითხავთ ბოლო ერთი კვირის განმავლობაში? კიდევ, კიდევ?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>დიახ</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+							  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P6</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით ჟურნალებს და დამისახელეთ, რომელი წაგიკითხავთ ბოლო ერთი თვის განმავლობაში?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>დიახ</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+							  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+							  									
+							  					<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">P7</td>
+														<td style="font-weight:bold; font-size:12px;">გთხოვთ, დაასახელოთ მიზეზი, რის გამოც ირჩევთ ამ გამოცემას?</td>
+													</tr>
+												</table>
+												<table class="dialog-form-table">
+											    	<tr>
+														<td><span>დიახ</span></td>
+							  							<td><input type="radio" name="xx" value="1" '.(($res['call_vote']=='1')?"checked":"").'></td>
+							  							<td style="width:180px; text-align:right;"><span>არა</span></td>
+							  							<td><input type="radio" name="xx" value="3" '.(($res['call_vote']=='3')?"checked":"").'></td>
+							  						</tr>
+													
+												</table>
+							  					<table class="dialog-form-table">
+														<tr>
+															<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" ></textarea></td>
+															<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														</tr>
+												</table>
+							  					<hr>
+						  				</fieldset>						
+							  									
+							  				<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="back"> << </button>
+											
+										</fieldset>				
 									 </div>
 									
 							</div>
