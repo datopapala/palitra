@@ -85,7 +85,7 @@ $p90 = round($w90 * 100 / $w91);
 								<ss:Data ss:Type="String"></ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$p15.' %</ss:Data>
+								<ss:Data ss:Type="String">'.$p15.'%</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 						<ss:Row>
@@ -99,7 +99,7 @@ $p90 = round($w90 * 100 / $w91);
 								<ss:Data ss:Type="String">'.$d30.'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$p30.' %</ss:Data>
+								<ss:Data ss:Type="String">'.$p30.'%</ss:Data>
 							</ss:Cell>			
 						</ss:Row>
 						<ss:Row>
@@ -113,7 +113,7 @@ $p90 = round($w90 * 100 / $w91);
 								<ss:Data ss:Type="String">'.$d45.'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$p45.' %</ss:Data>
+								<ss:Data ss:Type="String">'.$p45.'%</ss:Data>
 							</ss:Cell>			
 						</ss:Row>
 						<ss:Row>
@@ -127,7 +127,7 @@ $p90 = round($w90 * 100 / $w91);
 								<ss:Data ss:Type="String">'.$d60.'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$p60.' %</ss:Data>
+								<ss:Data ss:Type="String">'.$p60.'%</ss:Data>
 							</ss:Cell>			
 						</ss:Row>
 						<ss:Row>
@@ -141,7 +141,7 @@ $p90 = round($w90 * 100 / $w91);
 								<ss:Data ss:Type="String">'.$d75.'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$p75.' %</ss:Data>
+								<ss:Data ss:Type="String">'.$p75.'%</ss:Data>
 							</ss:Cell>			
 						</ss:Row>
 						<ss:Row>
@@ -155,7 +155,7 @@ $p90 = round($w90 * 100 / $w91);
 								<ss:Data ss:Type="String">'.$d90.'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$p90.' %</ss:Data>
+								<ss:Data ss:Type="String">'.$p90.'%</ss:Data>
 							</ss:Cell>			
 						</ss:Row>
 						<ss:Row>
