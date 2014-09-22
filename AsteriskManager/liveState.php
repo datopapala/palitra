@@ -225,8 +225,8 @@ $totaltime = ($endtime - $begintime);
 						'2196013','2196053','2420421','2486844'
 				);
 				foreach($queue as $qn) {
-					$last = $queues[$qn]['members'][$key]['lastcall'];
-					echo min($last);
+					$last = min($queues[$qn]['members'][$key]['lastcall']);
+					echo $last;
 				}
 				$stat = $queues[$qn]['members'][$key]['status'];
 				
