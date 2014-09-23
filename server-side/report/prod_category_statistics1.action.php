@@ -33,7 +33,7 @@ while($r = mysql_fetch_array($result)) {
 	$row[0] = $r[1];
 	$row[1] = (float)($r[0] - $r1[0]);
 	$row1[0] = $r1[1];
-	$row1[1] = (float)($r[0] - $r1[0]);
+	$row1[1] = (float)$r[0];
 	array_push($rows,$row);
 	array_push($rows,$row1);
 }
