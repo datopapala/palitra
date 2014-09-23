@@ -117,6 +117,9 @@
 			$("#excel_unanswer_call_by_queue_info").button({
 	            
 		    });
+			$("#excel_unanswer_call_by_queue_info").button({
+	            
+		    });
 			
 		});
 
@@ -1341,18 +1344,6 @@
 			parame.queuet = '';
 			paramm		= "server-side/report/technical.action.php";
 			
-			//getData();
-			//getData1();
-			//getData2();
-			//getData3();
-			//getData4();
-			//getData5();
-			//getData6();
-			//getData7();
-			//getData8();
-			//getData9();
-			//getData10();
-			//getData11();
 			drawFirstLevel();
 			drawFirstLevel1();
 			
