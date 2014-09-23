@@ -126,6 +126,9 @@
 			$("#excel_answer_call_by_day_info").button({
 	            
 		    });
+			$("#excel_answer_call_by_time_info").button({
+	            
+		    });
 			
 			
 		});
@@ -2020,6 +2023,49 @@
 	 		    });
 		    	
 			});
+
+		 $(document).on("click", "#excel_answer_call_by_time_info", function () {	
+			 var i=0;
+				
+				parame 			= new Object();
+				parame.agent	= '';
+				parame.queuet = '';
+
+				var options = $('#myform_List_Queue_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.queuet != ""){
+						parame.queuet+=",";
+						
+					}
+					parame.queuet+="'"+option.value+"'";
+				});
+
+				
+				var options = $('#myform_List_Agent_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.agent != ''){
+						parame.agent+=',';
+						
+					}
+					parame.agent+="'"+option.value+"'";
+				});
+				
+				parame.start_time = $('#start_time').val();
+				parame.end_time = $('#end_time').val();
+
+		    	$.ajax({
+	 		        url: 'server-side/report/technical/excel_answer_call_by_time_info.php',
+	 			    data: parame,
+			        success: function(data) {
+				        if(data == 1){
+					        alert('ჩანაწერი არ მოიძებნა');
+				        }else{
+			        	SaveToDisk('server-side/report/technical/excel.xls', 'excel.xls');
+				        }
+	 			    }
+	 		    });
+		    	
+			});
 		 
 
 		 function SaveToDisk(fileURL, fileName) {
@@ -2556,6 +2602,7 @@
 			<div id="chart_container4" style="float:left; width: 47%; height: 300px; margin-left: 20px;"></div>
 			<div id="chart_container8" style="float:right; width: 47%; height: 300px; margin-left: 20px;"></div>
 			<br>
+			<div style="margin-top: 295px; position: absolute; right: 40px;"><button id="excel_answer_call_by_time_info">Excel</button></div>
 			<table width="99%" cellpadding="1" cellspacing="1" border="0" class="sortable" id="table2">
 			<caption>ზარის განაწილება საათების მიხედვით</caption>
 				<thead>
