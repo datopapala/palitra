@@ -7,7 +7,7 @@ $agent = $_REQUEST['agent'];
 $queuet = $_REQUEST['queuet'];
 
 $result = mysql_query("SELECT	COUNT(*) AS `count1`,
-								CONCAT('ნაპასუხები ზარები-',COUNT(*)) AS `cause` 
+								CONCAT('ნაპასუხები ზარები:',' ',COUNT(*)) AS `cause` 
 								FROM	queue_stats AS qs,
 								qname AS q,
 								qagent AS ag,
@@ -20,7 +20,7 @@ $result = mysql_query("SELECT	COUNT(*) AS `count1`,
 								AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
 						UNION ALL
 						SELECT 	COUNT(*) AS `count`,
-								CONCAT('უპასუხო ზარები-',COUNT(*)) AS `cause`
+								CONCAT('უპასუხო ზარები:',' ',COUNT(*)) AS `cause`
 								FROM	queue_stats AS qs,
 										qname AS q,
 										qagent AS ag,
