@@ -2,7 +2,7 @@
 <?xml version="1.0" encoding="utf-8"?><?mso-application progid="Excel.Sheet"?>
 <ss:Workbook xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:o="urn:schemas-microsoft-com:office:office">
 	<o:DocumentProperties>
-		<o:Title>ტექნიკური ინფორმაცია</o:Title>
+		<o:Title>რეპორტ ინფო</o:Title>
 	</o:DocumentProperties>
 	<ss:ExcelWorkbook>
 		<ss:WindowHeight>9000</ss:WindowHeight>
@@ -40,91 +40,59 @@
 			<ss:Alignment ss:WrapText="1" ss:Horizontal="Center" ss:Rotate="90" ss:Vertical="Center" />
 		</ss:Style>
 	</ss:Styles>
-	<ss:Worksheet ss:Name="ტექნიკური ინფორმაცია">
+	<ss:Worksheet ss:Name="რეპორტ ინფო">
 		<ss:Names>
-			<ss:NamedRange ss:Name="Print_Titles" ss:RefersTo="=' ტექნიკური ინფორმაცია '!R1:R2" />
+			<ss:NamedRange ss:Name="Print_Titles" ss:RefersTo="=' რეპორტ ინფო '!R1:R2" />
 		</ss:Names>
-		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="3">
-			<ss:Column ss:AutoFitWidth="1" ss:Width="50" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Row ss:Height="38">
-				<ss:Cell ss:StyleID="title" ss:MergeAcross="7">
+		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="6">
+			<ss:Column ss:AutoFitWidth="1" ss:Width="150" />
+			<ss:Column ss:AutoFitWidth="1" ss:Width="220" />
+			<ss:Row ss:Height="30">
+				<ss:Cell ss:StyleID="title" ss:MergeAcross="1">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>
-							<html:Font html:Size="14">ტექნიკური ინფორმაცია</html:Font>
+							<html:Font html:Size="14">რეპორტ ინფო</html:Font>
 						</html:B>
 					</ss:Data>
 					<ss:NamedCell ss:Name="Print_Titles" />
 				</ss:Cell>
 			</ss:Row>
-			<ss:Row ss:AutoFitHeight="1" ss:Height="100">
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String"> </ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">სულ</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">ნაპასუხები</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">უპასუხო</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>				
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">დამუშავებული </ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">ნაპასუხებია</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">უპასუხოა</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">დამუშავებულია</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-			</ss:Row>
+			
 		
 
 						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">ნაპასუხები ზარების რაოდენობა</ss:Data>
+							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">ზარი</ss:Data>
+								<ss:Data ss:Type="String"> ზარი</ss:Data>
+							</ss:Cell>
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">უპასუხო ზარების რაოდენობა</ss:Data>
+							</ss:Cell>
+							<ss:Cell>
+								<ss:Data ss:Type="String"> ზარი</ss:Data>
+							</ss:Cell>
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">ოპერატორი შევიდა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
 								<ss:Data ss:Type="String">0</ss:Data>
 							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String"></ss:Data>
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">ოპერატორი გავიდა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String"></ss:Data>
-							</ss:Cell>							
-							<ss:Cell>
-								<ss:Data ss:Type="String">170</ss:Data>
+								<ss:Data ss:Type="String">0</ss:Data>
 							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">0 %</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">0 %</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">0 %</ss:Data>
-							</ss:Cell>
-						</ss:Row></ss:Table>
+						</ss:Row>												
+										</ss:Table>
 		<x:WorksheetOptions>
 			<x:PageSetup>
 				<x:Layout x:CenterHorizontal="1" x:Orientation="Portrait" />

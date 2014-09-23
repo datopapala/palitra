@@ -120,6 +120,9 @@
 			$("#excel_unanswer_call_by_queue_info").button({
 	            
 		    });
+			$("#excel_total_info").button({
+	            
+		    });
 			
 		});
 
@@ -1927,6 +1930,49 @@
 	 		    });
 		    	
 			});
+
+		 $(document).on("click", "#excel_total_info", function () {	
+			 var i=0;
+				
+				parame 			= new Object();
+				parame.agent	= '';
+				parame.queuet = '';
+
+				var options = $('#myform_List_Queue_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.queuet != ""){
+						parame.queuet+=",";
+						
+					}
+					parame.queuet+="'"+option.value+"'";
+				});
+
+				
+				var options = $('#myform_List_Agent_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.agent != ''){
+						parame.agent+=',';
+						
+					}
+					parame.agent+="'"+option.value+"'";
+				});
+				
+				parame.start_time = $('#start_time').val();
+				parame.end_time = $('#end_time').val();
+
+		    	$.ajax({
+	 		        url: 'server-side/report/technical/excel_total_info.php',
+	 			    data: parame,
+			        success: function(data) {
+				        if(data == 1){
+					        alert('ჩანაწერი არ მოიძებნა');
+				        }else{
+			        	SaveToDisk('server-side/report/technical/excel.xls', 'excel.xls');
+				        }
+	 			    }
+	 		    });
+		    	
+			});
 		 
 
 		 function SaveToDisk(fileURL, fileName) {
@@ -2401,7 +2447,7 @@
 
 			</td>
 			<td valign="top" width="50%">
-
+				<div style="margin-top: 5px; position: absolute; right: 40px;"><button id="excel_total_info">Excel</button></div>
 				<table width="100%" border="0" cellpadding="0" cellspacing="0">
 				<caption>სულ</caption>
 				<tbody id="totals">
