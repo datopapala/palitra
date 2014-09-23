@@ -114,6 +114,9 @@
 			$("#excel_disconnection_cause_unanswer_info").button({
 	            
 		    });
+			$("#excel_unanswer_call_by_queue_info").button({
+	            
+		    });
 			
 		});
 
@@ -1890,6 +1893,49 @@
 	 		    });
 		    	
 			});
+
+		 $(document).on("click", "#excel_unanswer_call_by_queue_info", function () {	
+			 var i=0;
+				
+				parame 			= new Object();
+				parame.agent	= '';
+				parame.queuet = '';
+
+				var options = $('#myform_List_Queue_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.queuet != ""){
+						parame.queuet+=",";
+						
+					}
+					parame.queuet+="'"+option.value+"'";
+				});
+
+				
+				var options = $('#myform_List_Agent_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.agent != ''){
+						parame.agent+=',';
+						
+					}
+					parame.agent+="'"+option.value+"'";
+				});
+				
+				parame.start_time = $('#start_time').val();
+				parame.end_time = $('#end_time').val();
+
+		    	$.ajax({
+	 		        url: 'server-side/report/technical/excel_disconnection_cause_unanswer_info.php',
+	 			    data: parame,
+			        success: function(data) {
+				        if(data == 1){
+					        alert('ჩანაწერი არ მოიძებნა');
+				        }else{
+			        	SaveToDisk('server-side/report/technical/excel.xls', 'excel.xls');
+				        }
+	 			    }
+	 		    });
+		    	
+			});
 		 
 
 		 function SaveToDisk(fileURL, fileName) {
@@ -2307,6 +2353,7 @@
 			</table>
 			<div id="chart_container5" style="float:left; width: 50%; height: 300px;"></div>
 			<br>
+			<div style="margin-top: 500px; position: absolute; left: 570px;"><button id="excel_unanswer_call_by_queue_info">Excel</button></div>
 			<table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
 			<caption>უპასუხო ზარები რიგის მიხედვით</caption>
 			<thead>
