@@ -26,14 +26,16 @@ $row_done_blank = mysql_query(" SELECT 	COUNT(*) AS `count`,
 		WHERE DATE(date) >= '$start' AND DATE(date) <= '$end' AND phone != '' ");
 					
 $row = array();
+$row1 = array();
 $rows = array();
 while($r = mysql_fetch_array($result)) {
 	$r1 = mysql_fetch_array($row_done_blank);
 	$row[0] = $r[1];
 	$row[1] = (float)$r[0];
-	$row[3] = $r1[1];
-	$row[4] = (float)$r1[0];
+	$row1[3] = $r1[1];
+	$row1[4] = (float)$r1[0];
 	array_push($rows,$row);
+	array_push($rows,$row1);
 }
 
 echo json_encode($rows);
