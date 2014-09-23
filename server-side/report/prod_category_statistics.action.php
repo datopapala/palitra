@@ -42,7 +42,6 @@ while($r = mysql_fetch_array($result)) {
 	array_push($rows,$row);
 }
 
-print_r($rows);
 
 
 echo json_encode($rows);
