@@ -105,6 +105,10 @@
 			$("#excel_answer_call_by_queue_info").button({
 	            
 		    });
+			$("#excel_disconnection_cause_info").button({
+	            
+		    });
+			
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -1751,6 +1755,49 @@
 	 		    });
 		    	
 			});
+			
+		 $(document).on("click", "#excel_disconnection_cause_info", function () {	
+			 var i=0;
+				
+				parame 			= new Object();
+				parame.agent	= '';
+				parame.queuet = '';
+
+				var options = $('#myform_List_Queue_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.queuet != ""){
+						parame.queuet+=",";
+						
+					}
+					parame.queuet+="'"+option.value+"'";
+				});
+
+				
+				var options = $('#myform_List_Agent_to option');
+				var values = $.map(options ,function(option) {
+					if(parame.agent != ''){
+						parame.agent+=',';
+						
+					}
+					parame.agent+="'"+option.value+"'";
+				});
+				
+				parame.start_time = $('#start_time').val();
+				parame.end_time = $('#end_time').val();
+
+		    	$.ajax({
+	 		        url: 'server-side/report/technical/excel_disconnection_cause_info.php',
+	 			    data: parame,
+			        success: function(data) {
+				        if(data == 1){
+					        alert('ჩანაწერი არ მოიძებნა');
+				        }else{
+			        	SaveToDisk('server-side/report/technical/excel.xls', 'excel.xls');
+				        }
+	 			    }
+	 		    });
+		    	
+			});
 		 
 
 
@@ -2042,6 +2089,7 @@
             <br>
             <div id="chart_container7" bgcolor="#fffdf3" style="float:left; width: 50%; height: 300px;"></div>
             <br>
+            <div style="margin-top: 860px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_info">Excel</button></div>
             <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
             <caption>კავშირის გაწყვეტის მიზეზეი</caption>
             <thead>
