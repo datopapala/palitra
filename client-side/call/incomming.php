@@ -323,7 +323,7 @@ table.display tbody td
 							if(data.error != ''){
 								alert(data.error);
 							}else{
-								LoadTable();
+								LoadTable0();
 				        		CloseDialog();
 				        		console.log(data.error);
 							}
