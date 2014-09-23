@@ -154,7 +154,8 @@ $data = '
 		<ss:Names>
 			<ss:NamedRange ss:Name="Print_Titles" ss:RefersTo="=\' '.$name.' \'!R1:R2" />
 		</ss:Names>
-		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="6">
+		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="9" ss:ExpandedRowCount="10">
+			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
@@ -164,7 +165,7 @@ $data = '
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Row ss:Height="40">
-				<ss:Cell ss:StyleID="title" ss:MergeAcross="2">
+				<ss:Cell ss:StyleID="title" ss:MergeAcross="8">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>
 							<html:Font html:Size="14">'.$name.'</html:Font>
