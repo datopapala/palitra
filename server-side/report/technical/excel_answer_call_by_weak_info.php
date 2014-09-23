@@ -6,48 +6,68 @@ $queue	= $_REQUEST['queuet'];
 $start_time = $_REQUEST['start_time'];
 $end_time 	= $_REQUEST['end_time'];
 
-$res124 = mysql_query("
-					SELECT  HOUR(qs.datetime) AS `datetime`,
-					COUNT(*) AS `answer_count`,
-					ROUND((( COUNT(*) / (
-					SELECT 	COUNT(*) AS `count`
+$res12 = mysql_query("
+					SELECT  CASE
+									WHEN DAYOFWEEK(qs.datetime) = 1 THEN 'კვირა'
+									WHEN DAYOFWEEK(qs.datetime) = 2 THEN 'ორშაბათი'
+									WHEN DAYOFWEEK(qs.datetime) = 3 THEN 'სამშაბათი'
+									WHEN DAYOFWEEK(qs.datetime) = 4 THEN 'ოთხშაბათი'
+									WHEN DAYOFWEEK(qs.datetime) = 5 THEN 'ხუთშაბათი'
+									WHEN DAYOFWEEK(qs.datetime) = 6 THEN 'პარასკევი'
+									WHEN DAYOFWEEK(qs.datetime) = 7 THEN 'შაბათი'
+							END AS `datetime`,
+							COUNT(*) AS `answer_count`,
+							ROUND((( COUNT(*) / (
+								SELECT COUNT(*) AS `count`
+								FROM 	queue_stats AS qs,
+											qname AS q, 
+											qagent AS ag,
+											qevent AS ac 
+								WHERE qs.qname = q.qname_id
+								AND qs.qagent = ag.agent_id 
+								AND qs.qevent = ac.event_id
+								AND DATE(qs.datetime) >= '$start_time'
+								AND DATE(qs.datetime) <= '$end_time'
+								AND q.queue IN ($queue,'NONE')
+								AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
+							)) *100),2) AS `call_answer_pr`,
+							ROUND((SUM(qs.info2) / COUNT(*)),0) AS `avg_durat`,
+							ROUND((SUM(qs.info1) / COUNT(*)),0) AS `avg_hold`
 					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
+								qname AS q, 
+								qagent AS ag,
+								qevent AS ac 
 					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
+					AND qs.qagent = ag.agent_id 
 					AND qs.qevent = ac.event_id
 					AND DATE(qs.datetime) >= '$start_time'
 					AND DATE(qs.datetime) <= '$end_time'
 					AND q.queue IN ($queue,'NONE')
 					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-			)) *100),2) AS `call_answer_pr`,
-					ROUND((SUM(qs.info2) / COUNT(*)),0) AS `avg_durat`,
-					ROUND((SUM(qs.info1) / COUNT(*)),0) AS `avg_hold`
-					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-					GROUP BY HOUR(qs.datetime)
+					GROUP BY DAYOFWEEK(qs.datetime)
 					");
-			
-			$res1244 = mysql_query("
-					SELECT  HOUR(qs.datetime) AS `datetime`,
-					COUNT(*) AS `unanswer_count`,
-					ROUND((( COUNT(*) / (
-					SELECT 	COUNT(*) AS `count`
+
+$res122 = mysql_query("
+					SELECT 
+							COUNT(*) AS `unanswer_count`,
+							ROUND((( COUNT(*) / (
+								SELECT COUNT(*) AS `count`
+								FROM 	queue_stats AS qs,
+											qname AS q,
+											qagent AS ag,
+											qevent AS ac
+								WHERE qs.qname = q.qname_id
+								AND qs.qagent = ag.agent_id
+								AND qs.qevent = ac.event_id
+								AND DATE(qs.datetime) >= '$start_time'
+								AND DATE(qs.datetime) <= '$end_time'
+								AND q.queue IN ($queue,'NONE')
+								AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
+							)) *100),2) AS `call_unanswer_pr`
 					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
+								qname AS q,
+								qagent AS ag,
+								qevent AS ac
 					WHERE qs.qname = q.qname_id
 					AND qs.qagent = ag.agent_id
 					AND qs.qevent = ac.event_id
@@ -55,29 +75,16 @@ $res124 = mysql_query("
 					AND DATE(qs.datetime) <= '$end_time'
 					AND q.queue IN ($queue,'NONE')
 					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-			)) *100),2) AS `call_unanswer_pr`
-					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-					AND HOUR(qs.datetime) > 9
-					GROUP BY HOUR(qs.datetime)
+					GROUP BY DAYOFWEEK(qs.datetime)
 					");
-			
-		while($row = mysql_fetch_assoc($res124)){
-		$roww = mysql_fetch_assoc($res1244);							
+
+	while($row = mysql_fetch_assoc($res12)){
+	$roww = mysql_fetch_assoc($res122);					
 	
 	$dat .= '
 						<ss:Row>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row[datetime].':00</ss:Data>
+								<ss:Data ss:Type="String">'.$row[datetime].'</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
 								<ss:Data ss:Type="String">'.(($row[answer_count]!='')?$row[answer_count]:"0").'</ss:Data>
@@ -105,7 +112,7 @@ $res124 = mysql_query("
 							</ss:Cell>
 						</ss:Row>';
 }
-	$name = "ზარის განაწილება საათების მიხედვით";
+	$name = "ზარის განაწილება კვირის დღეების მიხედვით";
 
 
 
