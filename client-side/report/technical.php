@@ -181,7 +181,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -263,7 +263,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -345,7 +345,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -427,7 +427,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -514,7 +514,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -598,7 +598,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -682,7 +682,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -766,7 +766,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -851,7 +851,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -937,7 +937,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -1021,7 +1021,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -1253,7 +1253,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -2380,6 +2380,7 @@
 			  <div id="chart_container6" style="float:left; width: 50%; height: 300px;"></div>
 		 </div>
 		 <div id="tab-3">
+		 <div style="margin-top: 5px; position: absolute; left: 600px;"><button class="excel_report_info">Excel</button></div>
 		    <table width="99%" cellpadding="3" cellspacing="3" border="0">
 		<thead>
 		<tr>
