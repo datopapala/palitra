@@ -2008,7 +2008,7 @@
 				parame.end_time = $('#end_time').val();
 
 		    	$.ajax({
-	 		        url: 'server-side/report/technical/excel_total_info.php',
+	 		        url: 'server-side/report/technical/excel_answer_call_by_day_info.php',
 	 			    data: parame,
 			        success: function(data) {
 				        if(data == 1){
