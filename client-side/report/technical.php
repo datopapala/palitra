@@ -1924,7 +1924,7 @@
 				parame.end_time = $('#end_time').val();
 
 		    	$.ajax({
-	 		        url: 'server-side/report/technical/excel_disconnection_cause_unanswer_info.php',
+	 		        url: 'server-side/report/technical/excel_unanswer_call_by_queue_info.php',
 	 			    data: parame,
 			        success: function(data) {
 				        if(data == 1){
@@ -2353,7 +2353,7 @@
 			</table>
 			<div id="chart_container5" style="float:left; width: 50%; height: 300px;"></div>
 			<br>
-			<div style="margin-top: 500px; position: absolute; left: 570px;"><button id="excel_unanswer_call_by_queue_info">Excel</button></div>
+			<div style="margin-top: 290px; position: absolute; left: 570px;"><button id="excel_unanswer_call_by_queue_info">Excel</button></div>
 			<table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
 			<caption>უპასუხო ზარები რიგის მიხედვით</caption>
 			<thead>
