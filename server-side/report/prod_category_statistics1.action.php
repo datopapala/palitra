@@ -30,9 +30,9 @@ $rows = array();
 while($r = mysql_fetch_array($result)) {
 	$r1 = mysql_fetch_array($row_done_blank);
 	$row[0] = $r[1];
-	$row[1] = (float)($r[0] - $r1[0]);
+	$row[1] = (float)$r[0];
 	$row[3] = $r1[1];
-	$row[4] = (float)($r[0] - $r1[0]);
+	$row[4] = (float)$r1[0];
 	array_push($rows,$row);
 }
 
