@@ -27,13 +27,9 @@ $r1 = mysql_fetch_array($row_done_blank = mysql_query(" SELECT 	COUNT(*) AS `cou
 					
 $row = array();
 $rows = array();
-while($r = mysql_fetch_array($result)) {
-	$row[0] = $r[1];
-	$row[1] = (float)$r[0];
-	$row[2] = (float)$r1[1];
-	$row[3] = (float)$r1[0];
-	array_push($rows,$row);
-}
+
+	$rows[] = array($r[1],(float)$r[0], $r1[1],(float)$r1[0]);
+
 
 echo json_encode($rows);
 
