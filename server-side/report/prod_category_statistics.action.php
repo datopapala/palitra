@@ -42,9 +42,7 @@ while($r = mysql_fetch_array($result)) {
 	array_push($rows,$row);
 }
 
-$rr = mysql_fetch_assoc($result);
-$rows1[0] = $rr[1];
-$rows1[1] = (float)$rr[0];
+
 
 
 echo json_encode($rows);
