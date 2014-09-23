@@ -889,12 +889,12 @@ table.display tbody td
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 50px;" >№</th>
-                            <th style="width: 140px;">თარიღი</th>
-                            <th style="width: 130px;">განყოფილებები</th>
-                            <th>კატეგორია</th>
-                            <th style="width: 120px;">ტელეფონი</th>
-                            <th>ზარის სტატუსი</th>
-                            <th>ოპერატორი</th>
+                            <th style="width: 100%;">თარიღი</th>
+                            <th style="width: 100%;">განყოფილებები</th>
+                            <th style="width: 100%;">კატეგორია</th>
+                            <th style="width: 100%;">ტელეფონი</th>
+                            <th style="width: 100%;">ზარის სტატუსი</th>
+                            <th style="width: 100%;">ოპერატორი</th>
                         </tr>
                     </thead>
                     <thead>
