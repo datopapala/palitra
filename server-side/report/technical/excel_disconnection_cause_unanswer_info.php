@@ -8,61 +8,58 @@ $end_time 	= $_REQUEST['end_time'];
 $day = (strtotime($end_time)) -  (strtotime($start_time));
 $day_format = ($day / (60*60*24)) + 1;
 
-$row_COMPLETECALLER = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-																	q.queue AS `queue`
-												FROM	queue_stats AS qs,
-														qname AS q,
-														qagent AS ag,
-														qevent AS ac
-												WHERE qs.qname = q.qname_id
-												AND qs.qagent = ag.agent_id
-												AND qs.qevent = ac.event_id
-												AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-												AND q.queue IN ($queue)
-												AND ag.agent in ($agent)
-												AND ac.event IN ( 'COMPLETECALLER')
-												ORDER BY ag.agent"));
+$row_timeout = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) AS `count`
+			FROM 	queue_stats AS qs,
+			qname AS q,
+			qagent AS ag,
+			qevent AS ac
+			WHERE qs.qname = q.qname_id
+			AND qs.qagent = ag.agent_id
+			AND qs.qevent = ac.event_id
+			AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+			AND q.queue IN ($queue)
+			AND ac.event IN ('EXITWITHTIMEOUT')
+			ORDER BY qs.datetime"));
 
-$row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-																q.queue AS `queue`
-														FROM	queue_stats AS qs,
-																qname AS q,
-																qagent AS ag,
-																qevent AS ac
-														WHERE qs.qname = q.qname_id
-														AND qs.qagent = ag.agent_id
-														AND qs.qevent = ac.event_id
-														AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-														AND q.queue IN ($queue)
-														AND ag.agent in ($agent)
-														AND ac.event IN (  'COMPLETEAGENT')
-														ORDER BY ag.agent"));
+$row_abadon = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) AS `count`,
+		ROUND((SUM(qs.info3) / COUNT(*))) AS `sec`
+		FROM	queue_stats AS qs,
+		qname AS q,
+		qagent AS ag,
+		qevent AS ac
+		WHERE qs.qname = q.qname_id
+		AND qs.qagent = ag.agent_id
+		AND qs.qevent = ac.event_id
+		AND DATE(qs.datetime) >= '$start_time'
+		AND DATE(qs.datetime) <= '$end_time'
+		AND q.queue IN ($queue)
+		AND ac.event IN ('ABANDON')"));
 
 	$dat .= '
-						<ss:Row>
-							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">ოპერატორმა გათიშა</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_COMPLETEAGENT[count].' ზარი</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">0.00%</ss:Data>
-							</ss:Cell>
-						</ss:Row>
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
 								<ss:Data ss:Type="String">აბონენტმა გათიშა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_COMPLETECALLER[count].' ზარი</ss:Data>
+								<ss:Data ss:Type="String">'.$row_abadon[count].' ზარი</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">0.00%</ss:Data>
+								<ss:Data ss:Type="String">'.round((($row_abadon[count] / $row_abadon[count]) * 100),2).'%</ss:Data>
+							</ss:Cell>
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">დრო ამოიწურა</ss:Data>
+							</ss:Cell>
+							<ss:Cell>
+								<ss:Data ss:Type="String">'.$row_timeout[count].' ზარი</ss:Data>
+							</ss:Cell>
+							<ss:Cell>
+								<ss:Data ss:Type="String">'.round((($row_timeout[count] / $row_timeout[count]) * 100),2).'%</ss:Data>
 							</ss:Cell>
 						</ss:Row>											
 										';
-	$name = "კავშირის გაწყვეტის მიზეზეი";
+	$name = "კავშირის გაწყვეტის მიზეზეი(უპასუხო)";
 
 
 

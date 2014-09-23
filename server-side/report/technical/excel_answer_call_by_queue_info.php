@@ -51,7 +51,7 @@ $row_answer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 							</ss:Cell>
 						</ss:Row>';
 }
-	$name = "ნაპასუხები ზარები ოპერატორების მიხედვით";
+	$name = "ნაპასუხები ზარები რიგის მიხედვით";
 
 
 
@@ -110,7 +110,7 @@ $data = '
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Row ss:Height="30">
+			<ss:Row ss:Height="40">
 				<ss:Cell ss:StyleID="title" ss:MergeAcross="2">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>

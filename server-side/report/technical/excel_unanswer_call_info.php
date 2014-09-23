@@ -8,61 +8,94 @@ $end_time 	= $_REQUEST['end_time'];
 $day = (strtotime($end_time)) -  (strtotime($start_time));
 $day_format = ($day / (60*60*24)) + 1;
 
-$row_COMPLETECALLER = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-																	q.queue AS `queue`
-												FROM	queue_stats AS qs,
-														qname AS q,
-														qagent AS ag,
-														qevent AS ac
-												WHERE qs.qname = q.qname_id
-												AND qs.qagent = ag.agent_id
-												AND qs.qevent = ac.event_id
-												AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-												AND q.queue IN ($queue)
-												AND ag.agent in ($agent)
-												AND ac.event IN ( 'COMPLETECALLER')
-												ORDER BY ag.agent"));
+$row_answer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
+		q.queue AS `queue`
+		FROM	queue_stats AS qs,
+		qname AS q,
+		qagent AS ag,
+		qevent AS ac
+		WHERE qs.qname = q.qname_id
+		AND qs.qagent = ag.agent_id
+		AND qs.qevent = ac.event_id
+		AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+		AND q.queue IN ($queue)
+		AND ag.agent in ($agent)
+		AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
+		ORDER BY ag.agent"));
 
-$row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-																q.queue AS `queue`
-														FROM	queue_stats AS qs,
-																qname AS q,
-																qagent AS ag,
-																qevent AS ac
-														WHERE qs.qname = q.qname_id
-														AND qs.qagent = ag.agent_id
-														AND qs.qevent = ac.event_id
-														AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-														AND q.queue IN ($queue)
-														AND ag.agent in ($agent)
-														AND ac.event IN (  'COMPLETEAGENT')
-														ORDER BY ag.agent"));
+$row_transfer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`
+		FROM	queue_stats AS qs,
+		qname AS q,
+		qagent AS ag,
+		qevent AS ac
+		WHERE qs.qname = q.qname_id
+		AND qs.qagent = ag.agent_id
+		AND qs.qevent = ac.event_id
+		AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+		AND q.queue IN ($queue)
+		AND ag.agent in ($agent)
+		AND ac.event IN ( 'TRANSFER')
+		ORDER BY ag.agent"));
+
+$row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT(*)),2) AS `hold`,
+		ROUND((SUM(qs.info2) / COUNT(*)),2) AS `sec`,
+		ROUND((SUM(qs.info2) / 60 ),2) AS `min`
+		FROM 	queue_stats AS qs,
+		qname AS q,
+		qagent AS ag,
+		qevent AS ac
+		WHERE	qs.qname = q.qname_id
+		AND qs.qagent = ag.agent_id
+		AND qs.qevent = ac.event_id
+		AND q.queue IN ($queue)
+		AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+		AND ac.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
+		ORDER BY qs.datetime"));
 
 	$dat .= '
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">ოპერატორმა გათიშა</ss:Data>
+								<ss:Data ss:Type="String">ნაპასუხები ზარები</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_COMPLETEAGENT[count].' ზარი</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">0.00%</ss:Data>
+								<ss:Data ss:Type="String">'.$row_answer[count].' ზარი</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">აბონენტმა გათიშა</ss:Data>
+								<ss:Data ss:Type="String">გადამისამართებული ზარები</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_COMPLETECALLER[count].' ზარი</ss:Data>
+								<ss:Data ss:Type="String">'.$row_transfer[count].' ზარი</ss:Data>
+							</ss:Cell>
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">საშ. ხანგძლივობა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">0.00%</ss:Data>
+								<ss:Data ss:Type="String">'.$row_clock[sec].' წამი</ss:Data>
 							</ss:Cell>
-						</ss:Row>											
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">სულ საუბრის ხანგძლივობა</ss:Data>
+							</ss:Cell>
+							<ss:Cell>
+								<ss:Data ss:Type="String">'.$row_clock[min].' წუთი</ss:Data>
+							</ss:Cell>
+						</ss:Row>
+						<ss:Row>
+							<ss:Cell ss:StyleID="headercell">
+								<ss:Data ss:Type="String">ლოდინის საშ. ხანგძლივობა</ss:Data>
+							</ss:Cell>
+							<ss:Cell>
+								<ss:Data ss:Type="String">'.$row_clock[hold].' წამი</ss:Data>
+							</ss:Cell>
+						</ss:Row>
+																					
 										';
-	$name = "კავშირის გაწყვეტის მიზეზეი";
+	$name = "ნაპასუხები ზარები";
 
 
 
@@ -116,7 +149,7 @@ $data = '
 			<ss:Column ss:AutoFitWidth="1" ss:Width="150" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="220" />
 			<ss:Row ss:Height="30">
-				<ss:Cell ss:StyleID="title" ss:MergeAcross="2">
+				<ss:Cell ss:StyleID="title" ss:MergeAcross="1">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>
 							<html:Font html:Size="14">'.$name.'</html:Font>
@@ -125,20 +158,7 @@ $data = '
 					<ss:NamedCell ss:Name="Print_Titles" />
 				</ss:Cell>
 			</ss:Row>
-			<ss:Row ss:AutoFitHeight="1" ss:Height="25">
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">მიზეზი</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">სულ</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-				<ss:Cell ss:StyleID="headercell">
-					<ss:Data ss:Type="String">% სულ</ss:Data>
-					<ss:NamedCell ss:Name="Print_Titles" />
-				</ss:Cell>
-			</ss:Row>
+			
 		
 '; 
 $data .= $dat; 

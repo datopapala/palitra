@@ -8,94 +8,56 @@ $end_time 	= $_REQUEST['end_time'];
 $day = (strtotime($end_time)) -  (strtotime($start_time));
 $day_format = ($day / (60*60*24)) + 1;
 
-$row_answer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-		q.queue AS `queue`
-		FROM	queue_stats AS qs,
-		qname AS q,
-		qagent AS ag,
-		qevent AS ac
-		WHERE qs.qname = q.qname_id
-		AND qs.qagent = ag.agent_id
-		AND qs.qevent = ac.event_id
-		AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-		AND q.queue IN ($queue)
-		AND ag.agent in ($agent)
-		AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
-		ORDER BY ag.agent"));
-
-$row_transfer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`
-		FROM	queue_stats AS qs,
-		qname AS q,
-		qagent AS ag,
-		qevent AS ac
-		WHERE qs.qname = q.qname_id
-		AND qs.qagent = ag.agent_id
-		AND qs.qevent = ac.event_id
-		AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-		AND q.queue IN ($queue)
-		AND ag.agent in ($agent)
-		AND ac.event IN ( 'TRANSFER')
-		ORDER BY ag.agent"));
-
-$row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT(*)),2) AS `hold`,
-		ROUND((SUM(qs.info2) / COUNT(*)),2) AS `sec`,
-		ROUND((SUM(qs.info2) / 60 ),2) AS `min`
-		FROM 	queue_stats AS qs,
-		qname AS q,
-		qagent AS ag,
-		qevent AS ac
-		WHERE	qs.qname = q.qname_id
-		AND qs.qagent = ag.agent_id
-		AND qs.qevent = ac.event_id
-		AND q.queue IN ($queue)
-		AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-		AND ac.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
-		ORDER BY qs.datetime"));
+$row_abadon = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) AS `count`,
+															ROUND((SUM(qs.info3) / COUNT(*))) AS `sec`
+													FROM	queue_stats AS qs,
+															qname AS q, 
+															qagent AS ag,
+															qevent AS ac
+													WHERE qs.qname = q.qname_id
+													AND qs.qagent = ag.agent_id
+													AND qs.qevent = ac.event_id
+													AND DATE(qs.datetime) >= '$start_time'
+													AND DATE(qs.datetime) <= '$end_time' 
+													AND q.queue IN ($queue) 
+													AND ac.event IN ('ABANDON')"));
 
 	$dat .= '
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">ნაპასუხები ზარები</ss:Data>
+								<ss:Data ss:Type="String">უპასუხო ზარების რაოდენობა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_answer[count].' ზარი</ss:Data>
+								<ss:Data ss:Type="String">'.$row_abadon[count].' ზარი</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">გადამისამართებული ზარები</ss:Data>
+								<ss:Data ss:Type="String">ლოდინის საშ. დრო კავშირის გაწყვეტამდე</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_transfer[count].' ზარი</ss:Data>
+								<ss:Data ss:Type="String">'.$row_abadon[sec].' ზარი</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">საშ. ხანგძლივობა</ss:Data>
+								<ss:Data ss:Type="String">საშ. რიგში პოზიცია კავშირის გაწყვეტამდე</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_clock[sec].' წამი</ss:Data>
+								<ss:Data ss:Type="String">1</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">სულ საუბრის ხანგძლივობა</ss:Data>
+								<ss:Data ss:Type="String">საშ. საწყისი პოზიცია რიგში</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_clock[min].' წუთი</ss:Data>
-							</ss:Cell>
-						</ss:Row>
-						<ss:Row>
-							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">ლოდინის საშ. ხანგძლივობა</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">'.$row_clock[hold].' წამი</ss:Data>
+								<ss:Data ss:Type="String">1</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 																					
 										';
-	$name = "ნაპასუხები ზარები";
+	$name = "უპასუხო ზარები";
 
 
 
