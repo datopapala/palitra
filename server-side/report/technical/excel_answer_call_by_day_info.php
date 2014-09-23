@@ -104,7 +104,7 @@ $ress = mysql_query("	SELECT 	COUNT(*) AS `unanswer_call`,
 							</ss:Cell>
 						</ss:Row>';
 }
-	$name = "ნაპასუხები ზარები რიგის მიხედვით";
+	$name = "ზარის განაწილება დღეების მიხედვით";
 
 
 
