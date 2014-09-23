@@ -110,7 +110,7 @@ $data = '
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="100" />
-			<ss:Row ss:Height="38">
+			<ss:Row ss:Height="30">
 				<ss:Cell ss:StyleID="title" ss:MergeAcross="2">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>
@@ -120,7 +120,7 @@ $data = '
 					<ss:NamedCell ss:Name="Print_Titles" />
 				</ss:Cell>
 			</ss:Row>
-			<ss:Row ss:AutoFitHeight="1" ss:Height="100">
+			<ss:Row ss:AutoFitHeight="1" ss:Height="25">
 				<ss:Cell ss:StyleID="headercell">
 					<ss:Data ss:Type="String">რიგი</ss:Data>
 					<ss:NamedCell ss:Name="Print_Titles" />

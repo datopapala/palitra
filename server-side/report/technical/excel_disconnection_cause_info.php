@@ -8,43 +8,61 @@ $end_time 	= $_REQUEST['end_time'];
 $day = (strtotime($end_time)) -  (strtotime($start_time));
 $day_format = ($day / (60*60*24)) + 1;
 
+$row_COMPLETECALLER = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
+																	q.queue AS `queue`
+												FROM	queue_stats AS qs,
+														qname AS q,
+														qagent AS ag,
+														qevent AS ac
+												WHERE qs.qname = q.qname_id
+												AND qs.qagent = ag.agent_id
+												AND qs.qevent = ac.event_id
+												AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+												AND q.queue IN ($queue)
+												AND ag.agent in ($agent)
+												AND ac.event IN ( 'COMPLETECALLER')
+												ORDER BY ag.agent"));
 
+$row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
+																q.queue AS `queue`
+														FROM	queue_stats AS qs,
+																qname AS q,
+																qagent AS ag,
+																qevent AS ac
+														WHERE qs.qname = q.qname_id
+														AND qs.qagent = ag.agent_id
+														AND qs.qevent = ac.event_id
+														AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
+														AND q.queue IN ($queue)
+														AND ag.agent in ($agent)
+														AND ac.event IN (  'COMPLETEAGENT')
+														ORDER BY ag.agent"));
 
 	$dat .= '
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">რიგი</ss:Data>
+								<ss:Data ss:Type="String">ოპერატორმა გათიშა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$queue.'</ss:Data>
+								<ss:Data ss:Type="String">'.$row_COMPLETEAGENT[count].' ზარი</ss:Data>
+							</ss:Cell>
+							<ss:Cell>
+								<ss:Data ss:Type="String">0.00%</ss:Data>
 							</ss:Cell>
 						</ss:Row>
 						<ss:Row>
 							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">საწყისი თარიღი</ss:Data>
+								<ss:Data ss:Type="String">აბონენტმა გათიშა</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$start_time.'</ss:Data>
-							</ss:Cell>
-						</ss:Row>
-						<ss:Row>
-							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">დასრულების თარიღი </ss:Data>
+								<ss:Data ss:Type="String">'.$row_COMPLETECALLER[count].' ზარი</ss:Data>
 							</ss:Cell>
 							<ss:Cell>
-								<ss:Data ss:Type="String">'.$end_time.'</ss:Data>
+								<ss:Data ss:Type="String">0.00%</ss:Data>
 							</ss:Cell>
-						</ss:Row>
-						<ss:Row>
-							<ss:Cell ss:StyleID="headercell">
-								<ss:Data ss:Type="String">პერიოდი</ss:Data>
-							</ss:Cell>
-							<ss:Cell>
-								<ss:Data ss:Type="String">'.$day_format.'</ss:Data>
-							</ss:Cell>
-						</ss:Row>												
+						</ss:Row>											
 										';
-	$name = "რეპორტ ინფო";
+	$name = "ნაპასუხები ზარები";
 
 
 
@@ -94,11 +112,11 @@ $data = '
 		<ss:Names>
 			<ss:NamedRange ss:Name="Print_Titles" ss:RefersTo="=\' '.$name.' \'!R1:R2" />
 		</ss:Names>
-		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="6">
+		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="7">
 			<ss:Column ss:AutoFitWidth="1" ss:Width="150" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="220" />
 			<ss:Row ss:Height="30">
-				<ss:Cell ss:StyleID="title" ss:MergeAcross="1">
+				<ss:Cell ss:StyleID="title" ss:MergeAcross="2">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>
 							<html:Font html:Size="14">'.$name.'</html:Font>
@@ -107,7 +125,20 @@ $data = '
 					<ss:NamedCell ss:Name="Print_Titles" />
 				</ss:Cell>
 			</ss:Row>
-			
+			<ss:Row ss:AutoFitHeight="1" ss:Height="25">
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">მიზეზი</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">სულ</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+				<ss:Cell ss:StyleID="headercell">
+					<ss:Data ss:Type="String">% სულ</ss:Data>
+					<ss:NamedCell ss:Name="Print_Titles" />
+				</ss:Cell>
+			</ss:Row>
 		
 '; 
 $data .= $dat; 

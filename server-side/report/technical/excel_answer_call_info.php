@@ -148,7 +148,7 @@ $data = '
 		<ss:Table x:FullRows="1" x:FullColumns="1" ss:ExpandedColumnCount="8" ss:ExpandedRowCount="7">
 			<ss:Column ss:AutoFitWidth="1" ss:Width="150" />
 			<ss:Column ss:AutoFitWidth="1" ss:Width="220" />
-			<ss:Row ss:Height="38">
+			<ss:Row ss:Height="30">
 				<ss:Cell ss:StyleID="title" ss:MergeAcross="1">
 					<ss:Data xmlns:html="http://www.w3.org/TR/REC-html40" ss:Type="String">
 						<html:B>
