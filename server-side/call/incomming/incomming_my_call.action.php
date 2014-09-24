@@ -79,7 +79,9 @@ switch ($action) {
 		$start		= $_REQUEST['start'];
 		$end		= $_REQUEST['end'];
 		$status		= $_REQUEST['status'];
+		if($status != 'undefined'){
 		$checker = "AND incomming_call.call_type_id = $status";
+		}
 	  	$rResult = mysql_query("SELECT  		incomming_call.id,           
 												incomming_call.id,
 												incomming_call.`date`,

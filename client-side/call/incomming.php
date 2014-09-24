@@ -159,9 +159,7 @@ table.display tbody td
 	    	var start	= $(this).val();
 	    	var end		= $("#search_end").val();
 	    	var status	= '';
-	    	if(status != 'undefined'){
 	    	status = $("input[name='status_n']:checked").val();
-	    	}
 	    	alert(status);
 	    	LoadTable3(start, end, status);
 	    	GetInfo(start, end);
@@ -171,9 +169,7 @@ table.display tbody td
 	    	var start	= $("#search_start").val();
 	    	var end		= $(this).val();
 	    	var status	= '';
-	    	if(status != 'undefined'){
 	    	status = $("input[name='status_n']:checked").val();
-	    	}alert(status);
 	    	LoadTable3(start, end, status);
 	    	GetInfo(start, end);
 	    });
@@ -182,9 +178,7 @@ table.display tbody td
 	    	var start	= $(this).val();
 	    	var end		= $("#search_end_my").val();
 	    	var status	= '';
-	    	if(status != 'undefined'){
 	    	status = $("input[name='status_n']:checked").val();
-	    	}alert(status);
 	    	LoadTable1(start, end, status);
 	    	//GetInfo(start, end);
 	    });
@@ -193,9 +187,7 @@ table.display tbody td
 	    	var start	= $("#search_start_my").val();
 	    	var end		= $(this).val();
 	    	var status	= '';
-	    	if(status != 'undefined'){
 	    	status = $("input[name='status_n']:checked").val();
-	    	}alert(status);
 	    	LoadTable1(start, end, status);
 	    	//GetInfo(start, end);
 	    });
