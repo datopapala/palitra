@@ -877,7 +877,7 @@ function GetPage($res='', $shabloni)
 										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
 									</ul>
 									<div id="seller-0" >
-									<fieldset style="width:97%;  background:#5F98DF; float:left; overflow-y:scroll; max-height:400px;" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'">
+									<fieldset style="width:97%;   float:left; overflow-y:scroll; max-height:400px;" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'">
 									<fieldset style="width:97%;" >
 								    	<legend>მისალმება</legend>
 									<table class="dialog-form-table">

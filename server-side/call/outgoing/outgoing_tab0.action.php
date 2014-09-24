@@ -237,7 +237,7 @@ function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $te
 	mysql_query("INSERT INTO `task` 
 				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`)
 				VALUES
-				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '2', '1')
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '1', '1')
 				");
 
 }

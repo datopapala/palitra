@@ -87,13 +87,17 @@
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 10, "", 0, "", 1, "asc", "");
 		}
-		function LoadTable5(){			
+		function LoadTable5(){		
+			var scenar_name =	$("#shabloni").val();
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("sub1", aJaxURL5, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("sub1", aJaxURL5, "get_list&scenar_name="+scenar_name, 7, "", 0, "", 1, "asc", "");
+			SetEvents("add_button", "", "", "sub1", fName, aJaxURL);
 		}
-		function LoadTable6(){			
+		function LoadTable6(){		
+			var scenar_name =	$("#shabloni").val();	
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("sub2", aJaxURL6, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("sub2", aJaxURL6, "get_list&scenar_name="+scenar_name, 7, "", 0, "", 1, "asc", "");
+			SetEvents("add_button", "", "", "sub2", fName, aJaxURL);
 		}
 		function LoadTable7(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -1071,6 +1075,9 @@
 <!-- aJax -->
 </div>
 <div id="add_task" class="form-dialog" title="დავალების დამატება">
+<!-- aJax -->
+</div>
+<div id="add_product" class="form-dialog" title="დავალების დამატება">
 <!-- aJax -->
 </div>
 </body>

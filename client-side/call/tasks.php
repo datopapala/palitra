@@ -841,7 +841,7 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">მენეჯერი</h2>
+		            	<h2 align="center">ყველა დავალება</h2>
 		            	<div id="button_area">
 		            		<button id="add_button">დამატება</button>
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
@@ -908,7 +908,7 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">პირველადი</h2>
+		            	<h2 align="center">გადაცემულია გასარკვევად</h2>
 		            	
 		                <table class="display" id="example1">
 		                    <thead>
@@ -975,7 +975,7 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">მიმდინარე</h2>
+		            	<h2 align="center">გარკვევის პროცესშია</h2>
 		                <table class="display" id="example2">
 		                    <thead>
 								<tr id="datatable_header">

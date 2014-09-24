@@ -75,12 +75,12 @@ switch ($action) {
 										CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
 										task_detail.phone,
 										'',
-										IF(task_detail.actived= 1, 'დაუსრულებელი','') AS `status`
+										IF(task_detail.`status`= 2, 'გადაცემულია გასარკვევად','') AS `status`
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
 								LEFT JOIN	pattern ON task.template_id = pattern.id
-	    						WHERE	task_detail.actived=1");
+	    						WHERE	task_detail.actived=1 AND task_detail.`status` = 2");
 	    
 										    		
 		$data = array(
