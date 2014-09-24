@@ -8,7 +8,7 @@
 		    	
 		$(document).ready(function () {    
 			GetTabs(tbName);     	
-			LoadTable0();	
+			LoadTable();	
 		
 			GetButtons("choose_button", "delete_button");
 			/* Add Button ID, Delete Button ID */
@@ -27,7 +27,7 @@
         });
 
 		function GetTable0() {
-            LoadTable0();
+            LoadTable();
         }
         
 		 function GetTable1() {
@@ -39,7 +39,7 @@
              LoadTable2();
          }
         
-		function LoadTable0(){
+		function LoadTable(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable(tName, aJaxURL, "get_list_import", 12, "", 0, "", 1, "desc");
     		
