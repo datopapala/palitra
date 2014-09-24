@@ -16,12 +16,12 @@ $text[1] 	= "'$departament'- შემოსული  '$type' მიხედ�
 $text[2] 	= "'$departament'- შემოსული  '$category' მიხედვით";
 $text[3] 	= "'$departament'- შემოსული  ქვე–კატეგორიის მიხედვით";
 $c="3 or incomming_call.call_type_id=0";
-if ($type=="ინფორმაციული")  $c=1;
+if ($type=="ინფორმაცია")  $c=1;
 elseif ($type=="პრეტენზია") $c=2;
 //------------------------------------------------query-------------------------------------------
 switch ($done){
 	case  1:
-		$result = mysql_query("	SELECT IF(incomming_call.call_type_id=1,'ინფორმაციული',IF(incomming_call.call_type_id=2,'პრეტენზია','სხვა')) as type,
+		$result = mysql_query("	SELECT IF(incomming_call.call_type_id=1,'ინფორმაცია',IF(incomming_call.call_type_id=2,'პრეტენზია','სხვა')) as type,
 										COUNT(*),
 										CONCAT(ROUND(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN department ON incomming_call.department_id=department.id
 																WHERE department.`name`='$departament' and DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end')*100,2),'%')
