@@ -64,7 +64,7 @@ switch ($done){
 		break;
 	default:
 		$result = mysql_query("SELECT
-									IF(incomming_call.call_type_id=1,'ინფორმაციული',IF(incomming_call.call_type_id=2,'პრეტენზია','სხვა')) as type,
+									IF(incomming_call.call_type_id=1,'ინფორმაცია',IF(incomming_call.call_type_id=2,'პრეტენზია','სხვა')) as type,
 									COUNT(*),
 									CONCAT(ROUND(COUNT(*)/(SELECT	COUNT(*)
 									FROM incomming_call
