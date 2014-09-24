@@ -112,8 +112,8 @@ jQuery.extend({
                         jQuery.handleError(s, xml, status);
                 } catch(e) 
 				{
-                    status = "error";
-                    jQuery.handleError(s, xml, status, e);
+                    //status = "error";
+                    //jQuery.handleError(s, xml, status, e);
                 }
 
                 // The request was completed
