@@ -104,8 +104,14 @@ table.display tbody td
         }
         
 		 function GetTable1() {
-             LoadTable1();
+             LoadTable1(0,0);
+  			 GetDate("search_start_my");
+  			 GetDate("search_end_my");
+   			 $("#search_start_my").val('0000-00-00');
+    	     $("#search_end_my").val('0000-00-00');
   			 SetEvents("add_button", "", "", "example1", fName, aJaxURL);
+   			var start 	= $("#search_start").val();
+			var end 	= $("#search_end").val();
          }
          
 		 function GetTable2() {
@@ -114,10 +120,11 @@ table.display tbody td
          
 		 function GetTable3() {
 			LoadTable3(0,0);
-
 			GetDate("search_start");
-			GetDate("search_end");
-
+  			GetDate("search_end");
+  			$("#search_start").val('0000-00-00');
+  	   	    $("#search_end").val('0000-00-00');
+  	   	    
 			var start 	= $("#search_start").val();
 			var end 	= $("#search_end").val();
 			GetInfo(start, end);
@@ -130,9 +137,9 @@ table.display tbody td
 			GetDataTable(tName, aJaxURL_my_call_now, "get_list",10, "", 0, "", 1, "desc");
 		}
 		
-		function LoadTable1(){
+		function LoadTable1(start, end){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL_my_call, "get_list",10, "", 0, "", 1, "desc");
+			GetDataTable("example1", aJaxURL_my_call, "get_list",10, "start=" + start + "&end=" + end, 0, "", 1, "desc");
 		}
 		
 		function LoadTable2(){
@@ -157,6 +164,20 @@ table.display tbody td
 	    	var end		= $(this).val();
 	    	LoadTable3(start, end);
 	    	GetInfo(start, end);
+	    });
+
+	    $(document).on("change", "#search_start_my", function () {
+	    	var start	= $(this).val();
+	    	var end		= $("#search_end_my").val();
+	    	LoadTable1(start, end);
+	    	//GetInfo(start, end);
+	    });
+	    
+	    $(document).on("change", "#search_end_my", function () {
+	    	var start	= $("#search_start_my").val();
+	    	var end		= $(this).val();
+	    	LoadTable1(start, end);
+	    	//GetInfo(start, end);
 	    });
 
 		function GetInfo(start, end){
@@ -718,6 +739,7 @@ table.display tbody td
                             <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
                             <th style="width: 100%;">კატეგორია</th>
+                            <th style="width: 100%;">ქვე-კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
                             <th style="width: 80%;">ზარის სტატუსი</th>
                         </tr>
@@ -732,6 +754,9 @@ table.display tbody td
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>    
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>                         
@@ -764,8 +789,16 @@ table.display tbody td
 		<tr style="width: 1000px">
 			<td>
             	<h2 align="center">ჩემი ზარები</h2>
-            	<div id="button_area">
-        		</div>
+            	<div id="button_area" style="margin-top: 30px;">
+	            	<div class="left" style="width: 250px;">
+	            		<label for="search_start_my" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_start_my" id="search_start_my" class="inpt left"/>
+	            	</div>
+	            	<div class="right" style="">
+	            		<label for="search_end_my" class="left" style="margin: 5px 0 0 9px;">დასასრული</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_end_my" id="search_end_my" class="inpt right" />
+            		</div>	
+            	</div>
                 <table class="display" id="example1" style="width: 800px">
                     <thead>
                         <tr id="datatable_header">
@@ -774,6 +807,7 @@ table.display tbody td
                             <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
                             <th style="width: 100%;">კატეგორია</th>
+                            <th style="width: 100%;">ქვე-კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
                             <th style="width: 80%;">ზარის სტატუსი</th>
                         </tr>
@@ -790,7 +824,10 @@ table.display tbody td
                             </th>    
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
-                            </th>                         
+                            </th>    
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>                     
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
                             </th>
@@ -829,10 +866,11 @@ table.display tbody td
                             <th style="width: 50px;" >№</th>
                             <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
-                            <th>კატეგორია</th>
+                            <th style="width: 100%;">კატეგორია</th>
+                            <th style="width: 100%;">ქვე-კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
-                            <th>ზარის სტატუსი</th>
-                            <th>ოპერატორი</th>
+                            <th style="width: 100%;">ზარის სტატუსი</th>
+                            <th style="width: 100%;">ოპერატორი</th>
                         </tr>
                     </thead>
                     <thead>
@@ -847,7 +885,10 @@ table.display tbody td
                             </th>     
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
-                            </th>                        
+                            </th>   
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>                     
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
                             </th>
@@ -892,6 +933,7 @@ table.display tbody td
                             <th style="width: 100%;">თარიღი</th>
                             <th style="width: 100%;">განყოფილებები</th>
                             <th style="width: 100%;">კატეგორია</th>
+                            <th style="width: 100%;">ქვე-კატეგორია</th>
                             <th style="width: 100%;">ტელეფონი</th>
                             <th style="width: 100%;">ზარის სტატუსი</th>
                             <th style="width: 100%;">ოპერატორი</th>
@@ -909,7 +951,10 @@ table.display tbody td
                             </th>  
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
-                            </th>                           
+                            </th> 
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>                          
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
                             </th>

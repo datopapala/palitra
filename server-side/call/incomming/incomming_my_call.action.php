@@ -72,21 +72,25 @@ switch ($action) {
 
 		break;
 	case 'get_list' :
-		$count = 		$_REQUEST['count'];
-		$hidden = 		$_REQUEST['hidden'];
+		$count 		= $_REQUEST['count'];
+		$hidden 	= $_REQUEST['hidden'];
 		$user		= $_SESSION['USERID'];
+		$start		= $_REQUEST['start'];
+		$end		= $_REQUEST['end'];
 	  	$rResult = mysql_query("SELECT  		incomming_call.id,           
 												incomming_call.id,
 												incomming_call.`date`,
 												department.`name` AS `dep_name`,
 												info_category.`name` AS `cat_name`,
+	  											sub.`name` AS `cat_sub_name`,
 												incomming_call.phone,
 												call_status.`name` AS `c_status`
 								FROM 			incomming_call
 								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
+	  							LEFT JOIN 		info_category as `sub`  ON incomming_call.information_sub_category_id=sub.id
 								LEFT JOIN		call_status ON incomming_call.call_status_id = call_status.id
 								LEFT JOIN		department ON incomming_call.department_id = department.id
-								WHERE 			incomming_call.actived = 1 AND incomming_call.user_id = '$user'");
+								WHERE 			incomming_call.actived = 1 AND incomming_call.user_id = '$user' AND DATE(date)  BETWEEN  date('$start')  And date('$end')");
 	  
 		$data = array(
 				"aaData"	=> array()

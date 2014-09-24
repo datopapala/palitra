@@ -80,10 +80,12 @@ switch ($action) {
 												incomming_call.`date`,
 												department.`name` AS `dep_name`,
 												info_category.`name` AS `cat_name`,
+	  											sub.`name` AS `cat_sub_name`,
 												incomming_call.phone,
 												call_status.`name` AS `c_status`
 								FROM 			incomming_call
 								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
+	  							LEFT JOIN 		info_category as `sub`  ON incomming_call.information_sub_category_id=sub.id
 								LEFT JOIN		call_status ON incomming_call.call_status_id = call_status.id
 								LEFT JOIN		department ON incomming_call.department_id = department.id
 								WHERE 			incomming_call.actived = 1 AND DATE(incomming_call.`date`) = CURDATE() AND incomming_call.user_id = '$user'");
