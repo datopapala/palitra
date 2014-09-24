@@ -21,22 +21,23 @@ switch ($action) {
 		$data		= array('page'	=> $page);
 
 		break;
-	case 'get_list' :
+	case 'get_list_import' :
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
 		$rResult = mysql_query("	SELECT 	id,
-											person_n,
+											phone1,
+											phone2,
 											first_last_name,
+											person_n,
 											addres,
 											city,
 											mail,
 											born_day,
 											sorce,
 											create_date,
-											person_status,
-											phone1,
-											phone2
+											person_status
+											
 									FROM 	`phone`
 									WHERE	actived = 1");
 
@@ -58,6 +59,117 @@ switch ($action) {
 			$data['aaData'][] = $row;
 		}
 
+		break;
+	case 'get_list_incomming' :
+		$count	= $_REQUEST['count'];
+		$hidden	= $_REQUEST['hidden'];
+			
+		$rResult = mysql_query("	SELECT 	incomming_call.id,
+											incomming_call.phone,
+											personal_info.personal_phone,
+											incomming_call.first_name,
+											personal_info.personal_id,
+											personal_info.personal_addres,
+											city.`name`,
+											personal_info.personal_mail,
+											personal_info.personal_d_date,
+											source.`name`,
+											incomming_call.date,
+											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
+									FROM 	incomming_call
+									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
+									LEFT JOIN	source ON incomming_call.source_id = source.id
+									LEFT JOIN	city ON personal_info.personal_city = city.id");
+	
+		$data = array(
+				"aaData"	=> array()
+		);
+	
+		while ( $aRow = mysql_fetch_array( $rResult ) )
+		{
+			$row = array();
+			for ( $i = 0 ; $i < $count ; $i++ )
+			{
+				/* General output */
+				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+				}
+			}
+			$data['aaData'][] = $row;
+		}
+		
+		break;
+	case 'get_list_all' :
+		$count	= $_REQUEST['count'];
+		$hidden	= $_REQUEST['hidden'];
+			
+		$rResult = mysql_query("	SELECT 	incomming_call.id,
+											incomming_call.phone,
+											personal_info.personal_phone,
+											incomming_call.first_name,
+											personal_info.personal_id,
+											personal_info.personal_addres,
+											city.`name`,
+											personal_info.personal_mail,
+											personal_info.personal_d_date,
+											source.`name`,
+											incomming_call.date,
+											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
+									FROM 	incomming_call
+									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
+									LEFT JOIN	source ON incomming_call.source_id = source.id
+									LEFT JOIN	city ON personal_info.personal_city = city.id");
+	
+		$data = array(
+				"aaData"	=> array()
+		);
+	
+		while ( $aRow = mysql_fetch_array( $rResult ) )
+		{
+			$row = array();
+			for ( $i = 0 ; $i < $count ; $i++ )
+			{
+				/* General output */
+				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+				}
+			}
+			$data['aaData'][] = $row;
+		}
+		
+		$rResult = mysql_query("	SELECT 	id,
+											phone1,
+											phone2,
+											first_last_name,
+											person_n,
+											addres,
+											city,
+											mail,
+											born_day,
+											sorce,
+											create_date,
+											person_status
+											
+									FROM 	`phone`
+									WHERE	actived = 1");
+		
+		
+		while ( $aRow = mysql_fetch_array( $rResult ) )
+		{
+			$row = array();
+			for ( $i = 0 ; $i < $count ; $i++ )
+			{
+				/* General output */
+				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+				}
+			}
+			$data['aaData'][] = $row;
+		}
+		
 		break;
 	case 'save_template':
 		

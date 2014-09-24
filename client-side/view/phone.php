@@ -41,19 +41,19 @@
         
 		function LoadTable0(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 12, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list_import", 12, "", 0, "", 1, "desc");
     		
 		}
 		
 		function LoadTable1(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL, "get_list", 12, "", 0, "", 1, "desc");
+			GetDataTable("example1", aJaxURL, "get_list_incomming", 12, "", 0, "", 1, "desc");
 
 		}
 		
 		function LoadTable2(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL, "get_list", 12, "", 0, "", 1, "desc");
+			GetDataTable("example2", aJaxURL, "get_list_all", 12, "", 0, "", 1, "desc");
     		
 		}
 		
@@ -141,7 +141,7 @@
 			<li><a href="#tab-2">სრული ბაზა</a></li>
 		</ul>
 		<div id="tab-0">
-            	<h2 align="center">სატელეფონო ბაზები</h2>
+            	<h2 align="center">ბაზები  იმპორტირებული ფაილიდან</h2>
             	<div id="button_area">
 	        		<div class="file-uploader">
     					 <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
@@ -153,17 +153,17 @@
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
+                            <th style="width: 50%;">ტელეფონი 1</th>
+                            <th style="width: 50%;">ტელეფონი 2</th>
+                            <th style="width: 50%;">სახელი/ <br> გვარი</th>
                             <th style="width: 50%;">პირადი N/<br> საიდ. კოდი</th>
-                            <th style="width: 50%;">სახელი /<br> გვარი</th>
                             <th style="width: 50%;">მისამართი</th>
                             <th style="width: 50%;">ქალაქი</th>
                             <th style="width: 50%;">ელ-ფოსტა</th>
                             <th style="width: 50%;">დაბ. წელი</th>
                             <th style="width: 50%;">წყარო</th>
-                            <th style="width: 50%;">ფორმირების <br>თარიღი</th>
+                            <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
-                            <th style="width: 50%;">ტელეფონი 1</th>
-                            <th style="width: 50%;">ტელეფონი 2</th>
                             <th style="width: 15%;">#</th>
                         </tr>
                     </thead>
@@ -213,7 +213,7 @@
                 </table>
             </div>
             <div id="tab-1">
-            	<h2 align="center">სატელეფონო ბაზები</h2>
+            	<h2 align="center">ბაზები  შემომავალი ზარებიდან</h2>
             	<div id="button_area">
 	        		
 	        	</div>
@@ -221,8 +221,10 @@
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 50%;">პირადი N/<br> საიდ. კოდი</th>
+                            <th style="width: 50%;">ტელეფონი 1</th>
+                            <th style="width: 50%;">ტელეფონი 2</th>
                             <th style="width: 50%;">სახელი/ <br> გვარი</th>
+                            <th style="width: 50%;">პირადი N/<br> საიდ. კოდი</th>
                             <th style="width: 50%;">მისამართი</th>
                             <th style="width: 50%;">ქალაქი</th>
                             <th style="width: 50%;">ელ-ფოსტა</th>
@@ -230,8 +232,7 @@
                             <th style="width: 50%;">წყარო</th>
                             <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
-                            <th style="width: 50%;">ტელეფონი 1</th>
-                            <th style="width: 50%;">ტელეფონი 2</th>
+                            
                         </tr>
                     </thead>
                     <thead>
@@ -277,7 +278,7 @@
                 </table>
             </div>
             <div id="tab-2">
-            	<h2 align="center">სატელეფონო ბაზები</h2>
+            	<h2 align="center">სრული ბაზა</h2>
             	<div id="button_area">
 	        		
 	        	</div>
@@ -285,17 +286,17 @@
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
+                            <th style="width: 50%;">ტელეფონი 1</th>
+                            <th style="width: 50%;">ტელეფონი 2</th>
+                            <th style="width: 50%;">სახელი/ <br> გვარი</th>
                             <th style="width: 50%;">პირადი N/<br> საიდ. კოდი</th>
-                            <th style="width: 50%;">სახელი /<br> გვარი</th>
                             <th style="width: 50%;">მისამართი</th>
                             <th style="width: 50%;">ქალაქი</th>
                             <th style="width: 50%;">ელ-ფოსტა</th>
                             <th style="width: 50%;">დაბ. წელი</th>
                             <th style="width: 50%;">წყარო</th>
-                            <th style="width: 50%;">ფორმირების<br> თარიღი</th>
+                            <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
-                            <th style="width: 50%;">ტელეფონი 1</th>
-                            <th style="width: 50%;">ტელეფონი 2</th>
                         </tr>
                     </thead>
                     <thead>
