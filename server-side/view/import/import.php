@@ -60,8 +60,8 @@ $filename=$_FILES [$element] ['tmp_name'];
 	$c_date		= date('Y-m-d H:i:s');
 	while (1!=$r){
 		mysql_query("INSERT INTO `phone`
-							  (`user_id`, `create_date`,  `person_n`, `first_last_name`, `addres`, `city`, `mail`,`born_day`, `sorce`, `person_status`, `phone1`, `phone2`)
-							    VALUES ( '".$_SESSION['USERID']."', '".$c_date."',
+							  (`user_id`, `create_date`, `import`,  `person_n`, `first_last_name`, `addres`, `city`, `mail`,`born_day`, `sorce`, `person_status`, `phone1`, `phone2`)
+							    VALUES ( '".$_SESSION['USERID']."', '".$c_date."', '1',
 										 '".$data->val($r,'A')."', '".$data->val($r,'B')."',
 									 	 '".$data->val($r,'C')."', '".$data->val($r,'D')."',
 									 	 '".$data->val($r,'E')."', '".$data->val($r,'F')."',

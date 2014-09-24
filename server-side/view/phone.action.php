@@ -119,9 +119,9 @@ function Savestatus($status_id, $status_name, $call_status)
 
 function Disablestatus($status_id)
 {
-	mysql_query("	UPDATE `status`
+	mysql_query("	UPDATE `phone`
 					SET    `actived` = 0
-					WHERE  `id` = $template_id");
+					WHERE  `id` = $status_id");
 }
 
 function CheckstatusExist($status_name)
