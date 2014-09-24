@@ -25,11 +25,19 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	status.id,
-										status.`name`,
-										status.`call_status`
-							    FROM 	status
-							    WHERE 	status.actived=1");
+		$rResult = mysql_query("	SELECT 	id,
+											person_n,
+											first_last_name,
+											addres,
+											city,
+											mail,
+											born_day,
+											sorce,
+											create_date,
+											phone1,
+											phone2
+									FROM 	`phone`
+									WHERE	actived = 1");
 
 		$data = array(
 				"aaData"	=> array()
