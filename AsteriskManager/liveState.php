@@ -279,8 +279,8 @@ $totaltime = ($endtime - $begintime);
 					//-----------
 					foreach($queue as $qn) {
 							
-						if (min($queues[$qn]['members'][$key]['lastcall']) > 0) {
-							$last = $queues[$qn]['members'][$key]['lastcall'];
+						if ($queues[$qn]['members'][$key]['lastcall'] > 0) {
+							$last = min($queues[$qn]['members'][$key]['lastcall']);
 						}
 					}		
 						echo "<td>$last</td>";
