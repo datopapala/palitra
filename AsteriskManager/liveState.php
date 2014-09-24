@@ -279,7 +279,7 @@ $totaltime = ($endtime - $begintime);
 					//-----------
 					foreach($queue as $qn) {
 							
-						if ($queues[$qn]['members'][$key]['lastcall'] > 0  and $queues[$qn]['members'][$key]['lastcall'] < 15) {
+						if (min($queues[$qn]['members'][$key]['lastcall']) > 0) {
 							$last = $queues[$qn]['members'][$key]['lastcall'];
 						}
 					}		
