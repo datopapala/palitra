@@ -57,10 +57,11 @@ $filename=$_FILES [$element] ['tmp_name'];
 	$data = new Spreadsheet_Excel_Reader($filename);
 	$r=$data->rowcount($sheet_index=0); $i=0;
 	echo  $r;
+	$c_date		= date('Y-m-d H:i:s');
 	while (1!=$r){
-		echo ("INSERT INTO `task_detail`
-							  (`user_id`,  `person_n`, `first_last_name`, `addres`, `city`, `mail`,`born_day`, `sorce`, `person_status`, `phone1`, `phone2`)
-							    VALUES ( '".$_SESSION['USERID']."',
+		mysql_query("INSERT INTO `phone`
+							  (`user_id`, `create_date`,  `person_n`, `first_last_name`, `addres`, `city`, `mail`,`born_day`, `sorce`, `person_status`, `phone1`, `phone2`)
+							    VALUES ( '".$_SESSION['USERID']."', '".$c_date."',
 										 '".$data->val($r,'A')."', '".$data->val($r,'B')."',
 									 	 '".$data->val($r,'C')."', '".$data->val($r,'D')."',
 									 	 '".$data->val($r,'E')."', '".$data->val($r,'F')."',
