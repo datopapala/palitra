@@ -105,7 +105,7 @@
 </head>
 
 <body>
-    <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
+    <div id="dt_example" class="ex_highlight_row" style="width: 100%; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
             	<h2 align="center">სტატუსები</h2>
