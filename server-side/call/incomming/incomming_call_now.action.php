@@ -72,8 +72,11 @@ switch ($action) {
 
 		break;
 	case 'get_list' :
+		$status = '';
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
+		$status		= $_REQUEST['status'];
+		$checker = "AND incomming_call.call_type_id = $status";
 	  	$rResult = mysql_query("SELECT  		incomming_call.id,           
 												incomming_call.id,
 												incomming_call.`date`,
@@ -90,7 +93,7 @@ switch ($action) {
 								LEFT JOIN		department ON incomming_call.department_id = department.id
 								JOIN			users ON incomming_call.user_id = users.id
 								JOIN			persons ON users.person_id = persons.id 
-								WHERE 			incomming_call.actived = 1 AND DATE(incomming_call.`date`) = CURDATE()");
+								WHERE 			incomming_call.actived = 1 AND DATE(incomming_call.`date`) = CURDATE() $checker");
 	  
 		$data = array(
 				"aaData"	=> array()

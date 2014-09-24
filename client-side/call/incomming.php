@@ -109,17 +109,20 @@ table.display tbody td
   			 GetDate("search_end_my");
    			 $("#search_start_my").val('0000-00-00');
     	     $("#search_end_my").val('0000-00-00');
-  			 SetEvents("add_button", "", "", "example1", fName, aJaxURL);
-   			var start 	= $("#search_start").val();
-			var end 	= $("#search_end").val();
+  			 SetEvents("", "", "", "example1", fName, aJaxURL);
+   			 var start 	= $("#search_start").val();
+			 var end 	= $("#search_end").val();
          }
          
 		 function GetTable2() {
-             LoadTable2();
+			 var status	= $("input[name='status_n']:checked").val();
+             LoadTable2(status);
+             SetEvents("", "", "", "example2", fName, aJaxURL);
          }
          
 		 function GetTable3() {
 			LoadTable3(0,0);
+			SetEvents("", "", "", "example3", fName, aJaxURL);
 			GetDate("search_start");
   			GetDate("search_end");
   			$("#search_start").val('0000-00-00');
@@ -137,46 +140,63 @@ table.display tbody td
 			GetDataTable(tName, aJaxURL_my_call_now, "get_list",10, "", 0, "", 1, "desc");
 		}
 		
-		function LoadTable1(start, end){
+		function LoadTable1(start, end, status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL_my_call, "get_list",10, "start=" + start + "&end=" + end, 0, "", 1, "desc");
+			GetDataTable("example1", aJaxURL_my_call, "get_list",10, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
 		}
 		
-		function LoadTable2(){
+		function LoadTable2(status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL_call_now, "get_list",9, "", 0, "", 1, "desc");
+			GetDataTable("example2", aJaxURL_call_now, "get_list&status="+status,9, "", 0, "", 1, "desc");
 		}
 		
-		function LoadTable3(start, end){
+		function LoadTable3(start, end, status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL_all_call, "get_list", 9, "start=" + start + "&end=" + end, 0, "", 1, "desc");
+			GetDataTable("example3", aJaxURL_all_call, "get_list", 9, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
 		}
 
 		$(document).on("change", "#search_start", function () {
 	    	var start	= $(this).val();
 	    	var end		= $("#search_end").val();
-	    	LoadTable3(start, end);
+	    	var status	= '';
+	    	if(status != 'undefined'){
+	    	status = $("input[name='status_n']:checked").val();
+	    	}
+	    	alert(status);
+	    	LoadTable3(start, end, status);
 	    	GetInfo(start, end);
 	    });
 	    
 	    $(document).on("change", "#search_end", function () {
 	    	var start	= $("#search_start").val();
 	    	var end		= $(this).val();
-	    	LoadTable3(start, end);
+	    	var status	= '';
+	    	if(status != 'undefined'){
+	    	status = $("input[name='status_n']:checked").val();
+	    	}alert(status);
+	    	LoadTable3(start, end, status);
 	    	GetInfo(start, end);
 	    });
 
 	    $(document).on("change", "#search_start_my", function () {
 	    	var start	= $(this).val();
 	    	var end		= $("#search_end_my").val();
-	    	LoadTable1(start, end);
+	    	var status	= '';
+	    	if(status != 'undefined'){
+	    	status = $("input[name='status_n']:checked").val();
+	    	}alert(status);
+	    	LoadTable1(start, end, status);
 	    	//GetInfo(start, end);
 	    });
 	    
 	    $(document).on("change", "#search_end_my", function () {
 	    	var start	= $("#search_start_my").val();
 	    	var end		= $(this).val();
-	    	LoadTable1(start, end);
+	    	var status	= '';
+	    	if(status != 'undefined'){
+	    	status = $("input[name='status_n']:checked").val();
+	    	}alert(status);
+	    	LoadTable1(start, end, status);
 	    	//GetInfo(start, end);
 	    });
 
@@ -788,8 +808,15 @@ table.display tbody td
 		<table style="width: 1100px; margin: 0 0 0 30px; padding-top:25px; display: block;">
 		<tr style="width: 1000px">
 			<td>
-            	<h2 align="center">ჩემი ზარები</h2>
-            	<div id="button_area" style="margin-top: 30px;">
+				<h2 align="center">ჩემი ზარები</h2>
+				<table style="position: absolute; width: 350px;">
+				<tr>
+				<td><input style="float: left;" type="radio" name="status_n" value="1" '.(($res['product_type_id']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_n" value="2" '.(($res['product_type_id']=='2')?"checked":"").'><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_n" value="3" '.(($res['product_type_id']=='3')?"checked":"").'><span style="margin-top:5px; display:block;">სხვა</span></td>
+				</tr>
+				</table>
+            	<div id="button_area" style="margin-top: 50px;">
 	            	<div class="left" style="width: 250px;">
 	            		<label for="search_start_my" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
 	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_start_my" id="search_start_my" class="inpt left"/>
@@ -857,6 +884,13 @@ table.display tbody td
 		<tr style="width: 1000px">
 			<td>
             	<h2 align="center">ზარები დღეს</h2>
+            	<table style="position: absolute; width: 350px;">
+				<tr>
+				<td><input style="float: left;" type="radio" name="status_n" value="1" '.(($res['product_type_id']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_n" value="2" '.(($res['product_type_id']=='2')?"checked":"").'><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_n" value="3" '.(($res['product_type_id']=='3')?"checked":"").'><span style="margin-top:5px; display:block;">სხვა</span></td>
+				</tr>
+				</table>
             	<div id="button_area">
         		</div>
                 <table class="display" id="example2">
@@ -913,8 +947,15 @@ table.display tbody td
 		<table style="width: 1100px; margin: 0 0 0 100px; padding-top:25px; display: block;">
 		<tr style="width: 1000px">
 			<td>
-            	<h2 align="center"style="margin-bottom:  40px;">ყველა ზარი</h2>
-            	<div id="button_area" >
+            	<h2 align="center"style="">ყველა ზარი</h2>
+            	<table style="position: absolute; width: 350px;">
+				<tr>
+				<td><input style="float: left;" type="radio" name="status_n" value="1" '.(($res['product_type_id']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_n" value="2" '.(($res['product_type_id']=='2')?"checked":"").'><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_n" value="3" '.(($res['product_type_id']=='3')?"checked":"").'><span style="margin-top:5px; display:block;">სხვა</span></td>
+				</tr>
+				</table>
+            	<div id="button_area" style="margin-top: 50px;">
 	            	<div class="left" style="width: 250px;">
 	            		<label for="search_start" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
 	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_start" id="search_start" class="inpt left"/>
@@ -924,7 +965,7 @@ table.display tbody td
 	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_end" id="search_end" class="inpt right" />
             		</div>	
             	</div>
-            	<div id="get-info" style="float : left; margin-left: 30px;"></div>
+            	<div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;"></div>
                 <table class="display" id="example3">
                     <thead>
                         <tr id="datatable_header">
