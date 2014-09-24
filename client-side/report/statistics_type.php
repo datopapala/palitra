@@ -80,7 +80,7 @@ function drawFirstLevel(){
 	                options.title['text']=json.text;
 	                chart = new Highcharts.Chart(options);
 	                $("#total_quantity").html("იტვირთება....")
-	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split("<")[0]);}, 500);
+	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split(">")[1]);}, 500);
 	    });
 }
 	</script>
