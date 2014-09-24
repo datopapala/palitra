@@ -108,7 +108,7 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 100%; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">სტატუსები</h2>
+            	<h2 align="center">სატელეფონო ბაზები</h2>
             	<div id="button_area">
 	        		<div class="file-uploader">
     					 <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">

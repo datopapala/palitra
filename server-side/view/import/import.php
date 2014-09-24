@@ -59,14 +59,13 @@ $filename=$_FILES [$element] ['tmp_name'];
 	echo  $r;
 	while (1!=$r){
 		mysql_query("INSERT INTO `task_detail`
-							  (`task_id`, `user_id`,  `status`, `person_n`, `first_name`, `last_name`, `person_status`,`phone`, `mail`, `addres`, `city_id`, `family_id`, `b_day`, `profesion`)
-							    VALUES ( '".$_REQUEST['task_id']."', '".$_SESSION['USERID']."', '1',
+							  (`user_id`,  `person_n`, `first_last_name`, `addres`, `city`, `mail`,`born_day`, `sorce`, `person_status`, `phone1`, `phone2`)
+							    VALUES ( '".$_SESSION['USERID']."',
 										 '".$data->val($r,'A')."', '".$data->val($r,'B')."',
 									 	 '".$data->val($r,'C')."', '".$data->val($r,'D')."',
 									 	 '".$data->val($r,'E')."', '".$data->val($r,'F')."',
 									 	 '".$data->val($r,'G')."', '".$data->val($r,'H')."',
-									 	 '".$data->val($r,'I')."', '".$data->val($r,'J')."',
-									 	 '".$data->val($r,'K')."')") or die (err);
+									 	 '".$data->val($r,'I')."', '".$data->val($r,'J')."')") or die (err);
 		$r--; //return 0;
 	}
 
