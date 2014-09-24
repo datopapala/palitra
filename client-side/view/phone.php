@@ -127,6 +127,7 @@
                             <th style="width: 50%;">დაბ. წელი</th>
                             <th style="width: 50%;">წყარო</th>
                             <th style="width: 50%;">ფორმირების თარიღი</th>
+                            <th style="width: 50%;">ფიზიკური/იურიდიული</th>
                             <th style="width: 50%;">ტელეფონი 1</th>
                             <th style="width: 50%;">ტელეფონი 2</th>
                         </tr>
@@ -137,34 +138,37 @@
                             <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                              <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                              <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                              <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                              <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                         </tr>
                     </thead>

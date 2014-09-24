@@ -34,6 +34,7 @@ switch ($action) {
 											born_day,
 											sorce,
 											create_date,
+											person_status,
 											phone1,
 											phone2
 									FROM 	`phone`
