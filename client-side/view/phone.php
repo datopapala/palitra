@@ -7,7 +7,10 @@
 		    	
 		$(document).ready(function () {        	
 			LoadTable();	
-						
+			
+			$("#choose_file").button({
+	            
+		    });
 			/* Add Button ID, Delete Button ID */
 			SetEvents("", "", "", tName, fName, aJaxURL);
 		});
