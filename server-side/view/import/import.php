@@ -58,7 +58,7 @@ $filename=$_FILES [$element] ['tmp_name'];
 	$r=$data->rowcount($sheet_index=0); $i=0;
 	echo  $r;
 	while (1!=$r){
-		mysql_query("INSERT INTO `task_detail`
+		echo ("INSERT INTO `task_detail`
 							  (`user_id`,  `person_n`, `first_last_name`, `addres`, `city`, `mail`,`born_day`, `sorce`, `person_status`, `phone1`, `phone2`)
 							    VALUES ( '".$_SESSION['USERID']."',
 										 '".$data->val($r,'A')."', '".$data->val($r,'B')."',
