@@ -1,11 +1,5 @@
 <?php
 include('../../includes/classes/core.php');
-
-$text[0] 	= "შემოსული  ზარები ქვე-განყოფილებების  მიხედვით";
-$text[1] 	= "ქვე–განყოფილებაში შემოსული ზარები ტიპების მიხედვით";
-$text[2] 	= "ქვე–განყოფილებაში შემოსული ზარები კატეგორიის მიხედვით";
-$text[3] 	= "ქვე–განყოფილებაში შემოსული ზარები ქვე–კატეგორიის მიხედვით";
-
 $start  	= $_REQUEST['start'];
 $end    	= $_REQUEST['end'];
 $count 		= $_REQUEST["count"];
@@ -13,10 +7,14 @@ $action 	= $_REQUEST['act'];
 $departament= $_REQUEST['departament'];
 $type       = $_REQUEST['type'];
 $category   = $_REQUEST['category'];
-$s_category   = $_REQUEST['sub_category'];
+$s_category = $_REQUEST['sub_category'];
 $done 		= $_REQUEST['done']%4;
 $name 		= $_REQUEST['name'];
 $title 		= $_REQUEST['title'];
+$text[0] 	= "შემოსული  ზარები ქვე-განყოფილებების  მიხედვით";
+$text[1] 	= "'$departament' შემოსული ზარები  '$type' მიხედვით";
+$text[2] 	= "'$departament' შემოსული ზარები  '$category' მიხედვით";
+$text[3] 	= "'$departament' შემოსული ზარები ქვე–კატეგორიის მიხედვით";
 $c="3 or incomming_call.call_type_id=0";
 if ($type=="ინფორმაციული")  $c=1;
 elseif ($type=="პრეტენზია") $c=2;

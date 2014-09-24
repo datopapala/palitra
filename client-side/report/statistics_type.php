@@ -4,14 +4,9 @@
 <script src="js/exporting.js"></script>
 <script type="text/javascript">
 var title='0';
-var old_title='';
-var old_name='';
-var name1='';
 var i=0;
-var done_n =['','','','','','',''];
-var done_t =['','','','','','',''];
+var done =['','','','','','',''];
 	var aJaxURL	= "server-side/report/statistics_type.action.php";		//server side folder url
-	var url     = "server-side/report/prod_category_statistics/get_category_sum.php";
 	var tName   = "report";
 	var start	= $("#search_start").val();
 	var end		= $("#search_end").val();
@@ -21,21 +16,18 @@ var done_t =['','','','','','',''];
 		$("#back").button({ disabled: true });
 		$("#back").button({ icons: { primary: "ui-icon-arrowthick-1-w" }});
 	    $('#back').click(function(){
-
 		    i--;
-		    i--;
-		    title=done_t[i];
-	    	drawFirstLevel(done_n[i]);
+	    	drawFirstLevel();
 	    	if(i==0)$("#back").button({ disabled: true });
 	     });
 
-	    drawFirstLevel(name1);
+	    drawFirstLevel();
 	});
 
-	$(document).on("change", "#search_start", function () 	{drawFirstLevel(name1);});
-	$(document).on("change", "#search_end"  , function () 	{drawFirstLevel(name1);});
+	$(document).on("change", "#search_start", function () 	{drawFirstLevel();});
+	$(document).on("change", "#search_end"  , function () 	{drawFirstLevel();});
 
-	 function drawFirstLevel(name){
+	 function drawFirstLevel(){
 		 var options = {
 	                chart: {
 	                    renderTo: 'chart_container',
@@ -67,13 +59,9 @@ var done_t =['','','','','','',''];
 	                            events: {
 	                                click: function() {
 	                                	$("#back").button({ disabled: false });
-	                                	title=options.title['text'];
-		                                var nm = this.name.split("<",1);
-		                                if(title=="შემოსული ინფორმაციული  ზარები ქვე-განყოფილებების  მიხედვით"){
-		                                $("#hidden_name").val(nm);}
-										name=this.name;
-										name1=this.name;
-		                        		drawFirstLevel(name);
+										done[i]=this.name;
+										i++;
+		                        		drawFirstLevel();
 	                                }
 	                            }
 	                        }
@@ -87,17 +75,16 @@ var done_t =['','','','','','',''];
 	            }
 					var start	= $("#search_start").val();
 					var end		= $("#search_end").val();
-	           		$.getJSON(aJaxURL+"?act=get_category&start="+start+"&end="+end+"&name="+name+"&title="+title+"&name1="+$("#hidden_name").val()+"&cc="+done_n[1], function(json) {
-	            	GetDataTable(tName, aJaxURL, "get_list", 4, "start="+start+"&end="+end+"&name="+name+"&title="+title+"&name1="+$("#hidden_name").val()+"&cc="+done_n[1], 0, "", 1, "desc",[2]);
-	                options.series[0].data = json.data;
+					var d_url   ="&start="+start+"&end="+end+"&done="+i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
+					var url     = aJaxURL+"?act=get_category"+d_url;
+					GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
+	           		$.getJSON(url, function(json) {options.series[0].data = json.data;
+	           		options.series[0].data = json.data;
 	                options.title['text']=json.text;
 	                chart = new Highcharts.Chart(options);
 	                $("#total_quantity").html("იტვირთება....")
 	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split("<")[0]);}, 500);
-	            });
-	           		done_n[i]=name;
-                	done_t[i]=title;
-                	i++;
+	            	});
 
 	 }
 	</script>

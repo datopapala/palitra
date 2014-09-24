@@ -78,7 +78,6 @@ var end		= $("#search_end").val();
 					var end		= $("#search_end").val();
 					var d_url   ="&start="+start+"&end="+end+"&done="+i+"&departament="+done[0]+"&type="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
 					var url     = aJaxURL+"?act=get_category"+d_url;
-					//tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total
 					GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
 	           		$.getJSON(url, function(json) {
 	                options.series[0].data = json.data;
@@ -86,7 +85,6 @@ var end		= $("#search_end").val();
 	                chart = new Highcharts.Chart(options);
 	                $("#total_quantity").html("იტვირთება....")
 	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split("<")[0]);}, 500);
-
 		            });
 
 
