@@ -8,7 +8,7 @@
 		$(document).ready(function () {        	
 			LoadTable();	
 			
-			$("#choose_file").button({
+			$("#choose_button").button({
 	            
 		    });
 			/* Add Button ID, Delete Button ID */
@@ -119,8 +119,16 @@
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 50%;">სახელი</th>
-                             <th style="width: 50%;">ზარის სტატუსი</th>
+                            <th style="width: 50%;">პირადი N/ საიდ. კოდი</th>
+                            <th style="width: 50%;">სახელი და გვარი</th>
+                            <th style="width: 50%;">მისამართი</th>
+                            <th style="width: 50%;">ქალაქი</th>
+                            <th style="width: 50%;">ელ-ფოსტა</th>
+                            <th style="width: 50%;">დაბ. წელი</th>
+                            <th style="width: 50%;">წყარო</th>
+                            <th style="width: 50%;">ფორმირების თარიღი</th>
+                            <th style="width: 50%;">ტელეფონი 1</th>
+                            <th style="width: 50%;">ტელეფონი 2</th>
                         </tr>
                     </thead>
                     <thead>
@@ -129,6 +137,30 @@
                             <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                             <th>
