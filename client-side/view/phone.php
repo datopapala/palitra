@@ -18,7 +18,7 @@
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 3, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 12, "", 0, "", 1, "desc");
     		
 		}
 		
@@ -86,21 +86,15 @@
 						file_name: name,
 						type: ext
 					},
-	    			success: function(data){alert("ghj");
-	    				if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							alert("ghj");
-    						}
-    					}
+					complete: function(data){
+						location.reload();
     				},
 
     			});
 
 	        }
 		});
-	   
+	    
     </script>
 </head>
 
