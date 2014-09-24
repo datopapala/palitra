@@ -22,12 +22,12 @@ elseif ($type=="პრეტენზია") $c=2;
 switch ($done){
 	case  1:
 		$result = mysql_query("	SELECT IF(incomming_call.call_type_id=1,'ინფორმაციული',IF(incomming_call.call_type_id=2,'პრეტენზია','სხვა')) as type,
-								COUNT(*),
-								CONCAT(ROUND(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN department ON incomming_call.department_id=department.id
-														WHERE department.`name`='$departament' and DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end')*100,2),'%')
-								FROM incomming_call
-								JOIN department ON incomming_call.department_id=department.id
-								WHERE department.`name`='$departament' and DATE(`incomming_call`.`date`) >= '$start' and  DATE(`incomming_call`.`date`) <= '$end'
+										COUNT(*),
+										CONCAT(ROUND(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN department ON incomming_call.department_id=department.id
+																WHERE department.`name`='$departament' and DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end')*100,2),'%')
+								FROM 	incomming_call
+								JOIN 	department ON incomming_call.department_id=department.id
+								WHERE 	department.`name`='$departament' and DATE(`incomming_call`.`date`) >= '$start' and  DATE(`incomming_call`.`date`) <= '$end'
 								GROUP BY 	type");
 		$text[0]=$text[1];
 	break;
@@ -58,23 +58,23 @@ switch ($done){
 											JOIN department ON incomming_call.department_id=department.id
 											WHERE (incomming_call.call_type_id=$c) and DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$departament'
 											)*100,2),'%')
-								FROM incomming_call
-								JOIN info_category AS inf1 ON inf1.`name`='$category'
-								JOIN info_category ON info_category.id=incomming_call.information_sub_category_id AND info_category.parent_id=inf1.id
-								JOIN department ON incomming_call.department_id=department.id
+								FROM 	incomming_call
+								JOIN 	info_category AS inf1 ON inf1.`name`='$category'
+								JOIN 	info_category ON info_category.id=incomming_call.information_sub_category_id AND info_category.parent_id=inf1.id
+								JOIN 	department ON incomming_call.department_id=department.id
 								WHERE (incomming_call.call_type_id=$c) and DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end' AND department.`name`='$departament'
 								GROUP BY c_name");
 		$text[0]=$text[3];
 		break;
 	default:
-		$result = mysql_query("SELECT department.`name` AS d_name,
-				COUNT(*),
-				CONCAT(ROUND(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN department ON incomming_call.department_id=department.id
-				WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end')*100,2),'%')
-				FROM incomming_call
-				JOIN department ON incomming_call.department_id=department.id
-				WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end'
-				GROUP BY 	d_name");
+		$result = mysql_query("SELECT 	department.`name` AS d_name,
+										COUNT(*),
+										CONCAT(ROUND(COUNT(*)/(SELECT COUNT(*) FROM incomming_call JOIN department ON incomming_call.department_id=department.id
+										WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end')*100,2),'%')
+							FROM 		incomming_call
+							JOIN 		department ON incomming_call.department_id=department.id
+							WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end'
+							GROUP BY 	d_name");
 
 		break;
 }

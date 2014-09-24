@@ -3,31 +3,28 @@
 <script src="js/highcharts.js"></script>
 <script src="js/exporting.js"></script>
 <script type="text/javascript">
-var title='0';
-var i=0;
-var done =['','','','','','',''];
-	var aJaxURL	= "server-side/report/statistics_type.action.php";		//server side folder url
-	var tName   = "report";
-	var start	= $("#search_start").val();
-	var end		= $("#search_end").val();
-	$(document).ready(function() {
-		GetDate("search_start");
-		GetDate("search_end");
-		$("#back").button({ disabled: true });
-		$("#back").button({ icons: { primary: "ui-icon-arrowthick-1-w" }});
-	    $('#back').click(function(){
-		    i--;
-	    	drawFirstLevel();
-	    	if(i==0)$("#back").button({ disabled: true });
-	     });
-
-	    drawFirstLevel();
-	});
-
+var title 	='0';
+var i 		= 0;
+var done  	= ['','','','','','',''];
+var aJaxURL	= "server-side/report/statistics_type.action.php";		//server side folder url
+var tName   = "report";
+var start	= $("#search_start").val();
+var end		= $("#search_end").val();
+$(document).ready(function() {
 	$(document).on("change", "#search_start", function () 	{drawFirstLevel();});
 	$(document).on("change", "#search_end"  , function () 	{drawFirstLevel();});
+	GetDate("search_start");
+	GetDate("search_end");
+	drawFirstLevel();
+	$("#back").button({ disabled: true });
+	$("#back").button({ icons: { primary: "ui-icon-arrowthick-1-w" }});
+    $('#back').click(function(){
+	    i--;
+    	drawFirstLevel();
+    	if(i==0)$("#back").button({ disabled: true });
+	});	});
 
-	 function drawFirstLevel(){
+function drawFirstLevel(){
 		 var options = {
 	                chart: {
 	                    renderTo: 'chart_container',
@@ -73,20 +70,19 @@ var done =['','','','','','',''];
 	                    data: []
 	                }]
 	            }
-					var start	= $("#search_start").val();
-					var end		= $("#search_end").val();
-					var d_url   ="&start="+start+"&end="+end+"&done="+i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
-					var url     = aJaxURL+"?act=get_category"+d_url;
-					GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
-	           		$.getJSON(url, function(json) {options.series[0].data = json.data;
+		var start	= $("#search_start").val();
+		var end		= $("#search_end").val();
+		var d_url   ="&start="+start+"&end="+end+"&done="+i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
+		var url     = aJaxURL+"?act=get_category"+d_url;
+		GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
+        $.getJSON(url, function(json) {options.series[0].data = json.data;
 	           		options.series[0].data = json.data;
 	                options.title['text']=json.text;
 	                chart = new Highcharts.Chart(options);
 	                $("#total_quantity").html("იტვირთება....")
 	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split("<")[0]);}, 500);
-	            	});
-
-	 }
+	    });
+}
 	</script>
 	</head>
 	<body>
