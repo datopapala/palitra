@@ -376,6 +376,7 @@
 			param.template_id			= $("#template_id").val();
 			param.task_department_id	= $("#task_department_id").val();
 			param.persons_id			= $("#persons_id").val();
+			param.task_comment			= $("#task_comment").val();
 			
 	 
 		    $.ajax({
@@ -830,7 +831,7 @@
 
 <body>
 
-<div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">ყველა დავალება</a></li>
 			<li><a href="#tab-1">გადაცემულია გასარკვევად</a></li>

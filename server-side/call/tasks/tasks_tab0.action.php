@@ -19,8 +19,7 @@ $task_type_id		= $_REQUEST['task_type_id'];
 $template_id		= $_REQUEST['template_id'];
 $task_department_id	= $_REQUEST['task_department_id'];
 $persons_id			= $_REQUEST['persons_id'];
-
-
+$task_comment		= $_REQUEST['task_comment'];
 
 switch ($action) {
 	case 'get_add_page':
@@ -97,7 +96,7 @@ switch ($action) {
 		
 		if(empty($task_id)){
 			$task_id = mysql_insert_id();
-			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id);
+			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $task_comment);
 			//Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
 		}else{
 			
@@ -170,13 +169,13 @@ function checkgroup($user){
 }
 
 
-function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id)
+function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $task_comment)
 {  
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
-				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`)
+				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`, `comment`)
 				VALUES
-				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '2', '1')
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '2', '1', '$task_comment')
 				");
 
 }
@@ -806,6 +805,15 @@ function GetPage($res='', $number)
 										<td style="width: 220px;"><select style="width: 220px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
 									    <td style="width: 220px;"><select style="width: 220px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
 										<td style="width: 220px;"><select style="width: 217px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td> 
+									</tr>
+								</table>
+								
+								<table width="100%" class="dialog-form-table" id="task_comment_table">
+								   <tr>
+										<td style="width: 220px;">დავალების შინაარსი</td>
+									</tr>
+									<tr>
+										<td><textarea  style="width: 99%; resize: none; height: 50px;" id="task_comment" class="idle" name="task_comment" cols="300" >' . $res['call_comment'] . '</textarea></td>
 									</tr>
 								</table>
                             </fieldset>';
