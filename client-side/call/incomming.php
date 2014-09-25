@@ -130,8 +130,6 @@ table.display tbody td
   	   	    
 			var start 	= $("#search_start").val();
 			var end 	= $("#search_end").val();
-			GetInfo(start, end);
-             //LoadTable3();
          }
 
 
@@ -161,7 +159,6 @@ table.display tbody td
 	    	var status	= '';
 	    	status = $("input[name='status_all_call']:checked").val();
 	    	LoadTable3(start, end, status);
-	    	GetInfo(start, end);
 	    });
 	    
 	    $(document).on("change", "#search_end", function () {
@@ -170,7 +167,6 @@ table.display tbody td
 	    	var status	= '';
 	    	status = $("input[name='status_all_call']:checked").val();
 	    	LoadTable3(start, end, status);
-	    	GetInfo(start, end);
 	    });
 
 	    $(document).on("change", "#search_start_my", function () {
@@ -179,7 +175,6 @@ table.display tbody td
 	    	var status	= '';
 	    	status = $("input[name='status_my_call']:checked").val();
 	    	LoadTable1(start, end, status);
-	    	//GetInfo(start, end);
 	    });
 	    
 	    $(document).on("change", "#search_end_my", function () {
@@ -188,7 +183,6 @@ table.display tbody td
 	    	var status	= '';
 	    	status = $("input[name='status_my_call']:checked").val();
 	    	LoadTable1(start, end, status);
-	    	//GetInfo(start, end);
 	    });
 
 		$(document).on("change", "input[name='status_my_call']", function () {
@@ -209,22 +203,6 @@ table.display tbody td
 	    	var status = $("input[name='status_all_call']:checked").val();
 	    	LoadTable3(start, end, status);
 	    });
-
-		function GetInfo(start, end){
-				    
-			$.ajax({
-				url: aJaxURL_all_call,
-				data: "act=get-info&start=" + start + "&end=" + end,
-				success: function(data) {
-					if (data.error != "") {
-	                    alert(data.error);
-	                } else {
-	                	$("#get-info").html(data.page);	
-	                }
-				}
-			});
-			
-	    }
 
 		$(document).on("click", "#button_calls", function () {
 			LoadDialogCalls();
@@ -821,9 +799,9 @@ table.display tbody td
 				<h2 align="center">ჩემი ზარები</h2>
 				<table style="position: absolute; width: 350px;">
 				<tr>
-				<td><input style="float: left;" type="radio" name="status_my_call" value="1" '.(($res['product_type_id']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
-				<td><input style="float: left;" type="radio" name="status_my_call" value="2" '.(($res['product_type_id']=='2')?"checked":"").'><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
-				<td><input style="float: left;" type="radio" name="status_my_call" value="3" '.(($res['product_type_id']=='3')?"checked":"").'><span style="margin-top:5px; display:block;">სხვა</span></td>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="1" ><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="2" ><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="3" ><span style="margin-top:5px; display:block;">სხვა</span></td>
 				</tr>
 				</table>
             	<div id="button_area" style="margin-top: 50px;">
@@ -896,9 +874,9 @@ table.display tbody td
             	<h2 align="center">ზარები დღეს</h2>
             	<table style="position: absolute; width: 350px;">
 				<tr>
-				<td><input style="float: left;" type="radio" name="status_call_now" value="1" '.(($res['product_type_id']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
-				<td><input style="float: left;" type="radio" name="status_call_now" value="2" '.(($res['product_type_id']=='2')?"checked":"").'><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
-				<td><input style="float: left;" type="radio" name="status_call_now" value="3" '.(($res['product_type_id']=='3')?"checked":"").'><span style="margin-top:5px; display:block;">სხვა</span></td>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="1" ><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="2" ><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="3" ><span style="margin-top:5px; display:block;">სხვა</span></td>
 				</tr>
 				</table>
             	<div id="button_area">
@@ -960,9 +938,9 @@ table.display tbody td
             	<h2 align="center"style="">ყველა ზარი</h2>
             	<table style="position: absolute; width: 350px;">
 				<tr>
-				<td><input style="float: left;" type="radio" name="status_all_call" value="1" '.(($res['product_type_id']=='1')?"checked":"").'><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
-				<td><input style="float: left;" type="radio" name="status_all_call" value="2" '.(($res['product_type_id']=='2')?"checked":"").'><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
-				<td><input style="float: left;" type="radio" name="status_all_call" value="3" '.(($res['product_type_id']=='3')?"checked":"").'><span style="margin-top:5px; display:block;">სხვა</span></td>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="1" ><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="2" ><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="3" ><span style="margin-top:5px; display:block;">სხვა</span></td>
 				</tr>
 				</table>
             	<div id="button_area" style="margin-top: 50px;">

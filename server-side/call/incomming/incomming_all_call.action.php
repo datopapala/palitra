@@ -12,6 +12,7 @@ $log 		= new Log();
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
+$status 	= '';
 
 //incomming	
 $id								= $_REQUEST['id'];
@@ -71,15 +72,7 @@ switch ($action) {
 		$data		= array('page'	=> $page);
 
 		break;
-	case 'get-info' :
-		$start1  = $_REQUEST['start'];
-		$end1  	= $_REQUEST['end'];
-		
-		$page		= GetInfoPage($start1, $end1);
-		$data		= array('page'	=> $page);
-		break;
 	case 'get_list' :
-		$status = '';
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
 		$start		=	$_REQUEST['start'];
@@ -249,42 +242,6 @@ echo json_encode($data);
 * ******************************
 */
 
-function GetInfoPage($start, $end){
-
-	$data = '';
-
-	$res = mysql_query("
-			SELECT 	COUNT(*) AS `count`
-			FROM 	`incomming_call`
-			WHERE  	(DAYOFWEEK(date)=7 OR DAYOFWEEK(date) = 1) AND date BETWEEN '$start' AND '$end'
-			");
-
-	$res1 = mysql_query("
-			SELECT 	COUNT(*) AS `count`
-			FROM 	`incomming_call`
-			WHERE  	(DAYOFWEEK(date) >= 2 AND DAYOFWEEK(date) <= 6) AND date BETWEEN '$start' AND '$end'
-			");
-
-			$row = mysql_fetch_assoc($res);
-			$row1 = mysql_fetch_assoc($res1);
-
-
-			$data .= '    <table >
-			<tr>
-            					<td >სულ შაბათ-კვირა: </td>
-            					<td> '.$row[count].' ზარი</td>
-					</tr>
-					<tr>
-            					<td>სულ სამუშაო დღეს: </td>
-            					<td> '.$row1[count].' ზარი</td>
-            				</tr>
-							</table>';
-
-
-
-	return $data;
-
-}
 
 function Addincomming($id_p,$phone,$person_name,$type_id,$call_type_id,$product_type_id,$card_id,$department_id,$information_category_id,$information_sub_category_id,$production_category_id,$genre_id,$production_id,$content,$sum_pirce,$shipping_id,$module_id,$call_comment,$call_status_id,$task_department_id,$source_id,$c_date,$persons_id,$priority_id,$done_start_time,$done_end_time,$comment,$task_type_id)
 {
