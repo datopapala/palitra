@@ -1459,8 +1459,17 @@
 		        url: paramm,
 			    data: parame,
 		        success: function(data) {		        	
-					$("#test").html(data.page.answear_dialog);
-					GetDialog("add-edit-form", 700, "auto", "");
+					$("#add-edit-form").html(data.page.answear_dialog);
+					var button = {
+							"cancel": {
+					            text: "დახურვა",
+					            id: "cancel-dialog",
+					            click: function () {
+					                $(this).dialog("close");
+					            }
+					        }
+						};
+					GetDialog("add-edit-form", 700, "auto", button);
 					/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 					GetDataTable("example", aJaxURL, "answear_dialog_table&start_time="+parame.start_time+"&end_time="+parame.end_time+"&queuet="+parame.queuet+"&agent="+parame.agent,7, "", 0, "", 1, "desc");
 
@@ -1500,10 +1509,19 @@
 		        url: paramm,
 			    data: parame,
 		        success: function(data) {		        	
-					$("#test").html(data.page.answear_dialog);
-					GetDialog("add-edit-form-unanswer", 500, "auto", "");
+					$("#add-edit-form-unanswer").html(data.page.answear_dialog);
+					var button = {
+							"cancel": {
+					            text: "დახურვა",
+					            id: "cancel-dialog",
+					            click: function () {
+					                $(this).dialog("close");
+					            }
+					        }
+						};
+					GetDialog("add-edit-form-unanswer", 500, "auto", button);
 					/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-					GetDataTable("example", aJaxURL, "unanswear_dialog_table&start_time="+parame.start_time+"&end_time="+parame.end_time+"&queuet="+parame.queuet,5, "", 0, "", 1, "desc");
+					GetDataTable("example1", aJaxURL, "unanswear_dialog_table&start_time="+parame.start_time+"&end_time="+parame.end_time+"&queuet="+parame.queuet,5, "", 0, "", 1, "desc");
 
 			    }
 		    });
