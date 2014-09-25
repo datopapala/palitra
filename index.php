@@ -41,7 +41,7 @@
         });
 
     </script>
- <div id="links" class="{title:'სასარგებლო ბმულები ', url:'parts/extruderRight.html'}"></div>
+ <div id="links" style="background: #FFF !imortant;text-align: center;" class="{title:'სასარგებლო ბმულები ', url:'parts/extruderRight.html'}"></div>
 		</head>
 		<body style="background: #E2F0FD url(media/images/bg.png);">
 			<div id="npm"></div>
