@@ -55,6 +55,7 @@
 		$(document).ready(function () {     
 			GetTabs(tbName);   	
 			GetTable0();
+			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
 		});
 
@@ -140,6 +141,47 @@
 		$(document.body).click(function (e) {
         	$("#send_to").autocomplete("close");
         });
+
+		$(document).on("click", "#save-printer", function () {
+	       	 var data = $(".check:checked").map(function () {
+	  	        return this.value;
+	  	    }).get();
+	  	    
+	  	    var letters = [];
+	  	    
+	  	    for (var i = 0; i < data.length; i++) {
+	  	    	letters.push(data[i]);        
+	  	    }
+	      	param = new Object();
+	      	param.act	= "change_responsible_person";
+	      	param.lt	= letters;
+	  	    param.rp	= $("#responsible_person").val();
+	
+	  	    var link	=  GetAjaxData(param);
+	  	    
+	  	    if(param.rp == "0"){
+	  		    alert("აირჩიეთ პასუხისმგებელი პირი!");
+	  		}else if(param.ci == "0"){
+	  		    alert("აირჩიეთ ავტომობილი");		
+	  		}else{	    
+	  	        $.ajax({
+	  	            url: aJaxURL,
+	  	            type: "POST",
+	  	            data: link,
+	  	            dataType: "json", 
+	  	            success: function (data) {
+	  	                if (typeof (data.error) != "undefined") {
+	  	                    if (data.error != "") {
+	  	                        alert(data.error);
+	  	                    }else{
+	  	                        $("#add-responsible-person").dialog("close");
+	  	                        LoadTable0();
+	  	                    }
+	  	                }
+	  	            }
+	  	        });
+	  		}
+      });
 
         function LoadDialog(fName){
             //alert(form);
@@ -250,9 +292,13 @@
 			$("#choose_button").button({
 	            
 		    });
+			$("#choose_base").button({
+	            
+		    });
 			$("#add_button_pp").button({
 	            
 		    });
+		   
 		}
 
 		function LoadDialog1(){
@@ -274,6 +320,18 @@
 			};
 			GetDialog("add-responsible-person", 280, "auto", buttons);
 		}
+
+		$(document).on("click", "#incomming_base", function () {
+			$("#hidden_base").val('1');
+			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
+			GetDataTable("base", aJaxURL, "get_list_base", 12, "", 0, "", 1, "asc", "");
+		});
+
+		$(document).on("click", "#phone_base", function () {
+			$("#hidden_base").val('2');
+			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
+			GetDataTable("base", aJaxURL, "get_list_base_phone", 12, "", 0, "", 1, "asc", "");
+		});
 		
 		 $(document).on("click", "#add_button_pp", function () {
 			 param 			= new Object();
@@ -374,8 +432,8 @@
 	    	param.done_end_time			= $("#done_end_time").val();
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
-			param.task_department_id	= $("#task_department_id").val();
 			param.persons_id			= $("#persons_id").val();
+			param.task_department_id	= $("#task_department_id").val();
 			param.task_comment			= $("#task_comment").val();
 			
 	 
@@ -471,6 +529,79 @@
  		   });
 		});
 
+	    $(document).on("click", "#choose_base", function () {
+	    	param 				= new Object();
+ 			param.act			= "phone_base_dialog";
+ 			
+	    	$.ajax({
+		        url: aJaxURL,
+			    data: param,
+		        success: function(data) {       
+					if(typeof(data.error) != "undefined"){
+						if(data.error != ""){
+							alert(data.error);
+						}else{
+							$("#phone_base_dialog").html(data.page);
+							var buttons = {
+							        "save": {
+							            text: "შენახვა",
+							            id: "save_phone_base",
+							            
+							        },
+									"cancel": {
+							            text: "დახურვა",
+							            id: "cancel-dialog",
+							            click: function () {
+							                $(this).dialog("close");
+							            }
+							        }
+							};
+							 $("#incomming_base").button({
+								    
+								});
+								$("#phone_base").button({
+								    
+								});
+							GetDialog("phone_base_dialog", 1260, "auto", buttons);
+							SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
+							GetDataTable("base", aJaxURL, "get_list_base", 12, "", 0, "", 1, "asc", "");
+						}
+					}
+			    }
+			});
+	    	
+	    });
+
+	    $(document).on("click", "#save_phone_base", function () {
+			
+		    	
+ 			
+ 			var data = $(".check:checked").map(function () { //Get Checked checkbox array
+ 	            return this.value;
+ 	        }).get();
+
+ 	        for (var i = 0; i < data.length; i++) {
+ 	        	param 				= new Object();
+ 	 			param.act			= "save_phone_base";
+ 	 			param.phone_base_id = data[i];
+ 	 			param.id			= $("#id").val();
+ 	 			param.hidden_base	= $("#hidden_base").val();
+ 	    	$.ajax({
+ 			        url: aJaxURL,
+ 				    data: param,
+ 			        success: function(data) {       
+ 						if(typeof(data.error) != "undefined"){
+ 							if(data.error != ""){
+ 								alert(data.error);
+ 							}else{
+ 								$("#phone_base_dialog").dialog("close");
+ 								LoadTable4();
+ 							}
+						}
+ 				    }
+ 			});
+ 	        }
+ 		});
 	    
 	    $(document).on("click", "#save-dialog2", function () {
 			param 				= new Object();
@@ -1122,6 +1253,9 @@
 	</div>
 	
 	<div id="add-responsible-person" class="form-dialog" title="პასუხისმგებელი პირი">
+	<!-- aJax -->
+	</div>
+	<div id="phone_base_dialog" class="form-dialog" title="სატელეფონო ბაზა">
 	<!-- aJax -->
 	</div>
 </body>

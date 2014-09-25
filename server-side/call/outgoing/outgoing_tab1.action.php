@@ -72,8 +72,8 @@ switch ($action) {
 										task.end_date,
 										task_type.`name`,
 										shabloni.`name`,
-										CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
-										task_detail.phone,
+										IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name),
+										IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1),
 										'',
 										IF(task_detail.status= 2, 'მიმდინარე','') AS `status`
 								FROM 	`task`
@@ -81,6 +81,8 @@ switch ($action) {
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
 								LEFT JOIN	pattern ON task.template_id = pattern.id
 	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
+								LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
+								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
 	    						WHERE	task_detail.status=2 and task.responsible_user_id=$user");
 	    
 										    		
@@ -753,17 +755,13 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 												task.end_date,
 												task.`task_type_id`,
 												task.`template_id`,
-												`task_detail`.`first_name`,
-												`task_detail`.`last_name`,
-												task_detail.person_n,
-												task_detail.person_status,
-												task_detail.phone,
-												task_detail.mail,
-												task_detail.addres,
-												task_detail.city_id,
-												task_detail.family_id,
-												task_detail.b_day,
-												task_detail.profesion,
+												IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1) as phone,
+												IF(task_detail.phone_base_inc_id != '', '', phone.born_day) as b_day,
+												IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name) as first_name,
+												IF(task_detail.phone_base_inc_id != '', '', phone.addres) as addres,
+												IF(task_detail.phone_base_inc_id != '', '', phone.person_n) as person_n,
+												IF(task_detail.phone_base_inc_id != '', '', phone.city) as city_id,
+												IF(task_detail.phone_base_inc_id != '', '', phone.mail) as mail,
 												task_scenar.hello_comment,
 												task_scenar.hello_quest,
 												task_scenar.info_comment,
@@ -793,7 +791,9 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 										LEFT JOIN	task_type ON task.task_type_id = task_type.id
 										LEFT JOIN	pattern ON task.template_id = pattern.id
 										LEFT JOIN	task_scenar ON task_detail.id = task_scenar.task_detail_id
-			    					WHERE	task_detail.id = '$task_id'
+										LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
+										LEFT JOIN phone ON task_detail.phone_base_id = phone.id
+			    						WHERE	task_detail.id = '$task_id'
 			" ));
 	
 	return $res;
@@ -1824,37 +1824,25 @@ function GetPage($res='', $shabloni)
 										</td>			
 									</tr>
 									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">გვარი</td>
+										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარიღი</td>
 									</tr>
 									<tr>
-										<td style="width: 180px;">
-											<input type="text" id="last_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['last_name'] . '" />		
-										</td>
+										<td><input type="text" id="city_id" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['city_id'] . '" /></td>	
 										<td td style="width: 180px;">
 											<input type="text" id="b_day" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
 										</td>
 									</tr>
 									<tr>
 										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
-										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+										
 									</tr>
 									<tr>
-										<td><select style="width: 165px;" id="city_id" disabled class="idls object">'.Getcity($res['city_id']).'</select></td>
 										<td td style="width: 180px;">
 											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
 										</td>
 									</tr>
-									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">ოჯახური სტატუსი</td>
-										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
-									</tr>
-									<tr>
-										<td><select style="width: 165px;" disabled id="family_id" class="idls object">'.Getfamily($res['family_id']).'</select></td>
-										<td td style="width: 180px;">
-											<input type="text" id="profesion" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profesion'] . '" />		
-										</td>
-									</tr>
+									
 								</table>
 							</fieldset>';
 							$data .= GetRecordingsSection($res='');	

@@ -32,6 +32,29 @@ switch ($action) {
         $data		= array('page'	=> $page);
         
         break;
+    case 'save_phone_base':
+    	
+    	$phone_base_id		= $_REQUEST['phone_base_id'];    	
+    	$hidden_base		= $_REQUEST['hidden_base']; 
+    	
+    	if($hidden_base == 2){
+    		mysql_query("INSERT INTO `task_detail`
+				    	( `user_id`, `task_id`, `phone_base_id`, `status`, `actived`)
+				    	VALUES
+				    	( '$user', '$task_id', '$phone_base_id', '1', '1')");
+    	}else{
+    		mysql_query("INSERT INTO `task_detail`
+			    		( `user_id`, `task_id`, `phone_base_inc_id`, `status`, `actived`)
+			    		VALUES
+			    		( '$user', '$task_id', '$phone_base_id', '1', '1')");
+    	}
+        
+        break;
+    case 'phone_base_dialog':
+        $page		= Getphonebase();
+        $data		= array('page'	=> $page);
+        
+        break;
     case 'get_edit_page':
 	   
 		$page		= GetPage(Getincomming($task_id));
@@ -39,7 +62,85 @@ switch ($action) {
         $data		= array('page'	=> $page);
         
         break;
-	
+    case 'get_list_base':
+    	$count	= $_REQUEST['count'];
+    	$hidden	= $_REQUEST['hidden'];
+    		
+    	$rResult = mysql_query("	SELECT 	incomming_call.id,
+											incomming_call.phone,
+											personal_info.personal_phone,
+											incomming_call.first_name,
+											personal_info.personal_id,
+											personal_info.personal_addres,
+											city.`name`,
+											personal_info.personal_mail,
+											personal_info.personal_d_date,
+											source.`name`,
+											incomming_call.date,
+											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
+									FROM 	incomming_call
+									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
+									LEFT JOIN	source ON incomming_call.source_id = source.id
+									LEFT JOIN	city ON personal_info.personal_city = city.id
+    								WHERE incomming_call.phone != ''");
+    	
+    	$data = array(
+    			"aaData"	=> array()
+    	);
+    	
+    	while ( $aRow = mysql_fetch_array( $rResult ) )
+    	{
+    		$row = array();
+    		for ( $i = 0 ; $i < $count ; $i++ )
+    		{
+    			/* General output */
+    			$row[] = $aRow[$i];
+    			if($i == ($count - 1)){
+    				$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+    			}
+    		}
+    		$data['aaData'][] = $row;
+    	}
+        
+        break;
+    case 'get_list_base_phone':
+    	$count	= $_REQUEST['count'];
+    	$hidden	= $_REQUEST['hidden'];
+    	
+    	$rResult = mysql_query("	SELECT 	id,
+											phone1,
+											phone2,
+											first_last_name,
+											person_n,
+											addres,
+											city,
+											mail,
+											born_day,
+											sorce,
+											create_date,
+											person_status
+    	
+									FROM 	`phone`
+									WHERE	actived = 1");
+    	 
+    	$data = array(
+    			"aaData"	=> array()
+    	);
+    	 
+    	while ( $aRow = mysql_fetch_array( $rResult ) )
+    	{
+    		$row = array();
+    		for ( $i = 0 ; $i < $count ; $i++ )
+    		{
+    			/* General output */
+    			$row[] = $aRow[$i];
+    			if($i == ($count - 1)){
+    				$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+    			}
+    		}
+    		$data['aaData'][] = $row;
+    	}
+    	break;
  	case 'get_list' :
 		$count		= $_REQUEST['count'];
 	   	$hidden		= $_REQUEST['hidden'];
@@ -54,8 +155,8 @@ switch ($action) {
 		    	
     	$rResult = mysql_query("SELECT 	task_detail.id,
 										task_detail.id,
-										task_detail.person_n,
-										CONCAT(task_detail.first_name,' ',task_detail.last_name),
+										'',
+										incomming_call.first_name,
 										task_type.`name`,
 										department.`name`,
 										users.username,
@@ -66,7 +167,25 @@ switch ($action) {
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
 								LEFT JOIN users ON task.responsible_user_id = users.id
-    							LEFT JOIN status ON task_detail.status = status.id
+								JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
+    							LEFT JOIN `status` ON task_detail.`status` = `status`.id
+								UNION ALL
+								SELECT 	task_detail.id,
+										task_detail.id,
+										IF(task_detail.person_n is NULL,phone.person_n,task_detail.person_n),
+										IF(task_detail.first_name IS NULL,phone.first_last_name,(CONCAT(task_detail.first_name,' ',task_detail.last_name))),
+										task_type.`name`,
+										department.`name`,
+										users.username,
+										task.end_date,
+										status.`name`
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN task_detail ON task.id = task_detail.task_id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+								JOIN phone ON task_detail.phone_base_id = phone.id
+    							LEFT JOIN `status` ON task_detail.`status` = `status`.id
 								
     							");
 		    
@@ -88,7 +207,7 @@ switch ($action) {
 			}
 			$data['aaData'][] = $row;
 		}
-
+		
         break;
     case 'save_outgoing':
 	
@@ -675,6 +794,94 @@ function Getscenar(){
 	return $data;
 }
 
+function Getphonebase(){
+	$data .= '
+			
+			<div id="dialog-form">
+			<fieldset>
+				<legend>ძირითადი ინფორმაცია</legend>
+			<div id="dt_example" class="inner-table">
+    							        <div style="width:100%;" id="container" >        	
+    							            <div id="dynamic">
+    							            	<div id="button_area">
+													<button id="incomming_base">შემომავალი ზარები</button>
+													<button id="phone_base">სატელეფონო ბაზა</button>
+    						        			</div>
+    							                <table class="" id="base" style="width: 900px;">
+    							                    <thead>
+    													<tr  id="datatable_header">
+    														<th style="width: 15%;">#</th>
+    														<th style="width: %;">ტელეფონი 1</th>
+								                            <th style="width: %;">ტელეფონი 2</th>
+								                            <th style="width: %;">სახელი/ <br> გვარი</th>
+								                            <th style="width: %;">პირადი N/<br> საიდ. კოდი</th>
+								                            <th style="width: %;">მისამართი</th>
+								                            <th style="width: %;">ქალაქი</th>
+								                            <th style="width: %;">ელ-ფოსტა</th>
+								                            <th style="width: %;">დაბ. წელი</th>
+								                            <th style="width: %;">წყარო</th>
+								                            <th style="width: %;">ფორმირების<br>თარიღი</th>
+								                            <th style="width: %;">ფიზიკური/<br>იურიდიული</th>
+															<th style="width: %;">#</th>
+    													</tr>
+    												</thead>
+    												<thead>
+    													<tr class="search_header">
+    														<th class="colum_hidden">
+    					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+    					                            		</th>
+    														<th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                            <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                             <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                            <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                             <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                            <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                             <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                            <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                             <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                            <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+								                            <th>
+								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+								                            </th>
+															<th>
+								                                <input type="checkbox" name="check-all" id="check-all-base">
+								                            </th>
+    													</tr>
+    												</thead>
+    							                </table>
+    							            </div>
+    							            <div class="spacer">
+    							            </div>
+    							        </div>
+			</fieldset>
+			<input type="text" style="display:none;" id="hidden_base" value="1" />		
+										
+			</div>
+			';
+	
+	return $data;
+}
+
 function Gettask(){
 	$data  .= '<div id="dialog-form">
 							<div style="float: left; width: 380px;">
@@ -826,16 +1033,18 @@ function GetPage($res='', $number)
     									<table width="100%" class="dialog-form-table">
     									    <tr>
                                                 <td>სცენარი</td>
-    											 <td style="text-align: right;">ფაილის ატვირთვა</td>
+    											<!--td style="text-align: right;">ფაილის ატვირთვა</td-->
+    					   						<td style="text-align: right;">სატელეფონო ბაზა</td>
     									   </tr>
     										<tr>
     											<td style="width: 200px;"><select style="width: 200px;" id="template_id" class="idls object">'. Getscenar($res['template_id']).'</select></td>
-    											<td style="width: 200px;">
+    											<!--td style="width: 100px;">
     											    <div class="file-uploader">
     									               <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
     									               <button style="margin-right: 0px !important;" id="choose_button" class="center">აირჩიეთ ფაილი</button>
     									            </div>
-    											</td>
+    											</td-->
+    											<td style="width: 100px;"><button style="margin-right: 0px !important;" id="choose_base" class="center">აირჩიეთ ბაზა</button>	</td>
     										</tr>
         								</table>
     													
@@ -843,7 +1052,7 @@ function GetPage($res='', $number)
     							        <div style="width:100%;" id="container" >        	
     							            <div id="dynamic">
     							            	<div id="button_area">
-    							            		<button id="add_button_pp">დამატება</button>
+    							            		<!--button id="add_button_pp">დამატება</button-->
     						        			</div>
     							                <table class="" id="example4" style="width: 100%;">
     							                    <thead>
@@ -902,15 +1111,17 @@ function GetPage($res='', $number)
 
 	return $data;
 }
+
 function ChangeResponsiblePerson($letters, $responsible_person){
 	$o_date		= date('Y-m-d H:i:s');
 	foreach($letters as $letter) {
 
-		mysql_query("UPDATE task
-					SET    	task.`status`   			 = 1,
-							task.`date` 			     = '$o_date',
-							task.responsible_user_id     = '$responsible_person'
-					WHERE  	task.id 					 = '$letter'");
+		mysql_query("UPDATE 	task_detail
+					JOIN 		task ON task_detail.task_id = task.id
+					SET    	task_detail.`status`   			 = 2,
+									task.`date` 			     = '$o_date',
+									task.responsible_user_id     = '$responsible_person'
+					WHERE  	task_detail.id = '$letter' AND task.id = task_detail.task_id");
 	}
 }
 

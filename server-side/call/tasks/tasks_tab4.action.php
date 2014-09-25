@@ -51,21 +51,46 @@ switch ($action) {
 	    if ($group != 2) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
-	     
-	    $rResult = mysql_query("SELECT 	 	`task_detail`.`id`,
-											`task_detail`.`person_n`,
-											CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
-											`task_detail`.`person_status` ,
-											`task_detail`.`phone` ,
-											`task_detail`.`mail`,
-											`task_detail`.`addres`
-								FROM 		`task_detail`			
-								WHERE 		`task_detail`.`actived`=1 AND `task_detail`.task_id='$task_id'");
-	    
-										    		
+
+		
+		$rResult = mysql_query("SELECT 	 	`task_detail`.`id`,
+											`phone`.`person_n`,
+											`phone`.first_last_name,
+											`phone`.`person_status` ,
+											`phone`.`phone1` ,
+											`phone`.`mail`,
+											`phone`.`addres`
+								FROM 		`task_detail`
+								JOIN		`phone` ON task_detail.phone_base_id = phone.id
+								WHERE 		`task_detail`.`actived`=1 AND task_detail.phone_base_id != '' AND `task_detail`.task_id='$task_id'");
+		 
 		$data = array(
 			"aaData"	=> array()
 		);
+		
+		while ( $aRow = mysql_fetch_array( $rResult ) )
+		{
+			$row = array();
+			for ( $i = 0 ; $i < $count ; $i++ )
+			{
+				/* General output */
+				$row[] = $aRow[$i];
+			}
+			$data['aaData'][] = $row;
+		}
+		
+		$rResult = mysql_query("SELECT 	 	`task_detail`.`id`,
+				'',
+				`incomming_call`.first_name,
+				'',
+				`incomming_call`.`phone` ,
+				'',
+				''
+				FROM 		`task_detail`
+				JOIN		incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
+				WHERE 		`task_detail`.`actived`=1  AND `task_detail`.task_id='$task_id' and incomming_call.phone != ''");
+			
+		
 		
 		while ( $aRow = mysql_fetch_array( $rResult ) )
 		{

@@ -137,10 +137,7 @@
 				            text: "დასრულება",
 				            id: "done-dialog1"
 				        }, 
-						"save": {
-				            text: "შენახვა",
-				            id: "save-dialog1"
-				        }, 
+						
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -851,7 +848,7 @@
 
 <div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
-			<li><a href="#tab-0">მენეჯერი</a></li>
+			<li><a href="#tab-0">პირველადი</a></li>
 			<li><a href="#tab-1">მიმდინარე</a></li>
 			<li><a href="#tab-2">დასრულებული</a></li>
 		</ul>
@@ -859,9 +856,9 @@
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">მენეჯერი</h2>
+		            	<h2 align="center">პირველადი</h2>
 		            	<div id="button_area">
-		            		<button id="add_button">დამატება</button>
+		            		<!-- button id="add_button">დამატება</button -->
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
 	        			</div>
 		                <table class="display" id="example0">

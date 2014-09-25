@@ -119,7 +119,8 @@ switch ($action) {
 									FROM 	incomming_call
 									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
 									LEFT JOIN	source ON incomming_call.source_id = source.id
-									LEFT JOIN	city ON personal_info.personal_city = city.id");
+									LEFT JOIN	city ON personal_info.personal_city = city.id
+									WHERE incomming_call.phone != ''");
 	
 		$data = array(
 				"aaData"	=> array()

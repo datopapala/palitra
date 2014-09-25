@@ -55,19 +55,39 @@ switch ($action) {
 		    	
     	$rResult = mysql_query("SELECT 	task_detail.id,
 										task_detail.id,
-										task_detail.person_n,
-										CONCAT(task_detail.first_name,' ',task_detail.last_name),
+										'',
+										incomming_call.first_name,
 										task_type.`name`,
 										department.`name`,
 										users.username,
 										task.end_date,
-										'მიმდინარე'
+										status.`name`
 								FROM task
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
 								LEFT JOIN users ON task.responsible_user_id = users.id
-								WHERE task_detail.status = 1");
+								JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
+    							LEFT JOIN `status` ON task_detail.`status` = `status`.id
+    							WHERE task_detail.user_id = '$user'
+								UNION ALL
+								SELECT 	task_detail.id,
+										task_detail.id,
+										IF(task_detail.person_n is NULL,phone.person_n,task_detail.person_n),
+										IF(task_detail.first_name IS NULL,phone.first_last_name,(CONCAT(task_detail.first_name,' ',task_detail.last_name))),
+										task_type.`name`,
+										department.`name`,
+										users.username,
+										task.end_date,
+										status.`name`
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN task_detail ON task.id = task_detail.task_id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+								JOIN phone ON task_detail.phone_base_id = phone.id
+    							LEFT JOIN `status` ON task_detail.`status` = `status`.id
+    							WHERE task_detail.user_id = '$user'");
 		    
 		$data = array(
 			"aaData"	=> array()
