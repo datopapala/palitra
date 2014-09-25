@@ -10,7 +10,9 @@ var aJaxURL	= "server-side/report/statistics_type.action.php";		//server side fo
 var tName   = "report";
 var start	= $("#search_start").val();
 var end		= $("#search_end").val();
+var d_url 	= "";
 $(document).ready(function() {
+
 	$(document).on("change", "#search_start", function () 	{drawFirstLevel();});
 	$(document).on("change", "#search_end"  , function () 	{drawFirstLevel();});
 	GetDate("search_start");
@@ -22,7 +24,9 @@ $(document).ready(function() {
 	    i--;
     	drawFirstLevel();
     	if(i==0)$("#back").button({ disabled: true });
-	});	});
+	});
+	});
+
 
 function drawFirstLevel(){
 		 var options = {
@@ -69,19 +73,31 @@ function drawFirstLevel(){
 	                    name: 'კატეგორიები',
 	                    data: []
 	                }]
-	            }
+	            };
+
+
 		var start	= $("#search_start").val();
 		var end		= $("#search_end").val();
-		var d_url   ="&start="+start+"&end="+end+"&done="+i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
+		d_url   ="&start="+start+"&end="+end+"&done="+i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
 		var url     = aJaxURL+"?act=get_category"+d_url;
 		GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
+
+		 $("#report tbody").on("click", "tr", function () {
+			 if(i==3){
+			 var nTds = $("td", this);
+		            var rID = $(nTds[1]).text();
+	    	    GetDataTable("report_1", aJaxURL, "get_in_page", 4, d_url+rID, 0);
+	     		GetDialog("in_form", "1100px", "auto");}
+	     	});
         $.getJSON(url, function(json) {options.series[0].data = json.data;
 	           		options.series[0].data = json.data;
 	                options.title['text']=json.text;
 	                chart = new Highcharts.Chart(options);
-	                $("#total_quantity").html("იტვირთება....")
-	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split(">")[1]);}, 500);
+	                $("#total_quantity").html("იტვირთება....");
+	                setTimeout(function(){ $("#total_quantity").html($("#qnt").html().split(">")[1]);
+	                }, 500);
 	    });
+
 }
 	</script>
 	</head>
@@ -148,6 +164,47 @@ function drawFirstLevel(){
             	</div>
 		</div>
 	</div>
+  </div>
+  <div id="in_form" >
+  <table class="display" id="report_1">
+                    <thead>
+                        <tr id="datatable_header">
+                            <th style="display: none" >ID</th>
+                            <th class="min">ზარის სტატუსი</th>
+                            <th class="min">ტ-ნომერი</th>
+                            <th >დრო</th>
+                            <th class="min">კომენტარი</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="search_header">
+                            <th style="display: none" >
+                            	<input type="text" name="search_number" value="ფილტრი" class="search_init">
+                            </th>
+                            <th>
+                            	<input type="text" name="search_number" value="ფილტრი" class="search_init">
+                            </th>
+                            <th>
+                            	<input type="text" name="search_object" value="ფილტრი" class="search_init">
+                            </th>
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
+                            	<input type="text" name="search_object" value="ფილტრი" class="search_init">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th style="display: none" >&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </tfoot>
+                </table>
   </div>
 </body>
 </html>

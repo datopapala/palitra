@@ -11,10 +11,13 @@ $type       = $_REQUEST['type'];
 $category   = $_REQUEST['category'];
 $s_category = $_REQUEST['sub_category'];
 $done 		= $_REQUEST['done']%4;
+//if($done==4) $done=3;
+
 $text[0] 	= "შემოსული ზარები ტიპების მიხედვით";
 $text[1] 	= "შემოსული '$type' ქვე-განყოფილებების  მიხედვით";
 $text[2] 	= "'$departament'- შემოსული '$type' კატეგორიების მიხედვით";
 $text[3] 	= "'$departament'- შემოსული  '$type' ქვე-კატეგორიების მიხედვით";
+$text[4] 	= "$s_category";
 //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 $c="3 or incomming_call.call_type_id=0";
 if ($type=="ინფორმაცია")  $c=1;
@@ -103,6 +106,26 @@ switch ($action) {
 		$rows['text']=$text[0];
 		echo json_encode($rows);
 		break;
+	case 'get_in_page':
+	$result = mysql_query("SELECT
+				info_category.`name`,
+				`call_status`.`name`,
+				incomming_call.phone,
+				incomming_call.date,
+				incomming_call.`call_comment`
+				FROM 	incomming_call
+				LEFT JOIN `call_status` ON `call_status`.id=incomming_call.call_status_id
+				JOIN  	info_category ON info_category.id=incomming_call.information_sub_category_id
+				JOIN  	department ON incomming_call.department_id=department.id
+				WHERE DATE(`incomming_call`.`date`) >= '$start' AND DATE(`incomming_call`.`date`) <= '$end'
+				AND department.`name`='$departament' and (incomming_call.call_type_id=1) AND info_category.`name`='$s_category' and (incomming_call.call_type_id=$c)");
+	$data = array("aaData"	=> array());
+	while ( $aRow = mysql_fetch_array( $result ) )
+	{	$row = array();
+	$data['aaData'][] =$aRow;
+	}
+	echo json_encode($data); return 0;
+	break;
 	default :
 		echo "Action Is Null!";
 		break;
