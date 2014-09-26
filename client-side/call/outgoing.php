@@ -514,9 +514,15 @@
 
 			param.call_content			= $("#call_content").val();
 			param.status				= $("#status").val();
-
 			
-			
+			// person info
+			param.phone					= $("#phone").val();
+			param.person_n				= $("#person_n").val();
+			param.first_name			= $("#first_name").val();
+			param.mail					= $("#mail").val();
+			param.city_id				= $("#city_id").val();
+			param.b_day					= $("#b_day").val();
+			param.addres				= $("#addres").val();
 	 
  	    	$.ajax({
  		        url: aJaxURL1,

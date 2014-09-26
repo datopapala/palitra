@@ -41,7 +41,7 @@
         
 		function LoadTable(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list_import", 12, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list_import", 13, "", 0, "", 1, "desc");
     		
 		}
 		
@@ -164,6 +164,7 @@
                             <th style="width: 50%;">განყოფილება</th>
                             <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
+                            <th style="width: 50%;">შენიშვნა</th>
                             <th style="width: 15%;">#</th>
                         </tr>
                     </thead>
@@ -197,6 +198,9 @@
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                              <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>
+                            <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>

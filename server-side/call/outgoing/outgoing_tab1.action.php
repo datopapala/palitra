@@ -201,7 +201,12 @@ switch ($action) {
 			
 			$call_content		= $_REQUEST['call_content'];
 			$status				= $_REQUEST['status'];
-        
+
+			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
+												FROM `task_detail`
+												WHERE `id` = '$task_id' "));
+        	
+			UpPerson($res[0],$res[1]);
         	Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1);
         	Savetask2($task_detail_id, $call_content, $status);
         	break;
@@ -218,6 +223,28 @@ echo json_encode($data);
  *	task Functions
  * ******************************
  */
+
+function UpPerson($phone_base,$phone_base_inc)
+{
+	$phone			= $_REQUEST['phone'];
+	$person_n		= $_REQUEST['person_n'];
+	$first_name		= $_REQUEST['first_name'];
+	$mail			= $_REQUEST['mail'];
+	$city_id		= $_REQUEST['city_id'];
+	$b_day			= $_REQUEST['b_day'];
+	$addres			= $_REQUEST['addres'];
+	
+	mysql_query("UPDATE `phone` SET
+						`phone1`			='$phone',
+						`phone2`			='$phone',
+						`first_last_name`	='$first_name',
+						`person_n`			='$person_n',
+						`addres`			='$addres',
+						`mail`				='$mail',
+						`city`				='$city_id',
+						`born_day`			='$b_day'
+				WHERE 	`id`				='$phone_base'");
+}
 
 function checkgroup($user){
 	$res = mysql_fetch_assoc(mysql_query("
@@ -1106,7 +1133,7 @@ function GetPage($res='', $shabloni)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="result_comment" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
 														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
 													</tr>
 											</table>
@@ -1159,7 +1186,7 @@ function GetPage($res='', $shabloni)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="payment_comment" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
 													</tr>
 											</table>
 											</fieldset>

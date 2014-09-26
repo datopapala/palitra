@@ -36,7 +36,8 @@ switch ($action) {
 											born_day,
 											sorce,
 											create_date,
-											person_status
+											person_status,
+											note
 											
 									FROM 	`phone`
 									WHERE	actived = 1");
@@ -73,13 +74,14 @@ switch ($action) {
 											city.`name`,
 											personal_info.personal_mail,
 											personal_info.personal_d_date,
-											source.`name`,
+											department.`name`,
 											incomming_call.date,
 											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
 									FROM 	incomming_call
 									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
-									LEFT JOIN	source ON incomming_call.source_id = source.id
-									LEFT JOIN	city ON personal_info.personal_city = city.id");
+									LEFT JOIN	department ON incomming_call.department_id = department.id
+									LEFT JOIN	city ON personal_info.personal_city = city.id
+									WHERE incomming_call.phone != ''");
 	
 		$data = array(
 				"aaData"	=> array()
@@ -113,14 +115,30 @@ switch ($action) {
 											city.`name`,
 											personal_info.personal_mail,
 											personal_info.personal_d_date,
-											source.`name`,
+											department.`name`,
 											incomming_call.date,
 											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
 									FROM 	incomming_call
 									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
-									LEFT JOIN	source ON incomming_call.source_id = source.id
+									LEFT JOIN	department ON incomming_call.department_id = department.id
 									LEFT JOIN	city ON personal_info.personal_city = city.id
-									WHERE incomming_call.phone != ''");
+									WHERE incomming_call.phone != ''
+									UNION ALL
+									SELECT 	id,
+											phone1,
+											phone2,
+											first_last_name,
+											person_n,
+											addres,
+											city,
+											mail,
+											born_day,
+											sorce,
+											create_date,
+											person_status
+											
+									FROM 	`phone`
+									WHERE	actived = 1");
 	
 		$data = array(
 				"aaData"	=> array()
@@ -139,38 +157,7 @@ switch ($action) {
 			}
 			$data['aaData'][] = $row;
 		}
-		
-		$rResult = mysql_query("	SELECT 	id,
-											phone1,
-											phone2,
-											first_last_name,
-											person_n,
-											addres,
-											city,
-											mail,
-											born_day,
-											sorce,
-											create_date,
-											person_status
-											
-									FROM 	`phone`
-									WHERE	actived = 1");
-		
-		
-		while ( $aRow = mysql_fetch_array( $rResult ) )
-		{
-			$row = array();
-			for ( $i = 0 ; $i < $count ; $i++ )
-			{
-				/* General output */
-				$row[] = $aRow[$i];
-				if($i == ($count - 1)){
-					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
-				}
-			}
-			$data['aaData'][] = $row;
-		}
-		
+
 		break;
 	case 'save_template':
 		

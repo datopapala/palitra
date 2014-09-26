@@ -1152,7 +1152,7 @@ function GetPage($res='', $shabloni)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="result_comment" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
 														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
 													</tr>
 											</table>
@@ -1205,7 +1205,7 @@ function GetPage($res='', $shabloni)
 						  								<td><span style="color:#649CC3">კომენტარი</span></td>
 													</tr>
 													<tr>
-														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="payment_comment" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
 													</tr>
 											</table>
 											</fieldset>
@@ -1831,17 +1831,6 @@ function GetPage($res='', $shabloni)
 						
 						
 						$data .='<div style="float: right;  width: 355px;">
-								  <fieldset>
-									<legend>სასარგებლო ბმულები</legend>
-									<table>
-										<tr>
-											<td style="width:90px; height:60px;"><a id="link1" target="_blank" href="http://www.biblusi.ge/"></a></td>
-											<td style="width:90px; height:60px;"><a id="link2" target="_blank" href="http://www.palitral.ge/"></a></td>
-											<td style="width:90px; height:60px;"><a id="link3" target="_blank" href="http://palitra.ge/"></a></td>
-											<td style="width:60px; height:60px;"><a id="link4" target="_blank" href="http://www.salesland.ge/"></a></td>
-										</tr>
-									</table>
-								</fieldset>
 								<fieldset>
 								<legend>აბონენტი</legend>
 								<table style="height: 243px;">						
@@ -1851,10 +1840,10 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr>
 										<td>
-											<input type="text" id="phone" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
+											<input type="text" id="phone"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="person_n" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
+											<input type="text" id="person_n"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
 										</td>					
 									</tr>
 									<tr>
@@ -1863,29 +1852,29 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr >
 										<td style="width: 180px;">
-											<input type="text" id="first_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />
+											<input type="text" id="first_name"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="mail" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['mail'] . '" />
+											<input type="text" id="mail"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['mail'] . '" />
 										</td>			
 									</tr>
 									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
 										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარიღი</td>
 									</tr>
 									<tr>
-										<td><input type="text" id="city_id" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['city_id'] . '" /></td>	
+										<td><input type="text" id="city_id"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['city_id'] . '" /></td>	
 										<td td style="width: 180px;">
-											<input type="text" id="b_day" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
+											<input type="text" id="b_day"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
 										</td>
 									</tr>
 									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
+										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 										
 									</tr>
 									<tr>
 										<td td style="width: 180px;">
-											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+											<input type="text" id="addres"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
 										</td>
 									</tr>
 									
