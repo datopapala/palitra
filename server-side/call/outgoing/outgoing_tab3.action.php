@@ -83,7 +83,7 @@ switch ($action) {
 	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
 								LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
 								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
-	    						WHERE	task_detail.status=3 and task.responsible_user_id=$user");
+	    						WHERE	task_detail.status=3 and task_detail.responsible_user_id=$user");
 	    
 										    		
 		$data = array(
