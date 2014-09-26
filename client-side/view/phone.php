@@ -161,7 +161,7 @@
                             <th style="width: 50%;">ქალაქი</th>
                             <th style="width: 50%;">ელ-ფოსტა</th>
                             <th style="width: 50%;">დაბ. წელი</th>
-                            <th style="width: 50%;">წყარო</th>
+                            <th style="width: 50%;">განყოფილება</th>
                             <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
                             <th style="width: 15%;">#</th>
@@ -229,7 +229,7 @@
                             <th style="width: 50%;">ქალაქი</th>
                             <th style="width: 50%;">ელ-ფოსტა</th>
                             <th style="width: 50%;">დაბ. წელი</th>
-                            <th style="width: 50%;">წყარო</th>
+                            <th style="width: 50%;">განყოფილება</th>
                             <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
                             
@@ -294,7 +294,7 @@
                             <th style="width: 50%;">ქალაქი</th>
                             <th style="width: 50%;">ელ-ფოსტა</th>
                             <th style="width: 50%;">დაბ. წელი</th>
-                            <th style="width: 50%;">წყარო</th>
+                            <th style="width: 50%;">განყოფილება</th>
                             <th style="width: 50%;">ფორმირების<br>თარიღი</th>
                             <th style="width: 50%;">ფიზიკური/<br>იურიდიული</th>
                         </tr>

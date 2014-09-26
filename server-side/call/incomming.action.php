@@ -105,7 +105,8 @@ switch ($action) {
 		if($id_h == ''){
 			
 			Addincomming($id_p,$phone,$person_name,$type_id,$call_type_id,$product_type_id,$card_id,$department_id,$information_category_id,$information_sub_category_id,$production_category_id,$genre_id,$production_id,$content,$sum_pirce,$shipping_id,$module_id,$call_comment,$call_status_id,$task_department_id,$source_id,$c_date,$persons_id,$priority_id,$done_start_time,$done_end_time,$comment,$task_type_id);
-
+			AddTask($id_p,$task_type_id,$task_department_id,$c_date,$done_start_time,$done_end_time,$comment,$persons_id,$priority_id);
+			
 		}else {
 			
 			Saveincomming($id_h,$phone,$person_name,$type_id,$call_type_id,$product_type_id,$card_id,$department_id,$information_category_id,$information_sub_category_id,$production_category_id,$genre_id,$production_id,$content,$sum_pirce,$shipping_id,$module_id,$call_comment,$call_status_id,$task_department_id,$source_id,$c_date,$persons_id,$priority_id,$done_start_time,$done_end_time,$comment,$task_type_id);
@@ -227,6 +228,15 @@ echo json_encode($data);
  *	Request Functions
 * ******************************
 */
+
+function AddTask($id_p,$task_type_id,$task_department_id,$c_date,$done_start_time,$done_end_time,$comment,$persons_id,$priority_id)
+{
+	$user		= $_SESSION['USERID'];
+	mysql_query("INSERT INTO `task`
+	(`user_id`, `responsible_user_id`, `incomming_call_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `priority_id`, `comment`, `status`, `actived`)
+	VALUES
+	('$user', '$persons_id', '$id_p', '$c_date', '$done_start_time', '$done_end_time', '$task_department_id', '$task_type_id', '$task_type_id', '$priority_id', '$comment', '0', '1')");
+}
 
 function Addincomming($id_p,$phone,$person_name,$type_id,$call_type_id,$product_type_id,$card_id,$department_id,$information_category_id,$information_sub_category_id,$production_category_id,$genre_id,$production_id,$content,$sum_pirce,$shipping_id,$module_id,$call_comment,$call_status_id,$task_department_id,$source_id,$c_date,$persons_id,$priority_id,$done_start_time,$done_end_time,$comment,$task_type_id)
 {

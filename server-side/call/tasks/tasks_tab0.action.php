@@ -185,7 +185,23 @@ switch ($action) {
 								LEFT JOIN users ON task_detail.responsible_user_id = users.id
 								JOIN phone ON task_detail.phone_base_id = phone.id
     							LEFT JOIN `status` ON task_detail.`status` = `status`.id
-								
+								UNION ALL
+								SELECT 	task.id,
+										task.id,
+										'',
+										incomming_call.first_name,
+										task_type.`name`,
+										department.`name`,
+										users.username,
+										task.end_date,
+										status.`name`
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN task_detail ON task.id = task_detail.task_id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+								JOIN incomming_call ON task.incomming_call_id = incomming_call.id
+    							LEFT JOIN `status` ON task.`status` = `status`.id
     							");
 		    
 		$data = array(

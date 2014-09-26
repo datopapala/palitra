@@ -1270,6 +1270,7 @@ function GetDialog(fname, width, height, buttons) {
 */
 function CloseDialog(form){
 	$("#" + form).dialog("close");
+	$("#" + form).html("");
 }
 
 /**

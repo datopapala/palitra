@@ -105,6 +105,13 @@
 			GetDataTable("example5", aJaxURL7, "get_list", 7, "", 0, "", 1, "asc", "");
 		}
 
+		$(document).on("click", "#check-all-in", function () {
+		if ($('#check-all-in').is(':checked')) {
+			$( ".check" ).prop( "checked", true );
+    	}else{
+    		$( ".check" ).prop( "checked", false );
+    	}
+		});
 		//SeoYyy
 		$(document.body).click(function (e) {
         	$("#send_to").autocomplete("close");
@@ -253,8 +260,9 @@
 	            
 		    });
 		}
-
+    	
         $(document).on("click", "#save-printer", function () {
+ 
 	       	 var data = $(".check:checked").map(function () {
 	  	        return this.value;
 	  	    }).get();
