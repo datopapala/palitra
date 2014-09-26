@@ -55,28 +55,22 @@ switch ($action) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
 	     
-	    $rResult = mysql_query("SELECT 	 	`task`.id,
-											`task`.id,
-											`site_user`.`name`,
-											`site_user`.`pin`,
-											`person1`.`name` ,
-											`person2`.`name` ,
-											`incomming_call`.date,
-											`status`.`call_status`
-								FROM 		task			
-								LEFT JOIN 		incomming_call ON task.incomming_call_id=incomming_call.id
-								LEFT JOIN 	site_user		ON incomming_call.id=site_user.incomming_call_id
-								
-								
-								JOIN 		users AS `user1`			ON task.responsible_user_id=user1.id
-								JOIN 		persons AS `person1`		ON user1.person_id=person1.id
-								
-								JOIN 		users AS `user2`			ON task.user_id=user2.id
-								JOIN 		persons AS `person2`		ON user2.person_id=person2.id
-								
-								LEFT JOIN `status`  	ON	task.`status`= `status`.id
-								
-								WHERE 		task.task_type_id=1 AND task.`status`=2");
+	    $rResult = mysql_query("SELECT 	task_detail.id,
+	    								task_detail.id,
+	    								`task`.`date`,
+										`task`.start_date,
+										task.end_date,
+										task_type.`name`,
+										pattern.`name`,
+										CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
+										task_detail.phone,
+										'',
+										IF(task_detail.`status`= 2, 'გადაცემულია გასარკვევად','') AS `status`
+								FROM 	`task`
+								LEFT JOIN	task_detail ON task.id = task_detail.task_id
+								LEFT JOIN	task_type ON task.task_type_id = task_type.id
+								LEFT JOIN	pattern ON task.template_id = pattern.id
+	    						WHERE	task_detail.actived=1 AND task_detail.`status` = 2");
 	    
 										    		
 		$data = array(
