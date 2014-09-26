@@ -41,6 +41,55 @@
 		function GetTable0() {
             LoadTable0();
             SetEvents("add_button", "", "", "example0", fName, aJaxURL);
+            function seller(id){
+    			if(id == '0'){
+    				$('#seller-0').removeClass('dialog_hidden');
+    	            $('#0').addClass('seller_select');
+    	            $('#seller-1').addClass('dialog_hidden');
+    	            $('#seller-2').addClass('dialog_hidden');
+    	            $('#1').removeClass('seller_select');
+    	            $('#2').removeClass('seller_select');
+    			}else if(id == '1'){
+    				$('#seller-1').removeClass('dialog_hidden');
+    	            $('#1').addClass('seller_select');
+    	            $('#seller-0').addClass('dialog_hidden');
+    	            $('#seller-2').addClass('dialog_hidden');
+    	            $('#0').removeClass('seller_select');
+    	            $('#2').removeClass('seller_select');
+    			}else if(id == '2'){
+    				$('#seller-2').removeClass('dialog_hidden');
+    	            $('#2').addClass('seller_select');
+    	            $('#seller-1').addClass('dialog_hidden');
+    	            $('#seller-0').addClass('dialog_hidden');
+    	            $('#1').removeClass('seller_select');
+    	            $('#0').removeClass('seller_select');
+    			}
+    		}
+
+    		function research(id){
+    			if(id == 'r0'){
+    				$('#research-0').removeClass('dialog_hidden');
+    	            $('#r0').addClass('seller_select');
+    	            $('#research-1').addClass('dialog_hidden');
+    	            $('#research-2').addClass('dialog_hidden');
+    	            $('#r1').removeClass('seller_select');
+    	            $('#r2').removeClass('seller_select');
+    			}else if(id == 'r1'){
+    				$('#research-1').removeClass('dialog_hidden');
+    	            $('#r1').addClass('seller_select');
+    	            $('#research-0').addClass('dialog_hidden');
+    	            $('#research-2').addClass('dialog_hidden');
+    	            $('#r0').removeClass('seller_select');
+    	            $('#r2').removeClass('seller_select');
+    			}else if(id == 'r2'){
+    				$('#research-2').removeClass('dialog_hidden');
+    	            $('#r2').addClass('seller_select');
+    	            $('#research-1').addClass('dialog_hidden');
+    	            $('#research-0').addClass('dialog_hidden');
+    	            $('#r1').removeClass('seller_select');
+    	            $('#r0').removeClass('seller_select');
+    			}
+    		}
         }
         
 		 function GetTable1() {
@@ -48,11 +97,12 @@
              $("#add_button_n").button({
   	            
   		     });
-             SetEvents("add_button_n", "", "", "example1", "add-edit-form1", aJaxURL1);
+             SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL1);
          }
          
 		 function GetTable2() {
              LoadTable2();
+             SetEvents("", "", "", "example2", "add-edit-form1", aJaxURL1);
          }
          
 		 function GetTable3() {
@@ -80,7 +130,7 @@
 		
 		function LoadTable3(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable4(){			
@@ -127,9 +177,28 @@
 				            }
 				        } 
 				    };
-					GetDialog("add-edit-form", 790, "auto", buttons);
-					GetDateTimes("done_start_time");
-					GetDateTimes("done_end_time");
+					GetDialog("add-edit-form", 1150, "auto", buttons);
+					$(".done").button({
+			            
+				    });
+					$(".next").button({
+			            
+				    });
+					$(".back").button({
+			            
+				    });
+					$("#add_button_product").button({
+			            
+				    });
+					$("#add_button_gift").button({
+					    
+					});
+					$("#complete").button({
+					    
+					});
+					LoadTable5();
+					LoadTable6();
+					GetDateTimes("send_time");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -848,15 +917,16 @@
 
 <div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
-			<li><a href="#tab-0">პირველადი</a></li>
-			<li><a href="#tab-1">მიმდინარე</a></li>
-			<li><a href="#tab-2">დასრულებული</a></li>
+			<li><a href="#tab-0">მენეჯერი</a></li>
+			<li><a href="#tab-1">პირველადი</a></li>
+			<li><a href="#tab-2">მიმდინარე</a></li>
+			<li><a href="#tab-3">დასრულებული</a></li>
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">პირველადი</h2>
+		            	<h2 align="center">მენეჯერი</h2>
 		            	<div id="button_area">
 		            		<!-- button id="add_button">დამატება</button -->
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
@@ -991,7 +1061,75 @@
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">მიმდინარე</h2>
+		            	<div id="button_area">
+	        			</div>
 		                <table class="display" id="example2">
+		                    <thead>
+								<tr id="datatable_header">
+		                            <th>ID</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">შექმნის თარიღი</th>
+									<th style="width:19%;">დასაწისი</th>
+									<th style="width:19%;">დასასრული</th>
+									<th style="width:19%;">დავალების ტიპი</th>
+									<th style="width:19%;">სცენარი</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">პრიორიტეტი</th>
+									<th style="width:19%;">სტატუსი</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
+									</th>
+									<th>
+										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+		    </div>
+		 </div>
+		 <div id="tab-3">
+		    <div id="dt_example" class="ex_highlight_row">
+		        <div id="container" style="width: 100%;">        	
+		            <div id="dynamic">
+		            	<h2 align="center">მიმდინარე</h2>
+		                <table class="display" id="example3">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
