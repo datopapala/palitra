@@ -1128,17 +1128,7 @@ function GetPage($res='', $number)
 				  </fieldset>
 			</div>
 			<div style="float: right;  width: 355px;">
-				 <fieldset>
-					<legend>სასარგებლო ბმულები</legend>
-					<table>						
-						<tr>
-							<td style="width:90px; height:60px;"><a id="link1" target="_blank" href="http://www.biblusi.ge/"></a></td>
-							<td style="width:90px; height:60px;"><a id="link2" target="_blank" href="http://www.palitral.ge/"></a></td>
-							<td style="width:90px; height:60px;"><a id="link3" target="_blank" href="http://palitra.ge/"></a></td>
-							<td style="width:60px; height:60px;"><a id="link4" target="_blank" href="http://www.salesland.ge/"></a></td>
-						</tr>
-					</table>
-				</fieldset>
+				 
 				<fieldset>
 					<legend>მომართვის ავტორი</legend>
 					<table style="height: 243px;">						
