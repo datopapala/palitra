@@ -75,7 +75,7 @@ switch ($action) {
 										IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name),
 										IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1),
 										'',
-										IF(task_detail.status= 2, 'მიმდინარე','') AS `status`
+										IF(task_detail.status= 1, 'პირველადი','') AS `status`
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
@@ -83,7 +83,7 @@ switch ($action) {
 	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
 								LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
 								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
-	    						WHERE	task_detail.status=2 and task.responsible_user_id=$user");
+	    						WHERE	task_detail.status=1 and task.responsible_user_id=$user");
 	    
 										    		
 		$data = array(
@@ -236,7 +236,7 @@ function Savetask2($task_detail_id, $call_content, $status)
 
 	mysql_query("UPDATE `task_detail` SET  
 						`call_content` = '$call_content',
-						`status`	='3'
+						`status`	='$status'
 				 WHERE  `id`		='$task_detail_id'
 									");
 
@@ -699,9 +699,9 @@ function Getstatus($status){
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $status){
-			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
 		}
 	}
 

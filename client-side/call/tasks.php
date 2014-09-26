@@ -112,17 +112,17 @@
 
 		function LoadTable2(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "asc", "");
+			GetDataTable("example2", aJaxURL2, "get_list",11, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable3(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 11, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */

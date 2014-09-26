@@ -41,12 +41,12 @@ switch ($action) {
     		mysql_query("INSERT INTO `task_detail`
 				    	( `user_id`, `task_id`, `phone_base_id`, `status`, `actived`)
 				    	VALUES
-				    	( '$user', '$task_id', '$phone_base_id', '1', '1')");
+				    	( '$user', '$task_id', '$phone_base_id', '0', '1')");
     	}else{
     		mysql_query("INSERT INTO `task_detail`
 			    		( `user_id`, `task_id`, `phone_base_inc_id`, `status`, `actived`)
 			    		VALUES
-			    		( '$user', '$task_id', '$phone_base_id', '1', '1')");
+			    		( '$user', '$task_id', '$phone_base_id', '0', '1')");
     	}
         
         break;
@@ -119,7 +119,6 @@ switch ($action) {
 											sorce,
 											create_date,
 											person_status
-    	
 									FROM 	`phone`
 									WHERE	actived = 1");
     	 
@@ -166,7 +165,7 @@ switch ($action) {
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
+								LEFT JOIN users ON task_detail.responsible_user_id = users.id
 								JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
     							LEFT JOIN `status` ON task_detail.`status` = `status`.id
 								UNION ALL
@@ -183,7 +182,7 @@ switch ($action) {
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
+								LEFT JOIN users ON task_detail.responsible_user_id = users.id
 								JOIN phone ON task_detail.phone_base_id = phone.id
     							LEFT JOIN `status` ON task_detail.`status` = `status`.id
 								
@@ -294,7 +293,7 @@ function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $te
 	mysql_query("INSERT INTO `task` 
 				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`, `comment`)
 				VALUES
-				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '2', '1', '$task_comment')
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '0', '1', '$task_comment')
 				");
 
 }
@@ -1118,9 +1117,9 @@ function ChangeResponsiblePerson($letters, $responsible_person){
 
 		mysql_query("UPDATE 	task_detail
 					JOIN 		task ON task_detail.task_id = task.id
-					SET    	task_detail.`status`   			 = 2,
-									task.`date` 			     = '$o_date',
-									task.responsible_user_id     = '$responsible_person'
+					SET    		task_detail.`status`   			 = 2,
+								task.`date` 			     = '$o_date',
+								task_detail.responsible_user_id     = '$responsible_person'
 					WHERE  	task_detail.id = '$letter' AND task.id = task_detail.task_id");
 	}
 }

@@ -34,7 +34,7 @@ switch ($action) {
         
         break;
     case 'get_edit_page':
-	   
+	  
 		$page		= GetPage(Getincomming($task_id));
         
         $data		= array('page'	=> $page);
@@ -66,10 +66,10 @@ switch ($action) {
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
+								LEFT JOIN users ON task_detail.responsible_user_id = users.id
 								JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
     							LEFT JOIN `status` ON task_detail.`status` = `status`.id
-    							WHERE task_detail.user_id = '$user'
+    							WHERE task_detail.user_id = '$user' and task_detail.`status` = 0
 								UNION ALL
 								SELECT 	task_detail.id,
 										task_detail.id,
@@ -84,10 +84,10 @@ switch ($action) {
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
 								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
+								LEFT JOIN users ON task_detail.responsible_user_id = users.id
 								JOIN phone ON task_detail.phone_base_id = phone.id
     							LEFT JOIN `status` ON task_detail.`status` = `status`.id
-    							WHERE task_detail.user_id = '$user'");
+    							WHERE task_detail.user_id = '$user' and task_detail.`status` = 0");
 		    
 		$data = array(
 			"aaData"	=> array()
@@ -270,7 +270,40 @@ function Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_
 											( '$incomming_call_id', '243', '$personal_pin', '$friend_pin', '11111111', 22222, '333', '$personal_id', '$user')");
 
 }
-				
+
+function Getshabl($templ){
+
+	$req = mysql_query("	SELECT 	`id`,
+			`name`
+			FROM 	shabloni
+			WHERE 	id = $templ
+			GROUP BY 	`shabloni`.`name`
+			");
+
+			$res = mysql_fetch_assoc($req);
+			$shabl_name .= $res[name];
+
+			return $shabl_name;
+}
+
+function Getstatus($status){
+	$req = mysql_query("	SELECT 	`id`,
+									`name`
+							FROM 	status
+
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $status){
+			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
 
 function Savetask($task_id, $cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id)
 {
@@ -691,32 +724,35 @@ function Getpattern($id)
 	return $data;
 }
 
-
-function Getincomming($task_id)
-{
-$res = mysql_fetch_assoc(mysql_query("" ));
-	
-	return $res;
-}
-
-function Getfamily($family_id){
-	$req = mysql_query("	SELECT 	`id`,
-									`name`
-							FROM 	family
-							WHERE 	actived=1
-							");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $family_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+function Getshablon($id,$templ){
+	if($templ !=''){
+		$req = mysql_query("	SELECT 	`id`,
+				`name`
+				FROM 	shabloni
+				WHERE 	id = $templ
+				GROUP BY 	`shabloni`.`name`
+				");
+	}else{
+		$req = mysql_query("	SELECT 	`id`,
+				`name`
+				FROM 	shabloni
+				WHERE 	scenar_id = $id
+				GROUP BY 	`shabloni`.`name`
+				");
 		}
-	}
 
-	return $data;
+				$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+	if(($res['id'] == $id)or ($res['id'] == $templ)){
+	$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+		$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+		}
+		}
+
+		return $data;
 }
+
 
 function Getcity($city_id){
 	$req = mysql_query("	SELECT 	`id`,
@@ -756,23 +792,1069 @@ function Getscenar(){
 	return $data;
 }
 
-function Gettask(){
-	$data  .= '<div id="dialog-form">
-							<div style="float: left; width: 380px;">
+function Getincomming($task_id)
+{
+$res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
+			    								`task`.`date`,
+												`task_detail`.`status`,
+												`task`.start_date,
+												task.end_date,
+												task.`task_type_id`,
+												task.`template_id`,
+												IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1) as phone,
+												IF(task_detail.phone_base_inc_id != '', '', phone.born_day) as b_day,
+												IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name) as first_name,
+												IF(task_detail.phone_base_inc_id != '', '', phone.addres) as addres,
+												IF(task_detail.phone_base_inc_id != '', '', phone.person_n) as person_n,
+												IF(task_detail.phone_base_inc_id != '', '', phone.city) as city_id,
+												IF(task_detail.phone_base_inc_id != '', '', phone.mail) as mail,
+												task_scenar.hello_comment,
+												task_scenar.hello_quest,
+												task_scenar.info_comment,
+												task_scenar.info_quest,
+												task_scenar.payment_comment,
+												task_scenar.payment_quest,
+												task_scenar.result_comment,
+												task_scenar.result_quest,
+												task_scenar.send_date,
+												task_scenar.preface_quest,
+												task_scenar.preface_name,
+												task_scenar.d1,
+												task_scenar.d2,
+												task_scenar.d3,
+												task_scenar.d4,
+												task_scenar.d5,
+												task_scenar.d6,
+												task_scenar.d7,
+												task_scenar.d8,
+												task_scenar.d9,
+												task_scenar.d10,
+												task_scenar.d11,
+												task_scenar.d12,
+												task_scenar.q1
+										FROM 	`task`
+										LEFT JOIN	task_detail ON task.id = task_detail.task_id
+										LEFT JOIN	task_type ON task.task_type_id = task_type.id
+										LEFT JOIN	pattern ON task.template_id = pattern.id
+										LEFT JOIN	task_scenar ON task_detail.id = task_scenar.task_detail_id
+										LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
+										LEFT JOIN phone ON task_detail.phone_base_id = phone.id
+			    						WHERE	task_detail.id = '$task_id'
+			" ));
+	
+	return $res;
+}
+
+
+function GetPage($res='', $shabloni)
+{
+	$num = 0;
+	if($res[phone]==""){
+		$num=$number;
+	}else{ 
+		$num=$res[phone]; 
+	}
+	
+
+		$data  .= '<div id="dialog-form">
+							<div style="float: left; width: 710px;">
 								<fieldset >
 							    	<legend>ძირითადი ინფორმაცია</legend>
-	
-							    	<table style="height: 243px;">						
+						
+							    	<table width="65%" class="dialog-form-table">
+										<tr>
+											<td style="width: 180px;"><label for="">დავალების №</label></td>
+											<td style="width: 180px;"><label for="">თარიღი</label></td>
+										</tr>
+										<tr>
+											<td>
+												<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" disabled value="' . $res['id']. '" disabled="disabled" />
+											</td>
+											<td>
+												<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" disabled  value="' .  $res['date']. '" disabled="disabled" />
+											</td>		
+										</tr>
+									</table><br>
+								
+														
+								<fieldset style="width:250px; float:left;">
+							    	<legend>დავალების ტიპი</legend>
+								<table class="dialog-form-table">
+							    		<tr>
+											<td><select style="width: 305px;" id="task_type_id_seller" disabled class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+										</tr>
+									</table>
+								</fieldset>
+								<fieldset style="width:340px; float:left; margin-left:10px;">
+							    	<legend>სცენარის დასახელება</legend>
+								<table class="dialog-form-table">
+							    		<tr>
+											<td><select style="width: 380px;" id="shabloni" disabled class="idls object">'.Getshablon('',$res['template_id']).'</select></td>
+										</tr>
+									</table>
+								</fieldset>
+						        ';
+		
+						$test = Getshabl($res['template_id']);
+						
+						//$notes = array();
+						//$a 	= 	array();
+						
+						for($key=1;$key<23;$key++){
+						
+						$rows1 = mysql_query("	SELECT 	quest_id,
+														notes,
+														qvota
+												FROM 	shabloni
+												WHERE 	`name`='$test' and quest_id='$key'");
+						$row = mysql_fetch_assoc($rows1);
+							
+								$notes[] = array('id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]);
+							
+						}
+					
+						// სატელეფონო გაყიდვები დასაწყისი
+						$data .= '
+							<div id="quest">
+						<div id="seller" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'" >
+									<ul>
+										<li style="margin-left:0;" id="0" onclick="seller(this.id)" class="seller_select">მისალმება</li>
+										<li id="1" onclick="seller(this.id)" class="">შეთავაზება</li>
+										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
+									</ul>
+									<div id="seller-0" >
+									<fieldset style="width:97%;   float:left; overflow-y:scroll; max-height:400px;" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" >
+								    	<legend>მისალმება</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									</fieldset>
+									<table class="dialog-form-table" style="width:500px;">
+								    		<tr>
+												<td style="text-align:right;"><span>აქვს</span></td>
+					  							<td><input type="radio" name="hello_quest" value="1" '.(($res['hello_quest']=='1')?"checked":"").'></td>
+					  							<td><span>(ვაგრძელებთ)</span></td>
+					  						</tr>
+											<tr>
+												<td style="text-align:right;"><span>სურს სხვა დროს</span></td>
+					  							<td><input type="radio" name="hello_quest" value="2" '.(($res['hello_quest']=='2')?"checked":"").'></td>
+					  							<td><span>(ვიფორმირებთ დავალებას)</span></td>
+					  						</tr>
+					  						<tr>
+												<td style="text-align:right;"><span>არ სურს</span></td>
+					  							<td><input type="radio" name="hello_quest" value="3" '.(($res['hello_quest']=='3')?"checked":"").'></td>
+					  							<td><span>(ვასრულებთ)</span></td>
+					  						</tr>
+									</table>
+					  				<fieldset style="width:97%; float:left; ">
+								    	<legend>კომენტარი</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="hello_comment" class="idle" name="content" cols="300" >' . $res['hello_comment'] . '</textarea></td>
+											</tr>
+									</table>
+									</fieldset>
+											<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> >> </button>
+											<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+									</fieldset>
+									 </div>
+
+														
+														
+									<div id="seller-1" class="dialog_hidden">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;" class="'.(($notes[1][id]!="")?"":"dialog_hidden").'">
+								    	<legend>შეთავაზება</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									</fieldset>
+									<fieldset style="width:97%;" class="'.(($notes[2][id]!="")?"":"dialog_hidden").'">
+								    	<legend>პროდუქტი</legend>
+									<div id="dt_example" class="inner-table">
+								        <div style="width:100%;" id="container" >        	
+								            <div id="dynamic">
+								            	<div id="button_area">
+								            		<button id="add_button_product">დამატება</button>
+							        			</div>
+								                <table class="" id="sub1" style="width: 100%;">
+								                    <thead>
+														<tr  id="datatable_header">
+																
+								                           <th style="display:none">ID</th>
+															<th style="width:4%;">#</th>
+															<th style="">პაკეტი</th>
+															<th style="">ფასი</th>
+															<th style="">აღწერილობა</th>
+															<th style="">შენიშვნა</th>
+														</tr>
+													</thead>
+													<thead>
+														<tr class="search_header">
+															<th class="colum_hidden">
+						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+						                            		</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+														</tr>
+													</thead>
+								                </table>
+								            </div>
+								            <div class="spacer">
+								            </div>
+								        </div>
+										<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+										</table>
+									</fieldset>
+					  				<fieldset style="width:97%; float:left; " class="'.(($notes[3][id]!="")?"":"dialog_hidden").'">
+								    	<legend>საჩუქარი</legend>														
+									<div id="dt_example" class="inner-table">
+								        <div style="width:100%;" id="container" >        	
+								            <div id="dynamic">
+								            	<div id="button_area">
+								            		<button id="add_button_gift">დამატება</button>
+							        			</div>
+								                <table class="" id="sub2" style="width: 100%;">
+								                    <thead>
+														<tr  id="datatable_header">
+																
+								                           <th style="display:none">ID</th>
+															<th style="width:4%;">#</th>
+															<th style="">პაკეტი</th>
+															<th style="">ფასი</th>
+															<th style="">აღწერილობა</th>
+															<th style="">შენიშვნა</th>
+														</tr>
+													</thead>
+													<thead>
+														<tr class="search_header">
+															<th class="colum_hidden">
+						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+						                            		</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+														</tr>
+													</thead>
+								                </table>
+								            </div>
+								            <div class="spacer">
+								            </div>
+								        </div>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									</fieldset>
+											<fieldset class="'.(($notes[20][id]!="")?"":"dialog_hidden").'">
+												<legend>ინფორმაცია</legend>
+											<table class="dialog-form-table" style="width:250px; float:left;">
+									    		<tr>
+													<td style="text-align:right;">მოისმინა ბოლომდე</td>
+													<td><input type="radio" name="info_quest" value="1" '.(($res['info_quest']=='1')?"checked":"").'></td>
+													
+												</tr>
+												<tr>
+													<td style="text-align:right;">მოისმინა და კითხვები დაგვისვა</td>
+													<td><input type="radio" name="info_quest" value="2" '.(($res['info_quest']=='2')?"checked":"").'></td>		
+												</tr>
+												<tr>
+													<td style="text-align:right;">შეგვაწყვეტინა</td>
+													<td><input type="radio" name="info_quest" value="3" '.(($res['info_quest']=='3')?"checked":"").'></td>
+												</tr>
+											</table>
+											<table class="dialog-form-table" style="width:350px; float:left; margin-left: 15px;">
+												<tr>
+													<td>კომენტარი</td>
+												</tr>
+									    		<tr>
+													<td><textarea  style="width: 100%; height:50px; resize: none;" id="info_comment" class="idle" name="content" cols="300" >' . $res['info_comment'] . '</textarea></td>
+												</tr>
+											</table>
+											</fieldset>
+											<button style="float:right; margin-top:10px;" onclick="seller(2)" class="next"> >> </button>
+											<button style="float:right; margin-top:10px;" onclick="seller(0)" class="back"> << </button>
+									
+									</fieldset>
+													
+									 </div>
+									 <div id="seller-2" class="dialog_hidden">
+											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset style="width:97%;" class="'.(($notes[4][id]!="")?"":"dialog_hidden").'">
+										    	<legend>შედეგი</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
+													</tr>
+													<tr>
+														<td style="text-align:right;"><span></span></td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td style="text-align:right;"><span>დადებითი</span></td>
+						  							<td><input type="radio" name="result_quest" value="1" '.(($res['result_quest']=='1')?"checked":"").'></td>
+						  							<td><span>(ვაგრძელებთ)</span></td>
+						  						</tr>
+												<tr>
+													<td style="text-align:right;"><span>უარყოფითი</span></td>
+						  							<td><input type="radio" name="result_quest" value="2" '.(($res['result_quest']=='2')?"checked":"").'></td>
+						  							<td><span>(ვასრულებთ)</span></td>
+						  						</tr>
+						  						<tr>
+													<td style="text-align:right;"><span>მოიფიქრებს</span></td>
+						  							<td><input type="radio" name="result_quest" value="3" '.(($res['result_quest']=='3')?"checked":"").'></td>
+						  							<td><span>(ვუთანხმებთ განმეორებითი ზარის დროს. ვიფორმირებთ დავალებას)</span></td>
+						  						</tr>	
+											</table>
+						  					<table class="dialog-form-table">
+										    		<tr>
+						  								<td><span style="color:#649CC3">კომენტარი</span></td>
+													</tr>
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
+														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
+													</tr>
+											</table>
+											</fieldset>
+											
+															
+																
+							  				<fieldset style="width:97%; float:left; " class="'.(($notes[5][id]!="")?"":"dialog_hidden").'">
+										    	<legend>მიწოდება</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
+													</tr>
+													<tr>
+														<td style="text-align:right;"><span></span></td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td style="width:150px;">მიწოდება დაიწყება</td>
+														<td>
+															<input type="text" id="send_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['send_date']. '" />
+														</td>
+														<td> -დან</td>
+													</tr>
+											</table>
+											</fieldset>
+											<fieldset style="width:97%; float:left; " class="'.(($notes[6][id]!="")?"":"dialog_hidden").'">
+										    	<legend>ანგარიშსწორება</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
+													</tr>
+													<tr>
+														<td style="text-align:right;"><span></span></td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+						  							<td><input type="radio" name="payment_quest" value="1" '.(($res['payment_quest']=='1')?"checked":"").'></td>
+						  							<td><span>ნაღდი</span></td>
+						  						</tr>
+												<tr>
+						  							<td><input type="radio" name="payment_quest" value="2" '.(($res['payment_quest']=='2')?"checked":"").'></td>
+						  							<td><span>უნაღდო</span></td>
+						  						</tr>
+											</table>
+						  					<table class="dialog-form-table">
+										    		<tr>
+						  								<td><span style="color:#649CC3">კომენტარი</span></td>
+													</tr>
+													<tr>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
+													</tr>
+											</table>
+											</fieldset>
+													<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+													<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> << </button>
+											</fieldset>		
+									 </div>
+									
+							</div>';
+							// სატელეფონო გაყიდვები დასასრული
+
+						// სატელეფონო კვლევა დასაწყისი
+						$data .= '<div id="research" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
+									<ul>
+										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
+										<li id="r1" onclick="research(this.id)" class="">დემოგრაფიული ბლოკი</li>
+										<li id="r2" onclick="research(this.id)" class="">ძირითადი ნაწილი</li>
+									</ul>
+									<div id="research-0">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
+								    	<legend>შესავალი</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="width:500px;">
+								    		<tr>
+												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
+					  							<td><input type="radio" name="preface_quest" value="1" '.(($res['preface_quest']=='1')?"checked":"").'></td>
+					  							<td><button class="done">დასრულება</button></td>
+					  						</tr>
+									</table>
+									</fieldset>
+									<table class="dialog-form-table" style="width:300px;">
+								    		<tr>
+												<td style="font-weight:bold;">თქვენი სახელი, როგორ მოგმართოთ?</td>
+					  						</tr>
+											<tr>
+												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
+					  						</tr>
+									</table>
+											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
+									</fieldset>
+									 </div>
+
+											
+									<div id="research-1" class="dialog_hidden">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;">
+								    	<legend>დემოგრაფიული ბლოკი</legend>
+														<div class="'.(($notes[8][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D1</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, მუდმივად ცხოვრობთ თუ არა ამ მისამართზე?<br><span style="font-weight:normal;">(6 თვე მაინც უნდა ცხოვრებდეს)</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px;">დიახ</td>
+												<td><input type="radio" name="d1" value="1" '.(($res['d1']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>არა</td>
+												<td><input type="radio" name="d1" value="2" '.(($res['d1']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[8][notes].'</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[9][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D2</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, ხომ არ მიგიღიათ მონაწილეობა რაიმე კვლევაში ბოლო 6 თვის განმავლობაში?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px;">დიახ</td>
+												<td><input type="radio" name="d2" value="1" '.(($res['d2']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>არა</td>
+												<td><input type="radio" name="d2" value="2" '.(($res['d2']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[10][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D3</td>
+												<td style="font-weight:bold;">გთხოვთ დამიზუსტოთ, თბილისის რომელ რაიონში ცხოვრობთ?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:150px; text-align:right;">ვაკე-საბურთალო</td>
+												<td><input type="radio" name="d3" value="1" '.(($res['d3']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">გლდანი-ნაძალადევი</td>
+												<td><input type="radio" name="d3" value="2" '.(($res['d3']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">დიდუბე-ჩუღურეთი</td>
+												<td><input type="radio" name="d3" value="3" '.(($res['d3']=='3')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">ისანი-სამგორი</td>
+												<td><input type="radio" name="d3" value="4" '.(($res['d3']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">ძვ.თბილისი</td>
+												<td><input type="radio" name="d3" value="5" '.(($res['d3']=='5')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">ვდიდგორი</td>
+												<td><input type="radio" name="d3" value="6" '.(($res['d3']=='6')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+												</div>
+															
+									<div class="'.(($notes[11][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D4</td>
+												<td style="font-weight:bold;">გთხოვთ მითხრათ, ხომ არ მუშაობთ თქვენ ან თქვენი ოჯახის წევრი, ახლობელი/მეგობარი </span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:250px;">ტელევიზია (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="1" '.(($res['d4']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>რადიო (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="2" '.(($res['d4']=='2')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>პრესა, ბეჭდვითი მედია (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="3" '.(($res['d4']=='3')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>სარეკლამო  (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="4" '.(($res['d4']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>კვლევითი კომპანია (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="5" '.(($res['d4']=='5')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+											<tr>
+												<td>არცერთი (გააგრძელეთ)</td>
+												<td><input type="radio" name="d4" value="6" '.(($res['d4']=='6')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+												</div>
+																
+									<div class="'.(($notes[12][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D5</td>
+												<td style="font-weight:bold;">სქესი</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px;">მამაკაცი</td>
+												<td><input type="radio" name="d5" value="1" '.(($res['d5']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>ქალი</td>
+												<td><input type="radio" name="d5" value="2" '.(($res['d5']=='2')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[13][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D6</td>
+												<td style="font-weight:bold;">ასაკი</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px; text-align:right;">12-17</td>
+												<td><input type="radio" name="d6" value="1" '.(($res['d6']=='1')?"checked":"").'></td>
+												<td style="width:50px; text-align:right;">35-44</td>
+												<td><input type="radio" name="d6" value="2" '.(($res['d6']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">18-24</td>
+												<td><input type="radio" name="d6" value="3" '.(($res['d6']=='3')?"checked":"").'></td>
+												<td style="width:50px; text-align:right;">45-54</td>
+												<td><input type="radio" name="d6" value="4" '.(($res['d6']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">25-34</td>
+												<td><input type="radio" name="d6" value="5" '.(($res['d6']=='5')?"checked":"").'></td>
+												<td style="width:50px; text-align:right;">55-65</td>
+												<td><input type="radio" name="d6" value="6" '.(($res['d6']=='6')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td style="width:50px; text-align:right;">65 +</td>
+												<td><input type="radio" name="d6" value="7" '.(($res['d6']=='7')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+													</div>
+															
+									<div class="'.(($notes[14][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D7</td>
+												<td style="font-weight:bold;">ჩამოთვლილთაგან რომელი გამოხატავს ყველაზე უკეთ თქვენი ოჯახის მატერიალურ მდგომარეობას?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:150px;">ძალიან დაბალი</td>
+												<td><input type="radio" name="d7" value="1" '.(($res['d7']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>დაბალი</td>
+												<td><input type="radio" name="d7" value="2" '.(($res['d7']=='2')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>საშუალო</td>
+												<td><input type="radio" name="d7" value="3" '.(($res['d7']=='3')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>მაღალი</td>
+												<td><input type="radio" name="d7" value="4" '.(($res['d7']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>კძალიან მაღალი</td>
+												<td><input type="radio" name="d7" value="5" '.(($res['d7']=='5')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[15][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D8</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რამდენ ლარს შეადგენს თქვენი ოჯახის ყოველთვიური შემოსავალი?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:90px; text-align:right;">200 ლარამდე</td>
+												<td><input type="radio" name="d8" value="1" '.(($res['d8']=='1')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">100-1500</td>
+												<td><input type="radio" name="d8" value="2" '.(($res['d8']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">200-500</td>
+												<td><input type="radio" name="d8" value="3" '.(($res['d8']=='3')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">1500-2000</td>
+												<td><input type="radio" name="d8" value="4" '.(($res['d8']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">500-1000</td>
+												<td><input type="radio" name="d8" value="5" '.(($res['d8']=='5')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">2000+</td>
+												<td><input type="radio" name="d8" value="6" '.(($res['d8']=='6')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td style="width:80px; text-align:right;">მპგ</td>
+												<td><input type="radio" name="d8" value="7" '.(($res['d8']=='7')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[16][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D9</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რამდენ ლარს შეადგენს თქვენი პირადი ყოველთვიური შემოსავალი?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:90px; text-align:right;">200 ლარამდე</td>
+												<td><input type="radio" name="d9" value="1" '.(($res['d9']=='1')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">100-1500</td>
+												<td><input type="radio" name="d9" value="2" '.(($res['d9']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">200-500</td>
+												<td><input type="radio" name="d9" value="3" '.(($res['d9']=='3')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">1500-2000</td>
+												<td><input type="radio" name="d9" value="4" '.(($res['d9']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">500-1000</td>
+												<td><input type="radio" name="d9" value="5" '.(($res['d9']=='5')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">2000+</td>
+												<td><input type="radio" name="d9" value="6" '.(($res['d9']=='6')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td style="width:80px; text-align:right;">მპგ</td>
+												<td><input type="radio" name="d9" value="7" '.(($res['d9']=='7')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[17][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D10</td>
+												<td style="font-weight:bold;">ხართ თუ არა დასაქმებული?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px; text-align:right;">დიახ</td>
+												<td><input type="radio" name="d10" value="1" '.(($res['d10']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">არა</td>
+												<td><input type="radio" name="d10" value="2" '.(($res['d10']=='2')?"checked":"").'></td>
+											</tr>
+											
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[18][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D11</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რა ტიპის ორგანიზაციაში მუშაობთ?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:150px; text-align:right;">კერძო სექტორი</td>
+												<td><input type="radio" name="d11" value="1" '.(($res['d11']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">თვითდასაქმებული</td>
+												<td><input type="radio" name="d11" value="2" '.(($res['d11']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">საჯარო სამსახური</td>
+												<td><input type="radio" name="d11" value="3" '.(($res['d11']=='3')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">მპგ</td>
+												<td><input type="radio" name="d11" value="4" '.(($res['d11']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">არასამთავრობო/td>
+												<td><input type="radio" name="d11" value="5" '.(($res['d11']=='5')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+													</div>
+															
+									<div class="'.(($notes[19][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D12</td>
+												<td style="font-weight:bold;">გყავთ თუ არა ავტომობილი</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px; text-align:right;">დიახ</td>
+												<td><input type="radio" name="d12" value="1" '.(($res['d12']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">არა</td>
+												<td><input type="radio" name="d12" value="2" '.(($res['d12']=='2')?"checked":"").'></td>
+											</tr>
+											
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+										<button style="float:right; margin-top:10px;" onclick="research(\'r2\')" class="next"> >> </button>
+										<button style="float:right; margin-top:10px;" onclick="research(\'r0\')" class="back"> << </button>
+									</fieldset>			
+									</div>
+														
+									 <div id="research-2" class="dialog_hidden">
+											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset '.(($notes[21][id]!="")?"":"dialog_hidden").'>
+										    	<legend>რადიო</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q1</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით რადიოსადგურებს და თქვენ მიპასუხეთ, რომელ რადიოს უსმენდით გუშინ, თუნდაც მხოლოდ 5 წუთით? კიდევ, კიდევ.</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>რადიო 1</span></td>
+						  							<td><input type="radio" name="q1" value="1" '.(($res['q1']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
+						  							<td><input type="radio" name="q1" value="2" '.(($res['q1']=='2')?"checked":"").'></td>
+						  						</tr>
+												<tr>
+													<td><span>რადიო 2</span></td>
+						  							<td><input type="radio" name="q1" value="3" '.(($res['q1']=='3')?"checked":"").'></td>
+						  						</tr>
+											</table>
+						  					<table class="dialog-form-table">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+											</fieldset>
+											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="back"> << </button>
+											
+										</fieldset>
+									 </div>
+									
+							</div>';
+						
+						$data .= '</div>';
+						// სატელეფონო კვლევა დასასრული
+						
+						  $data .= '<fieldset style="width:350px;; float:left;">
+								    	<legend>ზარის დაზუსტება</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 350px; height:70px; resize: none;" id="call_content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+											</tr>
+									</table>
+									</fieldset>	
+									<fieldset style="width:300px;; float:left; margin-left:10px; max-height:90px;">
+								    	<legend>სტატუსი</legend>
+									<table class="dialog-form-table" style="height: 80px;">
+											<tr>
+												<td></td>
+											</tr>
+								    		<tr>
+												<td><select style="width: 330px;" id="status" class="idls object">'.Getstatus($res['status']).'</select></td>
+											</tr>
+									</table>
+									</fieldset>
+								<fieldset style="margin-top: 5px;">
+								    	<legend>დავალების ფორმირება</legend>
+							
+								    	<table class="dialog-form-table" >
+											<tr>
+												<td style="width: 280px;"><label for="task_department_id">განყოფილება</label></td>
+												<td style="width: 280px;"><label for="persons_id">პასუხისმგებელი პირი</label></td>
+												<td style="width: 280px;"><label for="priority_id">პრიორიტეტი</label></td>
+											</tr>
+								    		<tr>
+												<td><select style="width: 200px;"  id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+												<td><select style="width: 200px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
+												<td><select style="width: 200px;" id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+											</tr>
+											</table>
+											<table class="dialog-form-table" style="width: 720px;">
+											<tr>
+												<td style="width: 150px;"><label>შესრულების პერიოდი</label></td>
+												<td style="width: 150px;"><label></label></td>
+												<td style="width: 150px;"><label>კომენტარი</label></td>
+											</tr>
+											<tr>
+												<td><input style="width: 130px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">დან</span></td>
+										  		<td><input style="width: 130px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">მდე</span></td>
+												<td>
+													<textarea  style="width: 270px; resize: none;" id="comment" class="idle" name="content" cols="300">' . $res['comment'] . '</textarea>
+												</td>
+											</tr>
+										</table>
+							        </fieldset>	
+							</fieldset>	
+							</div>';
+						
+						
+						$data .='<div style="float: right;  width: 355px;">
+								  <fieldset>
+									<legend>სასარგებლო ბმულები</legend>
+									<table>
+										<tr>
+											<td style="width:90px; height:60px;"><a id="link1" target="_blank" href="http://www.biblusi.ge/"></a></td>
+											<td style="width:90px; height:60px;"><a id="link2" target="_blank" href="http://www.palitral.ge/"></a></td>
+											<td style="width:90px; height:60px;"><a id="link3" target="_blank" href="http://palitra.ge/"></a></td>
+											<td style="width:60px; height:60px;"><a id="link4" target="_blank" href="http://www.salesland.ge/"></a></td>
+										</tr>
+									</table>
+								</fieldset>
+								<fieldset>
+								<legend>აბონენტი</legend>
+								<table style="height: 243px;">						
 									<tr>
 										<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
 										<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
 									</tr>
 									<tr>
 										<td>
-											<input type="text" id="p_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_phone'] . '" />
+											<input type="text" id="phone" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="p_person_n" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
+											<input type="text" id="person_n" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
 										</td>					
 									</tr>
 									<tr>
@@ -781,195 +1863,958 @@ function Gettask(){
 									</tr>
 									<tr >
 										<td style="width: 180px;">
-											<input type="text" id="p_first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_contragent'] . '" />
+											<input type="text" id="first_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="p_mail" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_mail'] . '" />
+											<input type="text" id="mail" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['mail'] . '" />
 										</td>			
 									</tr>
 									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">გვარი</td>
-										<td td style="width: 180px; color: #3C7FB1;">ფიზ / იურ. პირი</td>
-									</tr>
-									<tr>
-										<td style="width: 180px;">
-											<input type="text" id="p_last_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_addres'] . '" />		
-										</td>
-										<td td style="width: 180px;">
-											<input type="text" id="p_person_status" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_status'] . '" />		
-										</td>
-									</tr>
-									<tr>
 										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
-										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარირი</td>
+										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარიღი</td>
 									</tr>
 									<tr>
+										<td><input type="text" id="city_id" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['city_id'] . '" /></td>	
 										<td td style="width: 180px;">
-											<input type="text" id="p_addres" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_status'] . '" />		
-										</td>
-										<td td style="width: 180px;">
-											<input type="text" id="p_b_day" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
+											<input type="text" id="b_day" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['b_day'] . '" />		
 										</td>
 									</tr>
 									<tr>
 										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
-										<td td style="width: 180px; color: #3C7FB1;">ოჯახური სტატუსი</td>
-									</tr>
-									<tr>
-										<td><select style="width: 165px;" id="p_city_id" class="idls object">'.Getcity($res['city_id']).'</select></td>
-										<td><select style="width: 165px;" id="p_family_id" class="idls object">'.Getfamily($res['family_id']).'</select></td>
-									</tr>
-									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
+										
 									</tr>
 									<tr>
 										<td td style="width: 180px;">
-											<input type="text" id="p_profesion" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profesion'] . '" />		
+											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
 										</td>
 									</tr>
+									
 								</table>
-									
-					</fieldset>
-				</div>
-		    </div>';
+							</fieldset>';
+							$data .= GetRecordingsSection($res='');	
+						$data .=	'</div>
+				    </div>';
 	
-	
-	return $data;
-}
-
-function GetPage($res='', $number)
-{
-	$num = 0;
-	if($res[phone]==""){
-		$num=$number;
-	}else{ 
-		$num=$res[phone]; 
-	}
-
-		$c_date		= date('Y-m-d H:i:s');
-		
-		$data  .= '<div id="dialog-form">
-							<div style="float: left; width: 760px;">
-								<fieldset >
-							    	<legend>ძირითადი ინფორმაცია</legend>
-						
-							    	<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 180px;"><label for="req_num">დავალების №</label></td>
-											<td style="width: 180px;"><label for="req_num">შექმნის თარიღი</label></td>
-											<td style="width: 180px;"><label for="req_data">შესრულების პერიოდი</label></td>
-											<td style="width: 180px;"><label for="req_phone"></label></td>
-										</tr>
-										<tr>
-											<td style="width: 150px;">
-												<input style="width: 150px;" type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['id']!='')?$res['id']:increment('task')). '" />
-											</td>
-											<td style="width: 150px;">
-												<input style="width: 150px;" type="text" id="cur_date" class="idle" onblur="this.className=\'idle\'"  value="' . (($res['call_date']!='')?$res['call_date']:$c_date). '" />
-											</td>
-											<td style="width: 200px;">
-												<input style="float:left;" type="text" id="done_start_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['call_date']. '"  /><span style="float:left; margin-top:5px;">-დან</span>
-											</td>
-											<td style="width: 200px;">
-												<input style="float:left;" type="text" id="done_end_time" class="idle" onblur="this.className=\'idle\'" value="' .  $res['phone'] . '" /><span style="float:left; margin-top:5px;">-მდე</span>
-											</td>
-										</tr>
-									</table>
-									<fieldset style="width:200px; float:left;">
-							    	<legend>დავალების ტიპი</legend>	
-									<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 200px;"><select style="width: 260px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
-										</tr>
-									</table>
-									</fieldset>
-									<fieldset style="width:390px; float:left; margin-left:10px;">
-							    	<legend>სცენარი</legend>	
-									<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 350px;"><select style="width: 420px;" id="template_id" class="idls object">'. Getscenar($res['template_id']).'</select></td>
-										</tr>
-									</table>
-									</fieldset>
-									<fieldset style="width:200px; float:left;">
-							    	<legend>ქვე-განყოფილება</legend>	
-									<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 200px;"><select style="width: 260px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
-										</tr>
-									</table>
-									</fieldset>
-									<fieldset style="width:390px; float:left; margin-left:10px; margin-bottom:15px;">
-							    	<legend>პასუხისმგებელი პირი</legend>	
-									<table width="100%" class="dialog-form-table">
-										<tr>
-											<td style="width: 350px;"><select style="width: 420px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
-										</tr>
-									</table>
-									</fieldset>
-									
-									<div id="dt_example" class="inner-table">
-							        <div style="width:100%;" id="container" >        	
-							            <div id="dynamic">
-							            	<div id="button_area">
-							            		<button id="add_button_pp">დამატება</button>
-						        			</div>
-							                <table class="" id="example4" style="width: 100%;">
-							                    <thead>
-													<tr  id="datatable_header">
-							                           <th style="display:none">ID</th>
-														<th style="width:4%;">#</th>
-														<th style="width:%; word-break:break-all;">პირადი №<br>საიდ. კოდი</th>
-														<th style="width:%; word-break:break-all;">დასახელება</th>
-														<th style="width:%; word-break:break-all;">ფიზ / იურ.<br> პირი</th>
-														<th style="width:%; word-break:break-all;">ტელეფონი</th>
-														<th style="width:%; word-break:break-all;">ელ-ფოსტა</th>
-														<th style="width:%; word-break:break-all;">მისამართი</th>
-													</tr>
-												</thead>
-												<thead>
-													<tr class="search_header">
-														<th class="colum_hidden">
-					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-					                            		</th>
-														<th>
-															<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-														</th>
-														<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													<th>
-															<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-														</th>
-													</tr>
-												</thead>
-							                </table>
-							            </div>
-							            <div class="spacer">
-							            </div>
-							        </div>
-								</fieldset>';
-				
-	
-				         
-		 $data .= '
- 					</table>
-					</fieldset>
-				</div>
-		    </div>';	
-
 	
 	$data .= '<input type="hidden" id="outgoing_call_id" value="' . $res['id'] . '" />';
 
+	return $data;
+}
+
+function GetRecordingsSection($res)
+{
+	$db2 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
+
+	$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
+			`userfield`
+			FROM     `cdr`
+			WHERE     (`dst` = 2470017 && `userfield` != '' && DATE(`calldate`) = '$res[date]' && `src` LIKE '%$res[phone]%')
+			OR      (`dst` LIKE '%$res[phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[date]');");
+
+	$data .= '
+        <fieldset style="margin-top: 10px; width: 333px; float: right;">
+            <legend>ჩანაწერები</legend>
+
+            <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">
+                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
+                    <th style="padding-left: 10px;">დრო</th>
+                    <th  style="border: solid 1px #85b1de; padding-left: 10px;">ჩანაწერი</th>
+                </tr>';
+	if (mysql_num_rows($req) == 0){
+		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
+	}
+
+	while( $res2 = mysql_fetch_assoc($req)){
+		$src = $res2['userfield'];
+		$link = explode("/", $src);
+		$data .= '
+                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
+                    <td>' . $res2['time'] . '</td>
+                    <td><button class="download" str="' . $link[5] . '">მოსმენა</button></td>
+                </tr>';
+	}
+
+	$data .= '
+            </table>
+        </fieldset>';
+
+	return $data;
+}
+
+function Getquest($shabloni){
+		$test = Getshabl($res['template_id']);
+						
+		for($key=1;$key<23;$key++){
+		
+		$rows1 = mysql_query("	SELECT 	quest_id,
+										notes,
+										qvota
+								FROM 	shabloni
+								WHERE 	`name`='$test' and quest_id='$key'");
+		$row = mysql_fetch_assoc($rows1);
+			
+				$notes[] = array('id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]);
+			
+		}
+	
+	$data .='<div id="seller" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'" >
+									<ul>
+										<li style="margin-left:0;" id="0" onclick="seller(this.id)" class="seller_select">მისალმება</li>
+										<li id="1" onclick="seller(this.id)" class="">შეთავაზება</li>
+										<li id="2" onclick="seller(this.id)" class="">შედეგი</li>
+									</ul>
+									<div id="seller-0" >
+									<fieldset style="width:97%; border: 4px solid #CDCDCD; float:left; overflow-y:scroll; max-height:400px;" class="'.(($notes[0][id]!="")?"":"dialog_hidden").'">
+									<fieldset style="width:97%;" >
+								    	<legend>მისალმება</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[0][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									</fieldset>
+									<table class="dialog-form-table" style="width:500px;">
+								    		<tr>
+												<td style="text-align:right;"><span>აქვს</span></td>
+					  							<td><input type="radio" name="hello_quest" value="1" '.(($res['hello_quest']=='1')?"checked":"").'></td>
+					  							<td><span>(ვაგრძელებთ)</span></td>
+					  						</tr>
+											<tr>
+												<td style="text-align:right;"><span>სურს სხვა დროს</span></td>
+					  							<td><input type="radio" name="hello_quest" value="2" '.(($res['hello_quest']=='2')?"checked":"").'></td>
+					  							<td><span>(ვიფორმირებთ დავალებას)</span></td>
+					  						</tr>
+					  						<tr>
+												<td style="text-align:right;"><span>არ სურს</span></td>
+					  							<td><input type="radio" name="hello_quest" value="3" '.(($res['hello_quest']=='3')?"checked":"").'></td>
+					  							<td><span>(ვასრულებთ)</span></td>
+					  						</tr>
+									</table>
+					  				<fieldset style="width:97%; float:left; ">
+								    	<legend>კომენტარი</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="hello_comment" class="idle" name="content" cols="300" >' . $res['hello_comment'] . '</textarea></td>
+											</tr>
+									</table>
+									</fieldset>
+											<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> >> </button>
+											<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+									</fieldset>
+									 </div>
+
+														
+														
+									<div id="seller-1" class="dialog_hidden">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;" class="'.(($notes[1][id]!="")?"":"dialog_hidden").'">
+								    	<legend>შეთავაზება</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[1][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									</fieldset>
+									<fieldset style="width:97%;" class="'.(($notes[2][id]!="")?"":"dialog_hidden").'">
+								    	<legend>პროდუქტი</legend>
+									<div id="dt_example" class="inner-table">
+								        <div style="width:100%;" id="container" >        	
+								            <div id="dynamic">
+								            	<div id="button_area">
+								            		<button id="add_button_product">დამატება</button>
+							        			</div>
+								                <table class="" id="sub1" style="width: 100%;">
+								                    <thead>
+														<tr  id="datatable_header">
+																
+								                           <th style="display:none">ID</th>
+															<th style="width:4%;">#</th>
+															<th style="">პაკეტი</th>
+															<th style="">ფასი</th>
+															<th style="">აღწერილობა</th>
+															<th style="">შენიშვნა</th>
+														</tr>
+													</thead>
+													<thead>
+														<tr class="search_header">
+															<th class="colum_hidden">
+						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+						                            		</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+														</tr>
+													</thead>
+								                </table>
+								            </div>
+								            <div class="spacer">
+								            </div>
+								        </div>
+										<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+										</table>
+									</fieldset>
+					  				<fieldset style="width:97%; float:left; " class="'.(($notes[3][id]!="")?"":"dialog_hidden").'">
+								    	<legend>საჩუქარი</legend>														
+									<div id="dt_example" class="inner-table">
+								        <div style="width:100%;" id="container" >        	
+								            <div id="dynamic">
+								            	<div id="button_area">
+								            		<button id="add_button_gift">დამატება</button>
+							        			</div>
+								                <table class="" id="sub2" style="width: 100%;">
+								                    <thead>
+														<tr  id="datatable_header">
+																
+								                           <th style="display:none">ID</th>
+															<th style="width:4%;">#</th>
+															<th style="">პაკეტი</th>
+															<th style="">ფასი</th>
+															<th style="">აღწერილობა</th>
+															<th style="">შენიშვნა</th>
+														</tr>
+													</thead>
+													<thead>
+														<tr class="search_header">
+															<th class="colum_hidden">
+						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+						                            		</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+														</tr>
+													</thead>
+								                </table>
+								            </div>
+								            <div class="spacer">
+								            </div>
+								        </div>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									</fieldset>
+											<fieldset class="'.(($notes[20][id]!="")?"":"dialog_hidden").'">
+												<legend>ინფორმაცია</legend>
+											<table class="dialog-form-table" style="width:250px; float:left;">
+									    		<tr>
+													<td style="text-align:right;">მოისმინა ბოლომდე</td>
+													<td><input type="radio" name="info_quest" value="1" '.(($res['info_quest']=='1')?"checked":"").'></td>
+													
+												</tr>
+												<tr>
+													<td style="text-align:right;">მოისმინა და კითხვები დაგვისვა</td>
+													<td><input type="radio" name="info_quest" value="2" '.(($res['info_quest']=='2')?"checked":"").'></td>		
+												</tr>
+												<tr>
+													<td style="text-align:right;">შეგვაწყვეტინა</td>
+													<td><input type="radio" name="info_quest" value="3" '.(($res['info_quest']=='3')?"checked":"").'></td>
+												</tr>
+											</table>
+											<table class="dialog-form-table" style="width:350px; float:left; margin-left: 15px;">
+												<tr>
+													<td>კომენტარი</td>
+												</tr>
+									    		<tr>
+													<td><textarea  style="width: 100%; height:50px; resize: none;" id="info_comment" class="idle" name="content" cols="300" >' . $res['info_comment'] . '</textarea></td>
+												</tr>
+											</table>
+											</fieldset>
+											<button style="float:right; margin-top:10px;" onclick="seller(2)" class="next"> >> </button>
+											<button style="float:right; margin-top:10px;" onclick="seller(0)" class="back"> << </button>
+									
+									</fieldset>
+													
+									 </div>
+									 <div id="seller-2" class="dialog_hidden">
+											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset style="width:97%;" class="'.(($notes[4][id]!="")?"":"dialog_hidden").'">
+										    	<legend>შედეგი</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[4][notes].'</textarea></td>
+													</tr>
+													<tr>
+														<td style="text-align:right;"><span></span></td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td style="text-align:right;"><span>დადებითი</span></td>
+						  							<td><input type="radio" name="result_quest" value="1" '.(($res['result_quest']=='1')?"checked":"").'></td>
+						  							<td><span>(ვაგრძელებთ)</span></td>
+						  						</tr>
+												<tr>
+													<td style="text-align:right;"><span>უარყოფითი</span></td>
+						  							<td><input type="radio" name="result_quest" value="2" '.(($res['result_quest']=='2')?"checked":"").'></td>
+						  							<td><span>(ვასრულებთ)</span></td>
+						  						</tr>
+						  						<tr>
+													<td style="text-align:right;"><span>მოიფიქრებს</span></td>
+						  							<td><input type="radio" name="result_quest" value="3" '.(($res['result_quest']=='3')?"checked":"").'></td>
+						  							<td><span>(ვუთანხმებთ განმეორებითი ზარის დროს. ვიფორმირებთ დავალებას)</span></td>
+						  						</tr>	
+											</table>
+						  					<table class="dialog-form-table">
+										    		<tr>
+						  								<td><span style="color:#649CC3">კომენტარი</span></td>
+													</tr>
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
+														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
+													</tr>
+											</table>
+											</fieldset>
+											
+															
+																
+							  				<fieldset style="width:97%; float:left; " class="'.(($notes[5][id]!="")?"":"dialog_hidden").'">
+										    	<legend>მიწოდება</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[5][notes].'</textarea></td>
+													</tr>
+													<tr>
+														<td style="text-align:right;"><span></span></td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td style="width:150px;">მიწოდება დაიწყება</td>
+														<td>
+															<input type="text" id="send_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['send_date']. '" />
+														</td>
+														<td> -დან</td>
+													</tr>
+											</table>
+											</fieldset>
+											<fieldset style="width:97%; float:left; " class="'.(($notes[6][id]!="")?"":"dialog_hidden").'">
+										    	<legend>ანგარიშსწორება</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[6][notes].'</textarea></td>
+													</tr>
+													<tr>
+														<td style="text-align:right;"><span></span></td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+						  							<td><input type="radio" name="payment_quest" value="1" '.(($res['payment_quest']=='1')?"checked":"").'></td>
+						  							<td><span>ნაღდი</span></td>
+						  						</tr>
+												<tr>
+						  							<td><input type="radio" name="payment_quest" value="2" '.(($res['payment_quest']=='2')?"checked":"").'></td>
+						  							<td><span>უნაღდო</span></td>
+						  						</tr>
+											</table>
+						  					<table class="dialog-form-table">
+										    		<tr>
+						  								<td><span style="color:#649CC3">კომენტარი</span></td>
+													</tr>
+													<tr>
+														<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['payment_comment'] . '</textarea></td>
+													</tr>
+											</table>
+											</fieldset>
+													<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+													<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> << </button>
+											</fieldset>		
+									 </div>
+									
+							</div>';
+							// სატელეფონო გაყიდვები დასასრული
+
+						// სატელეფონო კვლევა დასაწყისი
+						$data .= '<div id="research" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
+									<ul>
+										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
+										<li id="r1" onclick="research(this.id)" class="">დემოგრაფიული ბლოკი</li>
+										<li id="r2" onclick="research(this.id)" class="">ძირითადი ნაწილი</li>
+									</ul>
+									<div id="research-0">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
+								    	<legend>შესავალი</legend>
+									<table class="dialog-form-table">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[7][notes].'</textarea></td>
+											</tr>
+											<tr>
+												<td style="text-align:right;"><span></span></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="width:500px;">
+								    		<tr>
+												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
+					  							<td><input type="radio" name="preface_quest" value="1" '.(($res['preface_quest']=='1')?"checked":"").'></td>
+					  							<td><button class="done">დასრულება</button></td>
+					  						</tr>
+									</table>
+									</fieldset>
+									<table class="dialog-form-table" style="width:300px;">
+								    		<tr>
+												<td style="font-weight:bold;">თქვენი სახელი, როგორ მოგმართოთ?</td>
+					  						</tr>
+											<tr>
+												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
+					  						</tr>
+									</table>
+											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
+									</fieldset>
+									 </div>
+
+											
+									<div id="research-1" class="dialog_hidden">
+									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+									<fieldset style="width:97%;">
+								    	<legend>დემოგრაფიული ბლოკი</legend>
+														<div class="'.(($notes[8][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D1</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, მუდმივად ცხოვრობთ თუ არა ამ მისამართზე?<br><span style="font-weight:normal;">(6 თვე მაინც უნდა ცხოვრებდეს)</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px;">დიახ</td>
+												<td><input type="radio" name="d1" value="1" '.(($res['d1']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>არა</td>
+												<td><input type="radio" name="d1" value="2" '.(($res['d1']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[8][notes].'</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[9][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D2</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, ხომ არ მიგიღიათ მონაწილეობა რაიმე კვლევაში ბოლო 6 თვის განმავლობაში?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px;">დიახ</td>
+												<td><input type="radio" name="d2" value="1" '.(($res['d2']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>არა</td>
+												<td><input type="radio" name="d2" value="2" '.(($res['d2']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[10][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D3</td>
+												<td style="font-weight:bold;">გთხოვთ დამიზუსტოთ, თბილისის რომელ რაიონში ცხოვრობთ?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:150px; text-align:right;">ვაკე-საბურთალო</td>
+												<td><input type="radio" name="d3" value="1" '.(($res['d3']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">გლდანი-ნაძალადევი</td>
+												<td><input type="radio" name="d3" value="2" '.(($res['d3']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">დიდუბე-ჩუღურეთი</td>
+												<td><input type="radio" name="d3" value="3" '.(($res['d3']=='3')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">ისანი-სამგორი</td>
+												<td><input type="radio" name="d3" value="4" '.(($res['d3']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">ძვ.თბილისი</td>
+												<td><input type="radio" name="d3" value="5" '.(($res['d3']=='5')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">ვდიდგორი</td>
+												<td><input type="radio" name="d3" value="6" '.(($res['d3']=='6')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+												</div>
+															
+									<div class="'.(($notes[11][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D4</td>
+												<td style="font-weight:bold;">გთხოვთ მითხრათ, ხომ არ მუშაობთ თქვენ ან თქვენი ოჯახის წევრი, ახლობელი/მეგობარი </span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:250px;">ტელევიზია (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="1" '.(($res['d4']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>რადიო (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="2" '.(($res['d4']=='2')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>პრესა, ბეჭდვითი მედია (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="3" '.(($res['d4']=='3')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>სარეკლამო  (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="4" '.(($res['d4']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>კვლევითი კომპანია (დაასრულეთ)</td>
+												<td><input type="radio" name="d4" value="5" '.(($res['d4']=='5')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+											<tr>
+												<td>არცერთი (გააგრძელეთ)</td>
+												<td><input type="radio" name="d4" value="6" '.(($res['d4']=='6')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+												</div>
+																
+									<div class="'.(($notes[12][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D5</td>
+												<td style="font-weight:bold;">სქესი</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px;">მამაკაცი</td>
+												<td><input type="radio" name="d5" value="1" '.(($res['d5']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>ქალი</td>
+												<td><input type="radio" name="d5" value="2" '.(($res['d5']=='2')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[13][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D6</td>
+												<td style="font-weight:bold;">ასაკი</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px; text-align:right;">12-17</td>
+												<td><input type="radio" name="d6" value="1" '.(($res['d6']=='1')?"checked":"").'></td>
+												<td style="width:50px; text-align:right;">35-44</td>
+												<td><input type="radio" name="d6" value="2" '.(($res['d6']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">18-24</td>
+												<td><input type="radio" name="d6" value="3" '.(($res['d6']=='3')?"checked":"").'></td>
+												<td style="width:50px; text-align:right;">45-54</td>
+												<td><input type="radio" name="d6" value="4" '.(($res['d6']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">25-34</td>
+												<td><input type="radio" name="d6" value="5" '.(($res['d6']=='5')?"checked":"").'></td>
+												<td style="width:50px; text-align:right;">55-65</td>
+												<td><input type="radio" name="d6" value="6" '.(($res['d6']=='6')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td style="width:50px; text-align:right;">65 +</td>
+												<td><input type="radio" name="d6" value="7" '.(($res['d6']=='7')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+													</div>
+															
+									<div class="'.(($notes[14][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D7</td>
+												<td style="font-weight:bold;">ჩამოთვლილთაგან რომელი გამოხატავს ყველაზე უკეთ თქვენი ოჯახის მატერიალურ მდგომარეობას?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:150px;">ძალიან დაბალი</td>
+												<td><input type="radio" name="d7" value="1" '.(($res['d7']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td>დაბალი</td>
+												<td><input type="radio" name="d7" value="2" '.(($res['d7']=='2')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>საშუალო</td>
+												<td><input type="radio" name="d7" value="3" '.(($res['d7']=='3')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>მაღალი</td>
+												<td><input type="radio" name="d7" value="4" '.(($res['d7']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td>კძალიან მაღალი</td>
+												<td><input type="radio" name="d7" value="5" '.(($res['d7']=='5')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[15][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D8</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რამდენ ლარს შეადგენს თქვენი ოჯახის ყოველთვიური შემოსავალი?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:90px; text-align:right;">200 ლარამდე</td>
+												<td><input type="radio" name="d8" value="1" '.(($res['d8']=='1')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">100-1500</td>
+												<td><input type="radio" name="d8" value="2" '.(($res['d8']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">200-500</td>
+												<td><input type="radio" name="d8" value="3" '.(($res['d8']=='3')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">1500-2000</td>
+												<td><input type="radio" name="d8" value="4" '.(($res['d8']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">500-1000</td>
+												<td><input type="radio" name="d8" value="5" '.(($res['d8']=='5')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">2000+</td>
+												<td><input type="radio" name="d8" value="6" '.(($res['d8']=='6')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td style="width:80px; text-align:right;">მპგ</td>
+												<td><input type="radio" name="d8" value="7" '.(($res['d8']=='7')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[16][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D9</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რამდენ ლარს შეადგენს თქვენი პირადი ყოველთვიური შემოსავალი?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:90px; text-align:right;">200 ლარამდე</td>
+												<td><input type="radio" name="d9" value="1" '.(($res['d9']=='1')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">100-1500</td>
+												<td><input type="radio" name="d9" value="2" '.(($res['d9']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">200-500</td>
+												<td><input type="radio" name="d9" value="3" '.(($res['d9']=='3')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">1500-2000</td>
+												<td><input type="radio" name="d9" value="4" '.(($res['d9']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:80px; text-align:right;">500-1000</td>
+												<td><input type="radio" name="d9" value="5" '.(($res['d9']=='5')?"checked":"").'></td>
+												<td style="width:80px; text-align:right;">2000+</td>
+												<td><input type="radio" name="d9" value="6" '.(($res['d9']=='6')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td style="width:80px; text-align:right;">მპგ</td>
+												<td><input type="radio" name="d9" value="7" '.(($res['d9']=='7')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[17][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D10</td>
+												<td style="font-weight:bold;">ხართ თუ არა დასაქმებული?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px; text-align:right;">დიახ</td>
+												<td><input type="radio" name="d10" value="1" '.(($res['d10']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">არა</td>
+												<td><input type="radio" name="d10" value="2" '.(($res['d10']=='2')?"checked":"").'></td>
+											</tr>
+											
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+														
+									<div class="'.(($notes[18][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D11</td>
+												<td style="font-weight:bold;">თუ შეიძლება მითხარით, რა ტიპის ორგანიზაციაში მუშაობთ?</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:150px; text-align:right;">კერძო სექტორი</td>
+												<td><input type="radio" name="d11" value="1" '.(($res['d11']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">თვითდასაქმებული</td>
+												<td><input type="radio" name="d11" value="2" '.(($res['d11']=='2')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">საჯარო სამსახური</td>
+												<td><input type="radio" name="d11" value="3" '.(($res['d11']=='3')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">მპგ</td>
+												<td><input type="radio" name="d11" value="4" '.(($res['d11']=='4')?"checked":"").'></td>
+											</tr>
+											<tr>
+												<td style="width:150px; text-align:right;">არასამთავრობო/td>
+												<td><input type="radio" name="d11" value="5" '.(($res['d11']=='5')?"checked":"").'></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+													</div>
+															
+									<div class="'.(($notes[19][id]!="")?"":"dialog_hidden").'">					
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">D12</td>
+												<td style="font-weight:bold;">გყავთ თუ არა ავტომობილი</span></td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td style="width:50px; text-align:right;">დიახ</td>
+												<td><input type="radio" name="d12" value="1" '.(($res['d12']=='1')?"checked":"").'></td>
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+											<tr>
+												<td style="width:50px; text-align:right;">არა</td>
+												<td><input type="radio" name="d12" value="2" '.(($res['d12']=='2')?"checked":"").'></td>
+											</tr>
+											
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+														</div>
+										<button style="float:right; margin-top:10px;" onclick="research(\'r2\')" class="next"> >> </button>
+										<button style="float:right; margin-top:10px;" onclick="research(\'r0\')" class="back"> << </button>
+									</fieldset>			
+									</div>
+														
+									 <div id="research-2" class="dialog_hidden">
+											<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
+											<fieldset '.(($notes[21][id]!="")?"":"dialog_hidden").'>
+										    	<legend>რადიო</legend>
+											<table class="dialog-form-table">
+										    		<tr>
+														<td style="font-weight:bold; width:30px;">Q1</td>
+														<td style="font-weight:bold; font-size:12px;">თუ შეიძლება, მე ჩამოგითვლით რადიოსადგურებს და თქვენ მიპასუხეთ, რომელ რადიოს უსმენდით გუშინ, თუნდაც მხოლოდ 5 წუთით? კიდევ, კიდევ.</td>
+													</tr>
+											</table>
+											<table class="dialog-form-table">
+										    	<tr>
+													<td><span>რადიო 1</span></td>
+						  							<td><input type="radio" name="q1" value="1" '.(($res['q1']=='1')?"checked":"").'></td>
+						  							<td style="width:180px; text-align:right;"><span>არ ვუსმენდი</span></td>
+						  							<td><input type="radio" name="q1" value="2" '.(($res['q1']=='2')?"checked":"").'></td>
+						  						</tr>
+												<tr>
+													<td><span>რადიო 2</span></td>
+						  							<td><input type="radio" name="q1" value="3" '.(($res['q1']=='3')?"checked":"").'></td>
+						  						</tr>
+											</table>
+						  					<table class="dialog-form-table">
+										    	
+													<tr>
+														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+													</tr>
+											</table>
+											</fieldset>
+											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="back"> << </button>
+											
+										</fieldset>
+									 </div>
+									
+							</div>';
+	
 	return $data;
 }
 function ChangeResponsiblePerson($letters, $responsible_person){
@@ -978,10 +2823,10 @@ function ChangeResponsiblePerson($letters, $responsible_person){
 
 		mysql_query("UPDATE 	task_detail
 					JOIN 		task ON task_detail.task_id = task.id
-					SET    	task_detail.`status`   			 = 2,
-									task.`date` 			     = '$o_date',
-									task.responsible_user_id     = '$responsible_person'
-					WHERE  	task_detail.id = '$letter' AND task.id = task_detail.task_id");
+					SET    		task_detail.`status`   			 = 1,
+								task.`date` 			     = '$o_date',
+								task_detail.responsible_user_id     = '$responsible_person'
+					WHERE  		task_detail.id = '$letter' AND task.id = task_detail.task_id");
 	}
 }
 
