@@ -1117,7 +1117,7 @@ function ChangeResponsiblePerson($letters, $responsible_person){
 
 		mysql_query("UPDATE 	task_detail
 					JOIN 		task ON task_detail.task_id = task.id
-					SET    		task_detail.`status`   			 = 2,
+					SET    		task_detail.`status`   			 = 1,
 								task.`date` 			     = '$o_date',
 								task_detail.responsible_user_id     = '$responsible_person'
 					WHERE  	task_detail.id = '$letter' AND task.id = task_detail.task_id");
