@@ -60,9 +60,9 @@ switch ($action) {
 											production.`name`,
 											action_detail.price
 									FROM 	action_detail
-									JOIN 	object ON action_detail.object_id=object.id
-									JOIN    production ON action_detail.production_id= production.id
-									WHERE   action_detail.actived =1 AND action_detail.action_id=$action_idd");
+									LEFT JOIN 	object ON action_detail.object_id=object.id
+									LEFT JOIN    production ON action_detail.production_id= production.id
+									WHERE   action_detail.actived =1");
 												  
 		$data = array(
 				"aaData"	=> array()

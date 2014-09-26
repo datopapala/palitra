@@ -19,7 +19,7 @@ $task_type_id		= $_REQUEST['task_type_id'];
 $template_id		= $_REQUEST['template_id'];
 $task_department_id	= $_REQUEST['task_department_id'];
 $persons_id			= $_REQUEST['persons_id'];
-
+$status				= $_REQUEST['status'];
 
 
 switch ($action) {
@@ -115,7 +115,7 @@ switch ($action) {
 		
 		if(empty($task_id)){
 			$task_id = mysql_insert_id();
-			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id);
+			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $status);
 			//Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
 		}else{
 			
@@ -251,13 +251,13 @@ function checkgroup($user){
 }
 
 
-function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id)
+function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $status)
 {  
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
 				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`)
 				VALUES
-				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '1', '1')
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '$status', '1')
 				");
 
 }
@@ -296,9 +296,9 @@ function Getstatus($status){
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $status){
-			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
 		}
 	}
 

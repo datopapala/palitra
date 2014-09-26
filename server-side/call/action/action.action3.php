@@ -56,13 +56,10 @@ switch ($action) {
 	  	$rResult = mysql_query("	SELECT  
 											action_detail.id,
 											object.`name`,
-											action_detail.date,
-											production.`name`,
-											action_detail.price
+											action_detail.`addres`
 									FROM 	action_detail
-									JOIN 	object ON action_detail.object_id=object.id
-									JOIN    production ON action_detail.production_id= production.id
-									WHERE   action_detail.actived =1 AND action_detail.action_id=$action_idd");
+									LEFT JOIN 	object ON action_detail.object_id=object.id
+									WHERE   action_detail.actived =1");
 												  
 		$data = array(
 				"aaData"	=> array()

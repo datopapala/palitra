@@ -40,56 +40,7 @@
 
 		function GetTable0() {
             LoadTable0();
-            SetEvents("add_button", "", "", "example0", fName, aJaxURL);
-            function seller(id){
-    			if(id == '0'){
-    				$('#seller-0').removeClass('dialog_hidden');
-    	            $('#0').addClass('seller_select');
-    	            $('#seller-1').addClass('dialog_hidden');
-    	            $('#seller-2').addClass('dialog_hidden');
-    	            $('#1').removeClass('seller_select');
-    	            $('#2').removeClass('seller_select');
-    			}else if(id == '1'){
-    				$('#seller-1').removeClass('dialog_hidden');
-    	            $('#1').addClass('seller_select');
-    	            $('#seller-0').addClass('dialog_hidden');
-    	            $('#seller-2').addClass('dialog_hidden');
-    	            $('#0').removeClass('seller_select');
-    	            $('#2').removeClass('seller_select');
-    			}else if(id == '2'){
-    				$('#seller-2').removeClass('dialog_hidden');
-    	            $('#2').addClass('seller_select');
-    	            $('#seller-1').addClass('dialog_hidden');
-    	            $('#seller-0').addClass('dialog_hidden');
-    	            $('#1').removeClass('seller_select');
-    	            $('#0').removeClass('seller_select');
-    			}
-    		}
-
-    		function research(id){
-    			if(id == 'r0'){
-    				$('#research-0').removeClass('dialog_hidden');
-    	            $('#r0').addClass('seller_select');
-    	            $('#research-1').addClass('dialog_hidden');
-    	            $('#research-2').addClass('dialog_hidden');
-    	            $('#r1').removeClass('seller_select');
-    	            $('#r2').removeClass('seller_select');
-    			}else if(id == 'r1'){
-    				$('#research-1').removeClass('dialog_hidden');
-    	            $('#r1').addClass('seller_select');
-    	            $('#research-0').addClass('dialog_hidden');
-    	            $('#research-2').addClass('dialog_hidden');
-    	            $('#r0').removeClass('seller_select');
-    	            $('#r2').removeClass('seller_select');
-    			}else if(id == 'r2'){
-    				$('#research-2').removeClass('dialog_hidden');
-    	            $('#r2').addClass('seller_select');
-    	            $('#research-1').addClass('dialog_hidden');
-    	            $('#research-0').addClass('dialog_hidden');
-    	            $('#r1').removeClass('seller_select');
-    	            $('#r0').removeClass('seller_select');
-    			}
-    		}
+            //SetEvents("", "", "", "example0", "add-edit-form1", aJaxURL); 			
         }
         
 		 function GetTable1() {
@@ -97,12 +48,12 @@
              $("#add_button_n").button({
   	            
   		     });
-             SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL1);
+             SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL);
          }
          
 		 function GetTable2() {
              LoadTable2();
-             SetEvents("", "", "", "example2", "add-edit-form1", aJaxURL1);
+             SetEvents("", "", "", "example2", "add-edit-form1", aJaxURL);
          }
          
 		 function GetTable3() {
@@ -242,7 +193,7 @@
 					var buttons = {
 						"done": {
 				            text: "დასრულება",
-				            id: "done-dialog2"
+				            id: "done-dialog1"
 				        }, 
 				        "save": {
 				            text: "შენახვა",
@@ -256,8 +207,28 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 1060, "auto", buttons);
-					
+					GetDialog("add-edit-form2", 1150, "auto", buttons);
+					$(".done").button({
+			            
+				    });
+					$(".next").button({
+			            
+				    });
+					$(".back").button({
+			            
+				    });
+					$("#add_button_product").button({
+			            
+				    });
+					$("#add_button_gift").button({
+					    
+					});
+					$("#complete").button({
+					    
+					});
+					LoadTable5();
+					LoadTable6();
+					GetDateTimes("send_time");
 			    break;
 			}
 			LoadTable4()
@@ -548,6 +519,9 @@
  							alert(data.error);
  						}else{
 							LoadTable1();
+							LoadTable2();
+							LoadTable3();
+							LoadTable0();
  							CloseDialog("add-edit-form1");
  						}
  					}
@@ -915,7 +889,7 @@
 
 <body>
 
-<div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">მენეჯერი</a></li>
 			<li><a href="#tab-1">პირველადი</a></li>
