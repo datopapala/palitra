@@ -16,7 +16,7 @@
 		function LoadTable(){
 
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 6, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 6, "", 0, "", 0, "desc");
 
 		}
 
@@ -38,7 +38,7 @@
 	    	param.production_category_id		= $("#production_category_id").val();
 	    	param.par_id						= $("#parent_id").val();
 	    	param.comment   					= $('#comment').val();
-	    	param.decription 					= $('#decription').val();
+	    	param.description 					= $('#description').val();
 	    	param.price 						= $('#price').val();
 
 
@@ -65,7 +65,7 @@
 
     </script>
  <style type="text/css">
- :nth-child(6){
+td:nth-child(6){
 	text-align: right;
  }
  </style>
