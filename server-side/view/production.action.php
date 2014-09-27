@@ -3,6 +3,11 @@ require_once('../../includes/classes/core.php');
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
+$user_id	= $_SESSION['USERID'];
+$priority_id 				= $_REQUEST['id'];
+$priority_name  			= $_REQUEST['name'];
+$production_category_id		= $_REQUEST['production_category_id'];
+$genre_id					= $_REQUEST['genre_id'];
 
 switch ($action) {
 	case 'get_add_page':
@@ -23,7 +28,7 @@ switch ($action) {
 										`production`.`name`,
 										`genre`.`name`,
 										`production_category`.`name`,
-										`production`.`decription`,
+										`production`.`description`,
 										`production`.`price`
 
 								FROM 	`production`
@@ -51,18 +56,22 @@ switch ($action) {
 
 		break;
 	case 'save_priority':
-		$priority_id 	= $_REQUEST['id'];
-		$priority_name  = $_REQUEST['name'];
-		$production_category_id		= $_REQUEST['production_category_id'];
-		$genre_id					= $_REQUEST['genre_id'];
-
 		if($priority_name != ''){
-
 				if ($priority_id == '') {
-					//$error = 'ghxtfjhu';
-					Addpriority( $priority_id, $priority_name, $genre_id, $production_category_id);
+					mysql_query("INSERT INTO 	 	`production`
+									(`user_id`,`name`,`genre_id`,`production_category_id`,`comment`,`description`,`price` )
+					VALUES 		('$user_id','$priority_name','$genre_id','$production_category_id','$_REQUEST[comment]','$_REQUEST[description]','".$_REQUEST['price']."')");
+
 				}else {
-					Savepriority($priority_id, $priority_name, $genre_id, $production_category_id);
+					mysql_query("	UPDATE `production`
+					SET     `user_id`  = '$user_id',
+							`name`     = '$priority_name',
+							`genre_id` = '$genre_id',
+							`comment`  = '$_REQUEST[comment]',
+							`description`='$_REQUEST[description]',
+							`price`='$_REQUEST[price]',
+							`production_category_id` = '$production_category_id'
+					WHERE	`id` = $priority_id");
 				}
 
 		}
@@ -88,29 +97,6 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addpriority($priority_id, $priority_name, $genre_id, $production_category_id)
-{
-	$user_id	= $_SESSION['USERID'];
-	//echo $_REQUEST['comment']; return 0;
-	mysql_query("INSERT INTO 	 	`production`
-									(`user_id`,`name`,`genre_id`,`production_category_id`,`comment`,`decription`,`price` )
-					VALUES 		('$user_id','$priority_name','$genre_id','$production_category_id','$_REQUEST[comment]','$_REQUEST[decription]','".$_REQUEST['price']."')");
-}
-
-function Savepriority($priority_id, $priority_name, $genre_id, $production_category_id)
-{
-	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `production`
-					SET     `user_id`  = '$user_id',
-							`name`     = '$priority_name',
-							`genre_id` = '$genre_id',
-							`comment`  = '$_REQUEST[comment]',
-							`decription`='$_REQUEST[decription]',
-							`price`='$_REQUEST[price]',
-							`production_category_id` = '$production_category_id'
-					WHERE	`id` = $priority_id");
-}
-
 function Disablepriority($priority_id)
 {
 	mysql_query("	UPDATE `production`
@@ -133,7 +119,7 @@ function CheckpriorityExist($priority_name)
 function Getpriority($priority_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT 	`production`.`id`,
-													`production`.`decription`,
+													`production`.`description`,
 													`production`.`comment`,
 													`production`.`name` AS `production`,
 													`genre`.`id` AS `genre`,
@@ -190,42 +176,42 @@ function GetPage($res = '')
 	$data = '
 	<div id="dialog-form">
 	    <fieldset>
-	    	<legend>ძირითადი ინფორმაცია</legend>
+	    	<legend>бѓ«бѓ�бѓ бѓ�бѓ—бѓђбѓ“бѓ� бѓ�бѓњбѓ¤бѓќбѓ бѓ›бѓђбѓЄбѓ�бѓђ</legend>
 
 	    	<table class="dialog-form-table">
 				<tr>
-					<td style="width: 170px;"><label for="CallType">სახელი</label></td>
+					<td style="width: 170px;"><label for="CallType">бѓЎбѓђбѓ®бѓ”бѓљбѓ�</label></td>
 					<td>
 						<input type="text" id="name" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['production'] . '" />
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">ფასი</label></td>
+					<td style="width: 170px;"><label for="CallType">бѓ¤бѓђбѓЎбѓ�</label></td>
 					<td>
-						<input type="text" id="price" class="idle address" onkeypress="{if (event.which != 8 && event.which != 0 && event.which!=46 && (event.which < 48 || event.which > 57)) {$(\'#errmsg\').html(\'მხოლოდ რიცხვი\').show().fadeOut(\'slow\'); return false;}}" value="' . $res['price'] . '" />
+						<input type="text" id="price" class="idle address" onkeypress="{if (event.which != 8 && event.which != 0 && event.which!=46 && (event.which < 48 || event.which > 57)) {$(\'#errmsg\').html(\'бѓ›бѓ®бѓќбѓљбѓќбѓ“ бѓ бѓ�бѓЄбѓ®бѓ•бѓ�\').show().fadeOut(\'slow\'); return false;}}" value="' . $res['price'] . '" />
 						<span id="errmsg" style="color: red;"></span>
 						</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">პროდუქტის კატეგორია</label></td>
+					<td style="width: 170px;"><label for="CallType">бѓћбѓ бѓќбѓ“бѓЈбѓҐбѓўбѓ�бѓЎ бѓ™бѓђбѓўбѓ”бѓ’бѓќбѓ бѓ�бѓђ</label></td>
 					<td>
 						<select style="width: 231px;" id="production_category_id" class="idls object">'. Getproduction_category($res['production_category']).'</select>
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">ჟანრი</label></td>
+					<td style="width: 170px;"><label for="CallType">бѓџбѓђбѓњбѓ бѓ�</label></td>
 					<td>
 						<select style="width: 231px;" id="genre_id" class="idls object">'. Getgenre($res['genre']).'</select>
 				</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">აღწერილობა</label></td>
+					<td style="width: 170px;"><label for="CallType">бѓђбѓ¦бѓ¬бѓ”бѓ бѓ�бѓљбѓќбѓ‘бѓђ</label></td>
 					<td>
-						<textarea style="width: 231px;" id="decription" class="idls object">'. $res['decription'].'</textarea>
+						<textarea style="width: 231px;" id="description" class="idls object">'. $res['description'].'</textarea>
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">შენიშვნა</label></td>
+					<td style="width: 170px;"><label for="CallType">бѓЁбѓ”бѓњбѓ�бѓЁбѓ•бѓњбѓђ</label></td>
 					<td>
 						<textarea style="width: 231px;" id="comment" class="idls object">'. $res['comment'].'</textarea>
 					</td>
