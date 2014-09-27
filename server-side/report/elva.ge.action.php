@@ -2,10 +2,6 @@
 
 require_once ('../../includes/classes/core.php');
 
-if (!$conn) {
-	$error = 'dgfhg';
-}
-mysql_select_db('asteriskcdrdb');
 
 $action 	= $_REQUEST['act'];
 $error		= '';
