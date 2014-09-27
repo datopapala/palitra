@@ -89,7 +89,7 @@ table.display tbody td
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 40%;">სახელი</th>
+                            <th style="width: 40%;">სათაური</th>
                             <th style="width: 100%;">აღწერა</th>
                         	<th class="check">#</th>
                         </tr>
