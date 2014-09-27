@@ -789,6 +789,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 												IF(task_detail.phone_base_inc_id != '', '', phone.person_n) as person_n,
 												IF(task_detail.phone_base_inc_id != '', '', phone.city) as city_id,
 												IF(task_detail.phone_base_inc_id != '', '', phone.mail) as mail,
+												task_detail.call_content,
 												task_scenar.hello_comment,
 												task_scenar.hello_quest,
 												task_scenar.info_comment,
@@ -1762,7 +1763,7 @@ function GetPage($res='', $shabloni)
 								    	<legend>ზარის დაზუსტება</legend>
 									<table class="dialog-form-table">
 								    		<tr>
-												<td><textarea  style="width: 350px; height:70px; resize: none;" id="call_content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
+												<td><textarea  style="width: 350px; height:70px; resize: none;" id="call_content" class="idle" name="content" cols="300" >' . $res['call_content'] . '</textarea></td>
 											</tr>
 									</table>
 									</fieldset>	
