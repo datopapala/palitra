@@ -165,8 +165,11 @@ function drawFirstLevel(){
 		</div>
 	</div>
   </div>
-  <div id="in_form" >
-  <table class="display" id="report_1">
+  <div id="in_form"  class="form-dialog">
+  <br/>
+  <br/>
+  <br/>
+  <table class="display" id="report_1" >
                     <thead>
                         <tr id="datatable_header">
                             <th style="display: none" >ID</th>
