@@ -4,7 +4,7 @@
 <script src="js/exporting.js"></script>
 <script type="text/javascript">
 var title 	='0';
-var i 		= 0;
+var s_i		= 0;
 var done  	= ['','','','','','',''];
 var aJaxURL	= "server-side/report/statistics_type.action.php";		//server side folder url
 var tName   = "report";
@@ -21,7 +21,7 @@ $(document).ready(function() {
 	$("#back").button({ disabled: true });
 	$("#back").button({ icons: { primary: "ui-icon-arrowthick-1-w" }});
     $('#back').click(function(){
-	    i--;
+    	s_i--;
     	drawFirstLevel();
     	if(i==0)$("#back").button({ disabled: true });
 	});
@@ -61,7 +61,7 @@ function drawFirstLevel(){
 	                                click: function() {
 	                                	$("#back").button({ disabled: false });
 										done[i]=this.name;
-										i++;
+										s_i++;
 		                        		drawFirstLevel();
 	                                }
 	                            }
@@ -78,7 +78,7 @@ function drawFirstLevel(){
 
 		var start	= $("#search_start").val();
 		var end		= $("#search_end").val();
-		d_url   ="&start="+start+"&end="+end+"&done="+i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
+		d_url   ="&start="+start+"&end="+end+"&done="+s_i+"&type="+done[0]+"&departament="+done[1]+"&category="+done[2]+"&sub_category="+done[3];
 		var url     = aJaxURL+"?act=get_category"+d_url;
 		GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
 
