@@ -66,7 +66,7 @@ $filename=$_FILES [$element] ['tmp_name'];
 									 	 '".$data->val($r,'C')."', '".$data->val($r,'D')."',
 									 	 '".$data->val($r,'E')."', '".$data->val($r,'F')."',
 									 	 '".$data->val($r,'G')."', '".$data->val($r,'H')."',
-									 	 '".$data->val($r,'I')."', '".$data->val($r,'J').", '".$data->val($r,'K')."')") or die (err);
+									 	 '".$data->val($r,'I')."', '".$data->val($r,'J')."', '".$data->val($r,'K')."')") or die (err);
 		$r--; //return 0;
 	}
 
