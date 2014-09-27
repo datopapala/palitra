@@ -82,7 +82,7 @@
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
-                          <th>
+                            <th>
                             	<input type="checkbox" name="check-all" id="check-all">
                             </th>
                         </tr>

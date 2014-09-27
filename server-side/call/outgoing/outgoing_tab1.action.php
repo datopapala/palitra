@@ -167,7 +167,7 @@ switch ($action) {
     case 'save_outgoing':
 	
 		
-		Savetask($task_id, $problem_comment, $file, $rand_file);
+		
         break;
         case 'done_outgoing':
         
@@ -209,6 +209,7 @@ switch ($action) {
 			UpPerson($res[0],$res[1]);
         	Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1);
         	Savetask2($task_detail_id, $call_content, $status);
+        	Savetask($task_id, $problem_comment, $file, $rand_file);
         	break;
     default:
        $error = 'Action is Null';
