@@ -83,7 +83,7 @@ function drawFirstLevel(){
 		GetDataTable(tName, aJaxURL, "get_list", 4, d_url, 0, "",'','',[2]);
 
 		 $("#report tbody").on("click", "tr", function () {
-			 if(i==3){
+			 if(s_i==3){
 			 var nTds = $("td", this);
 		            var rID = $(nTds[1]).text();
 	    	    GetDataTable("report_1", aJaxURL, "get_in_page", 4, d_url+rID, 0);
