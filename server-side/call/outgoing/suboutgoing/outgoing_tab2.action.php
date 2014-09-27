@@ -39,7 +39,11 @@ switch ($action) {
         $data		= array('page'	=> $page);
         
         break;
-	
+    case 'disable':
+        	 
+        mysql_query("DELETE FROM `shabloni` WHERE `id`='$task_id'");
+        
+        break;
  	case 'get_list' :
 		$count		= $_REQUEST['count'];
 	   	$hidden		= $_REQUEST['hidden'];
@@ -54,7 +58,7 @@ switch ($action) {
 	    }
 	     
 	    $scenar_name	= $_REQUEST['scenar_name'];
-	    $rResult = mysql_query("SELECT 	`production`.`id`,
+	    $rResult = mysql_query("SELECT 	`shabloni`.`id`,
 										`production`.`name`,
 										`production`.`price`,
 										`production`.`description`,
@@ -75,6 +79,9 @@ switch ($action) {
 			{
 				/* General output */
 				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_g" value="' . $aRow[$hidden] . '" />';
+				}
 			}
 			$data['aaData'][] = $row;
 		}

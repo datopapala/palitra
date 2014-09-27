@@ -90,15 +90,17 @@
 		}
 		function LoadTable5(){		
 			var scenar_name =	$("#shabloni").val();
+			GetButtons("add_button_product","delete_button_product");
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("sub1", aJaxURL5, "get_list&scenar_name="+scenar_name, 7, "", 0, "", 1, "asc", "");
-			SetEvents("add_button", "", "", "sub1", fName, aJaxURL);
+			GetDataTable("sub1", aJaxURL5, "get_list&scenar_name="+scenar_name, 5, "", 0, "", 1, "asc", "");
+			
 		}
 		function LoadTable6(){		
 			var scenar_name =	$("#shabloni").val();	
+			GetButtons("add_button_gift","delete_button_gift");
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("sub2", aJaxURL6, "get_list&scenar_name="+scenar_name, 7, "", 0, "", 1, "asc", "");
-			SetEvents("add_button", "", "", "sub2", fName, aJaxURL);
+			GetDataTable("sub2", aJaxURL6, "get_list&scenar_name="+scenar_name, 5, "", 0, "", 1, "asc", "");
+			
 		}
 		function LoadTable7(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -145,12 +147,6 @@
 					$(".back").button({
 			            
 				    });
-					$("#add_button_product").button({
-			            
-				    });
-					$("#add_button_gift").button({
-					    
-					});
 					$("#complete").button({
 					    
 					});
@@ -195,6 +191,15 @@
 					LoadTable5();
 					LoadTable6();
 					GetDateTimes("send_time");
+					/* Check All */
+			        $("#check-all_p").on("click", function () {
+			        	$("#sub1 INPUT[type='checkbox']").prop("checked", $("#check-all_p").is(":checked"));
+			        });
+
+			        $("#check-all_g").on("click", function () {
+			        	$("#sub2 INPUT[type='checkbox']").prop("checked", $("#check-all_g").is(":checked"));
+			        });
+			        
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -261,6 +266,58 @@
 		    });
 		}
 
+       
+        /* Disable Event */
+        $(document).on("click", "#delete_button_product", function () {
+            var data = $(".check_p:checked").map(function () { //Get Checked checkbox array
+                return this.value;
+            }).get();
+
+            for (var i = 0; i < data.length; i++) {
+                $.ajax({
+                    url: aJaxURL5,
+                    type: "POST",
+                    data: "act=disable&id=" + data[i],
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error != "") {
+                            alert(data.error);
+                        } else {
+                            $("#check-all_p").attr("checked", false);
+                        }
+                    }
+                });
+            }
+            LoadTable5();
+           
+        });
+        
+        /* Disable Event */
+        $(document).on("click", "#delete_button_gift", function () {
+            var data = $(".check_g:checked").map(function () { //Get Checked checkbox array
+                return this.value;
+            }).get();
+
+            for (var i = 0; i < data.length; i++) {
+                $.ajax({
+                    url: aJaxURL6,
+                    type: "POST",
+                    data: "act=disable&id=" + data[i],
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error != "") {
+                            alert(data.error);
+                        } else {
+                            $("#check-all_g").attr("checked", false);
+                        }
+                    }
+                });
+            }
+            LoadTable6();
+           
+        });
+        
+
         $(document).on("click", "#add_button_product", function () {
         	var buttons = {
 			        "save": {
@@ -276,11 +333,11 @@
 			        }
 			    };
 		    GetDialog("add_product_chosse", 400, "auto", buttons);
-		    
+		    var notes = $("#content_3").val();
         	$.ajax({
   	            url: "server-side/call/outgoing/add_chosse_product.php",
   	            type: "POST",
-  	            data: "act=get_table",
+  	            data: "act=get_table&notes="+notes,
   	            dataType: "json", 
   	            success: function (data) {
   	            	
@@ -292,8 +349,68 @@
         });
 
         $(document).on("click", "#save_chosse_product", function () {
-			alert('ds');
+        	var notes 			= $("#hidden_notes").val();
+        	var shabloni		= $("#shabloni").val()
+        	var product_id		= $("#hidden_product_id").val();
+        	$.ajax({
+  	            url: "server-side/call/outgoing/add_chosse_product.php",
+  	            type: "POST",
+  	            data: "act=add_product&notes="+notes+"&shabloni="+shabloni+"&product_id="+product_id,
+  	            dataType: "json", 
+  	            success: function (data) {
+  	            	$("#add_product_chosse").dialog("close");
+  	            	LoadTable5();
+  	            }
+  	        });
         });
+        
+        ////////////////////////////
+        $(document).on("click", "#add_button_gift", function () {
+        	var buttons = {
+			        "save": {
+			            text: "შენახვა",
+			            id: "save_chosse_gift"
+			        }, 
+		        	"cancel": {
+			            text: "დახურვა",
+			            id: "cancel-dialog",
+			            click: function () {
+			            	$(this).dialog("close");
+			            }
+			        }
+			    };
+		    GetDialog("add_gift_chosse", 400, "auto", buttons);
+		    var notes = $("#content_4").val();
+        	$.ajax({
+  	            url: "server-side/call/outgoing/add_chosse_gift.php",
+  	            type: "POST",
+  	            data: "act=get_table&notes="+notes,
+  	            dataType: "json", 
+  	            success: function (data) {
+  	            	
+					$("#add_gift_chosse").html(data.page);
+					SeoY("production_name", seoyURL, "production_name", "", 0);
+  	            }
+  	        });
+        	
+        });
+
+        $(document).on("click", "#save_chosse_gift", function () {
+        	var notes 			= $("#hidden_notes").val();
+        	var shabloni		= $("#shabloni").val()
+        	var product_id		= $("#hidden_product_id").val();
+        	$.ajax({
+  	            url: "server-side/call/outgoing/add_chosse_gift.php",
+  	            type: "POST",
+  	            data: "act=add_product&notes="+notes+"&shabloni="+shabloni+"&product_id="+product_id,
+  	            dataType: "json", 
+  	            success: function (data) {
+  	            	$("#add_gift_chosse").dialog("close");
+  	            	LoadTable6();
+  	            }
+  	        });
+        });
+        ///////////////////////////
 
         $(document).on("click", ".combobox", function(event) {
             var i = $(this).text();

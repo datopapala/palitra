@@ -32,11 +32,9 @@ switch ($action) {
 		$data		= array('page'	=> $page);
 		
         break;
-    case 'get_edit_page':
+    case 'disable':
 	  
-		$page		= GetPage(Getincomming($task_id));
-        
-        $data		= array('page'	=> $page);
+    	mysql_query("DELETE FROM `shabloni` WHERE `id`='$task_id'");
         
         break;
 	
@@ -54,7 +52,7 @@ switch ($action) {
 	    }
 
 	    $scenar_name	= $_REQUEST['scenar_name'];
-	    $rResult = mysql_query("SELECT 	`production`.`id`,
+	    $rResult = mysql_query("SELECT 	`shabloni`.`id`,
 										`production`.`name`,
 										`production`.`price`,
 										`production`.`description`,
@@ -75,73 +73,15 @@ switch ($action) {
 			{
 				/* General output */
 				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_p" value="' . $aRow[$hidden] . '" />';
+				}
 			}
 			$data['aaData'][] = $row;
 		}
 
         break;
-        case 'delete_file':
         
-        	mysql_query("DELETE FROM file WHERE id = $delete_id");
-        
-        	$increm = mysql_query("	SELECT  `name`,
-        			`rand_name`,
-        			`id`
-        			FROM 	`file`
-        			WHERE   `task_id` = $edit_id
-        			");
-        
-        	$data1 = '';
-        
-        	while($increm_row = mysql_fetch_assoc($increm))	{
-        	$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-        			<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-        					<td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
- 					  </tr>';
-		}
-        
-		$data = array('page' => $data1);
-        
-        		break;
-        
-                		case 'up_now':
-                		$user		= $_SESSION['USERID'];
-                		if($rand_file != ''){
-                		mysql_query("INSERT INTO 	`file`
-                				( 	`user_id`,
-                				`task_id`,
-                					`name`,
-                					`rand_name`
-                					)
-                					VALUES
-                					(	'$user',
-                					'$edit_id',
-                					'$file',
-                					'$rand_file'
-                				);");
-                				}
-        
-                				$increm = mysql_query("	SELECT  `name`,
-                				`rand_name`,
-                				`id`
-                				FROM 	`file`
-                				WHERE   `task_id` = $edit_id
-                				");
-        
-                				$data1 = '';
-        
-                				while($increm_row = mysql_fetch_assoc($increm))	{
-                				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-                					<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-        		<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
-        				          </tr>';
-		}
-        
-		$data = array('page' => $data1);
-        
-		break;
     case 'save_outgoing':
 	
 		$user_id		= $_SESSION['USERID'];

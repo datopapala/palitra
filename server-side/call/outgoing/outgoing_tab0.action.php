@@ -987,29 +987,23 @@ function GetPage($res='', $shabloni)
 								            <div id="dynamic">
 								            	<div id="button_area">
 								            		<button id="add_button_product">დამატება</button>
+													<button id="delete_button_product">წაშლა</button>
 							        			</div>
 								                <table class="" id="sub1" style="width: 100%;">
 								                    <thead>
 														<tr  id="datatable_header">
-																
-								                           <th style="display:none">ID</th>
 															<th style="width:4%;">#</th>
-															<th style="">პაკეტი</th>
-															<th style="">ფასი</th>
-															<th style="">აღწერილობა</th>
-															<th style="">შენიშვნა</th>
+															<th style="width:50%;">პაკეტი</th>
+															<th style="width:50%;">ფასი</th>
+															<th style="width:50%;">აღწერილობა</th>
+															<th style="width:50%;">შენიშვნა</th>
+															<th style="width:5%;">#</th>
 														</tr>
 													</thead>
 													<thead>
 														<tr class="search_header">
-															<th class="colum_hidden">
-						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-						                            		</th>
 															<th>
-																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-															</th>
-															<th>
-																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+																<input style="width:20px;" type="text" name="search_overhead" value="" class="search_init" />
 															</th>
 															<th>
 																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
@@ -1017,6 +1011,15 @@ function GetPage($res='', $shabloni)
 															<th>
 																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+															</th>
+															<th>
+                            									<input type="checkbox" name="check-all" id="check-all_p">
+                            								</th>
 														</tr>
 													</thead>
 								                </table>
@@ -1026,7 +1029,7 @@ function GetPage($res='', $shabloni)
 								        </div>
 										<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
+												<td><textarea  style="width: 99%; height:80px; resize: none;" id="content_3" disabled class="idle" name="content" cols="300" >'.$notes[2][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span></span></td>
@@ -1040,25 +1043,25 @@ function GetPage($res='', $shabloni)
 								            <div id="dynamic">
 								            	<div id="button_area">
 								            		<button id="add_button_gift">დამატება</button>
+					  								<button id="delete_button_gift">წაშლა</button>
 							        			</div>
 								                <table class="" id="sub2" style="width: 100%;">
 								                    <thead>
 														<tr  id="datatable_header">
-																
-								                           <th style="display:none">ID</th>
 															<th style="width:4%;">#</th>
-															<th style="">პაკეტი</th>
-															<th style="">ფასი</th>
-															<th style="">აღწერილობა</th>
-															<th style="">შენიშვნა</th>
+															<th style="width:50%;">პაკეტი</th>
+															<th style="width:50%;">ფასი</th>
+															<th style="width:50%;">აღწერილობა</th>
+															<th style="width:50%;">შენიშვნა</th>
+					  										<th style="width:5%;">#</th>
 														</tr>
 													</thead>
 													<thead>
 														<tr class="search_header">
-															<th class="colum_hidden">
-						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
-						                            		</th>
 															<th>
+																<input style="width:20px;" type="text" name="search_overhead" value="" class="search_init" />
+															</th>
+					  										<th>
 																<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 															</th>
 															<th>
@@ -1070,6 +1073,9 @@ function GetPage($res='', $shabloni)
 															<th>
 																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 															</th>
+					  										<th>
+                            									<input type="checkbox" name="check-all" id="check-all_g">
+                            								</th>
 														</tr>
 													</thead>
 								                </table>
@@ -1079,7 +1085,7 @@ function GetPage($res='', $shabloni)
 								        </div>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content" disabled class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:80px; resize: none;" id="content_4" disabled class="idle" name="content" cols="300" >'.$notes[3][notes].'</textarea></td>
 											</tr>
 											<tr>
 												<td style="text-align:right;"><span></span></td>

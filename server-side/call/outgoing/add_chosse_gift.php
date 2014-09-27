@@ -17,7 +17,7 @@ switch ($action){
 						INSERT INTO `shabloni` 
 						(`scenar_id`, `quest_id`, `name`, `notes`, `qvota`, `product_id`)
 						VALUES
-						('1', '3', '$shabloni', '$notes', '', '$product_id');
+						('1', '4', '$shabloni', '$notes', '', '$product_id');
 					");
 		
 		break;
