@@ -23,7 +23,7 @@ $(document).ready(function() {
     $('#back').click(function(){
     	s_i--;
     	drawFirstLevel();
-    	if(i==0)$("#back").button({ disabled: true });
+    	if(s_i==0)$("#back").button({ disabled: true });
 	});
 	});
 
