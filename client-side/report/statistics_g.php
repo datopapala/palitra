@@ -57,7 +57,7 @@ function drawFirstLevel(){
 	                            events: {
 	                                click: function() {
 	                                	$("#back").button({ disabled: false });
-		                        		done[i]=this.name;
+		                        		done[s_i]=this.name;
 		                        		s_i++;
 		                        		drawFirstLevel();
 	                                }
