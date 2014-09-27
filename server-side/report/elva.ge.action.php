@@ -156,37 +156,26 @@ switch ($action) {
 										</td>
 									</tr>
 									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">გვარი</td>
+										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
 										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარიღი</td>
 									</tr>
 									<tr>
 										<td style="width: 180px;">
-											<input type="text" id="last_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
+											<input type="text" id="city_id" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
 										</td>
 										<td td style="width: 180px;">
 											<input type="text" id="b_day" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
 										</td>
 									</tr>
 									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
 										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 									</tr>
 									<tr>
-										<td><select style="width: 165px;" id="city_id" disabled class="idls object"></select></td>
 										<td td style="width: 180px;">
-											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value= />
+											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" />
 										</td>
 									</tr>
-									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">ოჯახური სტატუსი</td>
-										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
-									</tr>
-									<tr>
-										<td><select style="width: 165px;" disabled id="family_id" class="idls object"></select></td>
-										<td td style="width: 180px;">
-											<input type="text" id="profesion" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value />
-										</td>
-									</tr>
+									
 								</table>
 							</fieldset>
 					</div>
