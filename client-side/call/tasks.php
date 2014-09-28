@@ -205,7 +205,13 @@
 					GetDateTimes("done_end_time");
 
 					var cat_id = $("#task_type_id").val();
-
+					
+					$(document).on("change", "#task_type_id",function(){
+						
+							$("#task_department_id").val(40);
+						
+					});
+					
 					if(cat_id == 1 || cat_id == 2){
 						$("#additional").removeClass('hidden');
 					}

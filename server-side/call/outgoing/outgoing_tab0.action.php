@@ -33,6 +33,19 @@ switch ($action) {
         $data		= array('page'	=> $page);
         
         break;
+    case 'set_task':
+    	$set_task_department_id		= $_REQUEST['set_task_department_id'];
+    	$set_persons_id				= $_REQUEST['set_persons_id'];
+    	$set_priority_id			= $_REQUEST['set_priority_id'];
+    	$set_start_time				= $_REQUEST['set_start_time'];
+    	$set_done_time				= $_REQUEST['set_done_time'];
+    	$set_body					= $_REQUEST['set_body'];
+    	
+    	$set_task_id = mysql_fetch_assoc(mysql_query("SELECT `task_id` FROM `task_detail` WHERE `id` = '$task_id'"));
+    	$tas = $set_task_id[task_id]; 
+        GetSetTask($task_id, $tas, $set_task_department_id, $set_persons_id, $set_priority_id, $set_start_time, $set_done_time, $set_body);
+        
+        break;
     case 'get_edit_page':
 	  
 		$page		= GetPage(Getincomming($task_id));
@@ -239,6 +252,28 @@ echo json_encode($data);
  *	Request Functions
  * ******************************
  */
+
+function GetSetTask($task_id, $tas, $set_task_department_id, $set_persons_id, $set_priority_id, $set_start_time, $set_done_time, $set_body)
+{
+	$c_date		= date('Y-m-d H:i:s');
+	$user  = $_SESSION['USERID'];
+	mysql_query("UPDATE `task` SET
+	`user_id`				='$user',
+	`responsible_user_id`	='$set_persons_id',
+	`date`					='$c_date',
+	`start_date`			='$set_start_time',
+	`end_date`				='$set_done_time',
+	`department_id`			='$set_task_department_id',
+	`priority_id`			='$set_priority_id',
+	`comment`				='$set_body'
+	WHERE `id`				='$tas'
+	");
+	
+	mysql_query("UPDATE `task_detail` SET
+						`status`	='0'
+				WHERE   `id`		='$task_id'
+				");
+}
 
 function checkgroup($user){
 	$res = mysql_fetch_assoc(mysql_query("
@@ -1808,14 +1843,14 @@ function GetPage($res='', $shabloni)
 							
 								    	<table class="dialog-form-table" >
 											<tr>
-												<td style="width: 280px;"><label for="task_department_id">განყოფილება</label></td>
-												<td style="width: 280px;"><label for="persons_id">პასუხისმგებელი პირი</label></td>
-												<td style="width: 280px;"><label for="priority_id">პრიორიტეტი</label></td>
+												<td style="width: 280px;"><label for="set_task_department_id">განყოფილება</label></td>
+												<td style="width: 280px;"><label for="set_persons_id">პასუხისმგებელი პირი</label></td>
+												<td style="width: 280px;"><label for="set_priority_id">პრიორიტეტი</label></td>
 											</tr>
 								    		<tr>
-												<td><select style="width: 200px;"  id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
-												<td><select style="width: 200px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
-												<td><select style="width: 200px;" id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+												<td><select style="width: 200px;"  id="set_task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
+												<td><select style="width: 200px;" id="set_persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td>
+												<td><select style="width: 200px;" id="set_priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
@@ -1825,10 +1860,10 @@ function GetPage($res='', $shabloni)
 												<td style="width: 150px;"><label>კომენტარი</label></td>
 											</tr>
 											<tr>
-												<td><input style="width: 130px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">დან</span></td>
-										  		<td><input style="width: 130px; float:left;" class="idle" type="text"><span style="margin-left:5px; ">მდე</span></td>
+												<td><input style="width: 130px; float:left;" id="set_start_time" class="idle" type="text"><span style="margin-left:5px; ">დან</span></td>
+										  		<td><input style="width: 130px; float:left;" id="set_done_time" class="idle" type="text"><span style="margin-left:5px; ">მდე</span></td>
 												<td>
-													<textarea  style="width: 270px; resize: none;" id="comment" class="idle" name="content" cols="300">' . $res['comment'] . '</textarea>
+													<textarea  style="width: 270px; resize: none;" id="set_body" class="idle" name="content" cols="300">' . $res['comment'] . '</textarea>
 												</td>
 											</tr>
 										</table>

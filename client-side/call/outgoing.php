@@ -160,7 +160,14 @@
 				            text: "დასრულება",
 				            id: "done-dialog1"
 				        }, 
-						
+				        "save": {
+				            text: "შენახვა",
+				            id: "set_task",
+				            click: function () {
+					            set_task();
+				            	$(this).dialog("close");
+					        }
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -190,6 +197,8 @@
 					});
 					LoadTable5();
 					LoadTable6();
+					GetDateTimes("set_start_time");
+					GetDateTimes("set_done_time");
 					GetDateTimes("send_time");
 					/* Check All */
 			        $("#check-all_p").on("click", function () {
@@ -241,6 +250,8 @@
 					LoadTable5();
 					LoadTable6();
 					GetDateTimes("send_time");
+					GetDateTimes("set_start_time");
+					GetDateTimes("set_done_time");
 			    break;
 			}
 			LoadTable4()
@@ -584,7 +595,37 @@
 		    });
 		});
 
+	    function set_task() {
 
+			param 			= new Object();
+			param.act			= "set_task";
+			
+			param.set_task_department_id	= $("#set_task_department_id").val();
+	    	param.set_persons_id			= $("#set_persons_id").val();
+	    	param.set_priority_id			= $("#set_priority_id").val();
+			param.set_start_time			= $("#set_start_time").val();
+			param.set_done_time				= $("#set_done_time").val();
+			param.set_body					= $("#set_body").val();
+			param.task_type_id_seller		= $("#task_type_id_seller").val();
+			param.set_shabloni				= $("#shabloni").val();
+			param.id						= $("#id").val();
+			
+	 
+		    $.ajax({
+		        url: aJaxURL,
+			    data: param,
+		        success: function(data) {       
+					if(typeof(data.error) != "undefined"){
+						if(data.error != ""){
+							alert(data.error);
+						}else{
+							LoadTable1();
+						}
+					}
+			    }
+		    });
+		}
+		
 	    $(document).on("click", "#done-dialog1", function () {
 			   
 			param 				= new Object();
