@@ -176,42 +176,42 @@ function GetPage($res = '')
 	$data = '
 	<div id="dialog-form">
 	    <fieldset>
-	    	<legend>бѓ«бѓ�бѓ бѓ�бѓ—бѓђбѓ“бѓ� бѓ�бѓњбѓ¤бѓќбѓ бѓ›бѓђбѓЄбѓ�бѓђ</legend>
+	    	<legend>ძირითადი ინფორმაცია</legend>
 
 	    	<table class="dialog-form-table">
 				<tr>
-					<td style="width: 170px;"><label for="CallType">бѓЎбѓђбѓ®бѓ”бѓљбѓ�</label></td>
+					<td style="width: 170px;"><label for="CallType">სახელი</label></td>
 					<td>
 						<input type="text" id="name" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['production'] . '" />
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">бѓ¤бѓђбѓЎбѓ�</label></td>
+					<td style="width: 170px;"><label for="CallType">ფასი</label></td>
 					<td>
-						<input type="text" id="price" class="idle address" onkeypress="{if (event.which != 8 && event.which != 0 && event.which!=46 && (event.which < 48 || event.which > 57)) {$(\'#errmsg\').html(\'бѓ›бѓ®бѓќбѓљбѓќбѓ“ бѓ бѓ�бѓЄбѓ®бѓ•бѓ�\').show().fadeOut(\'slow\'); return false;}}" value="' . $res['price'] . '" />
+						<input type="text" id="price" class="idle address" onkeypress="{if (event.which != 8 && event.which != 0 && event.which!=46 && (event.which < 48 || event.which > 57)) {$(\'#errmsg\').html(\'მხოლოდ რიცხვი\').show().fadeOut(\'slow\'); return false;}}" value="' . $res['price'] . '" />
 						<span id="errmsg" style="color: red;"></span>
 						</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">бѓћбѓ бѓќбѓ“бѓЈбѓҐбѓўбѓ�бѓЎ бѓ™бѓђбѓўбѓ”бѓ’бѓќбѓ бѓ�бѓђ</label></td>
+					<td style="width: 170px;"><label for="CallType">პროდუქტის კატეგორია</label></td>
 					<td>
 						<select style="width: 231px;" id="production_category_id" class="idls object">'. Getproduction_category($res['production_category']).'</select>
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">бѓџбѓђбѓњбѓ бѓ�</label></td>
+					<td style="width: 170px;"><label for="CallType">ჟანრი</label></td>
 					<td>
 						<select style="width: 231px;" id="genre_id" class="idls object">'. Getgenre($res['genre']).'</select>
 				</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">бѓђбѓ¦бѓ¬бѓ”бѓ бѓ�бѓљбѓќбѓ‘бѓђ</label></td>
+					<td style="width: 170px;"><label for="CallType">აღწერილობა</label></td>
 					<td>
 						<textarea style="width: 231px;" id="description" class="idls object">'. $res['description'].'</textarea>
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">бѓЁбѓ”бѓњбѓ�бѓЁбѓ•бѓњбѓђ</label></td>
+					<td style="width: 170px;"><label for="CallType">შენიშვნა</label></td>
 					<td>
 						<textarea style="width: 231px;" id="comment" class="idls object">'. $res['comment'].'</textarea>
 					</td>
