@@ -442,8 +442,10 @@
 			param.task_department_id	= $("#task_department_id").val();
 			param.task_comment			= $("#task_comment").val();
 			
-	 
-		    $.ajax({
+	 		if(param.template_id == 0){
+		 		alert('ამოირჩიეთ სცენარი');
+	 		}else{
+		 		$.ajax({
 		        url: aJaxURL,
 			    data: param,
 		        success: function(data) {       
@@ -456,7 +458,8 @@
 						}
 					}
 			    }
-		    });
+		    	});
+	 		}
 		});
 
 		

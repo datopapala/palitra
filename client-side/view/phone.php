@@ -8,8 +8,12 @@
 		    	
 		$(document).ready(function () {    
 			GetTabs(tbName);     	
-			LoadTable();	
-		
+			LoadTable();
+				
+			$("#excel_template").button({
+	            
+		    });
+		    
 			GetButtons("choose_button", "delete_button");
 			/* Add Button ID, Delete Button ID */
 			SetEvents("", "delete_button", "check-all", tName, fName, aJaxURL);
@@ -129,6 +133,32 @@
 
 	        }
 		});
+
+	    $(document).on("click", "#excel_template", function () {
+			SaveToDisk('server-side/view/satelefonoBazebi.xls', 'satelefonoBazebi.xls');
+	    });
+	    
+	    function SaveToDisk(fileURL, fileName) {
+	        // for non-IE
+	        if (!window.ActiveXObject) {
+	            var save = document.createElement('a');
+	            save.href = fileURL;
+	            save.target = '_blank';
+	            save.download = fileName || 'unknown';
+
+	            var event = document.createEvent('Event');
+	            event.initEvent('click', true, true);
+	            save.dispatchEvent(event);
+	            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+	        }
+		     // for IE
+	        else if ( !! window.ActiveXObject && document.execCommand)     {
+	            var _window = window.open(fileURL, "_blank");
+	            _window.document.close();
+	            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+	            _window.close();
+	        }
+	    }
 	    
     </script>
 </head>
@@ -147,6 +177,7 @@
     					 <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
     					 <button id="choose_button" >აირჩიეთ ფაილი</button>
     					 <button id="delete_button" >წაშლა</button>
+    					 <button id="excel_template" >ექსელის შაბლონი</button>
     				</div>
 	        	</div>
             	<table class="display" id="example" >
