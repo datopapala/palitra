@@ -31,7 +31,7 @@ table.display tbody td
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 3, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 2, "", 0, "", 1, "desc");
     		
 		}
 		
@@ -71,8 +71,8 @@ table.display tbody td
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 40%;">სათაური</th>
-                            <th style="width: 100%;">აღწერა</th>
+                            <th style="width: 100%;">სათაური</th>
+                           
                         	
                         </tr>
                     </thead>
@@ -80,9 +80,6 @@ table.display tbody td
                         <tr class="search_header">
                             <th class="colum_hidden">
                             <input type="text" name="search_category" value="ფილტრი" class="search_init" />
-                            </th>
-                            <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />

@@ -13,7 +13,7 @@ $info_id 		= $_REQUEST['id'];
 	$data ='
 
 	  	 	<p>' . $res1['name'] . '</p>
-			<textarea style="height:666px; width: 550px; resize: none; border:none;">' . $res1['body'] . '</textarea>';
+			<textarea style="height:1000px; width: 550px; resize: none; border:none;">' . $res1['body'] . '</textarea>';
 	echo $data;
 	
 	?>
