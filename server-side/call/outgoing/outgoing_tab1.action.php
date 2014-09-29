@@ -224,7 +224,7 @@ switch ($action) {
 					$row_name_prod .= $get_prod_name[0];
 				}
 				
-				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $call_content,$get_prod_price[0],substr($row_name_prod,0,-3) );
+				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $call_content,$get_prod_price[0],substr($row_name_prod,0,-3),$task_id );
 			}
 
 			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
@@ -249,16 +249,16 @@ echo json_encode($data);
  * ******************************
  */
 
-function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_row, $row_name_prod)
+function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_row, $row_name_prod, $task_id)
 {
 	$user  = $_SESSION['USERID'];
 	$c_date		= date('Y-m-d H:i:s');
 	
 	mysql_query("
 			INSERT INTO `elva_sale`
-			(`person_id`, `name_surname`, `mail`, `address`, `phone`, `period`, `books`, `call_date`, `sum_price`, `callceenter_comment`, `operator_id`, `oder_send_date`)
+			(`person_id`, `name_surname`, `mail`, `address`, `phone`, `period`, `books`, `call_date`, `sum_price`, `callceenter_comment`, `operator_id`, `oder_send_date`, `task_id`)
 			VALUES
-			('$person_n', '$first_name', '$mail', '$addres', '$phone', '$send_date', '$row_name_prod', '$c_date', '$get_prod_row', '$result_comment', '$user', '')
+			('$person_n', '$first_name', '$mail', '$addres', '$phone', '$send_date', '$row_name_prod', '$c_date', '$get_prod_row', '$result_comment', '$user', '', '$task_id')
 				");
 }
 
