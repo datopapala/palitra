@@ -18,22 +18,19 @@ if($_REQUEST['act'] =='answear_dialog_table'){
 	));
 	$count = 		$_REQUEST['count'];
 	$hidden = 		$_REQUEST['hidden'];
-	$rResult = mysql_query("SELECT 	cdr.calldate,
-									cdr.calldate,
-									cdr.src,
-									cdr.dst,
-									qagent.agent,
-									CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
-									CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 35),'.wav', '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://92.241.82.243:8181/records/', SUBSTRING(cdr.userfield, 35),'.wav', '\">ჩამოტვირთვა</a>') AS `dwn`
-							FROM 	queue_stats
-							JOIN 	cdr ON queue_stats.uniqueid = cdr.uniqueid
-							JOIN 	qagent ON queue_stats.qagent = qagent.agent_id
-							JOIN 	qname ON queue_stats.qname = qname.qname_id
-							WHERE 	queue_stats.qevent in (7,8)
-							AND 	DATE(queue_stats.`datetime`) >= '$start_time'
-							AND 	DATE(queue_stats.`datetime`) <= '$end_time'
-							AND 	qname.queue IN ($queue)
-							AND		qagent.agent IN ($agent)");
+	$rResult = mysql_query("SELECT cdr.calldate,
+									   cdr.calldate,
+								       cdr.src,
+								       cdr.dst,
+								       CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
+								       CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 7), '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://92.241.82.243:8181/records/', SUBSTRING(cdr.userfield, 7), '\">ჩამოტვირთვა</a>')
+								FROM   cdr
+							WHERE      cdr.disposition = 'ANSWERED'
+							AND cdr.userfield != '' 
+							AND cdr.src IN ($agent)
+							AND DATE(cdr.calldate) >= '$start_time'
+							AND DATE(cdr.calldate) <= '$end_time'
+							AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)");
 	$data = array(
 			"aaData"	=> array()
 	);
@@ -57,19 +54,19 @@ if($_REQUEST['act'] =='unanswear_dialog_table'){
 	));
 	$count = 		$_REQUEST['count'];
 	$hidden = 		$_REQUEST['hidden'];
-	$rResult = mysql_query("SELECT 	cdr.calldate,
-									cdr.calldate,
-									cdr.src,
-									cdr.dst,
-									CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`
-							FROM	queue_stats
-							left JOIN	qname ON	queue_stats.qname = qname.qname_id
-							left JOIN	qevent ON	queue_stats.qevent = qevent.event_id
-							left JOIN	cdr ON	queue_stats.uniqueid = cdr.uniqueid
-							WHERE 	DATE(queue_stats.datetime) >= '$start_time'
-							AND 	DATE(queue_stats.datetime) <= '$end_time' 
-							AND 	qname.queue IN ($queue) 
-							AND 	qevent.`event` IN ('ABANDON')");
+	$rResult = mysql_query("SELECT cdr.calldate,
+								   cdr.calldate,
+								   cdr.src,
+								   cdr.dst,
+								   CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
+								   CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 7), '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://92.241.82.243:8181/records/', SUBSTRING(cdr.userfield, 7), '\">ჩამოტვირთვა</a>')
+							FROM   cdr
+							WHERE  cdr.disposition = 'NO ANSWERED'
+							AND cdr.userfield != '' 
+							AND cdr.src IN ($agent)
+							AND DATE(cdr.calldate) >= '$start_time'
+							AND DATE(cdr.calldate) <= '$end_time'
+							AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)");
 	$data = array(
 			"aaData"	=> array()
 	);
