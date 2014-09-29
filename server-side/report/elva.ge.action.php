@@ -34,9 +34,28 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page' :
-		$rResult = mysql_query(	"SELECT *
+		$rResult = mysql_query(	"SELECT elva_sale.id,
+								elva_sale.person_id,
+								elva_sale.name_surname,
+								elva_sale.mail,
+								elva_sale.address,
+								elva_sale.phone,
+								shipping.`name` AS `period`,
+								elva_sale.books,
+								elva_sale.call_date,
+								elva_sale.sum_price,
+								elva_sale.callceenter_comment,
+								persons.`name` as operator_id,
+								elva_sale.oder_send_date,
+								elva_sale.`status`,
+								elva_sale.coordinator_id,
+								elva_sale.coordinator_comment,
+								elva_sale.elva_status
 								FROM `elva_sale`
-								WHERE id='$_REQUEST[id]'");
+								JOIN shipping ON elva_sale.period = shipping.id
+								JOIN users ON elva_sale.operator_id = users.id
+								JOIN persons ON users.person_id = persons.id
+								WHERE elva_sale.id='$_REQUEST[id]'");
 		$res = mysql_fetch_array( $rResult );
 
 		$data['page'][] = '<div id="dialog-form">
@@ -82,9 +101,9 @@ switch ($action) {
 												<td style="width: 280px;"><label for="oder_date">ქვითრის გაგზავნის დღე</label></td>
 											</tr>
 								    		<tr>
-												<td><input style="width: 200px;" id="date" 		value="'.$res[call_date]. 		'" class="idls object" disabled></td>
-												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id]. 	'" class="idls object" disabled></td>
-												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].  '" class="idls object" disabled></td>
+												<td><input style="width: 200px;" id="date" 		value="'.$res[call_date].'" 		class="idls object" disabled></td>
+												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" disabled></td>
+												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" disabled></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
@@ -107,9 +126,9 @@ switch ($action) {
 												<td style="width: 280px;"><label for="elva">ნინო (ელვა)</label></td>
 											</tr>
 								    		<tr>
-												<td><input style="width: 200px;" id="status" 		value='.$res[status]. 		' class="idls object"></td>
-												<td><input style="width: 200px;" id="cooradinator"  value='.$res[coordinator_id]. 		' class="idls object"></td>
-												<td><input style="width: 200px;" id="elva"          value='.$res[elva_status]. 		' class="idls object"></td>
+												<td><input style="width: 200px;" id="status" 		value="'.$res[status].'" 			class="idls object"></td>
+												<td><input style="width: 200px;" id="cooradinator"  value="'.$res[coordinator_id].'" 	class="idls object"></td>
+												<td><input style="width: 200px;" id="elva"          value="'.$res[elva_status].'" 		class="idls object"></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
@@ -124,56 +143,7 @@ switch ($action) {
 							</fieldset>
 							</div>
 					<div style="float: right;  width: 355px;">
-								<fieldset>
-								<legend>აბონენტი</legend>
-								<table style="height: 243px;">
-									<tr>
-										<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
-										<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text" id="phone" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="" />
-										</td>
-										<td style="width: 180px;">
-											<input type="text" id="person_n" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="" />
-										</td>
-									</tr>
-									<tr>
-										<td style="width: 180px; color: #3C7FB1;">სახელი</td>
-										<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
-									</tr>
-									<tr >
-										<td style="width: 180px;">
-											<input type="text" id="first_name" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
-										</td>
-										<td style="width: 180px;">
-											<input type="text" id="mail" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
-										</td>
-									</tr>
-									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">ქალაქი</td>
-										<td td style="width: 180px; color: #3C7FB1;">დაბადების თარიღი</td>
-									</tr>
-									<tr>
-										<td style="width: 180px;">
-											<input type="text" id="city_id" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
-										</td>
-										<td td style="width: 180px;">
-											<input type="text" id="b_day" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'"  />
-										</td>
-									</tr>
-									<tr>
-										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
-									</tr>
-									<tr>
-										<td td style="width: 180px;">
-											<input type="text" id="addres" disabled class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" />
-										</td>
-									</tr>
-									
-								</table>
-							</fieldset>
+								
 					</div>
 				    </div>
 								<input type="hidden" id="id" value="'.$_REQUEST[id].'" />

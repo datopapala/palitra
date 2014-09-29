@@ -208,29 +208,29 @@ $data		= array('page' => array(
 $data['error'] = $error;
 //------------------------------- ტექნიკური ინფორმაცია
 
-	$row_answer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-															q.queue AS `queue`
-													FROM	queue_stats AS qs,
-															qname AS q,
-															qagent AS ag,
-															qevent AS ac
-													WHERE qs.qname = q.qname_id 
-													AND qs.qagent = ag.agent_id 
-													AND qs.qevent = ac.event_id 
-													AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-													AND q.queue IN ($queue) 
-													AND ag.agent in ($agent)
-													AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT') 
-													ORDER BY ag.agent"));
-	
-	$row_abadon = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`
-													FROM	cdr
-													WHERE	cdr.userfield != '' 
-													AND cdr.dcontext = 'from-internal' 
-													AND cdr.src in(101,100,150,250)
-													AND DATE(cdr.calldate) >= '2014-09-27' 
-													AND DATE(cdr.calldate) <= '2014-09-27' 
-													AND disposition = 'NO ANSWER'"));
+	$row_answer = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) as count,
+															cdr.src,
+														    cdr.dst,
+															SUBSTRING(cdr.lastdata,5,7)
+													FROM    cdr
+													WHERE   cdr.disposition = 'ANSWERED'
+													AND cdr.userfield != ''
+													AND cdr.src IN ($agent)
+													AND DATE(cdr.calldate) >= '$start_time'
+													AND DATE(cdr.calldate) <= '$end_time'
+													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)"));
+
+	$row_abadon = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) as count,
+															cdr.src,
+														    cdr.dst,
+															SUBSTRING(cdr.lastdata,5,7)
+													FROM    cdr
+													WHERE   cdr.disposition = 'NO ANSWERED'
+													AND cdr.userfield != ''
+													AND cdr.src IN ($agent)
+													AND DATE(cdr.calldate) >= '$start_time'
+													AND DATE(cdr.calldate) <= '$end_time'
+													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)"));
 	
 	
 	
@@ -241,10 +241,10 @@ $data['error'] = $error;
                     <td>'.($row_answer[count] + $row_abadon[count]).'</td>
                     <td id="answear_dialog" style="cursor: pointer; text-decoration: underline;">'.$row_answer[count].'</td>
                     <td id="unanswear_dialog" style="cursor: pointer; text-decoration: underline;">'.$row_abadon[count].'</td>
-                    <td>'.$row_done_blank[count].'</td>
+                    <!--td>'.$row_done_blank[count].'</td-->
                     <td>'.round(((($row_answer[count]) / ($row_answer[count] + $row_abadon[count])) * 100),2).' %</td>
                     <td>'.round(((($row_abadon[count]) / ($row_answer[count] + $row_abadon[count])) * 100),2).' %</td>
-                    <td>'.round(((($row_done_blank[count]) / ($row_answer[count])) * 100),2).' %</td>
+                    <!--td>'.round(((($row_done_blank[count]) / ($row_answer[count])) * 100),2).' %</td-->
                 
 							';
 // -----------------------------------------------------

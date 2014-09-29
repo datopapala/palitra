@@ -1355,7 +1355,7 @@
 			parame 			= new Object();
 			parame.agent	= '';
 			parame.queuet = '';
-			paramm		= "server-side/report/technical.action.php";
+			paramm		= "server-side/report/outgoing_technical.action.php";
 			
 			drawFirstLevel();
 			drawFirstLevel1();
@@ -1429,7 +1429,7 @@
 		
 		function LoadDialog(){
 			parame 				= new Object();
-			paramm		= "server-side/report/technical.action.php";
+			paramm		= "server-side/report/outgoing_technical.action.php";
 			parame.start_time 	= $('#start_time').val();
 			parame.end_time 	= $('#end_time').val();
 			parame.act 			= 'answear_dialog';
@@ -1479,7 +1479,7 @@
 		
 		function LoadDialog1(){
 			parame 				= new Object();
-			paramm		= "server-side/report/technical.action.php";
+			paramm		= "server-side/report/outgoing_technical.action.php";
 			parame.start_time 	= $('#start_time').val();
 			parame.end_time 	= $('#end_time').val();
 			parame.act 			= 'unanswear_dialog';
@@ -2210,10 +2210,10 @@
 					<tbody><tr>
 					   <td>ხელმისაწვდომია<br><br>
 					    <select size="10" name="List_Agent_available" multiple="multiple" id="myform_List_Agent_from" style="height: 100px;width: 125px;">
-							<option value="EXT100">EXT100</option>
-							<option value="EXT101">EXT101</option>
-							<option value="EXT250">EXT250</option>
-							<option value="EXT150">EXT150</option>    
+							<option value="100">100</option>
+							<option value="101">101</option>
+							<option value="250">250</option>
+							<option value="150">150</option>    
 						</select>
 					</td>
 					<td align="left">
@@ -2259,20 +2259,20 @@
                     <th>სულ</th>
                     <th style="background: #538DD5; color: #FFFFFF">ნაპასუხები</th>
                     <th style="background: #FA3A3A; color: #FFFFFF">უპასუხო</th>
-                    <th style="background: #76933C; color: #FFFFFF">დამუშავებული *</th>
+                    <!-- th style="background: #76933C; color: #FFFFFF">დამუშავებული *</th -->
                     <th>ნაპასუხებია</th>
                     <th>უპასუხოა</th>
-                    <th>დამუშავებულია</th>
+                    <!-- th>დამუშავებულია</th -->
                 </tr>
                 <tr id="technik_info">
                     <td>ზარი</td>
                     <td></td>
                     <td id="answear_dialog" style="cursor: pointer; text-decoration: underline;"></td>
                     <td id="unanswear_dialog" style="cursor: pointer; text-decoration: underline;"></td>
+                    <!-- td></td -->
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <!-- td></td -->
                 </tr>
                 </tbody>
                 </table>

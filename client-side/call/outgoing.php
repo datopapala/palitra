@@ -625,6 +625,26 @@
 			    }
 		    });
 		}
+	    $(document).on("click", "#sub1", function () {
+	    	
+			//var nTds 	= $("#sub1 td");
+			//var pId 	= $(nTds[0]).text();
+	    	param 				= new Object();
+ 			param.act			= "sfsdf";
+ 			
+			var aaa = $('#sub1 tbody tr td:nth-child(1)').each(function(index, tr) {
+				
+				param.g = $('#sub1 tbody tr td:nth-child(1)').text();
+				
+			});
+			$.ajax({
+ 		        url: aJaxURL1,
+ 			    data: param,
+ 		        success: function(data) {       
+ 				
+ 		    	}
+			});
+	    });
 		
 	    $(document).on("click", "#done-dialog1", function () {
 			   
@@ -669,7 +689,13 @@
 			param.city_id				= $("#city_id").val();
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
-	 
+			var g = '';
+			//var nTds 	= $("#sub1 td");
+			//var pId 	= $(nTds[0]).text();
+			$('#sub1 tbody tr td:nth-child(1)').each(function(index, tr) {
+				param.g = $('#sub1 tbody tr td:nth-child(1)').text();
+			});
+			
  	    	$.ajax({
  		        url: aJaxURL1,
  			    data: param,

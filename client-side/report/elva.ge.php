@@ -4,7 +4,6 @@
 		var tName	= "example";											//table name
 
 		$(document).ready(function () {
-		//	$("<div title='Basic dialog'>Test message</div>").dialog();
 			LoadTable();
 			SetEvents('','','',tName,'in_page',aJaxURL);
 		});
@@ -21,9 +20,7 @@
 				param.elva=$("#elva").val();
 				$.getJSON(
 					aJaxURL, param, function(data) {
-				//	alert(data);
 					LoadTable();
-
 					});
 				$('#'+fname).dialog("close");
 				});

@@ -77,6 +77,7 @@ switch ($action) {
 					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_p" value="' . $aRow[$hidden] . '" />';
 				}
 			}
+			
 			$data['aaData'][] = $row;
 		}
 

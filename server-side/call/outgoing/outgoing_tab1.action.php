@@ -201,6 +201,18 @@ switch ($action) {
 			
 			$call_content		= $_REQUEST['call_content'];
 			$status				= $_REQUEST['status'];
+			
+			$phone			= $_REQUEST['phone'];
+			$person_n		= $_REQUEST['person_n'];
+			$first_name		= $_REQUEST['first_name'];
+			$mail			= $_REQUEST['mail'];
+			$city_id		= $_REQUEST['city_id'];
+			$b_day			= $_REQUEST['b_day'];
+			$addres			= $_REQUEST['addres'];
+			
+			if($result_quest == 1){
+				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment);
+			}
 
 			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
 												FROM `task_detail`
@@ -223,6 +235,19 @@ echo json_encode($data);
  *	task Functions
  * ******************************
  */
+
+function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment)
+{
+	$user  = $_SESSION['USERID'];
+	$c_date		= date('Y-m-d H:i:s');
+	
+	mysql_query("
+			INSERT INTO `elva_sale`
+			(`person_id`, `name_surname`, `mail`, `address`, `phone`, `period`, `books`, `call_date`, `sum_price`, `callceenter_comment`, `operator_id`, `oder_send_date`)
+			VALUES
+			('$person_n', '$first_name', '$mail', '$addres', '$phone', '$send_date', '', '$c_date', '', '$result_comment', '$user', '')
+				");
+}
 
 function UpPerson($phone_base,$phone_base_inc)
 {

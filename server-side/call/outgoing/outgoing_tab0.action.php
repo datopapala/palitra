@@ -759,6 +759,25 @@ function Getpattern($id)
 	return $data;
 }
 
+function Getshipping($id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `shipping`
+						WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
 function Getshablon($id,$templ){
 	if($templ !=''){
 		$req = mysql_query("	SELECT 	`id`,
@@ -1215,10 +1234,7 @@ function GetPage($res='', $shabloni)
 											<table class="dialog-form-table">
 										    		<tr>
 														<td style="width:150px;">მიწოდება დაიწყება</td>
-														<td>
-															<input type="text" id="send_date" class="idle" onblur="this.className=\'idle\'"  value="' .  $res['send_date']. '" />
-														</td>
-														<td> -დან</td>
+														<td><select style="width: 305px;" id="send_date" class="idls object">'.Getshipping($res['send_date']).'</select></td>			
 													</tr>
 											</table>
 											</fieldset>
