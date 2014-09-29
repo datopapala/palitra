@@ -463,11 +463,11 @@
              data: "act=get_product_info&name=" + name,
              success: function(data) {
            
-                         $("#genre").val(data.genre);
-                         $("#category").val(data.category);
-                         $("#description").val(data.description);
-                         $("#price").val(data.price);
-                         $("#hidden_product_id").val(data.id);
+                         $("#genre_gift").val(data.genre);
+                         $("#category_gift").val(data.category);
+                         $("#description_gift").val(data.description);
+                         $("#price_gift").val(data.price);
+                         $("#hidden_product_id_gift").val(data.id);
                   
              }
          });

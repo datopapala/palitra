@@ -119,24 +119,24 @@ function GetProductDialog($res = ''){
 				    	</tr>
 						<tr>
 							<td style="padding-top: 11px;">ჟანრი</td>
-							<td style="padding-top: 11px;"><input type="text" style="margin-bottom: 10px;" id="genre" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[genre_name].'"/></td>
+							<td style="padding-top: 11px;"><input type="text" style="margin-bottom: 10px;" id="genre_gift" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[genre_name].'"/></td>
 						</tr>
 						<tr>
 							<td>კატეგორია</td>
-							<td><input type="text" style="margin-bottom: 10px;" id="category" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[category_name].'"/></td>
+							<td><input type="text" style="margin-bottom: 10px;" id="category_gift" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[category_name].'"/></td>
 						</tr>
 						<tr>
 							<td>აღწერილობა</td>
-							<td><input type="text" style="margin-bottom: 10px;" id="description" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[decription].'"/></td>
+							<td><input type="text" style="margin-bottom: 10px;" id="description_gift" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[decription].'"/></td>
 						</tr>
 						<tr>
 							<td>ფასი</td>
-							<td><input type="text" style="margin-bottom: 10px;" id="price" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[price].'"/></td>
+							<td><input type="text" style="margin-bottom: 10px;" id="price_gift" class="idle" disabled onblur="this.className=\'idle\'" value="'.$res[price].'"/></td>
 						</tr>
 					</table>
 		        </fieldset>
 						<input type="text" id="hidden_notes" class="idle" onblur="this.className=\'idle\'" style="display:none;" value="'.$notes.'"/>
-						<input type="text" id="hidden_product_id" class="idle" onblur="this.className=\'idle\'" style="display:none;" value=""/>
+						<input type="text" id="hidden_product_id_gift" class="idle" onblur="this.className=\'idle\'" style="display:none;" value=""/>
 		    </div> ';
 
 	return $data;
