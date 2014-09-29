@@ -26,8 +26,7 @@ switch ($action) {
 		$hidden	= $_REQUEST['hidden'];
 			
 		$rResult = mysql_query("SELECT 	info_base.id,
-										info_base.`name`,
-										info_base.`body`
+										info_base.`name`
 							    FROM 	info_base
 							    WHERE 	info_base.actived=1");
 

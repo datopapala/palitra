@@ -32,7 +32,7 @@ table.display tbody td
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 3, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 2, "", 0, "", 1, "desc");
     		
 		}
 		
@@ -80,7 +80,7 @@ table.display tbody td
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">ინფორმაცია</h2>
+            	<h2 align="center">გაიდლაინი</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         			<button id="delete_button">წაშლა</button>
@@ -90,7 +90,6 @@ table.display tbody td
                         <tr id="datatable_header">
                             <th>ID</th>
                             <th style="width: 40%;">სათაური</th>
-                            <th style="width: 100%;">აღწერა</th>
                         	<th class="check">#</th>
                         </tr>
                     </thead>
@@ -102,9 +101,7 @@ table.display tbody td
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
-                            <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
-                            </th>
+                           
                             <th>
                             	<input type="checkbox" name="check-all" id="check-all">
                             </th>
