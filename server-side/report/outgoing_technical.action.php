@@ -373,55 +373,6 @@ while($row = mysql_fetch_assoc($ress)){
 
 //----------------------------------------------------
 
-//--------------------------- კავშირის გაწყვეტის მიზეზეი
-
-
-$row_COMPLETECALLER = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-																	q.queue AS `queue`
-												FROM	queue_stats AS qs,
-														qname AS q,
-														qagent AS ag,
-														qevent AS ac
-												WHERE qs.qname = q.qname_id
-												AND qs.qagent = ag.agent_id
-												AND qs.qevent = ac.event_id
-												AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-												AND q.queue IN ($queue)
-												AND ag.agent in ($agent)
-												AND ac.event IN ( 'COMPLETECALLER')
-												ORDER BY ag.agent"));
-
-$row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
-																q.queue AS `queue`
-														FROM	queue_stats AS qs,
-																qname AS q,
-																qagent AS ag,
-																qevent AS ac
-														WHERE qs.qname = q.qname_id
-														AND qs.qagent = ag.agent_id
-														AND qs.qevent = ac.event_id
-														AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-														AND q.queue IN ($queue)
-														AND ag.agent in ($agent)
-														AND ac.event IN (  'COMPLETEAGENT')
-														ORDER BY ag.agent"));
-
-	$data['page']['disconnection_cause'] = '
-
-                   <tr>
-					<td class="tdstyle">ოპერატორმა გათიშა:</td>
-					<td>'.$row_COMPLETEAGENT[count].' ზარი</td>
-					<td>0.00 %</td>
-					</tr>
-					<tr>
-					<td class="tdstyle">აბონენტმა გათიშა:</td>
-					<td>'.$row_COMPLETECALLER[count].' ზარი</td>
-					<td>0.00 %</td>
-					</tr>
-
-							';
-
-//-----------------------------------------------
 
 //----------------------------------- უპასუხო ზარები
 
@@ -450,39 +401,6 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 
 //--------------------------------------------
 
-	
-//----------------------------------- კავშირის გაწყვეტის მიზეზი
-
-	$row_timeout = mysql_fetch_assoc(mysql_query("	SELECT 	COUNT(*) AS `count`
-			FROM 	queue_stats AS qs,
-			qname AS q,
-			qagent AS ag,
-			qevent AS ac
-			WHERE qs.qname = q.qname_id
-			AND qs.qagent = ag.agent_id
-			AND qs.qevent = ac.event_id
-			AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-			AND q.queue IN ($queue)
-			AND ac.event IN ('EXITWITHTIMEOUT')
-			ORDER BY qs.datetime"));
-	
-
-	$data['page']['disconnection_cause_unanswer'] = '
-
-                  <tr> 
-                  <td class="tdstyle">აბონენტმა გათიშა</td>
-			      <td>'.$row_abadon[count].' ზარი</td>
-			      <td>'.round((($row_abadon[count] / $row_abadon[count]) * 100),2).' %</td>
-		        </tr>
-			    <tr> 
-                  <td class="tdstyle">დრო ამოიწურა</td>
-			      <td>'.$row_timeout[count].' ზარი</td>
-			      <td>'.round((($row_timeout[count] / $row_timeout[count]) * 100),2).' %</td>
-		        </tr>
-
-							';
-
-//--------------------------------------------
 
 //------------------------------ უპასუხო ზარები რიგის მიხედვით
 
@@ -676,7 +594,7 @@ $res12 = mysql_query("
 					AND DATE(cdr.calldate) >= '$start_time'
 					AND DATE(cdr.calldate) <= '$end_time'
 					AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
-					DAYOFWEEK(cdr.calldate)
+					GROUP BY DAYOFWEEK(cdr.calldate)
 					");
 
 $res122 = mysql_query("
@@ -699,7 +617,7 @@ $res122 = mysql_query("
 					AND DATE(cdr.calldate) >= '$start_time'
 					AND DATE(cdr.calldate) <= '$end_time'
 					AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
-					DAYOFWEEK(cdr.calldate)
+					GROUP BY DAYOFWEEK(cdr.calldate)
 					");
 
 	while($row = mysql_fetch_assoc($res12)){

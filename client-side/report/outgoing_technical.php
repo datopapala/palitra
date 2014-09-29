@@ -2420,7 +2420,7 @@
             <br>
             <div id="chart_container7" bgcolor="#fffdf3" style="float:left; width: 50%; height: 300px;"></div>
             <br>
-            <div style="margin-top: 555px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_info">Excel</button></div>
+            <!-- div style="margin-top: 555px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_info">Excel</button></div>
             <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
             <caption>კავშირის გაწყვეტის მიზეზეი</caption>
             <thead>
@@ -2453,7 +2453,7 @@
             </thead>
             </table>
             <br>
-              <div id="chart_container1" style="float:left; width: 50%; height: 300px;"></div>
+              <div id="chart_container1" style="float:left; width: 50%; height: 300px;"></div -->
 		 </div>
 		 <div id="tab-2">
 		 <div style="margin-top: 5px; position: absolute; left: 600px;"><button class="excel_report_info">Excel</button></div>
@@ -2514,7 +2514,7 @@
 		</thead>
 		</table>
 		<br>
-		<div style="margin-top: 5px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_unanswer_info">Excel</button></div>
+		<!-- div style="margin-top: 5px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_unanswer_info">Excel</button></div>
 		<table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
 		<caption>კავშირის გაწყვეტის მიზეზი</caption>
 			<thead>
@@ -2545,7 +2545,7 @@
 			</tr>
 			</thead>
 			</table>
-			<div id="chart_container5" style="float:left; width: 50%; height: 300px;"></div>
+			<div id="chart_container5" style="float:left; width: 50%; height: 300px;"></div-->
 			<br>
 			<div style="margin-top: 290px; position: absolute; left: 570px;"><button id="excel_unanswer_call_by_queue_info">Excel</button></div>
 			<table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
