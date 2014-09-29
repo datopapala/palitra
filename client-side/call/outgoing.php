@@ -766,8 +766,10 @@
 
 	    $(document).on("click", ".done", function () {
 			   
-			param 				= new Object();
+	    	param 				= new Object();
  			param.act			= "done_outgoing";
+ 			param.get_prod 		= '';
+ 			param.get_gift 		= '';
 		    	
  			param.id					= $("#id").val();
 			param.hello_quest			= $("input[name='hello_quest']:checked").val();
@@ -798,7 +800,7 @@
 
 			param.call_content			= $("#call_content").val();
 			param.status				= $("#status").val();
-
+			
 			// person info
 			param.phone					= $("#phone").val();
 			param.person_n				= $("#person_n").val();
@@ -807,6 +809,112 @@
 			param.city_id				= $("#city_id").val();
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
+
+			var data = $(".check_p").map(function () { //Get Checked checkbox array
+				 return this.value;
+	        }).get();
+			for (var i = 0; i < data.length; i++) {
+				if(param.get_prod != ''){
+					param.get_prod+=',';
+					
+				}
+				param.get_prod+=data[i];
+			}
+
+			var data = $(".check_g").map(function () { //Get Checked checkbox array
+				 return this.value;
+	        }).get();
+			for (var i = 0; i < data.length; i++) {
+				if(param.get_gift != ''){
+					param.get_gift+=',';
+					
+				}
+				param.get_gift+=data[i];
+			}
+	 
+ 	    	$.ajax({
+ 		        url: aJaxURL1,
+ 			    data: param,
+ 		        success: function(data) {       
+ 					if(typeof(data.error) != "undefined"){
+ 						if(data.error != ""){
+ 							alert(data.error);
+ 						}else{
+							LoadTable1();
+ 							CloseDialog("add-edit-form1");
+ 						}
+ 					}
+ 		    	}
+ 		   });
+		});
+
+	    $(document).on("click", "#complete", function () {
+			   
+	    	param 				= new Object();
+ 			param.act			= "done_outgoing";
+ 			param.get_prod 		= '';
+ 			param.get_gift 		= '';
+		    	
+ 			param.id					= $("#id").val();
+			param.hello_quest			= $("input[name='hello_quest']:checked").val();
+	    	param.hello_comment			= $("#hello_comment").val();
+	    	param.info_quest			= $("input[name='info_quest']:checked").val();
+			param.info_comment			= $("#info_comment").val();
+			param.result_quest			= $("input[name='result_quest']:checked").val();
+	    	param.result_comment		= $("#result_comment").val();
+			param.payment_quest			= $("input[name='payment_quest']:checked").val();
+			param.payment_comment		= $("#payment_comment").val();
+			param.send_date				= $("#send_date").val();
+
+			param.preface_name			= $("#preface_name").val();
+			param.preface_quest			= $("input[name='preface_quest']:checked").val();
+			param.d1					= $("input[name='d1']:checked").val();
+			param.d2					= $("input[name='d2']:checked").val();
+			param.d3					= $("input[name='d3']:checked").val();
+			param.d4					= $("input[name='d4']:checked").val();
+			param.d5					= $("input[name='d5']:checked").val();
+			param.d6					= $("input[name='d6']:checked").val();
+			param.d7					= $("input[name='d7']:checked").val();
+			param.d8					= $("input[name='d8']:checked").val();
+			param.d9					= $("input[name='d9']:checked").val();
+			param.d10					= $("input[name='d10']:checked").val();
+			param.d11					= $("input[name='d11']:checked").val();
+			param.d12					= $("input[name='d12']:checked").val();
+			param.q1					= $("input[name='q1']:checked").val();
+
+			param.call_content			= $("#call_content").val();
+			param.status				= $("#status").val();
+			
+			// person info
+			param.phone					= $("#phone").val();
+			param.person_n				= $("#person_n").val();
+			param.first_name			= $("#first_name").val();
+			param.mail					= $("#mail").val();
+			param.city_id				= $("#city_id").val();
+			param.b_day					= $("#b_day").val();
+			param.addres				= $("#addres").val();
+
+			var data = $(".check_p").map(function () { //Get Checked checkbox array
+				 return this.value;
+	        }).get();
+			for (var i = 0; i < data.length; i++) {
+				if(param.get_prod != ''){
+					param.get_prod+=',';
+					
+				}
+				param.get_prod+=data[i];
+			}
+
+			var data = $(".check_g").map(function () { //Get Checked checkbox array
+				 return this.value;
+	        }).get();
+			for (var i = 0; i < data.length; i++) {
+				if(param.get_gift != ''){
+					param.get_gift+=',';
+					
+				}
+				param.get_gift+=data[i];
+			}
 	 
  	    	$.ajax({
  		        url: aJaxURL1,

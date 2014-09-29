@@ -57,8 +57,8 @@ switch ($action) {
 								JOIN persons ON users.person_id = persons.id
 								WHERE elva_sale.id='$_REQUEST[id]'");
 		$res = mysql_fetch_array( $rResult );
-
-		$data['page'][] = '<div id="dialog-form">
+		$data['page'][0] = '';
+		$data['page'][0] .= '<div id="dialog-form">
 								<div style="float: left; width: 710px;" disabled>
 								<fieldset >
 							    	<legend>ძირითადი ინფორმაცია</legend>
@@ -143,13 +143,80 @@ switch ($action) {
 							</fieldset>
 							</div>
 					<div style="float: right;  width: 355px;">
-								
+					<fieldset>
+					<legend>გაყიდვა</legend>					
+		                <table style="border:2px solid #85B1DE; width:100%;">
+		                   		<tr style="background:#F2F2F2; ">	
+									<th style="width:7%; padding:5px; border:1px solid #85B1DE;">#</th>
+									<th style="border:1px solid #85B1DE; padding:5px;">თარიღი</th>
+									<th style="border:1px solid #85B1DE; padding:5px;">მომხმარებელი</th>
+									<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
+									<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
+								</tr>';
+		
+		$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
+															gift_ids
+												  FROM 		`task_scenar`
+												  WHERE 	id = '$_REQUEST[id]'"));
+		$query1 = mysql_query("SELECT 	`name`,`price`,`id`
+							  FROM 		`production`
+							  WHERE 	`id` in ($query_list[0])");
+		
+		while ($row_prod = mysql_fetch_row($query1)) {
+			$number = $row_prod[2];
+			$book_name = $row_prod[0];
+			$book_price = $row_prod[1];
+		
+			$data['page'][0] .= '<tr style="background: #FEFEFE">
+									<td style="border:1px solid #85B1DE; padding:2px;">'.$number.'</td>
+									<td style="border:1px solid #85B1DE; padding:2px;">'.$res[call_date].'</td>
+									<td style="border:1px solid #85B1DE; padding:2px;">'.$res[name_surname].'</td>
+									<td style="border:1px solid #85B1DE; padding:2px;">'.$book_price.'</td>
+									<td style="border:1px solid #85B1DE; padding:2px;">'.$book_name.'</td>
+								</tr>';	
+		}			
+	 $data['page'][0] .= '</table>
+					</fieldset>	
+	 		
+			 		<fieldset>
+							<legend>საჩუქარი</legend>					
+				                <table style="border:2px solid #85B1DE; width:100%;">
+				                   		<tr style="background:#F2F2F2; ">	
+											<th style="width:7%; padding:5px; border:1px solid #85B1DE;">#</th>
+											<th style="border:1px solid #85B1DE; padding:5px;">თარიღი</th>
+											<th style="border:1px solid #85B1DE; padding:5px;">მომხმარებელი</th>
+											<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
+											<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
+										</tr>';
+				
+				$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
+																	gift_ids
+														  FROM 		`task_scenar`
+														  WHERE 	id = '$_REQUEST[id]'"));
+				$query1 = mysql_query("SELECT 	`name`,`price`,`id`
+									  FROM 		`production`
+									  WHERE 	`id` in ($query_list[1])");
+				
+				while ($row_prod = mysql_fetch_row($query1)) {
+					$number = $row_prod[2];
+					$book_name = $row_prod[0];
+					$book_price = $row_prod[1];
+				
+					$data['page'][0] .= '<tr style="background: #FEFEFE">
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$number.'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$res[call_date].'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$res[name_surname].'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_price.'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_name.'</td>
+										</tr>';	
+				}			
+			 $data['page'][0] .= '</table>
+					</fieldset>	
 					</div>
 				    </div>
 								<input type="hidden" id="id" value="'.$_REQUEST[id].'" />
 			</div>
-		</fieldset></div>
-										';
+		</fieldset></div>';
 			   	break;
    	case 'save_dialog' :
 		mysql_query("UPDATE `elva_sale` SET `status`='$_REQUEST[status]', `coordinator_id`='$_REQUEST[cooradinator]', `coordinator_comment`='$_REQUEST[k_coment]', `elva_status`='$_REQUEST[elva]'

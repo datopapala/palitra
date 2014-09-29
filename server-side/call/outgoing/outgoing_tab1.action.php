@@ -216,15 +216,15 @@ switch ($action) {
 				$get_prod_price = mysql_fetch_row(mysql_query("SELECT SUM(price)
 															   FROM `production`
 															   WHERE id in($get_prod)"));
-				$get_prod_row = mysql_query("SELECT `name`
+				$get_prod_row = mysql_query("SELECT CONCAT(`name`,' + ')
 															   FROM `production`
 															   WHERE id in($get_prod)");
 				$row_name_prod = '';
 				while($get_prod_name = mysql_fetch_row($get_prod_row)){
-					$row_name_prod .= $get_prod_name[0]." + ";
+					$row_name_prod .= $get_prod_name[0];
 				}
 				
-				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_price[0],$row_name_prod );
+				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_price[0],substr($row_name_prod,0,-3) );
 			}
 
 			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
