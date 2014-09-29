@@ -178,7 +178,7 @@ switch ($action) {
 		$query_list1 = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 															gift_ids
 												  FROM 		`task_scenar`
-												  WHERE 	id = '$res[task_id]'"));
+												  WHERE 	task_detail_id = '$res[task_id]'"));
 		$cvladi = $query_list1[0];
 		$query11 = mysql_query("SELECT 	`name`,`price`,`id`
 							  FROM 		`production`
@@ -214,7 +214,7 @@ switch ($action) {
 				$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 																	gift_ids
 														  FROM 		`task_scenar`
-														  WHERE 	id = '$res[task_id]'"));
+														  WHERE 	task_detail_id = '$res[task_id]'"));
 				$cvladi1 = $query_list[1];
 				$query1 = mysql_query("SELECT 	`name`,`price`,`id`
 									  FROM 		`production`
