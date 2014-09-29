@@ -13,7 +13,27 @@ switch ($action) {
 		$hidden = 		$_REQUEST['hidden'];
 	  	$rResult = mysql_query("
 
-	  			SELECT * FROM `elva_sale`
+	  			SELECT elva_sale.id,
+								elva_sale.person_id,
+								elva_sale.name_surname,
+								elva_sale.mail,
+								elva_sale.address,
+								elva_sale.phone,
+								shipping.`name` AS `period`,
+								elva_sale.books,
+								elva_sale.call_date,
+								elva_sale.sum_price,
+								elva_sale.callceenter_comment,
+								persons.`name` as operator_id,
+								elva_sale.oder_send_date,
+								elva_sale.`status`,
+								elva_sale.coordinator_id,
+								elva_sale.coordinator_comment,
+								elva_sale.elva_status
+								FROM `elva_sale`
+								left JOIN shipping ON elva_sale.period = shipping.id
+								JOIN users ON elva_sale.operator_id = users.id
+								JOIN persons ON users.person_id = persons.id
 
 	  			");
 
