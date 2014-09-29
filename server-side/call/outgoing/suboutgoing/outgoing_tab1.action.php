@@ -52,7 +52,7 @@ switch ($action) {
 	    }
 
 	    $scenar_name	= $_REQUEST['scenar_name'];
-	    $rResult = mysql_query("SELECT 	`shabloni`.`id`,
+	    $rResult = mysql_query("SELECT 	`production`.`id`,
 										`production`.`name`,
 										`production`.`price`,
 										`production`.`description`,
