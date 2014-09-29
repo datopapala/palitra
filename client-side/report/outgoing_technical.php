@@ -73,7 +73,7 @@
      <script src="js/exporting.js"></script>
 	<script type="text/javascript">
 		var aJaxURL		= "server-side/report/outgoing_technical.action.php";		//server side folder url
-		var aJaxURL1	= "server-side/report/sales_statistics_outgoing.action.php";		//server side folder url
+		var aJaxURL1	= "server-side/report/sales_statistics_outgoing_outgoing.action.php";		//server side folder url
 		var tName		= "example0";										//table name
 		var tbName		= "tabs";											//tabs name
 		var fName		= "add-edit-form";									//form name
@@ -230,7 +230,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[1]['agent'];
 			    	options.tooltip.valueSuffix = json[1]['unit'];
@@ -312,7 +312,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[0]['cause'];
 			    	options.tooltip.valueSuffix = json[0]['unit'];
@@ -394,7 +394,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[2]['datetime'];
 			    	options.tooltip.valueSuffix = json[2]['unit'];
@@ -476,7 +476,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[3]['datetime1'];
 			    	options.tooltip.valueSuffix = json[3]['unit'];
@@ -563,7 +563,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[4]['datetime2'];
 			    	options.tooltip.valueSuffix = json[4]['unit'];
@@ -647,7 +647,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[5]['cause1'];
 			    	options.tooltip.valueSuffix = json[5]['unit'];
@@ -731,7 +731,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[6]['queue1'];
 			    	options.tooltip.valueSuffix = json[6]['unit'];
@@ -815,7 +815,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[7]['queue2'];
 			    	options.tooltip.valueSuffix = json[7]['unit'];
@@ -900,7 +900,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[8]['times'];
 			    	options.tooltip.valueSuffix = json[8]['unit'];
@@ -986,7 +986,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[9]['times2'];
 			    	options.tooltip.valueSuffix = json[9]['unit'];
@@ -1070,7 +1070,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[10]['date1'];
 			    	options.tooltip.valueSuffix = json[10]['unit'];
@@ -1302,7 +1302,7 @@
 			start_time = $('#start_time').val();
 			end_time = $('#end_time').val();
 
-			    $.getJSON("server-side/report/sales_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			    $.getJSON("server-side/report/sales_statistics_outgoing.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 				    
 			    	options.xAxis.categories = json[11]['call_second'];
 			    	options.tooltip.valueSuffix = json[11]['unit'];
