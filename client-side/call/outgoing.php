@@ -63,7 +63,7 @@
 
 		 function GetTable4() {
 			 LoadTable7();
-             SetEvents("", "", "", "example4", "add-edit-form1", aJaxURL);
+             SetEvents("", "", "", "example5", "add-edit-form1", aJaxURL);
          }
 
 		 function LoadTable0(){			
@@ -88,7 +88,7 @@
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 11, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){		
 			var scenar_name =	$("#shabloni").val();
@@ -106,7 +106,7 @@
 		}
 		function LoadTable7(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
+			GetDataTable("example5", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 
 		$(document).on("click", "#check-all-in", function () {
@@ -1400,7 +1400,7 @@
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">არქივი</h2>
-		                <table class="display" id="example4">
+		                <table class="display" id="example5">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>

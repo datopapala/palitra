@@ -119,12 +119,10 @@ switch ($action) {
 											<tr>
 												<td style="width: 280px;"><label for="date">ქოლ-ცენტრის დარეკვის თარიღი</label></td>
 												<td style="width: 280px;"><label for="op_id">ოპერატორი</label></td>
-												<td style="width: 280px;"><label for="oder_date">ქვითრის გაგზავნის დღე</label></td>
 											</tr>
 								    		<tr>
 												<td><input style="width: 200px;" id="date" 		value="'.$res[call_date].'" 		class="idls object" disabled></td>
 												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" disabled></td>
-												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" disabled></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
@@ -155,10 +153,11 @@ switch ($action) {
 											<table class="dialog-form-table" style="width: 720px;">
 											<tr>
 												<td style="width: 150px;"><label>კოოდინატორის შენიშვნა</label></td>
+												<td style="width: 280px;"><label for="oder_date">ქვითრის გაგზავნის დღე</label></td>
 											</tr>
 											<tr>
 												<td><textarea  style="width: 270px; resize: none;" id="k_coment" class="idle" name="content" cols="300">'.$res[coordinator_comment].'</textarea></tr>
-
+												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" ></td>
 										</table>
 							        </fieldset>
 							</fieldset>
