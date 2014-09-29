@@ -359,9 +359,9 @@ while($row = mysql_fetch_assoc($ress)){
                    	<tr>
 					<td>'.$row[agent].'</td>
 					<td>'.$row[num].'</td>
-					<td>'.(($row[num] / $row_answer[count]) * 100).' %</td>
+					<td>'.ROUND((($row[num] / $row_answer[count]) * 100),2).' %</td>
 					<td>'.$row[min].' წუთი</td>
-					<td>'.(($row[min] / $row_clock[min]) * 100).' %</td>
+					<td>'.ROUND((($row[min] / $row_clock[min]) * 100),2).' %</td>
 					<td>'.$row[sec].' წამი</td>
 					<!-- td> წამი</td>
 					<td> წამი</td -->
@@ -561,7 +561,7 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 							    cdr.dst,
 								SUBSTRING(cdr.lastdata,5,7)
 						FROM    cdr
-						WHERE   cdr.disposition = 'ANSWERED'
+						WHERE   cdr.disposition = 'NO ANSWER'
 						AND cdr.userfield != ''
 						AND cdr.src IN ($agent)
 						AND DATE(cdr.calldate) >= '$start_time'
@@ -579,9 +579,9 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
                    	<tr class="odd">
 					<td>'.$row[datetime].'</td>
 					<td>'.$row[count].'</td>
-					<td>'.(($row[count] / $row_answer[count]) * 100).' %</td>
+					<td>'.ROUND((($row[count] / $row_answer[count]) * 100),2).' %</td>
 					<td>'.$roww[count].'</td>
-					<td>'.(($roww[count] / $row_abadon[count]) * 100).' %</td>
+					<td>'.ROUND((($roww[count] / $row_abadon[count]) * 100),2).' %</td>
 					<td>'.$row[sec].' წამი</td>
 					<!--td> წამი</td-->
 					<td></td>
