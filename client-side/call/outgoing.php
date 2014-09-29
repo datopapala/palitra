@@ -440,7 +440,10 @@
             $("#" + i).autocomplete("search", "");
         });
 
-		
+        $(document).on("click", ".combobox_gift", function(event) {
+            var i = $(this).text();
+            $("#" + i).autocomplete("search", "");
+        });
 
 
 	 function GetProductionInfo(name) {
