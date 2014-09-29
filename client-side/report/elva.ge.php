@@ -18,6 +18,7 @@
 				param.cooradinator=$("#cooradinator").val();
 				param.k_coment=$("#k_coment").val();
 				param.elva=$("#elva").val();
+				GetDateTimes("oder_date");
 				$.getJSON(
 					aJaxURL, param, function(data) {
 					LoadTable();
