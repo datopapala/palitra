@@ -173,11 +173,11 @@ switch ($action) {
 									<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
 									<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
 								</tr>';
-		
+		$idd = $_REQUEST[id];
 		$query_list1 = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 															gift_ids
 												  FROM 		`task_scenar`
-												  WHERE 	id = '$_REQUEST[id]'"));
+												  WHERE 	id = '$idd'"));
 		$cvladi = $query_list1[0];
 		$query11 = mysql_query("SELECT 	`name`,`price`,`id`
 							  FROM 		`production`
@@ -213,7 +213,7 @@ switch ($action) {
 				$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 																	gift_ids
 														  FROM 		`task_scenar`
-														  WHERE 	id = '$_REQUEST[id]'"));
+														  WHERE 	id = '$idd'"));
 				$cvladi1 = $query_list[1];
 				$query1 = mysql_query("SELECT 	`name`,`price`,`id`
 									  FROM 		`production`
