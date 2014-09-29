@@ -250,7 +250,7 @@ $data['error'] = $error;
 //------------------------------- ნაპასუხები ზარები რიგის მიხედვით
 
 	$g = mysql_query("	SELECT 	COUNT(*) as count,
-								cdr.src as queue
+								SUBSTRING(cdr.lastdata,5,7) as queue
 						FROM    cdr
 						WHERE   cdr.disposition = 'ANSWERED'
 						AND cdr.userfield != ''
@@ -258,7 +258,7 @@ $data['error'] = $error;
 						AND DATE(cdr.calldate) >= '$start_time'
 						AND DATE(cdr.calldate) <= '$end_time'
 						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
-						GROUP BY cdr.src");
+						GROUP BY SUBSTRING(cdr.lastdata,5,7)");
 	
 	while ($rr = mysql_fetch_assoc($g)){								
 	$data['page']['answer_call'] .= '
