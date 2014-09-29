@@ -174,18 +174,19 @@ switch ($action) {
 									<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
 								</tr>';
 		
-		$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
+		$query_list1 = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 															gift_ids
 												  FROM 		`task_scenar`
 												  WHERE 	id = '$_REQUEST[id]'"));
-		$query1 = mysql_query("SELECT 	`name`,`price`,`id`
+		$cvladi = $query_list1[0];
+		$query11 = mysql_query("SELECT 	`name`,`price`,`id`
 							  FROM 		`production`
-							  WHERE 	`id` in ($query_list[0])");
+							  WHERE 	`id` in ($cvladi)");
 		
-		while ($row_prod = mysql_fetch_row($query1)) {
-			$number = $row_prod[2];
-			$book_name = $row_prod[0];
-			$book_price = $row_prod[1];
+		while ($row_prod1 = mysql_fetch_row($query11)) {
+			$number = $row_prod1[2];
+			$book_name = $row_prod1[0];
+			$book_price = $row_prod1[1];
 		
 			$data['page'][0] .= '<tr style="background: #FEFEFE">
 									<td style="border:1px solid #85B1DE; padding:2px;">'.$number.'</td>
@@ -213,21 +214,22 @@ switch ($action) {
 																	gift_ids
 														  FROM 		`task_scenar`
 														  WHERE 	id = '$_REQUEST[id]'"));
+				$cvladi1 = $query_list[1];
 				$query1 = mysql_query("SELECT 	`name`,`price`,`id`
 									  FROM 		`production`
-									  WHERE 	`id` in ($query_list[1])");
+									  WHERE 	`id` in ($cvladi1)");
 				
 				while ($row_prod = mysql_fetch_row($query1)) {
-					$number = $row_prod[2];
-					$book_name = $row_prod[0];
-					$book_price = $row_prod[1];
+					$number1 = $row_prod[2];
+					$book_name1 = $row_prod[0];
+					$book_price1 = $row_prod[1];
 				
 					$data['page'][0] .= '<tr style="background: #FEFEFE">
-											<td style="border:1px solid #85B1DE; padding:2px;">'.$number.'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$number1.'</td>
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$res[call_date].'</td>
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$res[name_surname].'</td>
-											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_price.'</td>
-											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_name.'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_price1.'</td>
+											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_name1.'</td>
 										</tr>';	
 				}			
 			 $data['page'][0] .= '</table>

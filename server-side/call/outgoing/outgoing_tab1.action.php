@@ -215,10 +215,10 @@ switch ($action) {
 			if($result_quest == 1){
 				$get_prod_price = mysql_fetch_row(mysql_query("SELECT SUM(price)
 															   FROM `production`
-															   WHERE id in($get_prod)"));
+															   WHERE id in($get_prod , $get_gift)"));
 				$get_prod_row = mysql_query("SELECT CONCAT(`name`,' + ')
 															   FROM `production`
-															   WHERE id in($get_prod)");
+															   WHERE id in($get_prod , $get_gift)");
 				$row_name_prod = '';
 				while($get_prod_name = mysql_fetch_row($get_prod_row)){
 					$row_name_prod .= $get_prod_name[0];
