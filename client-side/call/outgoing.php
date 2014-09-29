@@ -356,6 +356,12 @@
 					SeoY("production_name", seoyURL, "production_name", "", 0);
   	            }
   	        });
+        	$(document).on("keydown", "#production_name", function(event) {
+            	if (event.keyCode == $.ui.keyCode.ENTER) {
+            		GetProductionInfo(this.value);
+                	event.preventDefault();
+            	}
+        	});
         	
         });
 
@@ -403,6 +409,12 @@
 					SeoY("production_name", seoyURL, "production_name", "", 0);
   	            }
   	        });
+        	$(document).on("keydown", "#production_name", function(event) {
+            	if (event.keyCode == $.ui.keyCode.ENTER) {
+            		GetProductionInfoo(this.value);
+                	event.preventDefault();
+            	}
+        	});
         	
         });
 
@@ -428,12 +440,7 @@
             $("#" + i).autocomplete("search", "");
         });
 
-		$(document).on("keydown", "#production_name", function(event) {
-        	if (event.keyCode == $.ui.keyCode.ENTER) {
-        		GetProductionInfo(this.value);
-            	event.preventDefault();
-        	}
-    	});
+		
 
 
 	 function GetProductionInfo(name) {
@@ -452,7 +459,7 @@
             });
         }
 
-	 function GetProductionInfo(name) {
+	 function GetProductionInfoo(name) {
          $.ajax({
              url: "server-side/call/outgoing/add_chosse_gift.php",
              data: "act=get_product_info&name=" + name,
