@@ -112,8 +112,8 @@ function GetProductDialog($res = ''){
 							  <td style="width:120px;">დასახელება</td>
                               <td>
             						<div class="seoy-row" id="goods_name_seoy">
-            							<input type="text" id="production_name" class="idle seoy-address" onblur="this.className=\'idle seoy-address\'" onfocus="this.className=\'activeField seoy-address\'" value="' . $res[product_name] . '" />
-            							<button id="goods_name_btn" class="combobox">production_name</button>
+            							<input type="text" id="production_name_gift" class="idle seoy-address" onblur="this.className=\'idle seoy-address\'" onfocus="this.className=\'activeField seoy-address\'" value="' . $res[product_name] . '" />
+            							<button id="goods_name_btn" class="combobox">production_name_gift</button>
             						</div>
     				          </td>
 				    	</tr>

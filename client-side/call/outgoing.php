@@ -406,10 +406,10 @@
   	            success: function (data) {
   	            	
 					$("#add_gift_chosse").html(data.page);
-					SeoY("production_name", seoyURL, "production_name", "", 0);
+					SeoY("production_name_gift", seoyURL, "production_name_gift", "", 0);
   	            }
   	        });
-        	$(document).on("keydown", "#production_name", function(event) {
+        	$(document).on("keydown", "#production_name_gift", function(event) {
             	if (event.keyCode == $.ui.keyCode.ENTER) {
             		GetProductionInfoo(this.value);
                 	event.preventDefault();
