@@ -58,6 +58,7 @@
          
 		 function GetTable3() {
              LoadTable3();
+             SetEvents("", "", "", "example3", "add-edit-form1", aJaxURL);
          }
 
 		 function GetTable4() {
