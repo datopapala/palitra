@@ -409,12 +409,6 @@
 					SeoY("production_name_gift", seoyURL, "production_name_gift", "", 0);
   	            }
   	        });
-        	$(document).on("keydown", "#production_name_gift", function(event) {
-            	if (event.keyCode == $.ui.keyCode.ENTER) {
-            		GetProductionInfoo(this.value);
-                	event.preventDefault();
-            	}
-        	});
         	
         });
 
@@ -440,11 +434,12 @@
             $("#" + i).autocomplete("search", "");
         });
 
-        $(document).on("click", ".combobox_gift", function(event) {
-            var i = $(this).text();
-            $("#" + i).autocomplete("search", "");
-        });
-
+        $(document).on("keydown", "#production_name_gift", function(event) {
+        	if (event.keyCode == $.ui.keyCode.ENTER) {
+        		GetProductionInfoo(this.value);
+            	event.preventDefault();
+        	}
+    	});
 
 	 function GetProductionInfo(name) {
             $.ajax({
