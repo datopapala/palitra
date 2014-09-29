@@ -657,75 +657,49 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 
 
 $res12 = mysql_query("
-					SELECT  CASE
-									WHEN DAYOFWEEK(qs.datetime) = 1 THEN 'კვირა'
-									WHEN DAYOFWEEK(qs.datetime) = 2 THEN 'ორშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 3 THEN 'სამშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 4 THEN 'ოთხშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 5 THEN 'ხუთშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 6 THEN 'პარასკევი'
-									WHEN DAYOFWEEK(qs.datetime) = 7 THEN 'შაბათი'
+					SELECT 	CASE
+									WHEN DAYOFWEEK(cdr.calldate) = 1 THEN 'კვირა'
+									WHEN DAYOFWEEK(cdr.calldate) = 2 THEN 'ორშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 3 THEN 'სამშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 4 THEN 'ოთხშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 5 THEN 'ხუთშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 6 THEN 'პარასკევი'
+									WHEN DAYOFWEEK(cdr.calldate) = 7 THEN 'შაბათი'
 							END AS `datetime`,
-							COUNT(*) AS `answer_count`,
-							ROUND((( COUNT(*) / (
-								SELECT COUNT(*) AS `count`
-								FROM 	queue_stats AS qs,
-											qname AS q, 
-											qagent AS ag,
-											qevent AS ac 
-								WHERE qs.qname = q.qname_id
-								AND qs.qagent = ag.agent_id 
-								AND qs.qevent = ac.event_id
-								AND DATE(qs.datetime) >= '$start_time'
-								AND DATE(qs.datetime) <= '$end_time'
-								AND q.queue IN ($queue,'NONE')
-								AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-							)) *100),2) AS `call_answer_pr`,
-							ROUND((SUM(qs.info2) / COUNT(*)),0) AS `avg_durat`,
-							ROUND((SUM(qs.info1) / COUNT(*)),0) AS `avg_hold`
-					FROM 	queue_stats AS qs,
-								qname AS q, 
-								qagent AS ag,
-								qevent AS ac 
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id 
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-					GROUP BY DAYOFWEEK(qs.datetime)
+							COUNT(*) as `count`,
+							ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
+							SUBSTRING(cdr.lastdata,5,7)
+					FROM    cdr
+					WHERE   cdr.disposition = 'ANSWERED'
+					AND cdr.userfield != ''
+					AND cdr.src IN ($agent)
+					AND DATE(cdr.calldate) >= '$start_time'
+					AND DATE(cdr.calldate) <= '$end_time'
+					AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+					DAYOFWEEK(cdr.calldate)
 					");
 
 $res122 = mysql_query("
-					SELECT 
-							COUNT(*) AS `unanswer_count`,
-							ROUND((( COUNT(*) / (
-								SELECT COUNT(*) AS `count`
-								FROM 	queue_stats AS qs,
-											qname AS q,
-											qagent AS ag,
-											qevent AS ac
-								WHERE qs.qname = q.qname_id
-								AND qs.qagent = ag.agent_id
-								AND qs.qevent = ac.event_id
-								AND DATE(qs.datetime) >= '$start_time'
-								AND DATE(qs.datetime) <= '$end_time'
-								AND q.queue IN ($queue,'NONE')
-								AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-							)) *100),2) AS `call_unanswer_pr`
-					FROM 	queue_stats AS qs,
-								qname AS q,
-								qagent AS ag,
-								qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-					GROUP BY DAYOFWEEK(qs.datetime)
+					SELECT 	CASE
+									WHEN DAYOFWEEK(cdr.calldate) = 1 THEN 'კვირა'
+									WHEN DAYOFWEEK(cdr.calldate) = 2 THEN 'ორშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 3 THEN 'სამშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 4 THEN 'ოთხშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 5 THEN 'ხუთშაბათი'
+									WHEN DAYOFWEEK(cdr.calldate) = 6 THEN 'პარასკევი'
+									WHEN DAYOFWEEK(cdr.calldate) = 7 THEN 'შაბათი'
+							END AS `datetime`,
+							COUNT(*) as `count`,
+							ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
+							SUBSTRING(cdr.lastdata,5,7)
+					FROM    cdr
+					WHERE   cdr.disposition = 'NO ANSWER'
+					AND cdr.userfield != ''
+					AND cdr.src IN ($agent)
+					AND DATE(cdr.calldate) >= '$start_time'
+					AND DATE(cdr.calldate) <= '$end_time'
+					AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+					DAYOFWEEK(cdr.calldate)
 					");
 
 	while($row = mysql_fetch_assoc($res12)){
@@ -734,12 +708,12 @@ $res122 = mysql_query("
 
                    	<tr class="odd">
 					<td>'.$row[datetime].'</td>
-					<td>'.(($row[answer_count]!='')?$row[answer_count]:"0").'</td>
-					<td>'.(($row[call_answer_pr]!='')?$row[call_answer_pr]:"0").' %</td>
-					<td>'.(($roww[unanswer_count]!='')?$roww[unanswer_count]:"0").'</td>
-					<td>'.(($roww[call_unanswer_pr]!='')?$roww[call_unanswer_pr]:"0").'%</td>
-					<td>'.(($row[avg_durat]!='')?$row[avg_durat]:"0").' წამი</td>
-					<td>'.(($row[avg_hold]!='')?$row[avg_hold]:"0").' წამი</td>
+					<td>'.(($row[count]!='')?$row[count]:"0").'</td>
+					<td>'.(($row[count]!='')?ROUND((($row[count] / $row_answer[count]) * 100),2):"0").' %</td>
+					<td>'.(($roww[count]!='')?$roww[count]:"0").'</td>
+					<td>'.(($roww[count]!='')?ROUND((($roww[count] / $row_abadon[count]) * 100),2):"0").'%</td>
+					<td>'.(($row[sec]!='')?$row[sec]:"0").' წამი</td>
+					<!--td> წამი</td-->
 					<td></td>
 					<td></td>
 					</tr>
