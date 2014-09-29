@@ -1,7 +1,5 @@
 <?php
-mysql_close();
-$conn = mysql_connect('localhost', 'root', 'Gl-1114');
-mysql_select_db('asteriskcdrdb');
+require_once('../../includes/classes/core.php');
 
 header('Content-Type: application/json');
 $start = $_REQUEST['start'];
