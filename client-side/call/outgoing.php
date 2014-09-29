@@ -451,6 +451,22 @@
                 }
             });
         }
+
+	 function GetProductionInfo(name) {
+         $.ajax({
+             url: "server-side/call/outgoing/add_chosse_gift.php",
+             data: "act=get_product_info&name=" + name,
+             success: function(data) {
+           
+                         $("#genre").val(data.genre);
+                         $("#category").val(data.category);
+                         $("#description").val(data.description);
+                         $("#price").val(data.price);
+                         $("#hidden_product_id").val(data.id);
+                  
+             }
+         });
+     }
     	
         $(document).on("click", "#save-printer", function () {
  
