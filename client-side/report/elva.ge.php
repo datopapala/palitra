@@ -9,8 +9,8 @@
 		});
 
 		function LoadDialog(fname){
-			GetDateTimes("oder_date");
 			GetDialog("in_page","1150","auto");
+			GetDateTimes("oder_date");
 			 $("#save-dialog").on("click",function(){
 				param = new Object();
 				param.act = "save_dialog";
