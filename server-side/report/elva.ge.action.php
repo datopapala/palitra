@@ -156,8 +156,11 @@ switch ($action) {
 												<td style="width: 280px;"><label for="oder_date">ქვითრის გაგზავნის დღე</label></td>
 											</tr>
 											<tr>
-												<td><textarea  style="width: 270px; resize: none;" id="k_coment" class="idle" name="content" cols="300">'.$res[coordinator_comment].'</textarea></tr>
+												<td>
+													<textarea  style="width: 270px; resize: none;" id="k_coment" class="idle" name="content" cols="300">'.$res[coordinator_comment].'</textarea>
+												</td>
 												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" ></td>
+											</tr>
 										</table>
 							        </fieldset>
 							</fieldset>
