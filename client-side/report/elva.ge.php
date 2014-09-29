@@ -10,6 +10,7 @@
 
 		function LoadDialog(fname){
 			GetDialog("in_page","1150","auto");
+			GetDateTimes("oder_date");
 			 $("#save-dialog").on("click",function(){
 				param = new Object();
 				param.act = "save_dialog";
@@ -18,7 +19,7 @@
 				param.cooradinator=$("#cooradinator").val();
 				param.k_coment=$("#k_coment").val();
 				param.elva=$("#elva").val();
-				GetDateTimes("oder_date");
+				
 				$.getJSON(
 					aJaxURL, param, function(data) {
 					LoadTable();
