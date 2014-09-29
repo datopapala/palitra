@@ -2320,10 +2320,10 @@
                   <td class="tdstyle">ნაპასუხები ზარები</td>
                   <td></td>
                 </tr>
-                <tr> 
+                <!-- tr> 
                   <td class="tdstyle">გადამისამართებული ზარები</td>
                   <td></td>
-                </tr>
+                </tr -->
                 <tr>
                   <td class="tdstyle">საშ. ხანგძლივობა:</td>
                   <td></td>
@@ -2332,10 +2332,10 @@
                   <td class="tdstyle">სულ საუბრის ხანგძლივობა:</td>
                   <td> </td>
                 </tr>
-                <tr>
+                <!-- tr>
                   <td class="tdstyle">ლოდინის საშ. ხანგძლივობა:</td>
                   <td></td>
-                </tr>
+                </tr -->
                 </tbody>
               </table>
 
@@ -2393,7 +2393,7 @@
             </table>
             <div id="chart_container11" bgcolor="#fffdf3" style="float:left; width: 50%; height: 300px;"></div-->
         <br>
-        <div style="margin-top: 580px; position: absolute; left: 570px;"><button id="excel_answer_call_by_queue_info">Excel</button></div>
+        <div style="margin-top: 280px; position: absolute; left: 570px;"><button id="excel_answer_call_by_queue_info">Excel</button></div>
         <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
             <caption>ნაპასუხები ზარები რიგის მიხედვით</caption>
             <thead>
@@ -2420,7 +2420,7 @@
             <br>
             <div id="chart_container7" bgcolor="#fffdf3" style="float:left; width: 50%; height: 300px;"></div>
             <br>
-            <div style="margin-top: 860px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_info">Excel</button></div>
+            <div style="margin-top: 555px; position: absolute; left: 570px;"><button id="excel_disconnection_cause_info">Excel</button></div>
             <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
             <caption>კავშირის გაწყვეტის მიზეზეი</caption>
             <thead>

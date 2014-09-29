@@ -421,34 +421,16 @@ $data['error'] = $error;
 
 //------------------------------------ ნაპასუხები ზარები
 
-$row_transfer = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`
-												FROM	queue_stats AS qs,
-												qname AS q,
-												qagent AS ag,
-												qevent AS ac
-												WHERE qs.qname = q.qname_id
-												AND qs.qagent = ag.agent_id
-												AND qs.qevent = ac.event_id
-												AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-												AND q.queue IN ($queue)
-												AND ag.agent in ($agent)
-												AND ac.event IN ( 'TRANSFER')
-												ORDER BY ag.agent"));
 
-$row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT(*)),2) AS `hold`,
-														ROUND((SUM(qs.info2) / COUNT(*)),2) AS `sec`,
-														ROUND((SUM(qs.info2) / 60 ),2) AS `min`
-												FROM 	queue_stats AS qs,
-														qname AS q,
-														qagent AS ag,
-														qevent AS ac 
-												WHERE	qs.qname = q.qname_id 
-												AND qs.qagent = ag.agent_id 
-												AND qs.qevent = ac.event_id 
-												AND q.queue IN ($queue) 
-												AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-												AND ac.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
-												ORDER BY qs.datetime"));
+$row_clock = mysql_fetch_assoc(mysql_query("	SELECT		ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
+															ROUND((sum(cdr.duration) / 60),0) AS `min`
+													FROM    cdr
+													WHERE   cdr.disposition = 'ANSWERED'
+													AND cdr.userfield != ''
+													AND cdr.src IN ($agent)
+													AND DATE(cdr.calldate) >= '$start_time'
+													AND DATE(cdr.calldate) <= '$end_time'
+													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)"));
 
 
 
@@ -459,10 +441,10 @@ $row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT
 					<td class="tdstyle">ნაპასუხები ზარები</td>
 					<td>'.$row_answer[count].' ზარი</td>
 					</tr>
-					<tr>
+					<!-- tr>
 					<td class="tdstyle">გადამისამართებული ზარები</td>
 					<td>'.$row_transfer[count].' ზარი</td>
-					</tr>
+					</tr -->
 					<tr>
 					<td class="tdstyle">საშ. ხანგძლივობა:</td>
 					<td>'.$row_clock[sec].' წამი</td>
@@ -471,10 +453,10 @@ $row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT
 					<td class="tdstyle">სულ საუბრის ხანგძლივობა:</td>
 					<td>'.$row_clock[min].' წუთი</td>
 					</tr>
-					<tr>
+					<!-- tr>
 					<td class="tdstyle">ლოდინის საშ. ხანგძლივობა:</td>
 					<td>'.$row_clock[hold].' წამი</td>
-					</tr>
+					</tr -->
 
 							';
 	
