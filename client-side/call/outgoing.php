@@ -62,7 +62,8 @@
          }
 
 		 function GetTable4() {
-             LoadTable7();
+			 LoadTable7();
+             SetEvents("", "", "", "example4", "add-edit-form1", aJaxURL);
          }
 
 		 function LoadTable0(){			
@@ -105,7 +106,7 @@
 		}
 		function LoadTable7(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example5", aJaxURL7, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 
 		$(document).on("click", "#check-all-in", function () {
@@ -1124,6 +1125,7 @@
 			<li><a href="#tab-1">პირველადი</a></li>
 			<li><a href="#tab-2">მიმდინარე</a></li>
 			<li><a href="#tab-3">დასრულებული</a></li>
+			<li><a href="#tab-4">არქივი</a></li>
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
@@ -1333,6 +1335,72 @@
 		            <div id="dynamic">
 		            	<h2 align="center">მიმდინარე</h2>
 		                <table class="display" id="example3">
+		                    <thead>
+								<tr id="datatable_header">
+		                            <th>ID</th>
+									<th style="width:6%;">ID</th>
+									<th style="width:19%;">შექმნის თარიღი</th>
+									<th style="width:19%;">დასაწისი</th>
+									<th style="width:19%;">დასასრული</th>
+									<th style="width:19%;">დავალების ტიპი</th>
+									<th style="width:19%;">სცენარი</th>
+									<th style="width:19%;">დასახელება</th>
+									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">პრიორიტეტი</th>
+									<th style="width:19%;">სტატუსი</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:30px;" type="text" name="search_overhead" value="" class="search_init" />
+									</th>
+									<th>
+										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+		    </div>
+		 </div>
+		 <div id="tab-4">
+		    <div id="dt_example" class="ex_highlight_row">
+		        <div id="container" style="width: 100%;">        	
+		            <div id="dynamic">
+		            	<h2 align="center">არქივი</h2>
+		                <table class="display" id="example4">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
