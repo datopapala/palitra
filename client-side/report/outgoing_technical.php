@@ -140,18 +140,18 @@
         	var tab = GetSelectedTab(tbName);
         	if (tab == 0) {
         		drawFirstLevel();
-        		drawFirstLevel1();
-        		$(this).css('height','700px');
+        		//drawFirstLevel1();
+        		$(this).css('height','900px');
         	}else if(tab == 1){
         		getData();
        			getData11();
        			getData7();
        			getData1();
-       			$(this).css('height','1600px');
+       			$(this).css('height','1000px');
             }else if(tab == 2){
             	getData5();
             	getData6();
-            	$(this).css('height','800px');
+            	$(this).css('height','600px');
             }else if(tab == 3){
             	getData4();
             	getData8();
@@ -1153,7 +1153,7 @@
 			   
 			   start_time = $('#start_time').val();
 			   end_time = $('#end_time').val();
-			              $.getJSON("server-side/report/prod_category_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			              $.getJSON("server-side/report/outgoing_prod_category_statistics.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 			                  options.series[0].data = json;
 			                  chart = new Highcharts.Chart(options);
 			              });
@@ -1226,7 +1226,7 @@
 			   
 			   start_time = $('#start_time').val();
 			   end_time = $('#end_time').val();
-			              $.getJSON("server-side/report/prod_category_statistics1.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
+			              $.getJSON("server-side/report/outgoing_prod_category_statistics1.action.php?start="+start_time + "&end=" + end_time + "&agent=" + agent + "&queuet=" + queuet, function(json) {
 			                  options.series[0].data = json;
 			                  chart = new Highcharts.Chart(options);
 			              });
@@ -1358,7 +1358,7 @@
 			paramm		= "server-side/report/outgoing_technical.action.php";
 			
 			drawFirstLevel();
-			drawFirstLevel1();
+			//drawFirstLevel1();
 			
 			var options = $('#myform_List_Queue_to option');
 			var values = $.map(options ,function(option) {

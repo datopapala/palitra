@@ -4,7 +4,7 @@ require_once('../../includes/classes/core.php');
 header('Content-Type: application/json');
 $start_time = $_REQUEST['start'];
 $end_time   = $_REQUEST['end'];
-$agent = $_REQUEST['agent'];
+$agentt = $_REQUEST['agent'];
 $queue = $_REQUEST['queuet'];
 
 $quantity = array();
@@ -23,13 +23,12 @@ $agent = array();
 													FROM    cdr
 													WHERE   cdr.disposition = 'ANSWERED'
 													AND cdr.userfield != ''
-													AND cdr.src IN ($agent)
+													AND cdr.src IN ($agentt)
 													AND DATE(cdr.calldate) >= '$start_time'
 													AND DATE(cdr.calldate) <= '$end_time'
 													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
 							 						GROUP BY cdr.src
 												");
-											echo $ress;
 			
 while($row1 = mysql_fetch_assoc($ress)){
 
@@ -51,7 +50,7 @@ while($row1 = mysql_fetch_assoc($ress)){
 							FROM    cdr
 							WHERE   cdr.disposition = 'ANSWERED'
 							AND cdr.userfield != ''
-							AND cdr.src IN ($agent)
+							AND cdr.src IN ($agentt)
 							AND DATE(cdr.calldate) >= '$start_time'
 							AND DATE(cdr.calldate) <= '$end_time'
 							AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
@@ -64,6 +63,25 @@ while($row1 = mysql_fetch_assoc($ress)){
 		$datetime1[]		= $row3[date];
 	}
 	
+	//------------------------------ უპასუხო ზარები რიგის მიხედვით
+	
+	$res6 =mysql_query("SELECT 	COUNT(*) as count1,
+								SUBSTRING(cdr.lastdata,5,7) as `queue1`
+						FROM    cdr
+						WHERE   cdr.disposition = 'NO ANSWER'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agentt)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY SUBSTRING(cdr.lastdata,5,7)	
+			");
+	
+			while($row6 = mysql_fetch_assoc($res6)){
+	
+			$count1[] = (float)$row6[count1];
+			$queue1[]		= $row6[queue1];
+	}
 	
 	//------------------------------ უპასუხო ზარები კვირის დღეების მიხედვით
 		
@@ -81,7 +99,7 @@ while($row1 = mysql_fetch_assoc($ress)){
 						FROM    cdr
 						WHERE   cdr.disposition = 'NO ANSWER'
 						AND cdr.userfield != ''
-						AND cdr.src IN ($agent)
+						AND cdr.src IN ($agentt)
 						AND DATE(cdr.calldate) >= '$start_time'
 						AND DATE(cdr.calldate) <= '$end_time'
 						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
@@ -96,19 +114,17 @@ while($row1 = mysql_fetch_assoc($ress)){
 
 
 //------------------------------ ნაპასუხები ზარები რიგის მიხედვით
-		$res7 =mysql_query("SELECT	COUNT(*) AS `count2`,
-									q.queue AS `queue2`
-							FROM	queue_stats AS qs,
-									qname AS q,
-									qagent AS ag,
-									qevent AS ac
-							WHERE qs.qname = q.qname_id
-							AND qs.qagent = ag.agent_id
-							AND qs.qevent = ac.event_id
-							AND DATE(qs.datetime) >= '$start' AND DATE(qs.datetime) <= '$end'
-							AND q.queue IN ($queuet)
-							AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
-							GROUP BY q.queue");
+		$res7 =mysql_query("SELECT 	COUNT(*) as `count2`,
+									SUBSTRING(cdr.lastdata,5,7) as `queue2`
+							FROM    cdr
+							WHERE   cdr.disposition = 'ANSWERED'
+							AND cdr.userfield != ''
+							AND cdr.src IN ($agentt)
+							AND DATE(cdr.calldate) >= '$start_time'
+							AND DATE(cdr.calldate) <= '$end_time'
+							AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+							GROUP BY SUBSTRING(cdr.lastdata,5,7)
+				");
 
 		while($row7 = mysql_fetch_assoc($res7)){
 
@@ -116,22 +132,17 @@ while($row1 = mysql_fetch_assoc($ress)){
 		$queue2[]		= $row7[queue2];
 }
 			
-//------------------------------ უპასუხო ზარები რიგის მიხედვით
-$res8 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
-							COUNT(*) AS `unanswer_call`
-		
-					FROM 	queue_stats AS qs,
-							qname AS q,
-							qagent AS ag,
-							qevent AS ac
-					WHERE 	qs.qname = q.qname_id
-					AND 	qs.qagent = ag.agent_id
-					AND 	qs.qevent = ac.event_id
-					AND 	DATE(qs.datetime) >= '$start'
-					AND 	DATE(qs.datetime) <= '$end'
-					AND 	q.queue IN ($queuet,'NONE')
-					AND 	ac.event IN ('ABANDON', 'EXITWITHTIMEOUT')
-					GROUP BY DATE(qs.datetime)
+//------------------------------ უპასუხო ზარები დღეების მიხედვით	
+$res8 =mysql_query("	SELECT 	cdr.calldate as `datetime`,
+								COUNT(*) as `unanswer_call`
+						FROM    cdr
+						WHERE   cdr.disposition = 'NO ANSWER'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agentt)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY DATE(cdr.calldate)
 					");
 		
 		while($row8 = mysql_fetch_assoc($res8)){
@@ -143,20 +154,17 @@ $res8 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
 		
 //------------------------------ ნაპასუხები ზარები დღეების მიხედვით		
 			
-$res4 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
-						COUNT(*) AS `answer_count2`
-						FROM 	queue_stats AS qs,
-						qname AS q,
-						qagent AS ag,
-						qevent AS ac
-						WHERE qs.qname = q.qname_id
-						AND qs.qagent = ag.agent_id
-						AND qs.qevent = ac.event_id
-						AND DATE(qs.datetime) >= '$start'
-						AND DATE(qs.datetime) <= '$end'
-						AND q.queue IN ($queuet,'NONE')
-						AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-						GROUP BY DATE(qs.datetime)");
+$res4 =mysql_query("	SELECT 	cdr.calldate as `datetime`,
+								COUNT(*) as `answer_count2`
+						FROM    cdr
+						WHERE   cdr.disposition = 'ANSWERED'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agentt)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY DATE(cdr.calldate)
+					");
 
 		while($row4 = mysql_fetch_assoc($res4)){
 
@@ -164,46 +172,16 @@ $res4 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
 		$datetime2[]		= $row4[datetime];
 			}
 //------------------------------ უპასუხო ზარები საათების მიხედვით			
-	$res9 =mysql_query("SELECT  CASE		
-										WHEN HOUR(qs.datetime) >= 0 AND HOUR(qs.datetime) < 1 THEN '00:00'
-										WHEN HOUR(qs.datetime) >= 1 AND HOUR(qs.datetime) < 2 THEN '01:00'
-										WHEN HOUR(qs.datetime) >= 2 AND HOUR(qs.datetime) < 3 THEN '02:00'
-										WHEN HOUR(qs.datetime) >= 3 AND HOUR(qs.datetime) < 4 THEN '03:00'
-										WHEN HOUR(qs.datetime) >= 4 AND HOUR(qs.datetime) < 5 THEN '04:00'
-										WHEN HOUR(qs.datetime) >= 5 AND HOUR(qs.datetime) < 6 THEN '05:00'
-										WHEN HOUR(qs.datetime) >= 6 AND HOUR(qs.datetime) < 7 THEN '06:00'
-										WHEN HOUR(qs.datetime) >= 7 AND HOUR(qs.datetime) < 8 THEN '07:00'
-										WHEN HOUR(qs.datetime) >= 8 AND HOUR(qs.datetime) < 9 THEN '08:00'
-										WHEN HOUR(qs.datetime) >= 9 AND HOUR(qs.datetime) < 10 THEN '09:00'
-										WHEN HOUR(qs.datetime) >= 10 AND HOUR(qs.datetime) < 11 THEN '10:00'
-										WHEN HOUR(qs.datetime) >= 11 AND HOUR(qs.datetime) < 12 THEN '11:00'
-										WHEN HOUR(qs.datetime) >= 12 AND HOUR(qs.datetime) < 13 THEN '12:00'
-										WHEN HOUR(qs.datetime) >= 13 AND HOUR(qs.datetime) < 14 THEN '13:00'
-										WHEN HOUR(qs.datetime) >= 14 AND HOUR(qs.datetime) < 15 THEN '14:00'
-										WHEN HOUR(qs.datetime) >= 15 AND HOUR(qs.datetime) < 16 THEN '15:00'
-										WHEN HOUR(qs.datetime) >= 16 AND HOUR(qs.datetime) < 17 THEN '16:00'
-										WHEN HOUR(qs.datetime) >= 17 AND HOUR(qs.datetime) < 18 THEN '17:00'
-										WHEN HOUR(qs.datetime) >= 18 AND HOUR(qs.datetime) < 19 THEN '18:00'
-										WHEN HOUR(qs.datetime) >= 19 AND HOUR(qs.datetime) < 20 THEN '19:00'
-										WHEN HOUR(qs.datetime) >= 20 AND HOUR(qs.datetime) < 21 THEN '20:00'
-										WHEN HOUR(qs.datetime) >= 21 AND HOUR(qs.datetime) < 22 THEN '21:00'
-										WHEN HOUR(qs.datetime) >= 22 AND HOUR(qs.datetime) < 23 THEN '22:00'
-										WHEN HOUR(qs.datetime) >= 23 AND HOUR(qs.datetime) < 24 THEN '23:00'
-									END AS `times`,
-									COUNT(*) AS `unanswer_count`
-										
-									FROM 	queue_stats AS qs,
-									qname AS q,
-									qagent AS ag,
-									qevent AS ac
-									WHERE qs.qname = q.qname_id
-									AND qs.qagent = ag.agent_id
-									AND qs.qevent = ac.event_id
-									AND DATE(qs.datetime) >= '$start'
-									AND DATE(qs.datetime) <= '$end'
-									AND q.queue IN ($queuet,'NONE')
-									AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-									GROUP BY HOUR(qs.datetime)
+	$res9 =mysql_query("SELECT CONCAT(HOUR(cdr.calldate),':00') as `times`,
+								COUNT(*) as `unanswer_count`
+						FROM    cdr
+						WHERE   cdr.disposition = 'NO ANSWER'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agentt)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY HOUR(cdr.calldate)
 ");
 	
 	while($row9 = mysql_fetch_assoc($res9)){
@@ -212,46 +190,17 @@ $res4 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
 		$times2[]		= $row9[times];
 	}
 	//------------------------------ ნაპასუხები ზარები საათების მიხედვით
-	$res2 =mysql_query("SELECT  CASE
-										WHEN HOUR(qs.datetime) >= 0 AND HOUR(qs.datetime) < 1 THEN '00:00'
-										WHEN HOUR(qs.datetime) >= 1 AND HOUR(qs.datetime) < 2 THEN '01:00'
-										WHEN HOUR(qs.datetime) >= 2 AND HOUR(qs.datetime) < 3 THEN '02:00'
-										WHEN HOUR(qs.datetime) >= 3 AND HOUR(qs.datetime) < 4 THEN '03:00'
-										WHEN HOUR(qs.datetime) >= 4 AND HOUR(qs.datetime) < 5 THEN '04:00'
-										WHEN HOUR(qs.datetime) >= 5 AND HOUR(qs.datetime) < 6 THEN '05:00'
-										WHEN HOUR(qs.datetime) >= 6 AND HOUR(qs.datetime) < 7 THEN '06:00'
-										WHEN HOUR(qs.datetime) >= 7 AND HOUR(qs.datetime) < 8 THEN '07:00'
-										WHEN HOUR(qs.datetime) >= 8 AND HOUR(qs.datetime) < 9 THEN '08:00'
-										WHEN HOUR(qs.datetime) >= 9 AND HOUR(qs.datetime) < 10 THEN '10:00'
-										WHEN HOUR(qs.datetime) >= 10 AND HOUR(qs.datetime) < 11 THEN '11:00'
-										WHEN HOUR(qs.datetime) >= 11 AND HOUR(qs.datetime) < 12 THEN '12:00'
-										WHEN HOUR(qs.datetime) >= 12 AND HOUR(qs.datetime) < 13 THEN '13:00'
-										WHEN HOUR(qs.datetime) >= 13 AND HOUR(qs.datetime) < 14 THEN '14:00'
-										WHEN HOUR(qs.datetime) >= 14 AND HOUR(qs.datetime) < 15 THEN '15:00'
-										WHEN HOUR(qs.datetime) >= 15 AND HOUR(qs.datetime) < 16 THEN '16:00'
-										WHEN HOUR(qs.datetime) >= 16 AND HOUR(qs.datetime) < 17 THEN '17:00'
-										WHEN HOUR(qs.datetime) >= 17 AND HOUR(qs.datetime) < 18 THEN '18:00'
-										WHEN HOUR(qs.datetime) >= 18 AND HOUR(qs.datetime) < 19 THEN '19:00'
-										WHEN HOUR(qs.datetime) >= 19 AND HOUR(qs.datetime) < 20 THEN '20:00'
-										WHEN HOUR(qs.datetime) >= 20 AND HOUR(qs.datetime) < 21 THEN '21:00'
-										WHEN HOUR(qs.datetime) >= 21 AND HOUR(qs.datetime) < 22 THEN '22:00'
-										WHEN HOUR(qs.datetime) >= 22 AND HOUR(qs.datetime) < 23 THEN '23:00'
-										WHEN HOUR(qs.datetime) >= 23 AND HOUR(qs.datetime) < 24 THEN '24:00'
-								
-										END AS `times`,
-										COUNT(*) AS `answer_count`
-										FROM 	queue_stats AS qs,
-										qname AS q,
-										qagent AS ag,
-										qevent AS ac
-										WHERE 	qs.qname = q.qname_id
-										AND 	qs.qagent = ag.agent_id
-										AND 	qs.qevent = ac.event_id
-										AND 	DATE(qs.datetime) >= '$start'
-										AND 	DATE(qs.datetime) <= '$end'
-										AND 	q.queue IN ($queuet,'NONE')
-										AND 	ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-										GROUP BY HOUR(qs.datetime)");
+	$res2 =mysql_query("SELECT CONCAT(HOUR(cdr.calldate),':00') as `times`,
+								COUNT(*) as `answer_count`
+						FROM    cdr
+						WHERE   cdr.disposition = 'ANSWERED'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agentt)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY HOUR(cdr.calldate)
+			");
 				
 			while($row2 = mysql_fetch_assoc($res2)){
 	
