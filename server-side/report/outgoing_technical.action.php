@@ -604,8 +604,6 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 			$res124 = mysql_query("
 					SELECT 	HOUR(cdr.calldate) as `datetime`,
 							COUNT(*) as `count`,
-							cdr.src,
-						    cdr.dst,
 							ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
 							SUBSTRING(cdr.lastdata,5,7)
 					FROM    cdr
@@ -626,7 +624,7 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 							ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
 							SUBSTRING(cdr.lastdata,5,7)
 					FROM    cdr
-					WHERE   cdr.disposition = 'ANSWERED'
+					WHERE   cdr.disposition = 'NO ANSWER'
 					AND cdr.userfield != ''
 					AND cdr.src IN ($agent)
 					AND DATE(cdr.calldate) >= '$start_time'
@@ -640,12 +638,12 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 			$data['page']['call_distribution_per_hour'] .= '
 				<tr class="odd">
 						<td>'.$row[datetime].':00</td>
-						<td>'.(($row[answer_count]!='')?$row[answer_count]:"0").'</td>
-						<td>'.(($row[call_answer_pr]!='')?$row[call_answer_pr]:"0").' %</td>
-						<td>'.(($roww[unanswer_count]!='')?$roww[unanswer_count]:"0").'</td>
-						<td>'.(($roww[call_unanswer_pr]!='')?$roww[call_unanswer_pr]:"0").'%</td>
-						<td>'.(($row[avg_durat]!='')?$row[avg_durat]:"0").' წამი</td>
-						<td>'.(($row[avg_hold]!='')?$row[avg_hold]:"0").' წამი</td>
+						<td>'.(($row[count]!='')?$row[count]:"0").'</td>
+						<td>'.(($row[count]!='')?ROUND((($row[count] / $row_answer[count]) * 100),2):"0").' %</td>
+						<td>'.(($roww[count]!='')?$roww[count]:"0").'</td>
+						<td>'.(($roww[count]!='')?ROUND((($roww[count] / $row_abadon[count]) * 100),2):"0").'%</td>
+						<td>'.(($row[sec]!='')?$row[sec]:"0").' წამი</td>
+						<!--td> წამი</td-->
 						<td></td>
 						<td></td>
 						</tr>
