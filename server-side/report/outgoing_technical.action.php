@@ -514,10 +514,6 @@ while($row = mysql_fetch_assoc($ress)){
 	
 //-------------------------------- ზარის განაწილება საათების მიხედვით
 
-	
-	
-	
-
 			
 			$res124 = mysql_query("
 					SELECT 	HOUR(cdr.calldate) as `datetime`,

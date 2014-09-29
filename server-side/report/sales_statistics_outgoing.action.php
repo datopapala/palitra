@@ -17,57 +17,20 @@ $name = array();
 $agent = array();
 
 
-
-
-
-//-----------------------კავშირის გაწყვეტის მიზეზი
-				$res = mysql_query("		SELECT	COUNT(*) AS `count`,
-																	'ოპერატორმა გათიშა' AS `cause`
-												FROM	queue_stats AS qs,
-														qname AS q,
-														qagent AS ag,
-														qevent AS ac
-												WHERE qs.qname = q.qname_id
-												AND qs.qagent = ag.agent_id
-												AND qs.qevent = ac.event_id
-												AND q.queue IN ($queuet)
-												AND DATE(qs.datetime) >= '$start' AND DATE(qs.datetime) <= '$end'
-												AND ac.event IN ( 'COMPLETEAGENT')
-												
-
-													UNION ALL
-
-												SELECT	COUNT(*) AS `count`,
-																'აბონენტმა გათიშა' AS `cause`
-														FROM	queue_stats AS qs,
-																qname AS q,
-																qagent AS ag,
-																qevent AS ac
-														WHERE qs.qname = q.qname_id
-														AND qs.qagent = ag.agent_id
-														AND qs.qevent = ac.event_id
-														AND q.queue IN ($queuet)
-														AND DATE(qs.datetime) >= '$start' AND DATE(qs.datetime) <= '$end'
-														AND ac.event IN (  'COMPLETECALLER')
-														");
-
-while($row = mysql_fetch_assoc($res)){	
-	
-	$quantity[] = (float)$row[count];
-	$cause[]		= $row[cause];
-}
-
 //-----------------------ნაპასუხები ზარები ოპერატორების მიხედვით
 
-											$ress =mysql_query("SELECT 	ag.agent as `agent`,
-																	count(ev.event) AS `num`
-																FROM queue_stats AS qs, qname AS q, qevent AS ev, qagent AS `ag` WHERE ag.agent_id = qs.qagent AND
-																qs.qname = q.qname_id and qs.qevent = ev.event_id
-																AND DATE(qs.datetime) >= '$start'
-																AND DATE(qs.datetime) <= '$end'
-																AND q.queue IN ($queuet)
-																AND ev.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
-																GROUP BY ag.agent");
+											$ress =mysql_query("
+													SELECT	COUNT(*) AS `num`,
+							 								cdr.src AS `agent`
+													FROM    cdr
+													WHERE   cdr.disposition = 'ANSWERED'
+													AND cdr.userfield != ''
+													AND cdr.src IN ($agent)
+													AND DATE(cdr.calldate) >= '$start_time'
+													AND DATE(cdr.calldate) <= '$end_time'
+													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+							 						GROUP BY cdr.src
+												");
 			
 while($row1 = mysql_fetch_assoc($ress)){
 
@@ -75,28 +38,26 @@ while($row1 = mysql_fetch_assoc($ress)){
 	$agent[]		= $row1[agent];
 }
 //------------------------------ ნაპასუხები ზარები კვირის დღეების მიხედვით
-		$res3 =mysql_query("SELECT  CASE
-										WHEN DAYOFWEEK(qs.datetime) = 1 THEN 'კვირა'
-										WHEN DAYOFWEEK(qs.datetime) = 2 THEN 'ორშაბათი'
-										WHEN DAYOFWEEK(qs.datetime) = 3 THEN 'სამშაბათი'
-										WHEN DAYOFWEEK(qs.datetime) = 4 THEN 'ოთხშაბათი'
-										WHEN DAYOFWEEK(qs.datetime) = 5 THEN 'ხუთშაბათი'
-										WHEN DAYOFWEEK(qs.datetime) = 6 THEN 'პარასკევი'
-										WHEN DAYOFWEEK(qs.datetime) = 7 THEN 'შაბათი'
+		$res3 =mysql_query("
+							SELECT 	CASE
+											WHEN DAYOFWEEK(cdr.calldate) = 1 THEN 'კვირა'
+											WHEN DAYOFWEEK(cdr.calldate) = 2 THEN 'ორშაბათი'
+											WHEN DAYOFWEEK(cdr.calldate) = 3 THEN 'სამშაბათი'
+											WHEN DAYOFWEEK(cdr.calldate) = 4 THEN 'ოთხშაბათი'
+											WHEN DAYOFWEEK(cdr.calldate) = 5 THEN 'ხუთშაბათი'
+											WHEN DAYOFWEEK(cdr.calldate) = 6 THEN 'პარასკევი'
+											WHEN DAYOFWEEK(cdr.calldate) = 7 THEN 'შაბათი'
 									END AS `date`,
-									COUNT(*) AS `answer_count1`
-							FROM 	queue_stats AS qs,
-									qname AS q, 
-									qagent AS ag,
-									qevent AS ac 
-							WHERE qs.qname = q.qname_id
-							AND qs.qagent = ag.agent_id 
-							AND qs.qevent = ac.event_id
-							AND DATE(qs.datetime) >= '$start'
-							AND DATE(qs.datetime) <= '$end'
-							AND q.queue IN ($queuet,'NONE')
-							AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-							GROUP BY DAYOFWEEK(qs.datetime)");
+									COUNT(*) as `answer_count1`
+							FROM    cdr
+							WHERE   cdr.disposition = 'ANSWERED'
+							AND cdr.userfield != ''
+							AND cdr.src IN ($agent)
+							AND DATE(cdr.calldate) >= '$start_time'
+							AND DATE(cdr.calldate) <= '$end_time'
+							AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+							GROUP BY DAYOFWEEK(cdr.calldate)
+						");
 									
 		while($row3 = mysql_fetch_assoc($res3)){
 
@@ -107,29 +68,25 @@ while($row1 = mysql_fetch_assoc($ress)){
 	
 	//------------------------------ უპასუხო ზარები კვირის დღეების მიხედვით
 		
-	$res10 =mysql_query("SELECT CASE
-				
-									WHEN DAYOFWEEK(qs.datetime) = 1 THEN 'კვირა'
-									WHEN DAYOFWEEK(qs.datetime) = 2 THEN 'ორშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 3 THEN 'სამშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 4 THEN 'ოთხშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 5 THEN 'ხუთშაბათი'
-									WHEN DAYOFWEEK(qs.datetime) = 6 THEN 'პარასკევი'
-									WHEN DAYOFWEEK(qs.datetime) = 7 THEN 'შაბათი'
-									END AS `date`,
-									COUNT(*) AS `unanswer_count`
-									FROM 	queue_stats AS qs,
-									qname AS q,
-									qagent AS ag,
-									qevent AS ac
-									WHERE qs.qname = q.qname_id
-									AND qs.qagent = ag.agent_id
-									AND qs.qevent = ac.event_id
-									AND DATE(qs.datetime) >= '$start'
-									AND DATE(qs.datetime) <= '$end'
-									AND q.queue IN ($queuet,'NONE')
-									AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-									GROUP BY DAYOFWEEK(qs.datetime)
+	$res10 =mysql_query("
+						SELECT 	CASE
+										WHEN DAYOFWEEK(cdr.calldate) = 1 THEN 'კვირა'
+										WHEN DAYOFWEEK(cdr.calldate) = 2 THEN 'ორშაბათი'
+										WHEN DAYOFWEEK(cdr.calldate) = 3 THEN 'სამშაბათი'
+										WHEN DAYOFWEEK(cdr.calldate) = 4 THEN 'ოთხშაბათი'
+										WHEN DAYOFWEEK(cdr.calldate) = 5 THEN 'ხუთშაბათი'
+										WHEN DAYOFWEEK(cdr.calldate) = 6 THEN 'პარასკევი'
+										WHEN DAYOFWEEK(cdr.calldate) = 7 THEN 'შაბათი'
+								END AS `date`,
+								COUNT(*) as `unanswer_count`
+						FROM    cdr
+						WHERE   cdr.disposition = 'NO ANSWER'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agent)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY DAYOFWEEK(cdr.calldate)
 									");
 	
 	while($row10 = mysql_fetch_assoc($res10)){
@@ -137,65 +94,8 @@ while($row1 = mysql_fetch_assoc($ress)){
 		$unanswer_call2[] = (float)$row10[unanswer_count];
 		$date1[]		= $row10[date];
 	}		
-	//------------------------------ კავშირის გაწყვეტის მიზეზი
 
-$res5 =mysql_query("SELECT 	COUNT(*) AS `answer_count3`,
-							'ოპერატორმა გათიშა' AS `cause1`
-					FROM 	queue_stats AS qs,
-							qname AS q,
-							qagent AS ag,
-							qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start' AND DATE(qs.datetime) <= '$end'
-					AND q.queue IN ($queuet)
-					AND ac.event IN ('EXITWITHTIMEOUT')
-					
-			UNION ALL
-					
-					
-					SELECT 	COUNT(*) AS `answer_count3`,
-					'აბონენტმა გათიშა' AS `cause1`
-					FROM	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start'
-					AND DATE(qs.datetime) <= '$end'
-					AND q.queue IN ($queuet)
-					AND ac.event IN ('ABANDON', 'EXITWITHTIMEOUT')");
-					
-		while($row5 = mysql_fetch_assoc($res5)){
-			
-		$answer_count3[] = (float)$row5[answer_count3];
-		$cause1[]		= $row5[cause1];
-}
-//------------------------------ კავშირის გაწყვეტის მიზეზი
-	$res6 =mysql_query("SELECT 	COUNT(*) AS `count1`,
-								q.queue as `queue1`
-								FROM 	queue_stats AS qs,
-								qname AS q,
-								qagent AS ag,
-								qevent AS ac
-								WHERE qs.qname = q.qname_id
-								AND qs.qagent = ag.agent_id
-								AND qs.qevent = ac.event_id
-								AND DATE(qs.datetime) >= '$start' AND DATE(qs.datetime) <= '$end'
-								AND q.queue IN ($queuet,'NONE')
-								AND ac.event IN ('ABANDON')
-								GROUP BY q.queue
-								
-");
 
-		while($row6 = mysql_fetch_assoc($res6)){
-		
-		$count1[] = (float)$row6[count1];
-		$queue1[]		= $row6[queue1];
-		}
 //------------------------------ ნაპასუხები ზარები რიგის მიხედვით
 		$res7 =mysql_query("SELECT	COUNT(*) AS `count2`,
 									q.queue AS `queue2`
