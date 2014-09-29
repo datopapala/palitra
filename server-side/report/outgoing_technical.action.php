@@ -62,7 +62,7 @@ if($_REQUEST['act'] =='unanswear_dialog_table'){
 								   cdr.dst,
 								   CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
 							FROM   cdr
-							WHERE  cdr.disposition = 'NO ANSWERED'
+							WHERE  cdr.disposition = 'NO ANSWER'
 							AND cdr.userfield != '' 
 							AND cdr.src IN ($agent)
 							AND DATE(cdr.calldate) >= '$start_time'
