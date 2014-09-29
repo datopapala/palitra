@@ -29,6 +29,7 @@ $agent = array();
 													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
 							 						GROUP BY cdr.src
 												");
+											echo $ress;
 			
 while($row1 = mysql_fetch_assoc($ress)){
 

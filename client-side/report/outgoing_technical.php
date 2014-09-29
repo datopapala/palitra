@@ -73,7 +73,7 @@
      <script src="js/exporting.js"></script>
 	<script type="text/javascript">
 		var aJaxURL		= "server-side/report/outgoing_technical.action.php";		//server side folder url
-		var aJaxURL1	= "server-side/report/sales_statistics_outgoing_outgoing.action.php";		//server side folder url
+		var aJaxURL1	= "server-side/report/sales_statistics_outgoing.action.php";		//server side folder url
 		var tName		= "example0";										//table name
 		var tbName		= "tabs";											//tabs name
 		var fName		= "add-edit-form";									//form name
