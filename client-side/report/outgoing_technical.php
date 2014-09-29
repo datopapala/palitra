@@ -2355,8 +2355,8 @@
                   <th><a  class="sortheader">ზარის დრო<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>
                   <th><a  class="sortheader">% ზარის დრო<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>
                   <th><a  class="sortheader">საშ. ზარის ხანგძლივობა<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>
-                  <th><a  class="sortheader">ლოდინის დრო<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>
-                  <th><a  class="sortheader">საშ. ლოდისნის ხანგძლივობა<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>
+                  <!-- th><a  class="sortheader">ლოდინის დრო<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th>
+                  <th><a  class="sortheader">საშ. ლოდისნის ხანგძლივობა<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></a></th -->
             </tr>
             </thead>
             <tbody id="answer_call_by_queue">

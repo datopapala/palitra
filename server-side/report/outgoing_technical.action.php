@@ -422,15 +422,15 @@ $data['error'] = $error;
 //------------------------------------ ნაპასუხები ზარები
 
 
-$row_clock = mysql_fetch_assoc(mysql_query("	SELECT		ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
-															ROUND((sum(cdr.duration) / 60),0) AS `min`
-													FROM    cdr
-													WHERE   cdr.disposition = 'ANSWERED'
-													AND cdr.userfield != ''
-													AND cdr.src IN ($agent)
-													AND DATE(cdr.calldate) >= '$start_time'
-													AND DATE(cdr.calldate) <= '$end_time'
-													AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)"));
+$row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
+														ROUND((sum(cdr.duration) / 60),0) AS `min`
+												FROM    cdr
+												WHERE   cdr.disposition = 'ANSWERED'
+												AND cdr.userfield != ''
+												AND cdr.src IN ($agent)
+												AND DATE(cdr.calldate) >= '$start_time'
+												AND DATE(cdr.calldate) <= '$end_time'
+												AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)"));
 
 
 
@@ -465,10 +465,10 @@ $row_clock = mysql_fetch_assoc(mysql_query("	SELECT		ROUND((sum(cdr.duration)  /
 	
 //--------------------------- ნაპასუხები ზარები ოპერატორების მიხედვით
 
- 	$ress =mysql_query("SELECT 	COUNT(*) as count,
-								cdr.src as agent,
-							    cdr.dst,
-								SUBSTRING(cdr.lastdata,5,7)
+ 	$ress =mysql_query("SELECT	COUNT(*) AS `num`,
+ 								ROUND(((sum(cdr.duration)  / COUNT(*)) / 60),0) AS `sec`,
+								ROUND((sum(cdr.duration) / 60),0) AS `min`,
+ 								cdr.src AS `agent`
 						FROM    cdr
 						WHERE   cdr.disposition = 'ANSWERED'
 						AND cdr.userfield != ''
@@ -485,12 +485,12 @@ while($row = mysql_fetch_assoc($ress)){
                    	<tr>
 					<td>'.$row[agent].'</td>
 					<td>'.$row[num].'</td>
-					<td>'.$row[call_pr].' %</td>
-					<td>'.$row[call_time].' წუთი</td>
-					<td>'.$row[call_time_pr].' %</td>
-					<td>'.$row[avg_call_time].' წუთი</td>
-					<td>'.$row[hold_time].' წამი</td>
-					<td>'.$row[avg_hold_time].' წამი</td>
+					<td>'.(($row[num] / $row_answer[count]) * 100).' %</td>
+					<td>'.$row[min].' წუთი</td>
+					<td>'.(($row[min] / $row_clock[min]) * 100).' %</td>
+					<td>'.$row[sec].' წუთი</td>
+					<!-- td>'.$row[hold_time].' წამი</td>
+					<td>'.$row[avg_hold_time].' წამი</td -->
 					</tr>
 
 							';
