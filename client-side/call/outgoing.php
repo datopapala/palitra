@@ -730,7 +730,7 @@
 					param.get_prod+=',';
 					
 				}
-				param.get_prod+="'"+data[i]+"'";
+				param.get_prod+=data[i];
 			}
 
 			var data = $(".check_g").map(function () { //Get Checked checkbox array
@@ -741,7 +741,7 @@
 					param.get_gift+=',';
 					
 				}
-				param.get_gift+="'"+data[i]+"'";
+				param.get_gift+=data[i];
 			}
 
 			

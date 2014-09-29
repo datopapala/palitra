@@ -52,7 +52,7 @@ switch ($action) {
 								elva_sale.coordinator_comment,
 								elva_sale.elva_status
 								FROM `elva_sale`
-								JOIN shipping ON elva_sale.period = shipping.id
+								left JOIN shipping ON elva_sale.period = shipping.id
 								JOIN users ON elva_sale.operator_id = users.id
 								JOIN persons ON users.person_id = persons.id
 								WHERE elva_sale.id='$_REQUEST[id]'");

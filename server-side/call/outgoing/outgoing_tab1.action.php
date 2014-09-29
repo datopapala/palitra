@@ -198,6 +198,8 @@ switch ($action) {
 			$d11		= $_REQUEST['d11'];
 			$d12		= $_REQUEST['d12'];
 			$q1			= $_REQUEST['q1'];
+			$get_prod		= $_REQUEST['get_prod'];
+			$get_gift		= $_REQUEST['get_gift'];
 			
 			$call_content		= $_REQUEST['call_content'];
 			$status				= $_REQUEST['status'];
@@ -211,7 +213,18 @@ switch ($action) {
 			$addres			= $_REQUEST['addres'];
 			
 			if($result_quest == 1){
-				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment);
+				$get_prod_price = mysql_fetch_row(mysql_query("SELECT SUM(price)
+															   FROM `production`
+															   WHERE id in($get_prod)"));
+				$get_prod_row = mysql_query("SELECT `name`
+															   FROM `production`
+															   WHERE id in($get_prod)");
+				$row_name_prod = '';
+				while($get_prod_name = mysql_fetch_row($get_prod_row)){
+					$row_name_prod .= $get_prod_name[0]." + ";
+				}
+				
+				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_price[0],$row_name_prod );
 			}
 
 			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
@@ -219,7 +232,7 @@ switch ($action) {
 												WHERE `id` = '$task_id' "));
         	
 			UpPerson($res[0],$res[1]);
-        	Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1);
+        	Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift);
         	Savetask2($task_detail_id, $call_content, $status);
         	break;
     default:
@@ -236,7 +249,7 @@ echo json_encode($data);
  * ******************************
  */
 
-function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment)
+function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_row, $row_name_prod)
 {
 	$user  = $_SESSION['USERID'];
 	$c_date		= date('Y-m-d H:i:s');
@@ -245,7 +258,7 @@ function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, 
 			INSERT INTO `elva_sale`
 			(`person_id`, `name_surname`, `mail`, `address`, `phone`, `period`, `books`, `call_date`, `sum_price`, `callceenter_comment`, `operator_id`, `oder_send_date`)
 			VALUES
-			('$person_n', '$first_name', '$mail', '$addres', '$phone', '$send_date', '', '$c_date', '', '$result_comment', '$user', '')
+			('$person_n', '$first_name', '$mail', '$addres', '$phone', '$send_date', '$row_name_prod', '$c_date', '$get_prod_row', '$result_comment', '$user', '')
 				");
 }
 
@@ -293,12 +306,12 @@ function Savetask2($task_detail_id, $call_content, $status)
 									");
 
 }
-function Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1)
+function Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift)
 {
 	mysql_query("INSERT INTO `task_scenar`
-(`task_detail_id`, `hello_comment`, `hello_quest`, `info_comment`, `info_quest`, `result_comment`, `result_quest`, `send_date`, `payment_comment`, `payment_quest`, `preface_name`, `preface_quest`, `d1`, `d2`, `d3`, `d4`, `d5`, `d6`, `d7`, `d8`, `d9`, `d10`, `d11`, `d12`, `q1`)
+(`task_detail_id`, `hello_comment`, `hello_quest`, `info_comment`, `info_quest`, `result_comment`, `result_quest`, `send_date`, `payment_comment`, `payment_quest`, `preface_name`, `preface_quest`, `d1`, `d2`, `d3`, `d4`, `d5`, `d6`, `d7`, `d8`, `d9`, `d10`, `d11`, `d12`, `q1`, `product_ids`, `gift_ids`)
 VALUES
-( '$task_detail_id', '$hello_comment', '$hello_quest', '$info_comment', '$info_quest', '$result_comment', '$result_quest', '$send_date', '$payment_comment', '$payment_quest', '$preface_name', '$preface_quest', '$d1', '$d2', '$d3', '$d4', '$d5', '$d6', '$d7', '$d8', '$d9', '$d10', '$d11', '$d12', '$q1')
+( '$task_detail_id', '$hello_comment', '$hello_quest', '$info_comment', '$info_quest', '$result_comment', '$result_quest', '$send_date', '$payment_comment', '$payment_quest', '$preface_name', '$preface_quest', '$d1', '$d2', '$d3', '$d4', '$d5', '$d6', '$d7', '$d8', '$d9', '$d10', '$d11', '$d12', '$q1', '$get_prod', '$get_gift')
 	");
 
 }
