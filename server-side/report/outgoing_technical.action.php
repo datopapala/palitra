@@ -223,7 +223,7 @@ $data['error'] = $error;
 														    cdr.dst,
 															SUBSTRING(cdr.lastdata,5,7)
 													FROM    cdr
-													WHERE   cdr.disposition = 'NO ANSWERED'
+													WHERE   cdr.disposition = 'NO ANSWER'
 													AND cdr.userfield != ''
 													AND cdr.src IN ($agent)
 													AND DATE(cdr.calldate) >= '$start_time'
@@ -249,20 +249,16 @@ $data['error'] = $error;
 
 //------------------------------- ნაპასუხები ზარები რიგის მიხედვით
 
-	$g = mysql_query("	SELECT	COUNT(*) AS `count`,
-									q.queue AS `queue`
-									FROM	queue_stats AS qs,
-									qname AS q,
-									qagent AS ag,
-									qevent AS ac
-									WHERE qs.qname = q.qname_id
-									AND qs.qagent = ag.agent_id
-									AND qs.qevent = ac.event_id
-									AND DATE(qs.datetime) >= '$start_time' AND DATE(qs.datetime) <= '$end_time'
-									AND q.queue IN ($queue)
-									AND ag.agent in ($agent)
-									AND ac.event IN ( 'COMPLETECALLER', 'COMPLETEAGENT')
-									GROUP BY q.queue");
+	$g = mysql_query("	SELECT 	COUNT(*) as count,
+								cdr.src as queue
+						FROM    cdr
+						WHERE   cdr.disposition = 'ANSWERED'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agent)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+						GROUP BY cdr.src");
 	
 	while ($rr = mysql_fetch_assoc($g)){								
 	$data['page']['answer_call'] .= '
@@ -275,7 +271,7 @@ $data['error'] = $error;
 
 	
 	
-	$res_service_level = mysql_query("	SELECT 	qs.info1
+/* 	$res_service_level = mysql_query("	SELECT 	qs.info1
 							FROM 	queue_stats AS qs,
 									qname AS q,
 									qagent AS ag,
@@ -393,7 +389,7 @@ $data['error'] = $error;
 					 			<td>'.$d91.'</td>
 					 			<td>100%</td>
 					 		</tr>
-							';
+							'; */
 	
 //-------------------------------------------------------
 	
@@ -487,44 +483,18 @@ $row_clock = mysql_fetch_assoc(mysql_query("	SELECT	ROUND((SUM(qs.info1) / COUNT
 	
 //--------------------------- ნაპასუხები ზარები ოპერატორების მიხედვით
 
- 	$ress =mysql_query("SELECT 	ag.agent as `agent`, 
- 								count(ev.event) AS `num`,
- 								round(((count(ev.event) / (
- 	
- 	SELECT count(ev.event) AS num
- 	FROM queue_stats AS qs, qname AS q, qevent AS ev
- 	WHERE qs.qname = q.qname_id
- 	and qs.qevent = ev.event_id
- 	and DATE(qs.datetime) >= '$start_time'
- 	and DATE(qs.datetime) <= '$end_time'
- 	and q.queue IN ($queue)
- 	AND ev.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
- 	
- 	)) * 100),2) AS `call_pr`,
- 	ROUND((sum(qs.info2) / 60),2) AS `call_time`,
- 	
- 	round(((sum(qs.info2) / (
- 	
- 	SELECT sum(qs.info2)
- 	FROM queue_stats AS qs, qname AS q, qevent AS ev
- 	WHERE qs.qname = q.qname_id
- 	and qs.qevent = ev.event_id
- 	and DATE(qs.datetime) >= '$start_time'
- 	and DATE(qs.datetime) <= '$end_time'
- 	and q.queue IN ($queue)
- 	AND ev.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
- 	
- 	))* 100),2) AS `call_time_pr`,
- 	TIME_FORMAT(SEC_TO_TIME(sum(qs.info2) / count(ev.event)), '%i:%s') AS `avg_call_time`,
- 	sum(qs.info1) AS `hold_time`,
- 	ROUND((sum(qs.info1) / count(ev.event)),2) AS `avg_hold_time`
- 	FROM queue_stats AS qs, qname AS q, qevent AS ev, qagent AS `ag` WHERE ag.agent_id = qs.qagent AND
- 	qs.qname = q.qname_id and qs.qevent = ev.event_id 
- 	AND DATE(qs.datetime) >= '$start_time'
- 	AND DATE(qs.datetime) <= '$end_time'
- 	AND q.queue IN ($queue) 
- 	AND ev.event IN ('COMPLETECALLER', 'COMPLETEAGENT')
- 	GROUP BY ag.agent");
+ 	$ress =mysql_query("SELECT 	COUNT(*) as count,
+								cdr.src as agent,
+							    cdr.dst,
+								SUBSTRING(cdr.lastdata,5,7)
+						FROM    cdr
+						WHERE   cdr.disposition = 'ANSWERED'
+						AND cdr.userfield != ''
+						AND cdr.src IN ($agent)
+						AND DATE(cdr.calldate) >= '$start_time'
+						AND DATE(cdr.calldate) <= '$end_time'
+						AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+ 						GROUP BY cdr.src");
 
 while($row = mysql_fetch_assoc($ress)){
 

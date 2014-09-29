@@ -1404,7 +1404,7 @@
 						$("#call_distribution_per_day").html(data.page.call_distribution_per_day);
 						$("#call_distribution_per_hour").html(data.page.call_distribution_per_hour);
 						$("#call_distribution_per_day_of_week").html(data.page.call_distribution_per_day_of_week);
-						$("#service_level").html(data.page.service_level);
+						//$("#service_level").html(data.page.service_level);
 				    }
 			    });
 			}
@@ -2366,7 +2366,7 @@
         <br>
           <div id="chart_container" style="float:left; width: 90%; height: 300px; margin-left: 20px;"></div>
       <br>
-      <div style="margin-top: 290px; position: absolute; left: 570px;"><button id="excel_answer_service_level_info">Excel</button></div>
+      <!--div style="margin-top: 290px; position: absolute; left: 570px;"><button id="excel_answer_service_level_info">Excel</button></div>
         <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
             <caption>მომსახურების დონე(Service Level)</caption>
             <thead>
@@ -2391,7 +2391,7 @@
             </tr>
             </thead>
             </table>
-            <div id="chart_container11" bgcolor="#fffdf3" style="float:left; width: 50%; height: 300px;"></div>
+            <div id="chart_container11" bgcolor="#fffdf3" style="float:left; width: 50%; height: 300px;"></div-->
         <br>
         <div style="margin-top: 580px; position: absolute; left: 570px;"><button id="excel_answer_call_by_queue_info">Excel</button></div>
         <table width="47%" cellpadding="3" cellspacing="3" border="0" style="float:left;">
