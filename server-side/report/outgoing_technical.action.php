@@ -602,68 +602,37 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 
 			
 			$res124 = mysql_query("
-					SELECT  HOUR(qs.datetime) AS `datetime`,
-					COUNT(*) AS `answer_count`,
-					ROUND((( COUNT(*) / (
-					SELECT 	COUNT(*) AS `count`
-					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-			)) *100),2) AS `call_answer_pr`,
-					ROUND((SUM(qs.info2) / COUNT(*)),0) AS `avg_durat`,
-					ROUND((SUM(qs.info1) / COUNT(*)),0) AS `avg_hold`
-					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('COMPLETECALLER','COMPLETEAGENT')
-					GROUP BY HOUR(qs.datetime)
+					SELECT 	HOUR(cdr.calldate) as `datetime`,
+							COUNT(*) as `count`,
+							cdr.src,
+						    cdr.dst,
+							ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
+							SUBSTRING(cdr.lastdata,5,7)
+					FROM    cdr
+					WHERE   cdr.disposition = 'ANSWERED'
+					AND cdr.userfield != ''
+					AND cdr.src IN ($agent)
+					AND DATE(cdr.calldate) >= '$start_time'
+					AND DATE(cdr.calldate) <= '$end_time'
+					AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+					GROUP BY HOUR(cdr.calldate)
 					");
 			
 			$res1244 = mysql_query("
-					SELECT  HOUR(qs.datetime) AS `datetime`,
-					COUNT(*) AS `unanswer_count`,
-					ROUND((( COUNT(*) / (
-					SELECT 	COUNT(*) AS `count`
-					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-			)) *100),2) AS `call_unanswer_pr`
-					FROM 	queue_stats AS qs,
-					qname AS q,
-					qagent AS ag,
-					qevent AS ac
-					WHERE qs.qname = q.qname_id
-					AND qs.qagent = ag.agent_id
-					AND qs.qevent = ac.event_id
-					AND DATE(qs.datetime) >= '$start_time'
-					AND DATE(qs.datetime) <= '$end_time'
-					AND q.queue IN ($queue,'NONE')
-					AND ac.event IN ('ABANDON','EXITWITHTIMEOUT')
-					AND HOUR(qs.datetime) > 9
-					GROUP BY HOUR(qs.datetime)
+					SELECT 	HOUR(cdr.calldate) as `datetime`,
+							COUNT(*) as `count`,
+							cdr.src,
+						    cdr.dst,
+							ROUND((sum(cdr.duration)  / COUNT(*)),0) AS `sec`,
+							SUBSTRING(cdr.lastdata,5,7)
+					FROM    cdr
+					WHERE   cdr.disposition = 'ANSWERED'
+					AND cdr.userfield != ''
+					AND cdr.src IN ($agent)
+					AND DATE(cdr.calldate) >= '$start_time'
+					AND DATE(cdr.calldate) <= '$end_time'
+					AND SUBSTRING(cdr.lastdata,5,7) IN ($queue)
+					GROUP BY HOUR(cdr.calldate)
 					");
 			
 		while($row = mysql_fetch_assoc($res124)){
