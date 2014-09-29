@@ -75,8 +75,8 @@ switch ($action) {
 				/* General output */
 				$row[] = $aRow[$i];
 				if($i == ($count - 1)){
-					$row[] ='<input  type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_p" value="' . $aRow[$hidden] . '" />
-							<input style="display:none" type="checkbox" id="' . $aRow[iidd] . '" name="check_' . $aRow[iidd] . '" class="check_pp" value="' . $aRow[iidd] . '" />';
+					$row[] ='<input  type="checkbox" id="' . $aRow[iidd] . '" name="check_' . $aRow[iidd] . '" class="check_p" value="' . $aRow[iidd] . '" />
+							<input style="display:none" type="checkbox" id="' . $aRow[hidden] . '" name="check_' . $aRow[hidden] . '" class="check_pp" value="' . $aRow[hidden] . '" />';
 				}
 			}
 			
