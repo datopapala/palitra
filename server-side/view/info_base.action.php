@@ -5,8 +5,8 @@ $error	= '';
 $data	= '';
 
 $status_id 		= $_REQUEST['id'];
-$status_name  	= $_REQUEST['name'];
-$call_status  	= $_REQUEST['call_status'];
+$status_name  	= mysql_real_escape_string($_REQUEST['name']);
+$call_status  	= mysql_real_escape_string($_REQUEST['call_status']);
 
 
 switch ($action) {

@@ -653,12 +653,20 @@
 			//var pId 	= $(nTds[0]).text();
 	    	param 				= new Object();
  			param.act			= "sfsdf";
- 			
-			var aaa = $('#sub1 tbody tr td:nth-child(1)').each(function(index, tr) {
+			param.get_prod = '';
+			
 				
-				param.g = $('#sub1 tbody tr td:nth-child(1)').text();
-				
-			});
+				 var data = $(".check_p").map(function () { //Get Checked checkbox array
+					 return this.value;
+		        }).get();
+				for (var i = 0; i < data.length; i++) {
+					if(param.get_prod != ''){
+						param.get_prod+=',';
+						
+					}
+					param.get_prod+="'"+data[i]+"'";
+				}
+		
 			$.ajax({
  		        url: aJaxURL1,
  			    data: param,
@@ -672,6 +680,8 @@
 			   
 			param 				= new Object();
  			param.act			= "done_outgoing";
+ 			param.get_prod 		= '';
+ 			param.get_gift 		= '';
 		    	
  			param.id					= $("#id").val();
 			param.hello_quest			= $("input[name='hello_quest']:checked").val();
@@ -711,12 +721,29 @@
 			param.city_id				= $("#city_id").val();
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
-			var g = '';
-			//var nTds 	= $("#sub1 td");
-			//var pId 	= $(nTds[0]).text();
-			$('#sub1 tbody tr td:nth-child(1)').each(function(index, tr) {
-				param.g = $('#sub1 tbody tr td:nth-child(1)').text();
-			});
+
+			var data = $(".check_p").map(function () { //Get Checked checkbox array
+				 return this.value;
+	        }).get();
+			for (var i = 0; i < data.length; i++) {
+				if(param.get_prod != ''){
+					param.get_prod+=',';
+					
+				}
+				param.get_prod+="'"+data[i]+"'";
+			}
+
+			var data = $(".check_g").map(function () { //Get Checked checkbox array
+				 return this.value;
+	        }).get();
+			for (var i = 0; i < data.length; i++) {
+				if(param.get_gift != ''){
+					param.get_gift+=',';
+					
+				}
+				param.get_gift+="'"+data[i]+"'";
+			}
+
 			
  	    	$.ajax({
  		        url: aJaxURL1,
@@ -772,8 +799,14 @@
 			param.call_content			= $("#call_content").val();
 			param.status				= $("#status").val();
 
-			
-			
+			// person info
+			param.phone					= $("#phone").val();
+			param.person_n				= $("#person_n").val();
+			param.first_name			= $("#first_name").val();
+			param.mail					= $("#mail").val();
+			param.city_id				= $("#city_id").val();
+			param.b_day					= $("#b_day").val();
+			param.addres				= $("#addres").val();
 	 
  	    	$.ajax({
  		        url: aJaxURL1,
