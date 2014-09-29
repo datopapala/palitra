@@ -6,13 +6,11 @@
 		$(document).ready(function () {
 			LoadTable();
 			SetEvents('','','',tName,'in_page',aJaxURL);
-			GetDateTimes("oder_date");
 		});
 
 		function LoadDialog(fname){
-			
+			GetDateTimes("oder_date");
 			GetDialog("in_page","1150","auto");
-			
 			 $("#save-dialog").on("click",function(){
 				param = new Object();
 				param.act = "save_dialog";
