@@ -722,7 +722,7 @@
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
 
-			var data = $(".check_p").map(function () { //Get Checked checkbox array
+			var data = $(".check_pp").map(function () { //Get Checked checkbox array
 				 return this.value;
 	        }).get();
 			for (var i = 0; i < data.length; i++) {
@@ -733,7 +733,7 @@
 				param.get_prod+=data[i];
 			}
 
-			var data = $(".check_g").map(function () { //Get Checked checkbox array
+			var data = $(".check_gg").map(function () { //Get Checked checkbox array
 				 return this.value;
 	        }).get();
 			for (var i = 0; i < data.length; i++) {
@@ -810,7 +810,7 @@
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
 
-			var data = $(".check_p").map(function () { //Get Checked checkbox array
+			var data = $(".check_pp").map(function () { //Get Checked checkbox array
 				 return this.value;
 	        }).get();
 			for (var i = 0; i < data.length; i++) {
@@ -821,7 +821,7 @@
 				param.get_prod+=data[i];
 			}
 
-			var data = $(".check_g").map(function () { //Get Checked checkbox array
+			var data = $(".check_gg").map(function () { //Get Checked checkbox array
 				 return this.value;
 	        }).get();
 			for (var i = 0; i < data.length; i++) {
@@ -894,7 +894,7 @@
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
 
-			var data = $(".check_p").map(function () { //Get Checked checkbox array
+			var data = $(".check_pp").map(function () { //Get Checked checkbox array
 				 return this.value;
 	        }).get();
 			for (var i = 0; i < data.length; i++) {
@@ -905,7 +905,7 @@
 				param.get_prod+=data[i];
 			}
 
-			var data = $(".check_g").map(function () { //Get Checked checkbox array
+			var data = $(".check_gg").map(function () { //Get Checked checkbox array
 				 return this.value;
 	        }).get();
 			for (var i = 0; i < data.length; i++) {

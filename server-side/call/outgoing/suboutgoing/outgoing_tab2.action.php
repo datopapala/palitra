@@ -62,7 +62,8 @@ switch ($action) {
 										`production`.`name`,
 										`production`.`price`,
 										`production`.`description`,
-										`production`.`comment`
+										`production`.`comment`,
+	    								`shabloni`.`id` as `iidd`
 								FROM 	`production`
 								JOIN 	`shabloni` ON `production`.`id` = `shabloni`.`product_id`
 								WHERE 	`production`.`actived`=1 AND shabloni.quest_id = '4' AND shabloni.`name` = '$scenar_name'");
@@ -80,8 +81,12 @@ switch ($action) {
 				/* General output */
 				$row[] = $aRow[$i];
 				if($i == ($count - 1)){
-					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_g" value="' . $aRow[$hidden] . '" />';
+					$row[] ='<input  type="checkbox" id="' . $aRow[iidd] . '" name="check_' . $aRow[iidd] . '" class="check_g" value="' . $aRow[iidd] . '" />
+							
+							<input style="display:none" type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_gg" value="' . $aRow[$hidden] . '" />';
+					
 				}
+			
 			}
 			$data['aaData'][] = $row;
 		}

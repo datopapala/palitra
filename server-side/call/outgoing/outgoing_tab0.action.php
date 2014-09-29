@@ -1131,6 +1131,7 @@ function GetPage($res='', $shabloni)
 					  										<th>
                             									<input type="checkbox" name="check-all" id="check-all_g">
                             								</th>
+					  										
 														</tr>
 													</thead>
 								                </table>

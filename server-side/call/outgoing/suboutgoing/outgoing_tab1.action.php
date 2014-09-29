@@ -56,7 +56,8 @@ switch ($action) {
 										`production`.`name`,
 										`production`.`price`,
 										`production`.`description`,
-										`production`.`comment`
+										`production`.`comment`,
+	    								`shabloni`.`id` as `iidd`
 								FROM 	`production`
 								JOIN 	`shabloni` ON `production`.`id` = `shabloni`.`product_id`
 								WHERE 	`production`.`actived`=1 AND shabloni.quest_id = '3' AND shabloni.`name` = '$scenar_name'");
@@ -74,7 +75,8 @@ switch ($action) {
 				/* General output */
 				$row[] = $aRow[$i];
 				if($i == ($count - 1)){
-					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_p" value="' . $aRow[$hidden] . '" />';
+					$row[] ='<input type="checkbox" id="' . $aRow[iidd] . '" name="check_' . $aRow[iidd] . '" class="check_p" value="' . $aRow[iidd] . '" />
+							<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check_pp" value="' . $aRow[$hidden] . '" />';
 				}
 			}
 			

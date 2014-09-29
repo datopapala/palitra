@@ -1018,6 +1018,7 @@ function GetPage($res='', $shabloni)
 															<th style="">ფასი</th>
 															<th style="">აღწერილობა</th>
 															<th style="">შენიშვნა</th>
+															<th style="display:none">ID</th>
 														</tr>
 													</thead>
 													<thead>
@@ -1037,6 +1038,9 @@ function GetPage($res='', $shabloni)
 															<th>
 																<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 															</th>
+															<th class="colum_hidden">
+						                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+						                            		</th>
 														</tr>
 													</thead>
 								                </table>
