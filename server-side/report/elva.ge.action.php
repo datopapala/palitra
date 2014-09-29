@@ -70,6 +70,7 @@ switch ($action) {
 								elva_sale.`status`,
 								elva_sale.coordinator_id,
 								elva_sale.coordinator_comment,
+								elva_sale.task_id,
 								elva_sale.elva_status
 								FROM `elva_sale`
 								left JOIN shipping ON elva_sale.period = shipping.id
@@ -173,11 +174,11 @@ switch ($action) {
 									<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
 									<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
 								</tr>';
-		$idd = $_REQUEST[id];
+		
 		$query_list1 = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 															gift_ids
 												  FROM 		`task_scenar`
-												  WHERE 	id = '$idd'"));
+												  WHERE 	id = '$res[task_id]'"));
 		$cvladi = $query_list1[0];
 		$query11 = mysql_query("SELECT 	`name`,`price`,`id`
 							  FROM 		`production`
@@ -213,7 +214,7 @@ switch ($action) {
 				$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 																	gift_ids
 														  FROM 		`task_scenar`
-														  WHERE 	id = '$idd'"));
+														  WHERE 	id = '$res[task_id]'"));
 				$cvladi1 = $query_list[1];
 				$query1 = mysql_query("SELECT 	`name`,`price`,`id`
 									  FROM 		`production`
