@@ -2,10 +2,10 @@
 require_once('../../includes/classes/core.php');
 
 header('Content-Type: application/json');
-$start = $_REQUEST['start'];
-$end   = $_REQUEST['end'];
+$start_time = $_REQUEST['start'];
+$end_time   = $_REQUEST['end'];
 $agent = $_REQUEST['agent'];
-$queuet = $_REQUEST['queuet'];
+$queue = $_REQUEST['queuet'];
 
 $quantity = array();
 $cause = array();
