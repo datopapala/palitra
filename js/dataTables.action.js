@@ -1143,8 +1143,8 @@ function GetDataTable_st(tname, aJaxURL, action, count, data, hidden, length, so
     oTable = $("#" + tname).dataTable({
         "bDestroy": true,                     //Reinicialization table
         "bJQueryUI": true,                     //Add jQuery ThemeRoller
-        //"bStateSave": true,                    //state saving
-       // "sDom": "<'dataTable_buttons'T><'H'lrt><'dataTable_content't><'F'ip>",
+        "bStateSave": true,                    //state saving
+        //"sDom": "<'dataTable_buttons'T><'H'lrt><'dataTable_content't><'F'ip>",
   "oTableTools": imex,
         "sPaginationType": "full_numbers",
         "bProcessing": true,
