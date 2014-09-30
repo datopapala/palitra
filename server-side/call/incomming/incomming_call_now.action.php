@@ -86,8 +86,8 @@ switch ($action) {
 	  											sub.`name` AS `cat_sub_name`,
 												incomming_call.phone,
 												call_status.`name` AS `c_status`,
-												persons.`name`,
-	  											incomming_call.call_comment
+	  											incomming_call.call_comment,
+	  											persons.`name`
 								FROM 			incomming_call
 								LEFT JOIN 		info_category  ON incomming_call.information_category_id=info_category.id
 	  							LEFT JOIN 		info_category as `sub`  ON incomming_call.information_sub_category_id=sub.id

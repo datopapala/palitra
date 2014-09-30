@@ -891,8 +891,8 @@ table.display tbody td
                             <th style="width: 100%;">ქვე-კატეგორია</th>
                             <th style="width: 120px;">ტელეფონი</th>
                             <th style="width: 100%;">ზარის სტატუსი</th>
-                            <th style="width: 100%;">ოპერატორი</th>
                             <th style="width: 100%;">ზარის დაზუსტება</th>
+                            <th style="width: 100%;">ოპერატორი</th>
                         </tr>
                     </thead>
                     <thead>
@@ -965,8 +965,8 @@ table.display tbody td
                             <th style="width: 100%;">ქვე-კატეგორია</th>
                             <th style="width: 100%;">ტელეფონი</th>
                             <th style="width: 100%;">ზარის სტატუსი</th>
-                            <th style="width: 100%;">ოპერატორი</th>
                             <th style="width: 100%;">ზარის დაზუსტება</th>
+                            <th style="width: 100%;">ოპერატორი</th>
                         </tr>
                     </thead>
                     <thead>
