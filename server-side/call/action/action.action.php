@@ -402,9 +402,8 @@ function GetPage($res='', $number)
 										
 		                           <th style="display:none">ID</th>
 									<th style="width:7%;">#</th>
-									<th style="width:25%; word-break:break-all;">ფილიალი</th>
-									<th style="width:20%; word-break:break-all;">თარიღი</th>
-									<th style="width:35%; word-break:break-all;">პროდუქტი</th>
+									<th style="width:22%; word-break:break-all;">თარიღი</th>
+									<th style="width:33%; word-break:break-all;">პროდუქტი</th>
 									<th style="width:13%; word-break:break-all;">თანხა</th>
 								</tr>
 							</thead>
@@ -422,10 +421,6 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-									<th>
-										<input style="width:30px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									
 								</tr>
 							</thead>
 		                </table>

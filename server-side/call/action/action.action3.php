@@ -14,8 +14,7 @@ $data		= '';
 $action_detail_id	= $_REQUEST['id'];
 $production_id		= $_REQUEST['production_id'];
 $object_id			= $_REQUEST['object_id'];
-$price				= $_REQUEST['price'];
-$date    			= $_REQUEST['date'];
+$adress				= $_REQUEST['adress'];
 $action_id    		= $_REQUEST['action_id'];
 
 
@@ -55,10 +54,9 @@ switch ($action) {
 		$action_idd   	= $_REQUEST['action_idd'];
 	  	$rResult = mysql_query("	SELECT  
 											action_detail.id,
-											object.`name`,
+											action_detail.`object_id`,
 											action_detail.`addres`
 									FROM 	action_detail
-									LEFT JOIN 	object ON action_detail.object_id=object.id
 									WHERE   action_detail.actived =1");
 												  
 		$data = array(
@@ -77,16 +75,16 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_action_1':
+	case 'save_action_3':
 		
 		if($action_detail_id == ''){
 			
-			Addaction_1($action_id, $object_id,  $date, $production_id,   $price );
+			Addaction_1($action_id, $object_id,  $adress  );
 			
 			
 		}else {
 			
-			saveaction_1( $action_detail_id,  $object_id, $date, $production_id,  $price);
+			saveaction_1( $action_detail_id,  $object_id, $adress);
 			
 			
 		}
@@ -107,14 +105,14 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addaction_1($action_id, $object_id,  $date, $production_id,   $price ){
+function Addaction_1($action_id, $object_id,  $adress){
 	
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `action_detail` 
-							( `user_id`, `action_id`, `object_id`, `date`, `production_id`, `price`, `actived`)
+							( `user_id`, `action_id`, `object_id`, `addres`, `actived`)
 						VALUES 
-							( '$user', '$action_id', '$object_id', '$date', '$production_id', '$price', '1')
+							( '$user', '$action_id', '$object_id', '$adress', '1')
 								");
 	
 	
@@ -152,16 +150,14 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 
 
 				
-function saveaction_1( $action_detail_id,  $object_id, $date, $production_id,  $price)
+function saveaction_1( $action_detail_id,  $object_id, $adress)
 {
 	
 	$user		= $_SESSION['USERID'];
 	mysql_query("UPDATE `action_detail` 
 					SET 
 						`object_id`='$object_id', 
-						`date`='$date', 
-						`production_id`='$production_id', 
-						`price`='$price'
+						`addres`=$adress
 						WHERE action_detail.`id`='$action_detail_id'");
 	
 
@@ -225,10 +221,8 @@ function Getobject($object_id)
 function Getaction_1($action_detail_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT 	action_detail.id,
-												action_detail.production_id AS production_id,
 												action_detail.object_id AS object_id,
-												action_detail.price AS price,
-												action_detail.date AS date
+												action_detail.addres AS address
 										from  	action_detail
 										WHERE 	action_detail.id=$action_detail_id
 									" ));
@@ -255,11 +249,11 @@ function GetPage($res='', $number)
     		<table class="dialog-form-table">
     			<tr>
     				<td style="width: 170px;"><label for="trans_obj">ფილიალები</label></td>
-    				<td style="width: 180px;"><select id="object_id" class="idls object">'.Getobject($res['object_id']).'</select></td>
+    				<td><input type="text" id="object_id" class="idle " onblur="this.className=\'idle \'" onfocus="this.className=\'activeField \'" value="' . $res['object_id'] . '" /></td>
     			</tr>
     			<tr>
     				<td style="width: 170px;"><label for="trans_address">მისამართი</label></td>
-    				<td><input type="text" id="adress" class="idle " onblur="this.className=\'idle \'" onfocus="this.className=\'activeField \'" value="' . $res['date'] . '" /></td>
+    				<td><input type="text" id="adress" class="idle " onblur="this.className=\'idle \'" onfocus="this.className=\'activeField \'" value="' . $res['address'] . '" /></td>
     			</tr>
     		</table>
     	</fieldset>

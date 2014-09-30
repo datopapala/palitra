@@ -35,7 +35,6 @@
              LoadTable1();
              SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL1);
          }
-
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
@@ -53,14 +52,6 @@
 		function LoadTable3(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example4", aJaxURL3, "get_list", 6,"", 0, "", 1, "asc", "");
-		}
-		function LoadTable4(){						
-			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example5", aJaxURL2, "get_list", 6,"", 0, "", 1, "asc", "");
-		}
-		function LoadTable5(){						
-			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example6", aJaxURL2, "get_list", 6,"", 0, "", 1, "asc", "");
 		}
 		
 
@@ -96,7 +87,7 @@
 						GetButtons("add_button_p","");
 						GetButtons("add_button_pp","");
 						SetEvents("add_button_p", "", "", "example3", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());						
-						SetEvents("add_button_pp", "", "", "example4", "add-edit-form2", aJaxURL3, "action_id="+$('#action_id').val());						
+						SetEvents("add_button_pp", "", "", "example4", "add-edit-form3", aJaxURL3, "action_id="+$('#action_id').val());						
 						
 						
 				break;	
@@ -116,15 +107,15 @@
 				       
 				    };
 					GetDialog("add-edit-form1", 1080, "auto", buttons);
-					LoadTable4();
-					LoadTable5();
+					LoadTable2();
+					
 				
 				break;	
-				case "add-edit-form2":
+				case "add-edit-form3":
 					var buttons = {
 						"save": {
 				            text: "შენახვა",
-				            id: "save-dialog2"
+				            id: "save-dialog3"
 				        }, 
 			        	"cancel": {
 				            text: "დახურვა",
@@ -134,7 +125,7 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 400, "auto", buttons);
+					GetDialog("add-edit-form3", 400, "auto", buttons);
 					LoadTable3();
 					GetDate("date");
 					
@@ -157,9 +148,9 @@
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
 
-			param 			= new Object();
-			param.act			= "save_action";			
-			param.id					= $("#id").val();			
+			param 				= new Object();
+			param.act				= "save_action";			
+			param.id				= $("#id").val();			
 			param.id				= $("#action_id").val();
 			param.action_name		= $("#action_name").val();
 			param.start_date		= $("#start_date").val();
@@ -194,6 +185,7 @@
 	    	param.action_id			= $("#action_id").val();
 	    	param.price				= $("#price").val();
 			param.date				= $("#date").val();
+			param.adress			= $("#adress").val();
 			
 			
 	 
@@ -207,6 +199,34 @@
  							}else{
  								LoadTable2();
  								CloseDialog("add-edit-form2");
+ 							}
+						}
+ 				    }
+ 			});
+ 		});
+
+$(document).on("click", "#save-dialog3", function () {
+	    	
+			param 					= new Object();
+			param.local_id			= $("#action_id").val();
+ 			param.act				= "save_action_3";
+		    	
+ 			param.id				= $("#id").val();
+			param.object_id			= $("#object_id").val();
+	    	param.adress			= $("#adress").val();
+			
+			
+	 
+ 	    	$.ajax({
+ 			        url: aJaxURL3,
+ 				    data: param,
+ 			        success: function(data) {       
+ 						if(typeof(data.error) != "undefined"){
+ 							if(data.error != ""){
+ 								alert(data.error);
+ 							}else{
+ 								LoadTable3();
+ 								CloseDialog("add-edit-form3");
  							}
 						}
  				    }
@@ -381,6 +401,10 @@
 
 <!-- jQuery Dialog -->
 <div id="add-edit-form1" class="form-dialog" title="გამავალი ზარი">
+<!-- aJax -->
+</div>
+<!-- jQuery Dialog -->
+<div id="add-edit-form3" class="form-dialog" title="განყოფილება">
 <!-- aJax -->
 </div>
 

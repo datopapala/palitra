@@ -55,14 +55,13 @@ switch ($action) {
 		$action_idd   	= $_REQUEST['action_idd'];
 	  	$rResult = mysql_query("	SELECT  
 											action_detail.id,
-											object.`name`,
 											action_detail.date,
-											production.`name`,
+											action_detail.`production_id`,
 											action_detail.price
 									FROM 	action_detail
 									LEFT JOIN 	object ON action_detail.object_id=object.id
 									LEFT JOIN    production ON action_detail.production_id= production.id
-									WHERE   action_detail.actived =1");
+									WHERE   action_detail.actived =2");
 												  
 		$data = array(
 				"aaData"	=> array()
@@ -84,12 +83,12 @@ switch ($action) {
 		
 		if($action_detail_id == ''){
 			
-			Addaction_1($action_id, $object_id,  $date, $production_id,   $price );
+			Addaction_1($action_id,  $date, $production_id,   $price );
 			
 			
 		}else {
 			
-			saveaction_1( $action_detail_id,  $object_id, $date, $production_id,  $price);
+			saveaction_1( $action_detail_id, $date, $production_id,  $price);
 			
 			
 		}
@@ -110,14 +109,14 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addaction_1($action_id, $object_id,  $date, $production_id,   $price ){
+function Addaction_1($action_id, $date, $production_id,   $price ){
 	
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `action_detail` 
-							( `user_id`, `action_id`, `object_id`, `date`, `production_id`, `price`, `actived`)
+							( `user_id`, `action_id`, `date`, `production_id`, `price`, `actived`)
 						VALUES 
-							( '$user', '$action_id', '$object_id', '$date', '$production_id', '$price', '1')
+							( '$user', '$action_id',  '$date', '$production_id', '$price', '2')
 								");
 	
 	
@@ -155,13 +154,12 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 
 
 				
-function saveaction_1( $action_detail_id,  $object_id, $date, $production_id,  $price)
+function saveaction_1( $action_detail_id, $date, $production_id,  $price)
 {
 	
 	$user		= $_SESSION['USERID'];
 	mysql_query("UPDATE `action_detail` 
 					SET 
-						`object_id`='$object_id', 
 						`date`='$date', 
 						`production_id`='$production_id', 
 						`price`='$price'
@@ -229,7 +227,6 @@ function Getaction_1($action_detail_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT 	action_detail.id,
 												action_detail.production_id AS production_id,
-												action_detail.object_id AS object_id,
 												action_detail.price AS price,
 												action_detail.date AS date
 										from  	action_detail
@@ -257,16 +254,12 @@ function GetPage($res='', $number)
     		<legend>საკონტაქტო ინფორმაცია</legend>
     		<table class="dialog-form-table">
     			<tr>
-    				<td style="width: 170px;"><label for="trans_obj">ფილიალები</label></td>
-    				<td style="width: 180px;"><select id="object_id" class="idls object">'.Getobject($res['object_id']).'</select></td>
-    			</tr>
-    			<tr>
     				<td style="width: 170px;"><label for="trans_address">თარიღი</label></td>
     				<td><input type="text" id="date" class="idle " onblur="this.className=\'idle \'" onfocus="this.className=\'activeField \'" value="' . $res['date'] . '" /></td>
     			</tr>
     			<tr>
     				<td style="width: 170px;"><label for="trans_obj">პროდუქტი</label></td>
-    				<td style="width: 180px;"><select id="production_id" class="idls object">'.  Getproduction($res['production_id']).'</select></td>
+    				<td><input type="text" id="production_id" class="idle " onblur="this.className=\'idle \'" onfocus="this.className=\'activeField \'" value="' . $res['production_id'] . '" /></td>
     			</tr>
     			<tr>
     				<td style="width: 170px;"><label for="trans_address">თანხა</label></td>
