@@ -145,12 +145,12 @@ table.display tbody td
 		
 		function LoadTable2(status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL_call_now, "get_list&status="+status,9, "", 0, "", 1, "desc");
+			GetDataTable("example2", aJaxURL_call_now, "get_list&status="+status,10, "", 0, "", 1, "desc");
 		}
 		
 		function LoadTable3(start, end, status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL_all_call, "get_list", 9, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
+			GetDataTable("example3", aJaxURL_all_call, "get_list", 10, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
 		}
 
 		$(document).on("change", "#search_start", function () {
@@ -893,6 +893,7 @@ table.display tbody td
                             <th style="width: 120px;">ტელეფონი</th>
                             <th style="width: 100%;">ზარის სტატუსი</th>
                             <th style="width: 100%;">ოპერატორი</th>
+                            <th style="width: 100%;">ზარის დაზუსტება</th>
                         </tr>
                     </thead>
                     <thead>
@@ -916,6 +917,9 @@ table.display tbody td
                             </th>
                             <th>
                                 <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 90px;"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
                             </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
@@ -966,6 +970,7 @@ table.display tbody td
                             <th style="width: 100%;">ტელეფონი</th>
                             <th style="width: 100%;">ზარის სტატუსი</th>
                             <th style="width: 100%;">ოპერატორი</th>
+                            <th style="width: 100%;">ზარის დაზუსტება</th>
                         </tr>
                     </thead>
                     <thead>
@@ -989,6 +994,9 @@ table.display tbody td
                             </th>
                             <th>
                                 <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 90px;"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
                             </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
