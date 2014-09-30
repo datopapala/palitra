@@ -574,7 +574,7 @@
 								});
 							GetDialog("phone_base_dialog", 1260, "auto", buttons);
 							SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-							GetDataTable("base", aJaxURL, "get_list_base", 12, "", 0, "", 1, "asc", "");
+							GetDataTable("base", aJaxURL, "get_list_base_phone", 12, "", 0, "", 1, "asc", "");
 						}
 					}
 			    }
