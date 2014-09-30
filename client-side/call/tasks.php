@@ -204,17 +204,20 @@
 					GetDateTimes("done_start_time");
 					GetDateTimes("done_end_time");
 
-					var cat_id = $("#task_type_id").val();
+					
 					
 					$(document).on("change", "#task_type_id",function(){
-						
+						var cat_id = $("#task_type_id").val();
+						if(cat_id == 1 || cat_id == 2){
+							$("#additional").removeClass('hidden');
 							$("#task_department_id").val(40);
+						}else{
+							$("#task_department_id").val(0);
+						}
 						
 					});
 					
-					if(cat_id == 1 || cat_id == 2){
-						$("#additional").removeClass('hidden');
-					}
+					
 					
 				break;	
 				case "add-edit-form1":
@@ -442,25 +445,42 @@
 			param.task_department_id	= $("#task_department_id").val();
 			param.task_comment			= $("#task_comment").val();
 			param.priority_id			= $("#priority_id").val();
-			
-	 		if(param.template_id == 0){
-		 		alert('ამოირჩიეთ სცენარი');
-	 		}else{
-		 		$.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {       
-					if(typeof(data.error) != "undefined"){
-						if(data.error != ""){
-							alert(data.error);
-						}else{
-							LoadTable0();
-							CloseDialog("add-edit-form");
+
+			if(param.task_type_id < 3){
+		 		if(param.template_id == 0){
+			 		alert('ამოირჩიეთ სცენარი');
+		 		}else{
+			 		$.ajax({
+			        url: aJaxURL,
+				    data: param,
+			        success: function(data) {       
+						if(typeof(data.error) != "undefined"){
+							if(data.error != ""){
+								alert(data.error);
+							}else{
+								LoadTable0();
+								CloseDialog("add-edit-form");
+							}
 						}
-					}
-			    }
-		    	});
-	 		}
+				    }
+			    	});
+		 		}
+			}else{
+				$.ajax({
+			        url: aJaxURL,
+				    data: param,
+			        success: function(data) {       
+						if(typeof(data.error) != "undefined"){
+							if(data.error != ""){
+								alert(data.error);
+							}else{
+								LoadTable0();
+								CloseDialog("add-edit-form");
+							}
+						}
+				    }
+			    	});
+			}
 		});
 
 		

@@ -1016,7 +1016,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									</fieldset>
 											<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> >> </button>
-											<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+											
 									</fieldset>
 									 </div>
 
@@ -1215,7 +1215,7 @@ function GetPage($res='', $shabloni)
 													</tr>
 													<tr>
 														<td><textarea  style="width: 400px; height:60px; resize: none;" id="result_comment" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
-														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
+														
 													</tr>
 											</table>
 											</fieldset>
@@ -1268,7 +1268,7 @@ function GetPage($res='', $shabloni)
 													</tr>
 											</table>
 											</fieldset>
-													<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+													
 													<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> << </button>
 											</fieldset>		
 									 </div>
@@ -1299,7 +1299,7 @@ function GetPage($res='', $shabloni)
 								    		<tr>
 												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
 					  							<td><input type="radio" name="preface_quest" value="1" '.(($res['preface_quest']=='1')?"checked":"").'></td>
-					  							<td><button class="done">დასრულება</button></td>
+					  							
 					  						</tr>
 									</table>
 									</fieldset>
@@ -1337,7 +1337,7 @@ function GetPage($res='', $shabloni)
 											<tr>
 												<td>არა</td>
 												<td><input type="radio" name="d1" value="2" '.(($res['d1']=='2')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
@@ -1369,7 +1369,7 @@ function GetPage($res='', $shabloni)
 											<tr>
 												<td>არა</td>
 												<td><input type="radio" name="d2" value="2" '.(($res['d2']=='2')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
@@ -1454,7 +1454,7 @@ function GetPage($res='', $shabloni)
 											<tr>
 												<td>კვლევითი კომპანია (დაასრულეთ)</td>
 												<td><input type="radio" name="d4" value="5" '.(($res['d4']=='5')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 											<tr>
 												<td>არცერთი (გააგრძელეთ)</td>
@@ -1531,7 +1531,7 @@ function GetPage($res='', $shabloni)
 												<td><input type="radio" name="d6" value="5" '.(($res['d6']=='5')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">55-65</td>
 												<td><input type="radio" name="d6" value="6" '.(($res['d6']=='6')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 											<tr>
 												<td></td>
@@ -1822,7 +1822,7 @@ function GetPage($res='', $shabloni)
 										    	
 													<tr>
 														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														
 													</tr>
 											</table>
 											</fieldset>
@@ -2050,7 +2050,7 @@ function Getquest($shabloni){
 									</table>
 									</fieldset>
 											<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> >> </button>
-											<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+											
 									</fieldset>
 									 </div>
 
@@ -2242,7 +2242,7 @@ function Getquest($shabloni){
 													</tr>
 													<tr>
 														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['result_comment'] . '</textarea></td>
-														<td style="width:250px;text-align:right;"><button id="complete">დაასრულეთ</button></td>
+														
 													</tr>
 											</table>
 											</fieldset>
@@ -2298,7 +2298,7 @@ function Getquest($shabloni){
 													</tr>
 											</table>
 											</fieldset>
-													<button style="float:right; margin-top:10px;" class="done">დასრულება</button>
+													
 													<button style="float:right; margin-top:10px;" onclick="seller(1)" class="next"> << </button>
 											</fieldset>		
 									 </div>
@@ -2329,7 +2329,7 @@ function Getquest($shabloni){
 								    		<tr>
 												<td style="text-align:center;"><span>უარი მონაწილეობაზე</span></td>
 					  							<td><input type="radio" name="preface_quest" value="1" '.(($res['preface_quest']=='1')?"checked":"").'></td>
-					  							<td><button class="done">დასრულება</button></td>
+					  							
 					  						</tr>
 									</table>
 									</fieldset>
@@ -2367,7 +2367,7 @@ function Getquest($shabloni){
 											<tr>
 												<td>არა</td>
 												<td><input type="radio" name="d1" value="2" '.(($res['d1']=='2')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
@@ -2399,7 +2399,7 @@ function Getquest($shabloni){
 											<tr>
 												<td>არა</td>
 												<td><input type="radio" name="d2" value="2" '.(($res['d2']=='2')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
@@ -2484,7 +2484,7 @@ function Getquest($shabloni){
 											<tr>
 												<td>კვლევითი კომპანია (დაასრულეთ)</td>
 												<td><input type="radio" name="d4" value="5" '.(($res['d4']=='5')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 											<tr>
 												<td>არცერთი (გააგრძელეთ)</td>
@@ -2561,7 +2561,7 @@ function Getquest($shabloni){
 												<td><input type="radio" name="d6" value="5" '.(($res['d6']=='5')?"checked":"").'></td>
 												<td style="width:50px; text-align:right;">55-65</td>
 												<td><input type="radio" name="d6" value="6" '.(($res['d6']=='6')?"checked":"").'></td>
-												<td style="width:150px; text-align:right;"><button style="" class="done">დაასრულეთ</button></td>
+												
 											</tr>
 											<tr>
 												<td></td>
@@ -2852,7 +2852,7 @@ function Getquest($shabloni){
 										    	
 													<tr>
 														<td><textarea  style="width: 400px; height:60px; resize: none;" id="content" class="idle" name="content" cols="300" >' . $res['content'] . '</textarea></td>
-														<td style="width:250px;text-align:right;"><button class="done">დაასრულეთ</button></td>
+														
 													</tr>
 											</table>
 											</fieldset>

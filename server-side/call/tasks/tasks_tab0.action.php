@@ -203,6 +203,22 @@ switch ($action) {
 								LEFT JOIN users ON task.responsible_user_id = users.id
 								JOIN incomming_call ON task.incomming_call_id = incomming_call.id
     							LEFT JOIN `status` ON task.`status` = `status`.id
+    							UNION ALL
+								SELECT 	task.id,
+										task.id,
+										'',
+										'',
+										task_type.`name`,
+										department.`name`,
+										users.username,
+										task.end_date,
+										status.`name`
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+    							LEFT JOIN `status` ON task.`status` = `status`.id
+								WHERE task.template_id = 0
     							");
 		    
 		$data = array(
@@ -816,8 +832,8 @@ function Getphonebase(){
     							        <div style="width:100%;" id="container" >        	
     							            <div id="dynamic">
     							            	<div id="button_area">
-													<button id="incomming_base">შემომავალი ზარები</button>
 													<button id="phone_base">სატელეფონო ბაზა</button>
+													<button id="incomming_base">შემომავალი ზარები</button>
     						        			</div>
     							                <table class="" id="base" style="width: 900px;">
     							                    <thead>
@@ -886,7 +902,7 @@ function Getphonebase(){
     							            </div>
     							        </div>
 			</fieldset>
-			<input type="text" style="display:none;" id="hidden_base" value="1" />		
+			<input type="text" style="display:none;" id="hidden_base" value="2" />		
 										
 			</div>
 			';
