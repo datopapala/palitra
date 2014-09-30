@@ -105,8 +105,9 @@ switch ($action) {
 		if($id_h == ''){
 			
 			Addincomming($id_p,$phone,$person_name,$type_id,$call_type_id,$product_type_id,$card_id,$department_id,$information_category_id,$information_sub_category_id,$production_category_id,$genre_id,$production_id,$content,$sum_pirce,$shipping_id,$module_id,$call_comment,$call_status_id,$task_department_id,$source_id,$c_date,$persons_id,$priority_id,$done_start_time,$done_end_time,$comment,$task_type_id);
+			if($task_type_id > 0){
 			AddTask($id_p,$task_type_id,$task_department_id,$c_date,$done_start_time,$done_end_time,$comment,$persons_id,$priority_id);
-			
+			}
 		}else {
 			
 			Saveincomming($id_h,$phone,$person_name,$type_id,$call_type_id,$product_type_id,$card_id,$department_id,$information_category_id,$information_sub_category_id,$production_category_id,$genre_id,$production_id,$content,$sum_pirce,$shipping_id,$module_id,$call_comment,$call_status_id,$task_department_id,$source_id,$c_date,$persons_id,$priority_id,$done_start_time,$done_end_time,$comment,$task_type_id);
