@@ -15,8 +15,8 @@ switch ($action) {
 										week_day.`name`,
 										work_graphic.`start`,
 										work_graphic.breack_start,
-										work_graphic.`end`,
-										work_graphic.breack_start,
+										work_graphic.`breack_end`,
+										work_graphic.end,
 			  							CONCAT('<div style=\'background-color:', CASE WHEN person_work_graphic.`status` =1 THEN 'Yellow'
 																								 WHEN	person_work_graphic.`status` =2 THEN 'Green'
 																								 ELSE	 'red'
@@ -54,9 +54,9 @@ switch ($action) {
 						WHERE DAYOFWEEK(`date`)=$_REQUEST[id] AND user_id=$user_id"));
 		$rResult 	= mysql_query(" SELECT 	work_graphic.id,
 									work_graphic.`start`,
-									work_graphic.breack_start,
-									work_graphic.`end`,
-									work_graphic.breack_start
+									work_graphic.`breack_start`,
+									work_graphic.`breack_end`,
+									work_graphic.`end`
 									FROM `work_graphic`
 									left JOIN person_work_graphic ON person_work_graphic.work_graphic_id = work_graphic.id
 									WHERE (ISNULL(person_work_graphic.user_id) OR person_work_graphic.user_id)and work_graphic.actived =1 AND work_graphic.week_day_id = $_REQUEST[id]");
@@ -92,7 +92,7 @@ switch ($action) {
    				FROM person_work_graphic
    				WHERE DAYOFWEEK(`date`)='$_REQUEST[dey]' AND user_id='$user_id'"));
    		if($res1[0]!=''){
-   			mysql_query("UPDATE `person_work_graphic` SET `work_graphic_id`='$_REQUEST[work]' WHERE (`id`='$res1[0]')");
+   			mysql_query("UPDATE `person_work_graphic` SET `work_graphic_id`='$_REQUEST[work]',`status`='1' WHERE (`id`='$res1[0]')");
    		}else{
 		mysql_query("
 			INSERT INTO `person_work_graphic` (`user_id`, `date` ,`work_graphic_id`) VALUES ('$user_id', DATE_ADD(DATE(CURDATE()), INTERVAL $_REQUEST[dey]-DAYOFWEEK(CURDATE()) DAY), '$_REQUEST[work]')
