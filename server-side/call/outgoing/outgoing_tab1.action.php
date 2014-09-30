@@ -64,6 +64,13 @@ switch ($action) {
 	    if ($group != 2) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
+	    
+	    $user_checker = '';
+	    if($user == 1){
+	    	$user_checker = '';
+	    }else{
+	    	$user_checker = 'and task_detail.responsible_user_id='.$user;
+	    }
 	     
 	    $rResult = mysql_query("SELECT 	task_detail.id,
 	    								task_detail.id,
@@ -84,7 +91,7 @@ switch ($action) {
 								LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
 								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
 	    						LEFT JOIN priority ON task.priority_id = priority.id
-	    						WHERE	task_detail.status=1 and task_detail.responsible_user_id=$user");
+	    						WHERE	task_detail.status=1 $user_checker");
 	    
 										    		
 		$data = array(
