@@ -110,7 +110,26 @@
 					LoadTable2();
 					
 				
-				break;	
+				break;
+				case "add-edit-form2":
+					var buttons = {
+						"save": {
+				            text: "შენახვა",
+				            id: "save-dialog2"
+				        }, 
+			        	"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				            	$(this).dialog("close");
+				            }
+				        }
+				    };
+					GetDialog("add-edit-form2", 400, "auto", buttons);
+					LoadTable2();
+					GetDate("date");
+					
+			    break;	
 				case "add-edit-form3":
 					var buttons = {
 						"save": {
@@ -130,8 +149,7 @@
 					GetDate("date");
 					
 			    break;
-			}
-			
+	}
 		GetDateTimes("planned_end_date");
 			
 			$( ".calls" ).button({
