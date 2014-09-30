@@ -17,8 +17,15 @@
 		var rand_file = '';
 		
 		$(document).ready(function () {     
-			GetTabs(tbName);   	
-			GetTable0();
+			GetTabs(tbName);   
+			<?php 
+					if($_SESSION['USERID'] == 1){
+						echo 'GetTable0();';
+					}else{
+						echo 'GetTable1();';
+					}
+					?>	
+			
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
 		});
@@ -1120,14 +1127,19 @@
 <body>
 
 <div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
-		<ul>
-			<li><a href="#tab-0">მენეჯერი</a></li>
+		<ul><?php 
+			if($_SESSION['USERID'] == 1){
+			echo '<li><a href="#tab-0">მენეჯერი</a></li>';
+			}
+			?>
 			<li><a href="#tab-1">პირველადი</a></li>
 			<li><a href="#tab-2">მიმდინარე</a></li>
 			<li><a href="#tab-3">დასრულებული</a></li>
 			<li><a href="#tab-4">არქივი</a></li>
 		</ul>
-		<div id="tab-0">
+		<?php 
+			if($_SESSION['USERID'] == 1){
+		echo '<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
@@ -1192,7 +1204,9 @@
 		            </div>
 		        </div>
 		    </div>
-		 </div>
+		 </div>';
+		 }
+		 ?>
 		<div id="tab-1">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	

@@ -20,6 +20,7 @@ $template_id		= $_REQUEST['template_id'];
 $task_department_id	= $_REQUEST['task_department_id'];
 $persons_id			= $_REQUEST['persons_id'];
 $task_comment		= $_REQUEST['task_comment'];
+$priority_id		= $_REQUEST['priority_id'];
 
 switch ($action) {
 	case 'get_add_page':
@@ -230,11 +231,11 @@ switch ($action) {
 		
 		if(empty($task_id)){
 			$task_id = mysql_insert_id();
-			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $task_comment);
+			Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $task_comment, $priority_id);
 			//Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
 		}else{
 			
-			Savetask($task_id, $cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id);
+			Savetask($task_id, $cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $priority_id);
 			//Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id);
 			
 		}
@@ -303,13 +304,13 @@ function checkgroup($user){
 }
 
 
-function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $task_comment)
+function Addtask($cur_date, $done_start_time, $done_end_time, $task_type_id, $template_id, $task_department_id, $persons_id, $task_comment, $priority_id)
 {  
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
-				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`, `comment`)
+				( `user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `status`, `actived`, `comment`, `priority_id`)
 				VALUES
-				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '0', '1', '$task_comment')
+				( '$user', '$persons_id', '$cur_date', '$done_start_time', '$done_end_time', '$task_department_id', '$template_id', '$task_type_id', '0', '1', '$task_comment', '$priority_id')
 				");
 
 }
@@ -1021,12 +1022,12 @@ function GetPage($res='', $number)
 								   <tr>
 										<td style="width: 220px;">დავალების ტიპი</select></td>
 									    <td style="width: 220px;">ქვე-განყოფილება</select></td>
-										<td style="width: 220px;">პასუხისმგებელი პირი</select></td> 
+										<td style="width: 220px;">პრიორიტეტი</select></td> 
 									</tr>
 									<tr>
 										<td style="width: 220px;"><select style="width: 220px;" id="task_type_id" class="idls object">'. Gettask_type($res['task_type_id']).'</select></td>
 									    <td style="width: 220px;"><select style="width: 220px;" id="task_department_id" class="idls object">'.Getdepartment($res['task_department_id']).'</select></td>
-										<td style="width: 220px;"><select style="width: 217px;" id="persons_id" class="idls object">'. Getpersons($res['persons_id']).'</select></td> 
+										<td style="width: 220px;"><select style="width: 217px;" id="priority_id" class="idls object">'. Getpersons($res['priority_id']).'</select></td> 
 									</tr>
 								</table>
 								
@@ -1142,10 +1143,10 @@ function ChangeResponsiblePerson($letters, $responsible_person){
 
 function GetPersons(){
 	$data = '';
-	$req = mysql_query("SELECT 		users.id AS `id`,
-									persons.`name` AS `name`
-						FROM 		`persons`
-						JOIN    	users ON users.person_id = persons.id");
+	$req = mysql_query("SELECT 		`id`,
+									`name`
+						FROM 		`priority`
+						");
 
 	$data .= '<option value="' . 0 . '" selected="selected">' . '' . '</option>';
 

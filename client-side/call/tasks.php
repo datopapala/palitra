@@ -441,6 +441,7 @@
 			param.persons_id			= $("#persons_id").val();
 			param.task_department_id	= $("#task_department_id").val();
 			param.task_comment			= $("#task_comment").val();
+			param.priority_id			= $("#priority_id").val();
 			
 	 		if(param.template_id == 0){
 		 		alert('ამოირჩიეთ სცენარი');
