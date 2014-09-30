@@ -68,7 +68,7 @@ switch ($action) {
 								LEFT JOIN users ON task.responsible_user_id = users.id
     							LEFT JOIN `status` ON task.`status` = `status`.id
 								LEFT JOIN priority ON task.priority_id = priority.id
-								WHERE task.template_id = 0 AND task.`status` = 3");
+								WHERE task.template_id = 0 AND task.`status` = 3 AND task.responsible_user_id = '$user'");
 	    
 										    		
 		$data = array(

@@ -281,7 +281,7 @@
 								
 				            	$.ajax({
 							        url: aJaxURL1,
-								    data: "act=save_my_task&id="+$("#id_my_task").val()+"&status_id="+$("#status_id").val(),
+								    data: "act=save_my_task&id="+$("#id_my_task").val()+"&status_id="+$("#status_id").val()+"&problem_comment="+$("#problem_comment").val(),
 							        success: function(data) {       
 										if(typeof(data.error) != "undefined"){
 											if(data.error != ""){
@@ -1041,7 +1041,13 @@
 <div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">დავალების ფორმირება</a></li>
-			<li><a href="#tab-1">გადაცემულია გასარკვევად</a></li>
+			<?php 
+			if($_SESSION['USERID'] == 1){
+				echo '<li><a href="#tab-1">გადაცემულია გასარკვევად</a></li>';
+			}else{
+				echo '<li><a href="#tab-1">ჩემი დავალებები</a></li>';
+			}
+			?>
 			<li><a href="#tab-2">გარკვევის პროცესშია</a></li>
 			<li><a href="#tab-3">მოგვარებულია</a></li>
 			<li><a href="#tab-4">ყველა დავალება</a></li>

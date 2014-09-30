@@ -48,7 +48,8 @@ switch ($action) {
         break;
     case 'save_my_task':
         mysql_query("UPDATE `task` SET 
-					 		`status`='$status_id'
+					 		`status`='$status_id',
+					 		`problem_comment`='$problem_comment'
 					WHERE 	`id`='$task_id'");
         	 
         break;
@@ -89,7 +90,7 @@ switch ($action) {
 								JOIN users ON task.responsible_user_id = users.id
     							JOIN `status` ON task.`status` = `status`.id
 								JOIN priority ON task.priority_id = priority.id
-								WHERE task.template_id = 0 AND task.`status` = 1");
+								WHERE task.template_id = 0 AND task.`status` = 1 AND task.responsible_user_id = '$user'");
 	    
 										    		
 		$data = array(
@@ -750,7 +751,7 @@ function GetPage($res='')
 	$data  .= '<div id="dialog-form">
 						<div style="float: left; width: 760px;">
 							<fieldset >
-						    	<legend>ძირითადი ინფორმაცია</legend>
+						    	<legend>დავალება</legend>
 			
 						    	<table width="100%" class="dialog-form-table">
 									<tr>
@@ -796,13 +797,21 @@ function GetPage($res='')
 										<td><textarea disabled  style="width: 99%; resize: none; height: 50px;" id="task_comment" class="idle" name="task_comment" cols="300" >' . $res['comment'] . '</textarea></td>
 									</tr>
 								</table>
+								</fieldset>
+								<fieldset>
+									<legend>შესრულება</legend>
 								<table width="100%" class="dialog-form-table" id="">
 								   <tr>
 										<td style="width: 220px;">სტატუსი</td>
+										<td style="width: 220px;">კომენტარი</td>
 									</tr>
 									<tr>
 										<td style="width: 220px;"><select style="width: 217px;"  id="status_id" class="idls object">'. Getstatus($res['status']).'</select></td>
+										<td><textarea disabled  style="width: 98%; resize: none; height: 50px;" id="task_comment" class="idle" name="problem_comment" cols="300" >' . $res['problem_comment'] . '</textarea></td>
+									
 									</tr>
+										
+									
 								</table>
                             </fieldset>
  					</table>
