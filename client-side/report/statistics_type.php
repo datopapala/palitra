@@ -61,7 +61,8 @@ function drawFirstLevel(){
 	                                click: function() {
 	                                	$("#back").button({ disabled: false });
 										done[s_i]=this.name;
-										s_i++;
+										if(s_i==3) s_i=0;
+		                        		else s_i++;
 		                        		drawFirstLevel();
 	                                }
 	                            }
