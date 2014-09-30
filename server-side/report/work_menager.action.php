@@ -4,53 +4,6 @@ $action 	= $_REQUEST['act'];
 
 $error		= '';
 $data		= '';
-$time 		= [	'09:00',
-				'09:15',
-				'09:30',
-				'09:45',
-				'10:00',
-				'10:15',
-				'10:30',
-				'10:45',
-				'11:00',
-				'11:15',
-				'11:30',
-				'11:45',
-				'12:00',
-				'12:15',
-				'12:30',
-				'12:45',
-				'13:00',
-				'13:15',
-				'13:30',
-				'13:45',
-				'14:00',
-				'14:15',
-				'14:30',
-				'14:45',
-				'15:00',
-				'15:15',
-				'15:30',
-				'15:45',
-				'16:00',
-				'16:15',
-				'16:30',
-				'16:45',
-				'17:00',
-				'17:15',
-				'17:30',
-				'17:45',
-				'18:00',
-				'18:15',
-				'18:30',
-				'18:45',
-				'19:00',
-				'19:15',
-				'19:30',
-				'19:45',
-				'20:00'];
-//print_r($time);
-
 switch ($action) {
 	case 'get_list0' :
 		$count 		= $_REQUEST['count'];
@@ -90,48 +43,103 @@ switch ($action) {
 
 		break;
 		case 'get_list1' :
-			$data = array(
-					"aaData"	=> array()
-			);
-			$count 		= $_REQUEST['count'];
-			$hidden 	= $_REQUEST['hidden'];
-			$rResult 	= mysql_query("SELECT	TIME_FORMAT(`start`, '%H:%i'),
-												TIME_FORMAT(`breack_start`, '%H:%i'),
-												TIME_FORMAT(`breack_end`, '%H:%i'),
-												TIME_FORMAT(`end`, '%H:%i')
-								FROM work_graphic LIMIT 1
-				");
-			while ( $aRow = mysql_fetch_array( $rResult ) )
-			{
+$time = array(  '09:00',
+                '09:15',
+                '09:30',
+                '09:45',
+                '10:00',
+                '10:15',
+                '10:30',
+                '10:45',
+                '11:00',
+                '11:15',
+                '11:30',
+                '11:45',
+                '12:00',
+                '12:15',
+                '12:30',
+                '12:45',
+                '13:00',
+                '13:15',
+                '13:30',
+                '13:45',
+                '14:00',
+                '14:15',
+                '14:30',
+                '14:45',
+                '15:00',
+                '15:15',
+                '15:30',
+                '15:45',
+                '16:00',
+                '16:15',
+                '16:30',
+                '16:45',
+                '17:00',
+                '17:15',
+                '17:30',
+                '17:45',
+                '18:00',
+                '18:15',
+                '18:30',
+                '18:45',
+                '19:00',
+                '19:15',
+                '19:30',
+                '19:45',
+                '20:00');
 
-				$RR[]=$aRow;
-
-			}
-
-
-	 foreach ($RR as $r){
-
-	 	$i = 0;
-	 	$data['aaData'][]=$r;
-	 	foreach ($r as $r1){
-
-	 		$j=0;
-	 		foreach ($time as $t){
-
-	 			$j++;
-	 		}
-	 		$i++;
-	 	}
-	 }
+$result 	= mysql_query("SELECT	persons.`name` AS `name`,
+        							TIME_FORMAT(`start`, '%H:%i') AS `start`,
+        							TIME_FORMAT(`breack_start`, '%H:%i') AS `breack_start`,
+        							TIME_FORMAT(`breack_end`, '%H:%i') AS `breack_end`,
+        							TIME_FORMAT(`end`, '%H:%i') AS `end`
+							FROM 	work_graphic
+							JOIN    person_work_graphic ON work_graphic.id = person_work_graphic.work_graphic_id
+							JOIN    users ON users.id = person_work_graphic.user_id
+							JOIN    persons ON persons.id = users.person_id
+							WHERE   person_work_graphic.`status` = 2 AND person_work_graphic.date='$_REQUEST[time]'
+                            ");
 
 
+$data1  = '<table >';
+$data1 .= '<tr style="height:30px">';
+$data1 .= '<td><div style="width: 100px;" ></div></td>';
 
+for ($i = 0; $i < sizeof($time); $i++) {
+    $data1.='<td><div style="transform: rotate(270deg);margin: 10px -3px;" >' . $time[$i] . '</div></td>';
+}
 
+$data1 .= '</tr>';
 
+while ( $row = mysql_fetch_array( $result ) ){
 
+    $data1 .= '<tr>';
+    $data1 .= '<td>' . $row['name'] . '</td>';
 
+    for ($i = 0; $i < sizeof($time); $i++) {
 
-			break;
+        switch ($time[$i]) {
+            case $time[$i] >= $row['start'] && $time[$i] <= $row['breack_start']:
+                $data1.='<td style="background: red;"></td>';
+            break;
+
+            case $time[$i] >= $row['breack_end'] && $time[$i] <= $row['end']:
+                $data1.='<td style="background: red;"></td>';
+            break;
+
+            default:
+                $data1.='<td></td>';
+            break;
+        }
+    }
+
+    $data1 .= '</td>';
+
+}
+$data1 .= '</table>';
+$data['aaData'] = $data1;
+break;
 	case "get_edit_page":
 	$data['page'][]=page();
 	break;
