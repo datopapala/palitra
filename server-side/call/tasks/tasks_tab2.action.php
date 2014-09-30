@@ -61,15 +61,17 @@ switch ($action) {
 										`task`.start_date,
 										task.end_date,
 										task_type.`name`,
-										pattern.`name`,
-										CONCAT(`task_detail`.`first_name`, ' ', `task_detail`.`last_name`) AS `name`,
-										task_detail.phone,
-										'',
-										IF(task_detail.`status`= 2, 'გადაცემულია გასარკვევად','') AS `status`
+										shabloni.`name`,
+										phone.`first_last_name`,
+										phone.phone1,
+										priority.`name`,
+										IF(task_detail.`status`= 2, 'გარკვევის პროცესშია','') AS `status`
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
-								LEFT JOIN	pattern ON task.template_id = pattern.id
+	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
+								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
+	    						LEFT JOIN priority ON task.priority_id = priority.id
 	    						WHERE	task_detail.actived=1 AND task_detail.`status` = 2");
 	    
 										    		
