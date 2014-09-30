@@ -153,72 +153,22 @@ switch ($action) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
 		    	
-    	$rResult = mysql_query("SELECT 	task_detail.id,
-										task_detail.id,
-										'',
-										incomming_call.first_name,
-										task_type.`name`,
-										department.`name`,
-										users.username,
-										task.end_date,
-										status.`name`
-								FROM task
-								LEFT JOIN task_type ON task.task_type_id = task_type.id
-								LEFT JOIN task_detail ON task.id = task_detail.task_id
-								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task_detail.responsible_user_id = users.id
-								JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
-    							LEFT JOIN `status` ON task_detail.`status` = `status`.id
-								UNION ALL
-								SELECT 	task_detail.id,
-										task_detail.id,
-										IF(task_detail.person_n is NULL,phone.person_n,task_detail.person_n),
-										IF(task_detail.first_name IS NULL,phone.first_last_name,(CONCAT(task_detail.first_name,' ',task_detail.last_name))),
-										task_type.`name`,
-										department.`name`,
-										users.username,
-										task.end_date,
-										status.`name`
-								FROM task
-								LEFT JOIN task_type ON task.task_type_id = task_type.id
-								LEFT JOIN task_detail ON task.id = task_detail.task_id
-								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task_detail.responsible_user_id = users.id
-								JOIN phone ON task_detail.phone_base_id = phone.id
-    							LEFT JOIN `status` ON task_detail.`status` = `status`.id
-								UNION ALL
-								SELECT 	task.id,
+    	$rResult = mysql_query("SELECT 	task.id,
 										task.id,
-										'',
-										incomming_call.first_name,
+										task.date,
+										task.start_date,
+										task.end_date,
 										task_type.`name`,
 										department.`name`,
 										users.username,
-										task.end_date,
-										status.`name`
-								FROM task
-								LEFT JOIN task_type ON task.task_type_id = task_type.id
-								LEFT JOIN task_detail ON task.id = task_detail.task_id
-								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
-								JOIN incomming_call ON task.incomming_call_id = incomming_call.id
-    							LEFT JOIN `status` ON task.`status` = `status`.id
-    							UNION ALL
-								SELECT 	task.id,
-										task.id,
-										'',
-										'',
-										task_type.`name`,
-										department.`name`,
-										users.username,
-										task.end_date,
-										status.`name`
+										priority.`name`
 								FROM task
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN department ON task.department_id = department.id
 								LEFT JOIN users ON task.responsible_user_id = users.id
     							LEFT JOIN `status` ON task.`status` = `status`.id
-								WHERE task.template_id = 0
+								LEFT JOIN priority ON task.priority_id = priority.id
+								WHERE task.template_id = 0 AND task.`status` = 0
     							");
 		    
 		$data = array(
@@ -1144,12 +1094,11 @@ function ChangeResponsiblePerson($letters, $responsible_person){
 	$o_date		= date('Y-m-d H:i:s');
 	foreach($letters as $letter) {
 
-		mysql_query("UPDATE 	task_detail
-					JOIN 		task ON task_detail.task_id = task.id
-					SET    		task_detail.`status`   			 = 1,
+		mysql_query("UPDATE 	task
+					SET    		task.`status`   			 = 1,
 								task.`date` 			     = '$o_date',
-								task_detail.responsible_user_id     = '$responsible_person'
-					WHERE  	task_detail.id = '$letter' AND task.id = task_detail.task_id");
+								task.responsible_user_id     = '$responsible_person'
+					WHERE  	task.id = '$letter'");
 	}
 }
 

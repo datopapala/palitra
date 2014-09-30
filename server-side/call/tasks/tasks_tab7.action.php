@@ -52,28 +52,22 @@ switch ($action) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
 	     
-	    $rResult = mysql_query("SELECT 	 	`task`.id,
-											`task`.id,
-											`site_user`.`name`,
-											`site_user`.`pin`,
-											`person1`.`name` ,
-											`person2`.`name` ,
-											`incomming_call`.date,
-											`status`.`call_status`
-								FROM 		task			
-								LEFT JOIN 		incomming_call ON task.incomming_call_id=incomming_call.id
-								LEFT JOIN 	site_user		ON incomming_call.id=site_user.incomming_call_id
-								
-								
-								JOIN 		users AS `user1`			ON task.responsible_user_id=user1.id
-								JOIN 		persons AS `person1`		ON user1.person_id=person1.id
-								
-								JOIN 		users AS `user2`			ON task.user_id=user2.id
-								JOIN 		persons AS `person2`		ON user2.person_id=person2.id
-								
-								LEFT JOIN `status`  	ON	task.`status`= `status`.id
-								
-								WHERE 		task.task_type_id=1 AND task.`status`=3");
+	    $rResult = mysql_query("SELECT 	task.id,
+										task.id,
+										task.date,
+										task.start_date,
+										task.end_date,
+										task_type.`name`,
+										department.`name`,
+										users.username,
+										priority.`name`
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+    							LEFT JOIN `status` ON task.`status` = `status`.id
+								LEFT JOIN priority ON task.priority_id = priority.id
+								WHERE task.template_id = 0");
 	    
 										    		
 		$data = array(

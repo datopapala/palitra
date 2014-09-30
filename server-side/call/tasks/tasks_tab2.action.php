@@ -55,24 +55,23 @@ switch ($action) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
 	     
-	    $rResult = mysql_query("SELECT 	task_detail.id,
-	    								task_detail.id,
-	    								`task`.`date`,
-										`task`.start_date,
+	    $rResult = mysql_query("SELECT 	task.id,
+										task.id,
+										task.date,
+										task.start_date,
 										task.end_date,
 										task_type.`name`,
-										shabloni.`name`,
-										phone.`first_last_name`,
-										phone.phone1,
+										department.`name`,
+										users.username,
 										priority.`name`,
-										IF(task_detail.`status`= 2, 'გარკვევის პროცესშია','') AS `status`
-								FROM 	`task`
-								LEFT JOIN	task_detail ON task.id = task_detail.task_id
-								LEFT JOIN	task_type ON task.task_type_id = task_type.id
-	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
-								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
-	    						LEFT JOIN priority ON task.priority_id = priority.id
-	    						WHERE	task_detail.actived=1 AND task_detail.`status` = 2");
+										`status`.`call_status`
+								FROM task
+								LEFT JOIN task_type ON task.task_type_id = task_type.id
+								LEFT JOIN department ON task.department_id = department.id
+								LEFT JOIN users ON task.responsible_user_id = users.id
+    							LEFT JOIN `status` ON task.`status` = `status`.id
+								LEFT JOIN priority ON task.priority_id = priority.id
+								WHERE task.template_id = 0 AND task.`status` = 2");
 	    
 										    		
 		$data = array(

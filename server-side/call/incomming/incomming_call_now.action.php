@@ -514,7 +514,7 @@ function getCalls(){
 						FROM    	cdr
 						GROUP BY 	cdr.src
 						ORDER BY 	cdr.calldate DESC
-						LIMIT 		14
+						LIMIT 		30
 
 
 						");
