@@ -4,28 +4,31 @@
 		var tName	= "example";											//table name
 
 		$(document).ready(function () {
+
 			LoadTable();
 			SetEvents('','','',tName,'in_page',aJaxURL);
 		});
 
 		function LoadDialog(fname){
 			GetDialog("in_page","1150","auto");
-			GetDateTimes("oder_date");
+
 			 $("#save-dialog").on("click",function(){
 				param = new Object();
 				param.act = "save_dialog";
 				param.id=$("#id").val();
+				param.oder_date=$("#oder_date").val();
 				param.status=$("#status").val();
 				param.cooradinator=$("#cooradinator").val();
 				param.k_coment=$("#k_coment").val();
 				param.elva=$("#elva").val();
-				
+
 				$.getJSON(
 					aJaxURL, param, function(data) {
 					LoadTable();
 					});
 				$('#'+fname).dialog("close");
 				});
+			 GetDate("oder_date");
 			} ;
 		function LoadTable(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */

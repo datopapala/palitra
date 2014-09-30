@@ -131,7 +131,7 @@ switch ($action) {
 												<td style="width: 150px;"><label>ქოლცენტრის კომენტარი</label></td>
 											</tr>
 											<tr>
-												<td><input style="width: 200px;" id="oder_date" value="'.$res[sum_price].  '" class="idls object" disabled></td>
+												<td><input style="width: 200px;" id="oder_date1" value="'.$res[sum_price].  '" class="idls object" disabled></td>
 												<td><textarea  style="width: 270px; resize: none;" id="c_coment" class="idle" name="content" cols="300" disabled>'.$res[callceenter_comment].'</textarea></tr>
 
 										</table>
@@ -167,16 +167,16 @@ switch ($action) {
 							</div>
 					<div style="float: right;  width: 355px;">
 					<fieldset>
-					<legend>გაყიდვა</legend>					
+					<legend>გაყიდვა</legend>
 		                <table style="border:2px solid #85B1DE; width:100%;">
-		                   		<tr style="background:#F2F2F2; ">	
+		                   		<tr style="background:#F2F2F2; ">
 									<th style="width:7%; padding:5px; border:1px solid #85B1DE;">#</th>
 									<th style="border:1px solid #85B1DE; padding:5px;">თარიღი</th>
 									<th style="border:1px solid #85B1DE; padding:5px;">მომხმარებელი</th>
 									<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
 									<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
 								</tr>';
-		
+
 		$query_list1 = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 															gift_ids
 												  FROM 		`task_scenar`
@@ -185,34 +185,34 @@ switch ($action) {
 		$query11 = mysql_query("SELECT 	`name`,`price`,`id`
 							  FROM 		`production`
 							  WHERE 	`id` in ($cvladi)");
-		
+
 		while ($row_prod1 = mysql_fetch_row($query11)) {
 			$number = $row_prod1[2];
 			$book_name = $row_prod1[0];
 			$book_price = $row_prod1[1];
-		
+
 			$data['page'][0] .= '<tr style="background: #FEFEFE">
 									<td style="border:1px solid #85B1DE; padding:2px;">'.$number.'</td>
 									<td style="border:1px solid #85B1DE; padding:2px;">'.$res[call_date].'</td>
 									<td style="border:1px solid #85B1DE; padding:2px;">'.$res[name_surname].'</td>
 									<td style="border:1px solid #85B1DE; padding:2px;">'.$book_price.'</td>
 									<td style="border:1px solid #85B1DE; padding:2px;">'.$book_name.'</td>
-								</tr>';	
-		}			
+								</tr>';
+		}
 	 $data['page'][0] .= '</table>
-					</fieldset>	
-	 		
+					</fieldset>
+
 			 		<fieldset>
-							<legend>საჩუქარი</legend>					
+							<legend>საჩუქარი</legend>
 				                <table style="border:2px solid #85B1DE; width:100%;">
-				                   		<tr style="background:#F2F2F2; ">	
+				                   		<tr style="background:#F2F2F2; ">
 											<th style="width:7%; padding:5px; border:1px solid #85B1DE;">#</th>
 											<th style="border:1px solid #85B1DE; padding:5px;">თარიღი</th>
 											<th style="border:1px solid #85B1DE; padding:5px;">მომხმარებელი</th>
 											<th style="width:12%; padding:5px; border:1px solid #85B1DE;">ფასი</th>
 											<th style="border:1px solid #85B1DE; padding:5px;">წიგნები</th>
 										</tr>';
-				
+
 				$query_list = mysql_fetch_row(mysql_query("SELECT 	product_ids,
 																	gift_ids
 														  FROM 		`task_scenar`
@@ -221,22 +221,22 @@ switch ($action) {
 				$query1 = mysql_query("SELECT 	`name`,`price`,`id`
 									  FROM 		`production`
 									  WHERE 	`id` in ($cvladi1)");
-				
+
 				while ($row_prod = mysql_fetch_row($query1)) {
 					$number1 = $row_prod[2];
 					$book_name1 = $row_prod[0];
 					$book_price1 = $row_prod[1];
-				
+
 					$data['page'][0] .= '<tr style="background: #FEFEFE">
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$number1.'</td>
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$res[call_date].'</td>
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$res[name_surname].'</td>
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_price1.'</td>
 											<td style="border:1px solid #85B1DE; padding:2px;">'.$book_name1.'</td>
-										</tr>';	
-				}			
+										</tr>';
+				}
 			 $data['page'][0] .= '</table>
-					</fieldset>	
+					</fieldset>
 					</div>
 				    </div>
 								<input type="hidden" id="id" value="'.$_REQUEST[id].'" />
@@ -244,7 +244,7 @@ switch ($action) {
 		</fieldset></div>';
 			   	break;
    	case 'save_dialog' :
-		mysql_query("UPDATE `elva_sale` SET `status`='$_REQUEST[status]', `coordinator_id`='$_REQUEST[cooradinator]', `coordinator_comment`='$_REQUEST[k_coment]', `elva_status`='$_REQUEST[elva]'
+		mysql_query("UPDATE `elva_sale` SET `status`='$_REQUEST[status]', `oder_send_date`='$_REQUEST[oder_date]', `coordinator_id`='$_REQUEST[cooradinator]', `coordinator_comment`='$_REQUEST[k_coment]', `elva_status`='$_REQUEST[elva]'
 					WHERE (`id`='$_REQUEST[id]')");
    		break;
 	default:
