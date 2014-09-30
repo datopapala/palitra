@@ -58,10 +58,12 @@ function LoadTable(){
   </ul>
   <div id="tab-1">
     <div id="dt_example" class="ex_highlight_row">
-            <div id="container" style="width:90%">
+    <div id="container" style="width:90%">
 
-              <div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;"></div>
-              <button id="dis">დამატება</button>
+              <div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;">
+
+              </div>
+              <button id="dis" style="margin: 10px -28px;">დადასტურება</button>
                 <table class="display0" id="example0">
                     <thead>
                         <tr id="datatable_header">
