@@ -102,12 +102,12 @@ $result 	= mysql_query("SELECT	persons.`name` AS `name`,
                             ");
 
 
-$data1  = '<table >';
-$data1 .= '<tr style="height:30px">';
-$data1 .= '<td><div style="width: 100px;" ></div></td>';
+$data1  = '<table style="font-weight: bold;">';
+$data1 .= '<tr style="height:30px; ">';
+$data1 .= '<td><div style="width: 160px; " ></div></td>';
 
 for ($i = 0; $i < sizeof($time); $i++) {
-    $data1.='<td><div style="transform: rotate(270deg);margin: 10px -3px;" >' . $time[$i] . '</div></td>';
+    $data1.='<td><div style="transform: rotate(270deg);margin: 12px -7px;" >' . $time[$i] . '</div></td>';
 }
 
 $data1 .= '</tr>';
@@ -122,6 +122,10 @@ while ( $row = mysql_fetch_array( $result ) ){
         switch ($time[$i]) {
             case $time[$i] >= $row['start'] && $time[$i] <= $row['breack_start']:
                 $data1.='<td style="background: red;"></td>';
+            break;
+
+            case $time[$i] >= $row['breack_start'] && $time[$i] <= $row['breack_end']:
+            	$data1.='<td style="background: green;"></td>';
             break;
 
             case $time[$i] >= $row['breack_end'] && $time[$i] <= $row['end']:

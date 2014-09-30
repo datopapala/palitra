@@ -54,7 +54,7 @@ function LoadTable(){
 
   <ul>
       <li><a href="#tab-1">დასადასტურებელი</a></li>
-      <li><a href="#tab-2">დაუდასტურებელი</a></li>
+      <li><a href="#tab-2">დადასტრებული</a></li>
   </ul>
   <div id="tab-1">
     <div id="dt_example" class="ex_highlight_row">
@@ -66,12 +66,12 @@ function LoadTable(){
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="20%">პიროვნება</th>
-                            <th >კვირის დღე</th>
-                            <th >მუშაობის  დასაწყისი</th>
-                            <th >შესვენების დასაწყისი</th>
-                            <th >შესვენების დასასრული</th>
-                            <th >სამუშაოს დასასრული</th>
+                            <th style="width: 20%">პიროვნება</th>
+                            <th style="width: 20%">კვირის დღე</th>
+                            <th style="width: 20%">მუშაობის  დასაწყისი</th>
+                            <th style="width: 20%">შესვენების დასაწყისი</th>
+                            <th style="width: 20%">შესვენების დასასრული</th>
+                            <th style="width: 20%">სამუშაოს დასასრული</th>
                             <th style="width: 40px">#</th>
                         </tr>
                     </thead>
@@ -97,6 +97,9 @@ function LoadTable(){
                             </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+                            </th>
+                             <th>
+
                             </th>
 
                     </thead>
