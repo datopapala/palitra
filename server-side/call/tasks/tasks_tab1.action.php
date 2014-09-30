@@ -28,6 +28,8 @@ $delete_id				= $_REQUEST['delete_id'];
 $rand_file				= $_REQUEST['rand_file'];
 $file					= $_REQUEST['file_name'];
 
+$status_id				= $_REQUEST['status_id'];
+
 switch ($action) {
 	case 'get_add_page':
 		$page		= GetPage();
@@ -42,7 +44,13 @@ switch ($action) {
     case 'shablon':
         $page		= Getshablon($task_type_id_seller);
         $data		= array('page'	=> $page);
-        
+   
+        break;
+    case 'save_my_task':
+        mysql_query("UPDATE `task` SET 
+					 		`status`='$status_id'
+					WHERE 	`id`='$task_id'");
+        	 
         break;
     case 'get_edit_page':
 	  
@@ -76,11 +84,11 @@ switch ($action) {
 										priority.`name`,
 										`status`.`call_status`
 								FROM task
-								LEFT JOIN task_type ON task.task_type_id = task_type.id
-								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
-    							LEFT JOIN `status` ON task.`status` = `status`.id
-								LEFT JOIN priority ON task.priority_id = priority.id
+								JOIN task_type ON task.task_type_id = task_type.id
+								JOIN department ON task.department_id = department.id
+								JOIN users ON task.responsible_user_id = users.id
+    							JOIN `status` ON task.`status` = `status`.id
+								JOIN priority ON task.priority_id = priority.id
 								WHERE task.template_id = 0 AND task.`status` = 1");
 	    
 										    		
@@ -662,7 +670,7 @@ function Getshablon($id){
 
 function Getstatus($status){
 	$req = mysql_query("	SELECT 	`id`,
-									`name`
+									`call_status`
 							FROM 	`status`
 							WHERE 	`actived`=1
 							");
@@ -670,9 +678,9 @@ function Getstatus($status){
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $status){
-			$data .= '<option value="' . $res['name'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['call_status'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['name'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['call_status'] . '</option>';
 		}
 	}
 
@@ -727,7 +735,8 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task.id,
 												task.department_id,
 												task.responsible_user_id,
 												task.priority_id,
-												task.`comment`
+												task.`comment`,
+												task.`status`
 										FROM task
 										WHERE task.id = $task_id
 			" ));
@@ -752,7 +761,7 @@ function GetPage($res='')
 									</tr>
 									<tr>
 										<td style="width: 150px;">
-											<input style="width: 150px;" disabled type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id'] . '" />
+											<input style="width: 150px;" disabled type="text" id="id_my_task" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id'] . '" />
 										</td>
 										<td style="width: 150px;">
 											<input style="width: 150px;" disabled type="text" id="cur_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['date'] . '" />
@@ -784,7 +793,15 @@ function GetPage($res='')
 										<td style="width: 220px;">დავალების შინაარსი</td>
 									</tr>
 									<tr>
-										<td><textarea  style="width: 99%; resize: none; height: 50px;" id="task_comment" class="idle" name="task_comment" cols="300" >' . $res['comment'] . '</textarea></td>
+										<td><textarea disabled  style="width: 99%; resize: none; height: 50px;" id="task_comment" class="idle" name="task_comment" cols="300" >' . $res['comment'] . '</textarea></td>
+									</tr>
+								</table>
+								<table width="100%" class="dialog-form-table" id="">
+								   <tr>
+										<td style="width: 220px;">სტატუსი</td>
+									</tr>
+									<tr>
+										<td style="width: 220px;"><select style="width: 217px;"  id="status_id" class="idls object">'. Getstatus($res['status']).'</select></td>
 									</tr>
 								</table>
                             </fieldset>

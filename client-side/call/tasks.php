@@ -84,19 +84,22 @@
              $("#add_button_n").button({
   	            
   		     });
-             SetEvents("", "", "", "example1", fName, aJaxURL1);
+             SetEvents("", "", "", "example1", "task_dialog", aJaxURL1);
          }
          
 		 function GetTable2() {
              LoadTable2();
+             SetEvents("", "", "", "example2", "task_dialog", aJaxURL1);
          }
          
 		 function GetTable3() {
              LoadTable3();
+             SetEvents("", "", "", "example3", "task_dialog", aJaxURL1);
          }
 
 		 function GetTable4() {
              LoadTable7();
+             SetEvents("", "", "", "all_task", "task_dialog", aJaxURL1);
          }
 
 		 function LoadTable0(){		
@@ -269,6 +272,41 @@
 					LoadTable6();
 					GetDateTimes("send_time");
 				break;	
+				case "task_dialog":
+					var buttons = {
+				        "save": {
+				            text: "შენახვა",
+				            id: "save_my_task",
+				            click: function () {
+								
+				            	$.ajax({
+							        url: aJaxURL1,
+								    data: "act=save_my_task&id="+$("#id_my_task").val()+"&status_id="+$("#status_id").val(),
+							        success: function(data) {       
+										if(typeof(data.error) != "undefined"){
+											if(data.error != ""){
+												alert(data.error);
+											}else{
+												LoadTable1();
+												LoadTable2();
+												LoadTable3();
+												CloseDialog("task_dialog");
+											}
+										}
+								    }
+							    	});		            
+				            }
+				        },
+						"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				                $(this).dialog("close");
+				            }
+				        }
+				};
+				GetDialog("task_dialog", 790, "auto", buttons);
+				break;
 				case "add-edit-form2":
 					var buttons = {
 						"done": {

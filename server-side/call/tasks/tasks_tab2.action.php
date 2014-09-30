@@ -66,11 +66,11 @@ switch ($action) {
 										priority.`name`,
 										`status`.`call_status`
 								FROM task
-								LEFT JOIN task_type ON task.task_type_id = task_type.id
-								LEFT JOIN department ON task.department_id = department.id
-								LEFT JOIN users ON task.responsible_user_id = users.id
-    							LEFT JOIN `status` ON task.`status` = `status`.id
-								LEFT JOIN priority ON task.priority_id = priority.id
+								JOIN task_type ON task.task_type_id = task_type.id
+								JOIN department ON task.department_id = department.id
+								JOIN users ON task.responsible_user_id = users.id
+    							JOIN `status` ON task.`status` = `status`.id
+								JOIN priority ON task.priority_id = priority.id
 								WHERE task.template_id = 0 AND task.`status` = 2");
 	    
 										    		
