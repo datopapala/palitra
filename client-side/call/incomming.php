@@ -145,12 +145,12 @@ table.display tbody td
 		
 		function LoadTable2(status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL_call_now, "get_list&status="+status,10, "", 0, "", 1, "desc");
+			GetDataTable("example2", aJaxURL_call_now, "get_list&status="+status, 9, "", 0, "", 1, "desc");
 		}
 		
 		function LoadTable3(start, end, status){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL_all_call, "get_list", 10, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
+			GetDataTable("example3", aJaxURL_all_call, "get_list", 9, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
 		}
 
 		$(document).on("change", "#search_start", function () {
@@ -885,7 +885,6 @@ table.display tbody td
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 50px;" >№</th>
                             <th style="width: 140px;">თარიღი</th>
                             <th style="width: 130px;">განყოფილებები</th>
                             <th style="width: 100%;">კატეგორია</th>
@@ -901,8 +900,6 @@ table.display tbody td
                             <th class="colum_hidden">
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
                             </th>
-                            <th>
-                            	<input style="width: 20px;" type="text" name="search_number" value="" class="search_init" style=""></th>
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>     
@@ -962,7 +959,6 @@ table.display tbody td
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 50px;" >№</th>
                             <th style="width: 100%;">თარიღი</th>
                             <th style="width: 100%;">განყოფილებები</th>
                             <th style="width: 100%;">კატეგორია</th>
@@ -978,8 +974,6 @@ table.display tbody td
                             <th class="colum_hidden">
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
                             </th>
-                            <th>
-                            	<input style="width: 20px;" type="text" name="search_number" value="" class="search_init" style=""></th>
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>  

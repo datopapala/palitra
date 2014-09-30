@@ -29,6 +29,10 @@ table{
 	font-size: 13px;
 	font-family: BPG arial !important;
 }
+table td{
+    font-size: 11px;
+    font-family: BPG arial !important;
+}
 input{
 	font-size: 13px;
 	font-family: BPG arial !important;

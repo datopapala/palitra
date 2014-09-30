@@ -142,12 +142,10 @@ table.display thead th div.DataTables_sort_wrapper span {
 
 table.display td, table.display th {
 	text-overflow: ellipsis;
-	white-space: nowrap;
 	overflow: hidden;
 }
 
 table.display td, table.display th {
-	white-space: nowrap;
 }
 
 table.display thead th div.DataTables_sort_wrapper span {
@@ -191,7 +189,7 @@ table.display tbody td {
 	padding: 0 10px;
 	height: 22px;
 	margin: 0;
-	line-height: 22px;
+	line-height: 15px;
 }
 
 table.display td input[type="checkbox"] {

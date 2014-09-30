@@ -81,8 +81,7 @@ switch ($action) {
 		if($status != 'undefined'){
 		$checker = "AND incomming_call.call_type_id = $status";
 		}
-	  	$rResult = mysql_query("SELECT  		incomming_call.id,           
-												incomming_call.id,
+	  	$rResult = mysql_query("SELECT  		incomming_call.id,  
 												incomming_call.`date`,
 												department.`name` AS `dep_name`,
 												info_category.`name` AS `cat_name`,
