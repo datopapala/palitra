@@ -63,7 +63,7 @@ div.dataTables_wrapper .ui-widget-header {
 }
 
 .dataTables_filter input{
-	height: 13px;
+	//height: 13px;
 }
 
 .dataTables_processing {

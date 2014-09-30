@@ -80,6 +80,7 @@ switch ($action) {
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
 								LEFT JOIN	pattern ON task.template_id = pattern.id
+	    						
 	    						WHERE	task_detail.actived=1 AND task_detail.`status` = 1");
 	    
 										    		
@@ -642,8 +643,8 @@ function Getshablon($id){
 function Getstatus($status){
 	$req = mysql_query("	SELECT 	`id`,
 									`name`
-							FROM 	status
-						
+							FROM 	`status`
+							WHERE 	`actived`=1
 							");
 
 	$data .= '<option value="0" selected="selected">----</option>';
@@ -661,8 +662,8 @@ function Getstatus($status){
 function Getfamily($family_id){
 	$req = mysql_query("	SELECT 	`id`,
 									`name`
-							FROM 	family
-							WHERE 	actived=1
+							FROM 	`family`
+							WHERE 	`actived`=1
 							");
 
 	$data .= '<option value="0" selected="selected">----</option>';

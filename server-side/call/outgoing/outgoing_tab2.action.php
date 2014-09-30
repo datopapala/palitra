@@ -74,7 +74,7 @@ switch ($action) {
 										shabloni.`name`,
 										IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name),
 										IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1),
-										'',
+										priority.`name`,
 										IF(task_detail.status= 2, 'მიმდინარე','') AS `status`
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
@@ -83,6 +83,7 @@ switch ($action) {
 	    						LEFT JOIN shabloni ON task.template_id = shabloni.id
 								LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
 								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
+	    						LEFT JOIN priority ON task.priority_id = priority.id
 	    						WHERE	task_detail.status=2 and task_detail.responsible_user_id=$user");
 	    
 										    		

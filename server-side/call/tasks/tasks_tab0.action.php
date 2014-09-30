@@ -1146,6 +1146,7 @@ function GetPersons(){
 	$req = mysql_query("SELECT 		`id`,
 									`name`
 						FROM 		`priority`
+						WHERE 		`actived` = 1
 						");
 
 	$data .= '<option value="' . 0 . '" selected="selected">' . '' . '</option>';
