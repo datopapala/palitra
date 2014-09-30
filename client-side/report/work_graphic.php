@@ -14,6 +14,8 @@ $(document).ready(function(){
 		LoadTable()
 		title=$(this).html();
 		$("#add-edit-form").attr('title', title);
+		$("#wek_h").html("'"+title+"'");
+
 
 });
 	$("input").focus();
@@ -75,7 +77,9 @@ function LoadTable(){
 			<a class="menun ui-state-default" id="1">კვირა</a><br/>
 			</td>
 			<td style="; padding: 10px; margin: 10px">
+
             	<h2 align="center"style="">სამუშაო გრაფიკები</h2>
+            	<h2 align="center" id="wek_h">'ორშაბათი'</h2>
             	<div id="button_area" style="">
             	<button id="add">დამატება</button>
             	<button id="dis">წაშლა</button>
