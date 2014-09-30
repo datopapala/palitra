@@ -706,22 +706,18 @@ function Getdepartment($department_id){
 }
 
 
-function Getpersonss($persons_id)
-{
+function GetPersonss(){
 	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-						FROM `persons`
-						WHERE actived=1 ");
+	$req = mysql_query("SELECT 		users.id AS `id`,
+									persons.`name` AS `name`
+						FROM 		`persons`
+						JOIN    	users ON users.person_id = persons.id");
 
-	$data .= '<option value="0" selected="selected">----</option>';
+	$data .= '<option value="' . 0 . '" selected="selected">' . '' . '</option>';
+
 	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $persons_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
+		$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
 	}
-
 	return $data;
 }
 
@@ -1168,7 +1164,7 @@ function GetResoniblePersonPage(){
 					</tr>
 					<tr>
 						<th>
-							<select id="responsible_person" class="idls address">'. GetPersons() .'</select>
+							<select id="responsible_person" class="idls address">'. GetPersonss() .'</select>
 						</th>
 					</tr>
 				</table>
