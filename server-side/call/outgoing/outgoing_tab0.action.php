@@ -955,7 +955,7 @@ function GetPage($res='', $shabloni)
 						//$notes = array();
 						//$a 	= 	array();
 						
-						for($key=1;$key<23;$key++){
+						for($key=1;$key<25;$key++){
 						
 						$rows1 = mysql_query("	SELECT 	quest_id,
 														notes,
@@ -967,7 +967,7 @@ function GetPage($res='', $shabloni)
 								$notes[] = array('id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]);
 							
 						}
-					
+					print_r($notes);
 						// სატელეფონო გაყიდვები დასაწყისი
 						$data .= '
 							<div id="quest">
