@@ -103,6 +103,7 @@ switch ($action) {
         
         break;
     case 'get_list_base_phone':
+    	set_time_limit(99990);
     	$count	= $_REQUEST['count'];
     	$hidden	= $_REQUEST['hidden'];
     	
@@ -117,8 +118,7 @@ switch ($action) {
 											person_status,
     										note
 									FROM 	`phone`
-									WHERE	actived = 1 
-    								LIMIT	1000");
+									WHERE	actived = 1");
     	 
     	$data = array(
     			"aaData"	=> array()
