@@ -1956,7 +1956,7 @@ function GetPage($res='', $shabloni)
 											<input type="text" id="phone"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
 										</td>
 										<td>
-											<input type="text" id="phone1"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone1'] . '" />
+											<input type="text" id="phone1"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone2'] . '" />
 										</td>
 															
 									</tr>
