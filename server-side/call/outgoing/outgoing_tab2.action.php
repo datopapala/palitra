@@ -794,7 +794,9 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 												task_scenar.d10,
 												task_scenar.d11,
 												task_scenar.d12,
-												task_scenar.q1
+												task_scenar.q1,
+												task_scenar.b1,
+												task_scenar.b2
 										FROM 	`task`
 										LEFT JOIN	task_detail ON task.id = task_detail.task_id
 										LEFT JOIN	task_type ON task.task_type_id = task_type.id

@@ -241,9 +241,17 @@ switch ($action) {
 			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
 												FROM `task_detail`
 												WHERE `id` = '$task_id' "));
+			
+			$res_cheker = mysql_fetch_row(mysql_query(" SELECT id
+														FROM `task_scenar`
+														WHERE task_detail_id = '$task_id' "));
         	
 			UpPerson($res[0],$res[1]);
-        	Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift, $b1, $b2);
+			if($res_cheker[0]==''){
+        		Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift, $b1, $b2);
+			}else{
+				Savetask1Up($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift, $b1, $b2);
+			}
         	Savetask2($task_detail_id, $call_content, $status);
         	break;
     default:
@@ -259,6 +267,46 @@ echo json_encode($data);
  *	task Functions
  * ******************************
  */
+
+function Savetask1Up($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift, $b1, $b2)
+{
+	$user  = $_SESSION['USERID'];
+	$c_date		= date('Y-m-d H:i:s');
+	mysql_query("
+				UPDATE `task_scenar` SET
+						`user_id`='$user', 
+						`date`='$c_date',  
+						`hello_comment`='$hello_comment', 
+						`hello_quest`='$hello_quest', 
+						`info_comment`='$info_comment', 
+						`info_quest`='$info_quest', 
+						`result_comment`='$result_comment', 
+						`result_quest`='$result_quest', 
+						`send_date`='$send_date', 
+						`payment_comment`='$payment_comment', 
+						`payment_quest`='$payment_quest', 
+						`preface_name`='$preface_name', 
+						`preface_quest`='$preface_quest', 
+						`d1`='$d1', 
+						`d2`='$d2', 
+						`d3`='$d3', 
+						`d4`='$d4', 
+						`d5`='$d5', 
+						`d6`='$d6', 
+						`d7`='$d7', 
+						`d8`='$d8', 
+						`d9`='$d9', 
+						`d10`='$d10', 
+						`d11`='$d11', 
+						`d12`='$d12', 
+						`q1`='$q1', 
+						`product_ids`='$get_prod', 
+						`gift_ids`='$get_gift', 
+						`b1`='$b1', 
+						`b2`='$b2'
+				WHERE `task_detail_id`='$task_detail_id'
+				");
+}
 
 function SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $result_comment,$get_prod_row, $row_name_prod, $task_id)
 {
@@ -865,7 +913,9 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 												task_scenar.d10,
 												task_scenar.d11,
 												task_scenar.d12,
-												task_scenar.q1
+												task_scenar.q1,
+												task_scenar.b1,
+												task_scenar.b2
 										FROM 	`task`
 										LEFT JOIN	task_detail ON task.id = task_detail.task_id
 										LEFT JOIN	task_type ON task.task_type_id = task_type.id
