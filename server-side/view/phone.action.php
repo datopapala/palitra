@@ -78,9 +78,6 @@ switch ($action) {
 											incomming_call.date,
 											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
 									FROM 	incomming_call
-									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
-									LEFT JOIN	department ON incomming_call.department_id = department.id
-									LEFT JOIN	city ON personal_info.personal_city = city.id
 									WHERE incomming_call.phone != ''");
 	
 		$data = array(
@@ -108,20 +105,18 @@ switch ($action) {
 			
 		$rResult = mysql_query("	SELECT 	incomming_call.id,
 											incomming_call.phone,
-											personal_info.personal_phone,
+											'',
 											incomming_call.first_name,
-											personal_info.personal_id,
-											personal_info.personal_addres,
-											city.`name`,
-											personal_info.personal_mail,
-											personal_info.personal_d_date,
-											department.`name`,
+											'',
+											'',
+											'',
+											'',
+											'',
+											'',
 											incomming_call.date,
 											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
 									FROM 	incomming_call
-									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
-									LEFT JOIN	department ON incomming_call.department_id = department.id
-									LEFT JOIN	city ON personal_info.personal_city = city.id
+									
 									WHERE incomming_call.phone != ''
 									UNION ALL
 									SELECT 	id,
