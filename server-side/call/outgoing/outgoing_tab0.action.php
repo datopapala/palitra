@@ -74,7 +74,7 @@ switch ($action) {
 										department.`name`,
 										users.username,
 										task.end_date,
-										status.`name`
+										''
 								FROM task
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
@@ -92,7 +92,7 @@ switch ($action) {
 										department.`name`,
 										users.username,
 										task.end_date,
-										status.`name`
+										IF(task_detail.first_name != '', phone.note, phone.note)
 								FROM task
 								LEFT JOIN task_type ON task.task_type_id = task_type.id
 								LEFT JOIN task_detail ON task.id = task_detail.task_id
@@ -856,6 +856,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 												task.`task_type_id`,
 												task.`template_id`,
 												IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1) as phone,
+												IF(task_detail.phone_base_inc_id != '', '', phone.phone2) as phone2,
 												IF(task_detail.phone_base_inc_id != '', '', phone.born_day) as b_day,
 												IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name) as first_name,
 												IF(task_detail.phone_base_inc_id != '', '', phone.addres) as addres,
@@ -1947,16 +1948,17 @@ function GetPage($res='', $shabloni)
 								<legend>აბონენტი</legend>
 								<table style="height: 243px;">						
 									<tr>
-										<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
-										<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
+										<td style="width: 180px; color: #3C7FB1;">ტელეფონი 1</td>
+										<td style="width: 180px; color: #3C7FB1;">ტელეფონი 2</td>
 									</tr>
 									<tr>
 										<td>
 											<input type="text" id="phone"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone'] . '" />
 										</td>
-										<td style="width: 180px;">
-											<input type="text" id="person_n"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
-										</td>					
+										<td>
+											<input type="text" id="phone1"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['phone1'] . '" />
+										</td>
+															
 									</tr>
 									<tr>
 										<td style="width: 180px; color: #3C7FB1;">სახელი</td>
@@ -1982,11 +1984,14 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr>
 										<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
-										
+										<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
 									</tr>
 									<tr>
 										<td td style="width: 180px;">
 											<input type="text" id="addres"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+										</td>
+										<td style="width: 180px;">
+											<input type="text" id="person_n"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
 										</td>
 									</tr>
 									

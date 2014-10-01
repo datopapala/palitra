@@ -81,8 +81,9 @@ switch ($action) {
 										shabloni.`name`,
 										IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name),
 										IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1),
+	    								IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone2),
 										priority.`name`,
-										IF(task_detail.status= 2, 'მიმდინარე','') AS `status`
+										IF(task_detail.phone_base_inc_id != '', '', phone.note)
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id

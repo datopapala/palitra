@@ -379,13 +379,13 @@
 		$(document).on("click", "#incomming_base", function () {
 			$("#hidden_base").val('1');
 			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-			GetDataTable("base", aJaxURL, "get_list_base", 12, "", 0, "", 1, "asc", "");
+			GetDataTableTask("base", aJaxURL, "get_list_base", 10, "", 0, "", 1, "asc", "");
 		});
 
 		$(document).on("click", "#phone_base", function () {
 			$("#hidden_base").val('2');
 			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-			GetDataTable("base", aJaxURL, "get_list_base_phone", 12, "", 0, "", 1, "asc", "");
+			GetDataTableTask("base", aJaxURL, "get_list_base_phone", 10, "", 0, 0, 1, "asc", "");
 		});
 		
 		 $(document).on("click", "#add_button_pp", function () {
@@ -640,7 +640,7 @@
 								});
 							GetDialog("phone_base_dialog", 1260, "auto", buttons);
 							SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-							GetDataTable("base", aJaxURL, "get_list_base_phone", 12, "", 0, "", 1, "asc", "");
+							GetDataTableTask("base", aJaxURL, "get_list_base_phone", 10, "", 0, "", 1, "asc", "");
 						}
 					}
 			    }

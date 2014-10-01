@@ -19,12 +19,7 @@
 		$(document).ready(function () {     
 			GetTabs(tbName);   
 			
-						GetTable0();
-						GetTable1();
-						GetTable2();
-						GetTable3();
-						GetTable4();
-				
+			GetTable0();
 			
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
@@ -80,17 +75,17 @@
 			
 		function LoadTable1(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 11, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL1, "get_list", 12, "", 0, "", 1, "asc", "");
 		}
 
 		function LoadTable2(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL2, "get_list", 11, "", 0, "", 1, "asc", "");
+			GetDataTable("example2", aJaxURL2, "get_list", 12, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable3(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL3, "get_list", 12, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable4(){			
@@ -725,6 +720,7 @@
 			
 			// person info
 			param.phone					= $("#phone").val();
+			param.phone1				= $("#phone1").val();
 			param.person_n				= $("#person_n").val();
 			param.first_name			= $("#first_name").val();
 			param.mail					= $("#mail").val();
@@ -815,6 +811,7 @@
 			
 			// person info
 			param.phone					= $("#phone").val();
+			param.phone1				= $("#phone1").val();
 			param.person_n				= $("#person_n").val();
 			param.first_name			= $("#first_name").val();
 			param.mail					= $("#mail").val();
@@ -901,6 +898,7 @@
 			
 			// person info
 			param.phone					= $("#phone").val();
+			param.phone1				= $("#phone1").val();
 			param.person_n				= $("#person_n").val();
 			param.first_name			= $("#first_name").val();
 			param.mail					= $("#mail").val();
@@ -1133,23 +1131,18 @@
 <body>
 
 <div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
-		<ul><?php 
-			if($_SESSION['USERID'] == 1){
-			echo '<li><a href="#tab-0">მენეჯერი</a></li>';
-			}
-			?>
+		<ul>
+			<li><a href="#tab-0">აქტივაცია</a></li>
 			<li><a href="#tab-1">პირველადი</a></li>
 			<li><a href="#tab-2">მიმდინარე</a></li>
 			<li><a href="#tab-3">დასრულებული</a></li>
 			<li><a href="#tab-4">არქივი</a></li>
 		</ul>
-		<?php 
-			if($_SESSION['USERID'] == 1){
-		echo '<div id="tab-0">
+		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
-		            	<h2 align="center">მენეჯერი</h2>
+		            	<h2 align="center">აქტივაცია</h2>
 		            	<div id="button_area">
 		            		<!-- button id="add_button">დამატება</button -->
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
@@ -1165,7 +1158,7 @@
 									<th style="width:19%;">განყოფილება</th>
 									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
 									<th style="width:19%;">ზარის შესრულების<br>თარიღი</th>
-									<th style="width:19%;">სტატუსი</th>
+									<th style="width:19%;">შენიშვნა</th>
 									<th class="check">#</th>
 								</tr>
 							</thead>
@@ -1210,9 +1203,7 @@
 		            </div>
 		        </div>
 		    </div>
-		 </div>';
-		 }
-		 ?>
+		 </div>
 		<div id="tab-1">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
@@ -1231,9 +1222,10 @@
 									<th style="width:19%;">დავალების ტიპი</th>
 									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">ტელეფონი 1</th>
+									<th style="width:19%;">ტელეფონი 2</th>
 									<th style="width:19%;">პრიორიტეტი</th>
-									<th style="width:19%;">სტატუსი</th>
+									<th style="width:19%;">შენიშვნა</th>
 								</tr>
 							</thead>
 							<thead>
@@ -1246,6 +1238,9 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -1299,9 +1294,10 @@
 									<th style="width:19%;">დავალების ტიპი</th>
 									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">ტელეფონი 1</th>
+									<th style="width:19%;">ტელეფონი 2</th>
 									<th style="width:19%;">პრიორიტეტი</th>
-									<th style="width:19%;">სტატუსი</th>
+									<th style="width:19%;">შენიშვნა</th>
 								</tr>
 							</thead>
 							<thead>
@@ -1323,6 +1319,9 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -1365,9 +1364,10 @@
 									<th style="width:19%;">დავალების ტიპი</th>
 									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">ტელეფონი 1</th>
+									<th style="width:19%;">ტელეფონი 2</th>
 									<th style="width:19%;">პრიორიტეტი</th>
-									<th style="width:19%;">სტატუსი</th>
+									<th style="width:19%;">შენიშვნა</th>
 								</tr>
 							</thead>
 							<thead>
@@ -1389,6 +1389,9 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -1431,9 +1434,10 @@
 									<th style="width:19%;">დავალების ტიპი</th>
 									<th style="width:19%;">სცენარი</th>
 									<th style="width:19%;">დასახელება</th>
-									<th style="width:19%;">ტელეფონი</th>
+									<th style="width:19%;">ტელეფონი 1</th>
+									<th style="width:19%;">ტელეფონი 2</th>
 									<th style="width:19%;">პრიორიტეტი</th>
-									<th style="width:19%;">სტატუსი</th>
+									<th style="width:19%;">შენიშვნა</th>
 								</tr>
 							</thead>
 							<thead>
@@ -1452,6 +1456,9 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />

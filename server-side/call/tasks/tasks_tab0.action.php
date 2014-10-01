@@ -71,14 +71,12 @@ switch ($action) {
 											incomming_call.phone,
 											personal_info.personal_phone,
 											incomming_call.first_name,
-											personal_info.personal_id,
 											personal_info.personal_addres,
 											city.`name`,
-											personal_info.personal_mail,
-											personal_info.personal_d_date,
 											source.`name`,
 											incomming_call.date,
-											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
+											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`,
+    										''
 									FROM 	incomming_call
 									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
 									LEFT JOIN	source ON incomming_call.source_id = source.id
@@ -112,14 +110,12 @@ switch ($action) {
 											phone1,
 											phone2,
 											first_last_name,
-											person_n,
 											addres,
 											city,
-											mail,
-											born_day,
 											sorce,
 											create_date,
-											person_status
+											person_status,
+    										note
 									FROM 	`phone`
 									WHERE	actived = 1");
     	 
@@ -785,21 +781,19 @@ function Getphonebase(){
 													<button id="phone_base">სატელეფონო ბაზა</button>
 													<button id="incomming_base">შემომავალი ზარები</button>
     						        			</div>
-    							                <table class="" id="base" style="width: 900px;">
+    							                <table class="" id="base" style="width: 100%;">
     							                    <thead>
     													<tr  id="datatable_header">
-    														<th style="width: 15%;">#</th>
+    														<th style="width: 30px;">#</th>
     														<th style="width: %;">ტელეფონი 1</th>
 								                            <th style="width: %;">ტელეფონი 2</th>
 								                            <th style="width: %;">სახელი/ <br> გვარი</th>
-								                            <th style="width: %;">პირადი N/<br> საიდ. კოდი</th>
 								                            <th style="width: %;">მისამართი</th>
 								                            <th style="width: %;">ქალაქი</th>
-								                            <th style="width: %;">ელ-ფოსტა</th>
-								                            <th style="width: %;">დაბ. წელი</th>
 								                            <th style="width: %;">წყარო</th>
 								                            <th style="width: %;">ფორმირების<br>თარიღი</th>
 								                            <th style="width: %;">ფიზიკური/<br>იურიდიული</th>
+															<th style="width: %;">შენიშვნა</th>
 															<th style="width: %;">#</th>
     													</tr>
     												</thead>
@@ -811,12 +805,7 @@ function Getphonebase(){
     														<th>
 								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
 								                            </th>
-								                            <th>
-								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
-								                            </th>
-								                             <th>
-								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
-								                            </th>
+								                            
 								                            <th>
 								                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 100px;"/>
 								                            </th>

@@ -81,8 +81,9 @@ switch ($action) {
 										shabloni.`name`,
 										IF(task_detail.phone_base_inc_id != '', incomming_call.first_name, phone.first_last_name),
 										IF(task_detail.phone_base_inc_id != '', incomming_call.phone, phone.phone1),
+	    								IF(task_detail.phone_base_inc_id != '', '', phone.phone2),
 										priority.`name`,
-										IF(task_detail.status= 1, 'პირველადი','') AS `status`
+										IF(task_detail.phone_base_inc_id != '', '', phone.note)
 								FROM 	`task`
 								LEFT JOIN	task_detail ON task.id = task_detail.task_id
 								LEFT JOIN	task_type ON task.task_type_id = task_type.id
@@ -281,10 +282,11 @@ function UpPerson($phone_base,$phone_base_inc)
 	$city_id		= $_REQUEST['city_id'];
 	$b_day			= $_REQUEST['b_day'];
 	$addres			= $_REQUEST['addres'];
+	$phone1			= $_REQUEST['phone1'];
 	
 	mysql_query("UPDATE `phone` SET
 						`phone1`			='$phone',
-						`phone2`			='$phone',
+						`phone2`			='$phone1',
 						`first_last_name`	='$first_name',
 						`person_n`			='$person_n',
 						`addres`			='$addres',
