@@ -173,6 +173,14 @@
 			param.start_date		= $("#start_date").val();
 			param.end_date			= $("#end_date").val();
 			param.action_content	= $("#action_content").val();
+
+
+					
+			param.task_type_id			= $("#task_type_id").val();
+			param.persons_id			= $("#persons_id").val();
+			param.comment				= $("#comment").val();
+			param.task_department_id	= $("#task_department_id").val();
+			param.action_content		= $("#action_content").val();
 	 
 		    $.ajax({
 		        url: aJaxURL,

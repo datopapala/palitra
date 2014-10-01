@@ -18,9 +18,9 @@ $end_date			= $_REQUEST['end_date'];
 $action_content	    = $_REQUEST['action_content'];
 
 //task
-$persons_id			    = $_REQUEST['persons_id'];
+
 $task_type_id			= $_REQUEST['task_type_id'];
-$priority_id			= $_REQUEST['priority_id'];
+$priority_id			= $_REQUEST['persons_id'];
 $comment 	        	= $_REQUEST['comment'];
 $task_department_id 	= $_REQUEST['task_department_id'];
 $hidden_inc				= $_REQUEST['hidden_inc'];
@@ -82,11 +82,12 @@ switch ($action) {
 		if($action_id == ''){
 			
 			Addaction(  $action_name,  $start_date, $end_date, $action_content);
-			
+			$task_id = mysql_insert_id();
+			Addtask($task_id, $task_type_id, $task_department_id, $priority_id,  $comment);
 		}else {
 			
 			saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content);
-			
+			Savetask($action_id, $task_type_id, $task_department_id, $priority_id,  $comment);
 			
 		}
 		break;
@@ -123,35 +124,29 @@ function Addaction(  $action_name,  $start_date, $end_date, $action_content){
 	
 }
 
-function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
+function Addtask($task_id, $task_type_id, $task_department_id, $priority_id,  $comment)
 {
-	
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO	`task` 
 									(`user_id`,
-									 `date`,
-									 `responsible_user_id`,
-									 `incomming_call_id`,
+									`action_id`,
 									 `task_type_id`,
-									 `priority_id`,
 									 `department_id`,
-									 `phone`,
-									 `comment`,
-									 `problem_comment`)
+									 `priority_id`,
+									 `comment`
+									)
 						VALUES
 									('$user',
-									  NULL,
-									 '$persons_id',
-									 '$incomming_call_id',
-									 '$task_type_id',
-									 '$priority_id',
-								     '$task_department_id',
-								      NULL, 
-								     '$comment', 
-								     NULL)");
+									'$task_id',
+									'$task_type_id',
+									'$task_department_id',
+									'$priority_id',
+								    '$comment'
+								   )");
 	
 	
 }
+
 
 
 				
@@ -170,18 +165,18 @@ function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_
 	
 
 }       
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
+function Savetask($action_id, $task_type_id, $task_department_id, $priority_id,  $comment)
 {
-
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $task_id);
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
-									 	 `task_type_id`='$task_type_id',
+										 `task_type_id`='$task_type_id',
+										 `department_id`='$task_department_id',
 										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
 										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
-
+										  WHERE `action_id`='$action_id'");
+	//$log->setInsertLog('task',$task_id);
 }
 
 
@@ -255,8 +250,12 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 												action.`name` AS action_name,
 												action.start_date AS start_date,
 												action.end_date AS end_date,
-												action.content AS action_content
+												action.content AS action_content,
+												task.department_id,
+												task.priority_id,
+												task.task_type_id
 										FROM 	action
+										JOIN task ON task.action_id=action.id
 										WHERE 	action.id=$action_id
 									" ));
 	
@@ -329,7 +328,7 @@ function GetPage($res='', $number)
 						</tr>
 			    		<tr>
 							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['department_id']).'</select></td>
 							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
