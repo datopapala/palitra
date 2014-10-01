@@ -6,30 +6,14 @@
 var aJaxURL	= "server-side/report/persons_work.action.php";
 var dey=1;
 $(document).ready(function(){
-
-  	var today = new Date();
-  	var dd = today.getDate();
-  	var mm = today.getMonth()+1; //January is 0!
-  	var yy = today.getFullYear();
-
-  	if(dd<10) {
-  	    dd='0'+dd;
-  	}
-
-  	if(mm<10) {
-  	    mm='0'+mm;
-  	}
-
-  	today = mm+'/'+dd+'/'+yy;
-  	$("#date").val(today);
 	GetButtons("add", "dis");
 	LoadTable();
-
 	SetEvents("add", "dis", "", "example", "add-edit-form", aJaxURL);
   	$(document).on("change", "#date", function () 	{
+  		$("#example").show();
   		LoadTable();
   	  	});
-
+$("#example").hide();
 	});
 function LoadDialog(f){
 	GetDialog(f,800);
@@ -51,13 +35,12 @@ function LoadDialog(f){
 				LoadTable();
 				$("#add-edit-form").dialog("close");
 		});
-
-
 	});
 };
 
 function LoadTable(){
 	GetDataTable("example",aJaxURL+'?date='+($('#date').val()).split("-")[0],"get_list",7,'',0)
+
 }
 
 
@@ -85,7 +68,7 @@ function LoadTable(){
             	<div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;"></div>
 				<input id='date' data-weekpicker="weekpicker" data-months="1"/>
 
-                <table class="display" id="example">
+                <table class="display" id="example" >
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
