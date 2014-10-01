@@ -1322,18 +1322,17 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table">
 											<tr>
-												<td><textarea  style="width: 550px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['biblus_quest1'].'</textarea></td>
+												<td><textarea  style="width: 500px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['biblus_quest1'].'</textarea></td>
 												
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
+											<tr>
+												<td style="">მინიშნება</td>
+											</tr>			
 								    		<tr>
 												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[22][notes].'</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
@@ -1355,12 +1354,11 @@ function GetPage($res='', $shabloni)
 											</tr>
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
+											<tr>
+												<td style="">მინიშნება</td>
+											</tr>
 								    		<tr>
 												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[23][notes].'</textarea></td>
-												
-											</tr>
-											<tr>
-												<td style="text-align:right;"></td>
 											</tr>
 									</table>
 									<hr>
