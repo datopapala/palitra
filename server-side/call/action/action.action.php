@@ -243,7 +243,11 @@ function Gettask_type($task_type_id)
 
 	return $data;
 }
-
+function GetLocalID(){
+	GLOBAL $db;
+	return $db->increment('action');
+}
+//echo GetLocalID();
 
 function Getaction($action_id)
 {
@@ -259,10 +263,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 	return $res;
 }
 
-function GetLocalID(){
-	GLOBAL $db;
-	return $db->increment('action');
-}
+
 
 function GetPage($res='', $number)
 {
@@ -430,24 +431,24 @@ function GetPage($res='', $number)
 		        </div>
 
 				</fieldset>
-						<input type="hidden" id="action_id" value="'.$_REQUEST['id'].'"/>
+						
 	  					
 			</div>
-				<input type="hidden" id="act_id" value="'.increment('action').'"/>
+				<input type="hidden" id="act_id" value="'.(($res['id']!='')?$res['id']:increment('action')).'"/>
     </div>';
 
 	return $data;
 }
 function increment($table){
 
-	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
+$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
 	$row   			= mysql_fetch_array($result);
-	$increment   	= $row['Auto_increment'];
-	$next_increment = $increment+1;
-	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
+$increment   	= $row['Auto_increment'];
+$next_increment = $increment+1;
+mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
 
-	return $increment;
-}
+return $increment;
+ }
 
 
 

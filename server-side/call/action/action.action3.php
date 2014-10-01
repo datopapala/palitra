@@ -52,13 +52,15 @@ switch ($action) {
 		$count 			= $_REQUEST['count'];
 		$hidden		 	= $_REQUEST['hidden'];
 		$action_idd   	= $_REQUEST['act_id'];
+		$filter			= $action_idd	;
+		
 	  	$rResult = mysql_query("	SELECT  
 											action_detail.id,
 											action_detail.`object_id`,
 											action_detail.`addres`
 									FROM 	action_detail
 									
-									WHERE   action_detail.actived =1 AND action_detail.action_id = $action_idd");
+									WHERE   action_detail.actived =1 AND action_detail.action_id = $filter");
 												  
 		$data = array(
 				"aaData"	=> array()

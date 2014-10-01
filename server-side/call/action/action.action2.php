@@ -53,15 +53,16 @@ switch ($action) {
 		$count 			= $_REQUEST['count'];
 		$hidden		 	= $_REQUEST['hidden'];
 		$action_idd   	= $_REQUEST['act_id'];
+		
+		$filter=$action_idd	;
+		
 		$rResult = mysql_query("	SELECT  
 											action_detail.id,
 											action_detail.date,
 											action_detail.`production_id`,
 											action_detail.price
 									FROM 	action_detail
-									LEFT JOIN 	object ON action_detail.object_id=object.id
-									LEFT JOIN    production ON action_detail.production_id= production.id
-									WHERE   action_detail.actived =2 AND action_detail.action_id = $action_idd");
+									WHERE   action_detail.actived =2 AND action_detail.action_id = $filter");
 		
 	
 		$data = array(
