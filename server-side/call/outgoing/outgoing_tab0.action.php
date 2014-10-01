@@ -1310,7 +1310,8 @@ function GetPage($res='', $shabloni)
 												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
 					  						</tr>
 									</table>
-														
+									<hr>
+																
 									<div class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
@@ -1321,7 +1322,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table">
 											<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['biblus_quest1'].'</textarea></td>
+												<td><textarea  style="width: 550px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['biblus_quest1'].'</textarea></td>
 												
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
@@ -1341,7 +1342,7 @@ function GetPage($res='', $shabloni)
 									<div class="'.(($notes[23][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
 								    		<tr>
-												<td style="width:30px; font-weight:bold;">B1</td>
+												<td style="width:30px; font-weight:bold;">B2</td>
 												<td style="font-weight:bold;">რას ურჩევდით ბიბლუსს?</td>
 												<td></td>
 											</tr>
