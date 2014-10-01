@@ -7,7 +7,7 @@ var dey=1;
 $(document).ready(function(){
 	GetButtons("add", "dis");
 	LoadTable();
-	SetEvents("add", "dis", "", "example", "add-edit-form", aJaxURL);
+	SetEvents("add", "dis", "check-all", "example", "add-edit-form", aJaxURL);
 
 	$(".menun").click(function(){
 		dey=this.id;
@@ -23,9 +23,12 @@ $(document).ready(function(){
 function LoadDialog(f){
 	GetDialog(f,500);
 	$('.time').timepicker({
+		hourMax: 20,
+		hourMin: 10,
 		stepMinute: 15,
 		timeFormat: 'HH:mm',
-		minuteGrid: 15
+		minuteGrid: 15,
+		hourGrid: 2
 
 	});
 	$("#save-dialog").click(function(){
@@ -33,14 +36,15 @@ function LoadDialog(f){
 			param.act 			= "save_dialog";
 			param.id 			= $("#id").val();
 			param.week_day_id   = dey;
-			param.start 		= $("#start").val()
-			param.breack_start 	= $("#breack_start").val()
-			param.breack_end 	= $("#breack_end").val()
-			param.end			= $("#end").val()
+			param.start 		= $("#start").val();
+			param.breack_start 	= $("#breack_start").val();
+			param.breack_end 	= $("#breack_end").val();
+			param.end			= $("#end").val();
+			if(param.start < param.breack_start & param.breack_start<param.breack_end & param.breack_end<param.end){
 			$.getJSON(aJaxURL, param, function(json) {
 				LoadTable()
 				$("#add-edit-form").dialog("close");
-		});
+		});} else alert('მიუთითეთ კორექტული დრო');
 
 
 	});
@@ -89,10 +93,10 @@ function LoadTable(){
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th >მუშაობის დასაწყისი</th>
-                            <th >შესვენების დასაწყისი</th>
-                            <th >შესვენების დასასრული</th>
-                            <th >სამუშაოს დასასრული</th>
+                            <th style="width: 25%">მუშაობის დასაწყისი</th>
+                            <th style="width: 25%">შესვენების დასაწყისი</th>
+                            <th style="width: 25%">შესვენების დასასრული</th>
+                            <th style="width: 25%">სამუშაოს დასასრული</th>
                             <th style="width: 30px">#</th>
                         </tr>
                     </thead>
@@ -101,8 +105,7 @@ function LoadTable(){
                             <th class="colum_hidden">
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
                             </th>
-
-                            <th>
+							<th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
@@ -112,7 +115,10 @@ function LoadTable(){
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>
+                            <th>
+                                <input type="checkbox" name="check-all" id="check-all">
                             </th>
 
                     </thead>
