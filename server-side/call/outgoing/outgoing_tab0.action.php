@@ -967,7 +967,6 @@ function GetPage($res='', $shabloni)
 								$notes[] = array('id' => $row[quest_id],'notes' => $row[notes], 'qvota' => $row[qvota]);
 							
 						}
-					print_r($notes);
 						// სატელეფონო გაყიდვები დასაწყისი
 						$data .= '
 							<div id="quest">
