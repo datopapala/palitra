@@ -717,6 +717,8 @@
 			param.d11					= $("input[name='d11']:checked").val();
 			param.d12					= $("input[name='d12']:checked").val();
 			param.q1					= $("input[name='q1']:checked").val();
+			param.b1					= $("#biblus_quest1").val();
+			param.b2					= $("#biblus_quest2").val();
 
 			param.call_content			= $("#call_content").val();
 			param.status				= $("#status").val();
@@ -805,6 +807,8 @@
 			param.d11					= $("input[name='d11']:checked").val();
 			param.d12					= $("input[name='d12']:checked").val();
 			param.q1					= $("input[name='q1']:checked").val();
+			param.b1					= $("#biblus_quest1").val();
+			param.b2					= $("#biblus_quest2").val();
 
 			param.call_content			= $("#call_content").val();
 			param.status				= $("#status").val();
@@ -889,6 +893,8 @@
 			param.d11					= $("input[name='d11']:checked").val();
 			param.d12					= $("input[name='d12']:checked").val();
 			param.q1					= $("input[name='q1']:checked").val();
+			param.b1					= $("#biblus_quest1").val();
+			param.b2					= $("#biblus_quest2").val();
 
 			param.call_content			= $("#call_content").val();
 			param.status				= $("#status").val();

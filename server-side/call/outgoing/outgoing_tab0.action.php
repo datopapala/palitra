@@ -1342,7 +1342,7 @@ function GetPage($res='', $shabloni)
 									<table class="dialog-form-table">
 								    		<tr>
 												<td style="width:30px; font-weight:bold;">B2</td>
-												<td style="font-weight:bold;">რას ურჩევდით ბიბლუსს?</td>
+												<td style="font-weight:bold;">რამდენად კმაყოფილი ხართ ამ ფილიალში მიღებული მომსახურებით ?</td>
 												<td></td>
 											</tr>
 									</table>
