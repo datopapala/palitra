@@ -15,7 +15,7 @@
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 9, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 10, "", 0, "", 1, "desc");
     		
 		}
     </script>
@@ -39,6 +39,7 @@
                             <th style="width: 100%;">ტელეფონი</th>
                             <th style="width: 100%;">რჩევები</th>
                             <th style="width: 100%;">პერსონალის შეფასება</th>
+                            <th style="width: 100%;">ზარის დაზუსტება</th>
                         </tr>
                     </thead>
                     <thead>
@@ -60,6 +61,9 @@
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                           	<th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                             <th>

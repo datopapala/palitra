@@ -20,16 +20,17 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT persons.`name`,
+		$rResult = mysql_query("SELECT 	persons.`name`,
 										persons.`name`,
-								       task_scenar.date,
-								       phone.first_last_name,
-								       phone.note,
-								       phone.phone1,
-								       phone.phone2,
-								       task_scenar.b1,
-								       task_scenar.b2
-								FROM   `task_scenar`
+								       	task_scenar.date,
+								       	phone.first_last_name,
+								       	phone.note,
+								       	phone.phone1,
+								       	phone.phone2,
+								       	task_scenar.b1,
+								       	task_scenar.b2,
+										task_detail.call_content
+								FROM   	`task_scenar`
 								JOIN    task_detail ON task_scenar.task_detail_id = task_detail.id
 								JOIN    phone ON task_detail.phone_base_id = phone.id
 								JOIN    users ON users.id = task_detail.responsible_user_id 
