@@ -1302,7 +1302,7 @@ function GetPage($res='', $shabloni)
 					  						</tr>
 									</table>
 									</fieldset>
-									<table class="dialog-form-table" style="width:300px;">
+									<table class="dialog-form-table" '.(($notes[22][id]!="")?"style=\"display:none; !important;\"":"style=\"width:300px;\"").' >
 								    		<tr>
 												<td style="font-weight:bold;">თქვენი სახელი, როგორ მოგმართოთ?</td>
 					  						</tr>
