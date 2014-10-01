@@ -1363,7 +1363,7 @@ function GetPage($res='', $shabloni)
 									<hr>
 									</div>
 														
-											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
+											<button '.(($notes[22][id]!="")?"style=\"display:none; !important;\"":"style=\"float:right; margin-top:10px;\"").'  onclick="research(\'r1\')" class="next"> >> </button>
 									</fieldset>
 									 </div>
 
