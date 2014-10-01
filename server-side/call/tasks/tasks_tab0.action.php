@@ -69,18 +69,16 @@ switch ($action) {
     		
     	$rResult = mysql_query("	SELECT 	incomming_call.id,
 											incomming_call.phone,
-											personal_info.personal_phone,
+											'',
 											incomming_call.first_name,
-											personal_info.personal_addres,
-											city.`name`,
-											source.`name`,
+											'',
+											'',
+											'',
 											incomming_call.date,
 											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`,
     										''
 									FROM 	incomming_call
-									LEFT JOIN	personal_info ON incomming_call.id = personal_info.incomming_call_id
-									LEFT JOIN	source ON incomming_call.source_id = source.id
-									LEFT JOIN	city ON personal_info.personal_city = city.id
+									
     								WHERE incomming_call.phone != ''");
     	
     	$data = array(
