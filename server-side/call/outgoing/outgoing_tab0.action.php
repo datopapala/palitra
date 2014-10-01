@@ -1323,7 +1323,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table">
 											<tr>
-												<td><textarea  style="width: 500px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['biblus_quest1'].'</textarea></td>
+												<td><textarea  style="width: 500px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['b1'].'</textarea></td>
 												
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
@@ -1349,7 +1349,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table">
 											<tr>
-												<td><input type="text" style="width:100%;" id="biblus_quest2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['biblus_quest2']. '" /></td>
+												<td><input type="text" style="width:100%;" id="biblus_quest2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['b2']. '" /></td>
 					  						
 												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
 											</tr>
