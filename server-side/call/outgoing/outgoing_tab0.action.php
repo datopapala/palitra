@@ -1280,8 +1280,8 @@ function GetPage($res='', $shabloni)
 						$data .= '<div id="research" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
 									<ul>
 										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
-										<li id="r1" onclick="research(this.id)" class="">დემოგრაფიული ბლოკი</li>
-										<li id="r2" onclick="research(this.id)" class="">ძირითადი ნაწილი</li>
+										<li id="r1" onclick="research(this.id)" class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">დემოგრაფიული ბლოკი</li>
+										<li id="r2" onclick="research(this.id)" class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">ძირითადი ნაწილი</li>
 									</ul>
 									<div id="research-0">
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
@@ -1311,6 +1311,61 @@ function GetPage($res='', $shabloni)
 												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
 					  						</tr>
 									</table>
+														
+									<div class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">B1</td>
+												<td style="font-weight:bold;">რას ურჩევდით ბიბლუსს?</td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="biblus_quest1" class="idle" name="content" cols="300" >'. $res['biblus_quest1'].'</textarea></td>
+												
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[22][notes].'</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+									</div>
+														
+									<div class="'.(($notes[23][id]!="")?"":"dialog_hidden").'">
+									<table class="dialog-form-table">
+								    		<tr>
+												<td style="width:30px; font-weight:bold;">B1</td>
+												<td style="font-weight:bold;">რას ურჩევდით ბიბლუსს?</td>
+												<td></td>
+											</tr>
+									</table>
+									<table class="dialog-form-table">
+											<tr>
+												<td><input type="text" style="width:100%;" id="biblus_quest2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['biblus_quest2']. '" /></td>
+					  						
+												<td style="width:150px; text-align:right;">დაიცავით ქვოტა</td>
+											</tr>
+									</table>
+									<table class="dialog-form-table" style="margin-top:10px;">
+								    		<tr>
+												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[23][notes].'</textarea></td>
+												
+											</tr>
+											<tr>
+												<td style="text-align:right;"></td>
+											</tr>
+									</table>
+									<hr>
+									</div>
+														
 											<button style="float:right; margin-top:10px;" onclick="research(\'r1\')" class="next"> >> </button>
 									</fieldset>
 									 </div>
