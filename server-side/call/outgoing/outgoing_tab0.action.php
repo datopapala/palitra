@@ -1279,8 +1279,8 @@ function GetPage($res='', $shabloni)
 						$data .= '<div id="research" class="'.(($notes[7][id]!="")?"":"dialog_hidden").'">
 									<ul>
 										<li style="margin-left:0;" id="r0" onclick="research(this.id)" class="seller_select">შესავალი</li>
-										<li id="r1" onclick="research(this.id)" class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">დემოგრაფიული ბლოკი</li>
-										<li id="r2" onclick="research(this.id)" class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">ძირითადი ნაწილი</li>
+										<li id="r1" onclick="research(this.id)" class="'.(($notes[22][id]!="")?"dialog_hidden":"").'">დემოგრაფიული ბლოკი</li>
+										<li id="r2" onclick="research(this.id)" class="'.(($notes[22][id]!="")?"dialog_hidden":"").'">ძირითადი ნაწილი</li>
 									</ul>
 									<div id="research-0">
 									<fieldset style="width:97%; float:left; overflow-y:scroll; max-height:400px;">
