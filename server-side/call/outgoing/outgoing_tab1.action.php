@@ -320,10 +320,12 @@ function Savetask2($task_detail_id, $call_content, $status)
 }
 function Savetask1($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift, $b1, $b2)
 {
+	$user		= $_SESSION['USERID'];
+	$cur_date 	= date('Y-m-d H:i:s');
 	mysql_query("INSERT INTO `task_scenar`
-(`task_detail_id`, `hello_comment`, `hello_quest`, `info_comment`, `info_quest`, `result_comment`, `result_quest`, `send_date`, `payment_comment`, `payment_quest`, `preface_name`, `preface_quest`, `d1`, `d2`, `d3`, `d4`, `d5`, `d6`, `d7`, `d8`, `d9`, `d10`, `d11`, `d12`, `q1`, `product_ids`, `gift_ids`, `b1`, `b2`)
+(`user_id`, `date`, `task_detail_id`, `hello_comment`, `hello_quest`, `info_comment`, `info_quest`, `result_comment`, `result_quest`, `send_date`, `payment_comment`, `payment_quest`, `preface_name`, `preface_quest`, `d1`, `d2`, `d3`, `d4`, `d5`, `d6`, `d7`, `d8`, `d9`, `d10`, `d11`, `d12`, `q1`, `product_ids`, `gift_ids`, `b1`, `b2`)
 VALUES
-( '$task_detail_id', '$hello_comment', '$hello_quest', '$info_comment', '$info_quest', '$result_comment', '$result_quest', '$send_date', '$payment_comment', '$payment_quest', '$preface_name', '$preface_quest', '$d1', '$d2', '$d3', '$d4', '$d5', '$d6', '$d7', '$d8', '$d9', '$d10', '$d11', '$d12', '$q1', '$get_prod', '$get_gift', '$b1', '$b2')
+('$user', '$cur_date', '$task_detail_id', '$hello_comment', '$hello_quest', '$info_comment', '$info_quest', '$result_comment', '$result_quest', '$send_date', '$payment_comment', '$payment_quest', '$preface_name', '$preface_quest', '$d1', '$d2', '$d3', '$d4', '$d5', '$d6', '$d7', '$d8', '$d9', '$d10', '$d11', '$d12', '$q1', '$get_prod', '$get_gift', '$b1', '$b2')
 	");
 
 }
