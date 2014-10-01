@@ -193,7 +193,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
     var oTable = "";
     
     //Defoult Length
-    var dLength = [[-1, 30, 50, -1], [15, 30, 50, "ყველა"]];
+    var dLength = [[1000, 30, 50, -1], [15, 30, 50, "ყველა"]];
     
     if (!empty(length))
         dLength = length;
