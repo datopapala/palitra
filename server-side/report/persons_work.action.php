@@ -26,7 +26,7 @@ switch ($action) {
 						FROM `week_day`
 						LEFT JOIN person_work_graphic ON week_day.id=DAYOFWEEK(person_work_graphic.date) AND person_work_graphic.user_id=$user_id
 			  			AND  WEEKOFYEAR(person_work_graphic.date + INTERVAL 1 DAY) =WEEKOFYEAR(('".date('Y-m-d', strtotime($_REQUEST[date]))."'+ INTERVAL 1 DAY))
-						LEFT JOIN work_graphic ON person_work_graphic.work_graphic_id=work_graphic.id
+						LEFT JOIN work_graphic ON person_work_graphic.work_graphic_id=work_graphic.id AND work_graphic.actived=1
 
 			  			");
 
@@ -68,7 +68,7 @@ switch ($action) {
 									work_graphic.`end`
 									FROM `work_graphic`
 									left JOIN person_work_graphic ON person_work_graphic.work_graphic_id = work_graphic.id
-									WHERE work_graphic.week_day_id = $_REQUEST[id]");
+									WHERE work_graphic.week_day_id = $_REQUEST[id] AND work_graphic.actived=1");
 
 		$data = array(
 				"aaData"	=> array()

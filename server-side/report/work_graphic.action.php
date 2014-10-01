@@ -73,7 +73,7 @@ function page()
 				TIME_FORMAT(`breack_end`, '%H:%i') breack_end,
 				TIME_FORMAT(`end`, '%H:%i') as end
 				FROM `work_graphic`
-				where id='$_REQUEST[id]'
+				where id='$_REQUEST[id]' AND work_graphic.actived=1
 	  			");
 		$res = mysql_fetch_array( $rResult );
 

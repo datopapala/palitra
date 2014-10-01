@@ -5,21 +5,21 @@
 var aJaxURL	= "server-side/report/work_graphic.action.php";
 var dey=1;
 $(document).ready(function(){
-	SetEvents("add", "dis", "check-all", "example", "add-edit-form", aJaxURL);
+
 	GetButtons("add", "dis");
 	LoadTable();
 
 
 	$(".menun").click(function(){
 		dey=this.id;
-		LoadTable()
+		LoadTable();
 		title=$(this).html();
 		$("#add-edit-form").attr('title', title);
 		$("#wek_h").html("'"+title+"'");
 
 
 });
-	$("input").focus();
+	SetEvents("add", "dis", "check-all", "example", "add-edit-form", aJaxURL);
 	});
 function LoadDialog(f){
 	GetDialog(f,500);
@@ -33,7 +33,7 @@ function LoadDialog(f){
 
 	});
 	$("#save-dialog").click(function(){
-		var param= new Object()
+		var param= new Object();
 			param.act 			= "save_dialog";
 			param.id 			= $("#id").val();
 			param.week_day_id   = dey;
@@ -43,7 +43,7 @@ function LoadDialog(f){
 			param.end			= $("#end").val();
 			if(param.start < param.breack_start & param.breack_start<param.breack_end & param.breack_end<param.end){
 			$.getJSON(aJaxURL, param, function(json) {
-				LoadTable()
+				LoadTable();
 				$("#add-edit-form").dialog("close");
 		});} else alert('მიუთითეთ კორექტული დრო');
 
@@ -72,7 +72,7 @@ function LoadTable(){
 	<div id="dt_example" class="ex_highlight_row">
        	 <div id="container" style="width:90%">
 			<table>
-			<tr><td style="padding: 10px; margin: 10px">
+			<tr><th style="padding: 10px; margin: 10px">
 			<a class="menun ui-state-default" id="2">ორშაბათი</a><br/>
 			<a class="menun ui-state-default" id="3">სამშაბათი</a><br/>
 			<a class="menun ui-state-default" id="4">ოთხშაბათი</a><br/>
@@ -80,14 +80,13 @@ function LoadTable(){
 			<a class="menun ui-state-default" id="6">პარასკევი</a><br/>
 			<a class="menun ui-state-default" id="7">შაბათი</a><br/>
 			<a class="menun ui-state-default" id="1">კვირა</a><br/>
-			</td>
-			<td style="; padding: 10px; margin: 10px">
+			</th>
+			<th style="; padding: 10px; margin: 10px">
 
             	<h2 align="center"style="">სამუშაო გრაფიკები</h2>
             	<h2 align="center" id="wek_h">'ორშაბათი'</h2>
             	<div id="button_area" style="">
-            	<button id="add">დამატება</button>
-            	<button id="dis">წაშლა</button>
+            	<button id="add">დამატება</button> 	<button id="dis">წაშლა</button>
             	</div>
             	<div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;"></div>
                 <table class="display" id="example">
@@ -124,7 +123,7 @@ function LoadTable(){
 
                     </thead>
                 </table>
-			</td></tr>
+			</th></tr>
 			</table>
 		</div>
   </div>
