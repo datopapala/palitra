@@ -431,11 +431,22 @@ function GetPage($res='', $number)
 
 				</fieldset>
 						<input type="hidden" id="action_id" value="'.$_REQUEST['id'].'"/>
-	  			
+	  					
 			</div>
+				<input type="hidden" id="act_id" value="'.increment('action').'"/>
     </div>';
 
 	return $data;
+}
+function increment($table){
+
+	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
+	$row   			= mysql_fetch_array($result);
+	$increment   	= $row['Auto_increment'];
+	$next_increment = $increment+1;
+	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
+
+	return $increment;
 }
 
 

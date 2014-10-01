@@ -16,7 +16,7 @@ $production_id		= $_REQUEST['production_id'];
 $object_id			= $_REQUEST['object_id'];
 $adress				= $_REQUEST['adress'];
 $action_id    		= $_REQUEST['action_id'];
-
+;
 
 
 
@@ -28,7 +28,7 @@ $comment 	        	= $_REQUEST['comment'];
 $task_department_id 	= $_REQUEST['task_department_id'];
 $hidden_inc				= $_REQUEST['hidden_inc'];
 $edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
+
 
 switch ($action) {
 	case 'get_add_page':
@@ -51,13 +51,14 @@ switch ($action) {
 	case 'get_list' :
 		$count 			= $_REQUEST['count'];
 		$hidden		 	= $_REQUEST['hidden'];
-		$action_idd   	= $_REQUEST['action_idd'];
+		$action_idd   	= $_REQUEST['act_id'];
 	  	$rResult = mysql_query("	SELECT  
 											action_detail.id,
 											action_detail.`object_id`,
 											action_detail.`addres`
 									FROM 	action_detail
-									WHERE   action_detail.actived =1");
+									
+									WHERE   action_detail.actived =1 AND action_detail.action_id = $action_idd");
 												  
 		$data = array(
 				"aaData"	=> array()
@@ -79,7 +80,7 @@ switch ($action) {
 		
 		if($action_detail_id == ''){
 			
-			Addaction_1($action_id, $object_id,  $adress  );
+			Addaction_1( $object_id,  $adress);
 			
 			
 		}else {
@@ -105,14 +106,13 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addaction_1($action_id, $object_id,  $adress){
-	
+function Addaction_1( $object_id,  $adress){
+	$act_id		= $_REQUEST['act_id'];
 	$user		= $_SESSION['USERID'];
-	
 	mysql_query("INSERT INTO `action_detail` 
 							( `user_id`, `action_id`, `object_id`, `addres`, `actived`)
 						VALUES 
-							( '$user', '$action_id', '$object_id', '$adress', '1')
+							( '$user', '$act_id', '$object_id', '$adress', '1')
 								");
 	
 	
@@ -259,7 +259,8 @@ function GetPage($res='', $number)
     	</fieldset>
     	</div>
     <!-- ID -->
-	<input style="display: none;"  id="id" value="' . $res['id'] . '" />';
+    <input style="display: none;"  id="id" value="' . $_REQUEST['id'] . '" />
+	<input style="display: none;"  id="act_id" value="' . $_REQUEST['act_id'] . '" />';
 
 	return $data;
 }

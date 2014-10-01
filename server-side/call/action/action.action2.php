@@ -52,8 +52,8 @@ switch ($action) {
 	case 'get_list' :
 		$count 			= $_REQUEST['count'];
 		$hidden		 	= $_REQUEST['hidden'];
-		$action_idd   	= $_REQUEST['action_idd'];
-	  	$rResult = mysql_query("	SELECT  
+		$action_idd   	= $_REQUEST['act_id'];
+		$rResult = mysql_query("	SELECT  
 											action_detail.id,
 											action_detail.date,
 											action_detail.`production_id`,
@@ -61,8 +61,9 @@ switch ($action) {
 									FROM 	action_detail
 									LEFT JOIN 	object ON action_detail.object_id=object.id
 									LEFT JOIN    production ON action_detail.production_id= production.id
-									WHERE   action_detail.actived =2");
-												  
+									WHERE   action_detail.actived =2 AND action_detail.action_id = $action_idd");
+		
+	
 		$data = array(
 				"aaData"	=> array()
 		);
@@ -83,7 +84,7 @@ switch ($action) {
 		
 		if($action_detail_id == ''){
 			
-			Addaction_1($action_id,  $date, $production_id,   $price );
+			Addaction_1 ($date, $production_id,   $price );
 			
 			
 		}else {
@@ -109,14 +110,16 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addaction_1($action_id, $date, $production_id,   $price ){
-	
-	$user		= $_SESSION['USERID'];
-	
+function Addaction_1 ($date, $production_id,   $price ){
+	$act_id		    	= $_REQUEST['act_iddd'];
+	$user		        = $_SESSION['USERID'];
+	//echo $act_id;
+	//global  $error;
+	//$error=$act_id;
 	mysql_query("INSERT INTO `action_detail` 
 							( `user_id`, `action_id`, `date`, `production_id`, `price`, `actived`)
 						VALUES 
-							( '$user', '$action_id',  '$date', '$production_id', '$price', '2')
+							( '$user', '$act_id', '$date', '$production_id', '$price', '2')
 								");
 	
 	
@@ -237,7 +240,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action_detail.id,
 }
 function GetLocalID(){
 	GLOBAL $db;
-	return $db->increment('action_detail');
+	return $db->increment('action');
 }
 function GetPage($res='', $number)
 {
@@ -269,7 +272,8 @@ function GetPage($res='', $number)
     	</fieldset>
     	</div>
     <!-- ID -->
-	<input style="display: none;"  id="id" value="' . $res['id'] . '" />';
+    <input style="display: none;"  id="id" value="' . $_REQUEST['id'] . '" />						
+	<input style="display: none;"  id="act_idd" value="' . $_REQUEST['act_idd'] . '" />';
 
 	return $data;
 }

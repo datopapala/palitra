@@ -47,11 +47,11 @@
 		}
 		function LoadTable2(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL2, "get_list", 6,"", 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL2, "get_list", 6,"act_id="+$('#action_id').val(), 0, "", 1, "asc", "");
 		}
 		function LoadTable3(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL3, "get_list", 6,"", 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL3, "get_list", 6,"act_id="+$('#action_id').val(), 0, "", 1, "asc", "");
 		}
 		
 
@@ -86,8 +86,8 @@
 						SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");//----------------------------------
 						GetButtons("add_button_p","");
 						GetButtons("add_button_pp","");
-						SetEvents("add_button_p", "", "", "example3", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());						
-						SetEvents("add_button_pp", "", "", "example4", "add-edit-form3", aJaxURL3, "action_id="+$('#action_id').val());						
+						SetEvents("add_button_p", "", "", "example3", "add-edit-form2", aJaxURL2, "act_idd="+$('#act_id').val());						
+						SetEvents("add_button_pp", "", "", "example4", "add-edit-form3", aJaxURL3, "act_id="+$('#act_id').val());						
 						
 						
 				break;	
@@ -168,7 +168,6 @@
 
 			param 				= new Object();
 			param.act				= "save_action";			
-			param.id				= $("#id").val();			
 			param.id				= $("#action_id").val();
 			param.action_name		= $("#action_name").val();
 			param.start_date		= $("#start_date").val();
@@ -196,7 +195,9 @@
 			param 					= new Object();
 			param.local_id			= $("#action_id").val();
  			param.act				= "save_action_1";
-		    	
+ 			
+ 			param.act_id		= $("#act_id").val();	
+ 			param.act_iddd			= $("#act_idd").val();
  			param.id				= $("#id").val();
 			param.production_id		= $("#production_id").val();
 	    	param.object_id			= $("#object_id").val();
@@ -226,12 +227,13 @@
 $(document).on("click", "#save-dialog3", function () {
 	    	
 			param 					= new Object();
-			param.local_id			= $("#action_id").val();
- 			param.act				= "save_action_3";
-		    	
- 			param.id				= $("#id").val();
+			param.act				= "save_action_3";
+ 			
+ 			param.id				= $("#id").val();			
+ 			param.act_id			= $("#act_id").val();
 			param.object_id			= $("#object_id").val();
 	    	param.adress			= $("#adress").val();
+	    	param.action_id			= $("#action_id").val();
 			
 			
 	 
