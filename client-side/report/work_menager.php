@@ -6,14 +6,15 @@ var aJaxURL	= "server-side/report/work_menager.action.php";
 var dey=1;
 var tbName = "tabs";
 $(document).ready(function(){
+	SetEvents("add", "dis", "check-all", "example", "add-edit-form", aJaxURL);
 	GetDate("time");
   	GetTabs(tbName);
   	GetButtons("dis");
   	LoadTable();
-  	SetEvents("add", "dis", "", "example", "add-edit-form", aJaxURL);
+
   	$(document).on("change", "#time", function () 	{
 
-  		LoadTable()
+  		LoadTable();
   	  	});
   });
 $(document).on("tabsactivate", "#tabs", function() {
@@ -22,9 +23,9 @@ $(document).on("tabsactivate", "#tabs", function() {
 function LoadTable(){
 	var type = GetSelectedTab(tbName);
   GetDataTable("example"+type,aJaxURL,"get_list"+type,8,'',0);
-  var param= new Object()
+  var param= new Object();
 	param.act 			= "get_list1";
-  	param.time 			= $("#time").val()
+  	param.time 			= $("#time").val();
   $.getJSON(aJaxURL, param, function(json) {
 
 		$("#time_line").html(json.aaData);
@@ -100,9 +101,11 @@ function LoadTable(){
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
                             </th>
-                             <th>
 
+                            <th>
+                                <input type="checkbox" name="check-all" id="check-all">
                             </th>
+
 
                     </thead>
                   </table>

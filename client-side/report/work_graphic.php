@@ -5,9 +5,10 @@
 var aJaxURL	= "server-side/report/work_graphic.action.php";
 var dey=1;
 $(document).ready(function(){
+	SetEvents("add", "dis", "check-all", "example", "add-edit-form", aJaxURL);
 	GetButtons("add", "dis");
 	LoadTable();
-	SetEvents("add", "dis", "check-all", "example", "add-edit-form", aJaxURL);
+
 
 	$(".menun").click(function(){
 		dey=this.id;

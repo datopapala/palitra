@@ -17,13 +17,17 @@ switch ($action) {
 										work_graphic.breack_start,
 										work_graphic.`breack_end`,
 										work_graphic.end,
-			  							CONCAT('<div style=\'background-color:', CASE WHEN person_work_graphic.`status` =1 THEN 'Yellow'
-																								 WHEN	person_work_graphic.`status` =2 THEN 'Green'
-																								 ELSE	 'red'
+			  							CONCAT('<div style=\'background-color:',
+																						CASE person_work_graphic.`status`
+																									WHEN 1 THEN 'Yellow'
+																									WHEN 2 THEN 'Green'
+																									ELSE	 'red'
 																						END ,';width: 100%; height: 100%;\'></div>')
 						FROM `week_day`
 						LEFT JOIN person_work_graphic ON week_day.id=DAYOFWEEK(person_work_graphic.date) AND person_work_graphic.user_id=$user_id
+			  			AND  WEEKOFYEAR(person_work_graphic.date + INTERVAL 1 DAY) =WEEKOFYEAR(('".date('Y-m-d', strtotime($_REQUEST[date]))."'+ INTERVAL 1 DAY))
 						LEFT JOIN work_graphic ON person_work_graphic.work_graphic_id=work_graphic.id
+
 			  			");
 
 		$data = array(
@@ -49,9 +53,14 @@ switch ($action) {
 	case 'get_list1':
 		$count 		= $_REQUEST['count'];
 		$hidden 	= $_REQUEST['hidden'];
-		$res1=   mysql_fetch_array(mysql_query("SELECT work_graphic_id
-						FROM person_work_graphic
-						WHERE DAYOFWEEK(`date`)=$_REQUEST[id] AND user_id=$user_id"));
+		$res1=   mysql_fetch_array(mysql_query
+		("SELECT work_graphic_id
+				FROM person_work_graphic
+				WHERE `date`=
+				 ('".date('Y-m-d', strtotime($_REQUEST[date]))."') + INTERVAL $_REQUEST[id]-1 DAY
+				 AND user_id=$user_id")
+		);
+		//return 0;
 		$rResult 	= mysql_query(" SELECT 	work_graphic.id,
 									work_graphic.`start`,
 									work_graphic.`breack_start`,
@@ -59,7 +68,7 @@ switch ($action) {
 									work_graphic.`end`
 									FROM `work_graphic`
 									left JOIN person_work_graphic ON person_work_graphic.work_graphic_id = work_graphic.id
-									WHERE (ISNULL(person_work_graphic.user_id) OR person_work_graphic.user_id)and work_graphic.actived =1 AND work_graphic.week_day_id = $_REQUEST[id]");
+									WHERE work_graphic.week_day_id = $_REQUEST[id]");
 
 		$data = array(
 				"aaData"	=> array()
@@ -90,12 +99,15 @@ switch ($action) {
    	case 'save_dialog' :
    		$res1=   mysql_fetch_array(mysql_query("SELECT id
    				FROM person_work_graphic
-   				WHERE DAYOFWEEK(`date`)='$_REQUEST[dey]' AND user_id='$user_id'"));
+   				WHERE `date`=(('".date('Y-m-d', strtotime($_REQUEST[date]))."') + INTERVAL $_REQUEST[dey]-1 DAY) AND user_id='$user_id'"));
    		if($res1[0]!=''){
    			mysql_query("UPDATE `person_work_graphic` SET `work_graphic_id`='$_REQUEST[work]',`status`='1' WHERE (`id`='$res1[0]')");
    		}else{
 		mysql_query("
-			INSERT INTO `person_work_graphic` (`user_id`, `date` ,`work_graphic_id`) VALUES ('$user_id', DATE_ADD(DATE(CURDATE()), INTERVAL $_REQUEST[dey]-DAYOFWEEK(CURDATE()) DAY), '$_REQUEST[work]')
+			INSERT INTO `person_work_graphic` (`user_id`, `date` ,`work_graphic_id`)
+			VALUES ('$user_id',
+			 (('".date('Y-m-d', strtotime($_REQUEST[date]))."') + INTERVAL $_REQUEST[dey]-1 DAY)
+			 , '$_REQUEST[work]')
 		");};
    		break;
 	default:

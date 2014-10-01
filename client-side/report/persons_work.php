@@ -1,6 +1,7 @@
 <html>
 <head>
-
+<script src="js/jquery.weekpicker.js" type="text/javascript"></script>
+ <link href="css/week-picker-view.css" rel="stylesheet"/>
 <script type="text/javascript">
 var aJaxURL	= "server-side/report/persons_work.action.php";
 var dey=1;
@@ -8,19 +9,15 @@ $(document).ready(function(){
 	GetButtons("add", "dis");
 	LoadTable();
 	SetEvents("add", "dis", "", "example", "add-edit-form", aJaxURL);
+  	$(document).on("change", "#date", function () 	{
 
-	$(".menun").click(function(){
-		dey=this.id;
-		LoadTable()
-		title=$(this).html();
-		$("#add-edit-form").attr('title', title);
+  		LoadTable();
+  	  	});
 
-});
-	$("input").focus();
 	});
 function LoadDialog(f){
 	GetDialog(f,800);
-	GetDataTable("inline",aJaxURL+'?id='+$("#id").val(),"get_list1",6,'',0)
+	GetDataTable("inline",aJaxURL+'?id='+$("#id").val()+'&date='+($('#date').val()).split("-")[0],"get_list1",6,'',0)
 	$('.time').timepicker({
 		stepMinute: 15,
 		timeFormat: 'HH:mm',
@@ -32,6 +29,7 @@ function LoadDialog(f){
 		var param= new Object()
 			param.act 			= "save_dialog";
 			param.work 			= $('input[name=check]:checked').val();
+			param.date 				= ($('#date').val()).split("-")[0];
 			param.dey           = $("#id").val();
 			$.getJSON(aJaxURL, param, function(json) {
 				LoadTable();
@@ -42,8 +40,12 @@ function LoadDialog(f){
 	});
 };
 function LoadTable(){
-	GetDataTable("example",aJaxURL,"get_list",7,'',0)
+	GetDataTable("example",aJaxURL+'?date='+($('#date').val()).split("-")[0],"get_list",7,'',0)
 }
+
+
+</script>
+<script>
 
 </script>
 
@@ -59,10 +61,13 @@ function LoadTable(){
 }</style>
 </head>
 <body>
+
 	<div id="dt_example" class="ex_highlight_row">
        	 <div id="container" style="width:90%">
             	<h2 align="center"style="">ჩემი  გრაფიკები</h2>
             	<div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;"></div>
+				<input id='date' data-weekpicker="weekpicker" data-months="1"/>
+
                 <table class="display" id="example">
                     <thead>
                         <tr id="datatable_header">

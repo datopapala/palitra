@@ -98,7 +98,7 @@ $result 	= mysql_query("SELECT	persons.`name` AS `name`,
 							JOIN    person_work_graphic ON work_graphic.id = person_work_graphic.work_graphic_id
 							JOIN    users ON users.id = person_work_graphic.user_id
 							JOIN    persons ON persons.id = users.person_id
-							WHERE   person_work_graphic.`status` = 2 AND work_graphic.week_day_id=DAYOFWEEK('$_REQUEST[time]')
+							WHERE   person_work_graphic.`status` = 2 AND person_work_graphic.date='$_REQUEST[time]'
                             ");
 
 
