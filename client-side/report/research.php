@@ -8,9 +8,8 @@
 		$(document).ready(function () {        	
 			LoadTable();	
 						
-			/* Add Button ID, Delete Button ID */
-			GetButtons("add_button", "delete_button");			
-			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
+			/* Add Button ID, Delete Button ID */		
+			SetEvents("", "", "", tName, fName, aJaxURL);
 		});
         
 		function LoadTable(){
@@ -19,43 +18,6 @@
 			GetDataTable(tName, aJaxURL, "get_list", 9, "", 0, "", 1, "desc");
     		
 		}
-		
-		function LoadDialog(){
-			var id		= $("#paytype_id").val();
-			
-			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 600, "auto", "");
-		}
-		
-	    // Add - Save
-	    $(document).on("click", "#save-dialog", function () {
-		    param 			= new Object();
-
-		    param.act		="save_paytype";
-	    	param.id		= $("#paytype_id").val();
-	    	param.name		= $("#name").val();
-	    	
-			if(param.name == ""){
-				alert("შეავსეთ ველი!");
-			}else {
-			    $.ajax({
-			        url: aJaxURL,
-				    data: param,
-			        success: function(data) {			        
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								LoadTable();
-				        		CloseDialog(fName);
-							}
-						}
-				    }
-			    });
-			}
-		});
-
-	   
     </script>
 </head>
 
