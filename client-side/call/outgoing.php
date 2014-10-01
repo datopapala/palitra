@@ -18,13 +18,13 @@
 		
 		$(document).ready(function () {     
 			GetTabs(tbName);   
-			<?php 
-					if($_SESSION['USERID'] == 1){
-						echo 'GetTable0();';
-					}else{
-						echo 'GetTable1();';
-					}
-					?>	
+			
+						GetTable0();
+						GetTable1();
+						GetTable2();
+						GetTable3();
+						GetTable4();
+				
 			
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
@@ -40,7 +40,7 @@
             	GetTable2()
             }else if(tab == 3){
             	GetTable3()
-            }else{
+            }else if(tab == 4){
             	GetTable4()
             }
         });
