@@ -1310,7 +1310,6 @@ function GetPage($res='', $shabloni)
 												<td><input type="text" style="width:100%;" id="preface_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['preface_name']. '" /></td>
 					  						</tr>
 									</table>
-									<hr>
 																
 									<div class="'.(($notes[22][id]!="")?"":"dialog_hidden").'">
 									<table class="dialog-form-table">
