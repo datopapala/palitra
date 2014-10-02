@@ -59,10 +59,6 @@ switch ($action) {
 			}
 			$data['aaData'][] = $row;
 		}
-		
-		$escapers = array("\\", "/", "\"", "\n", "\r", "\t", "\x08", "\x0c");
-		$replacements = array("\\\\", "\\/", "\\\"", "\\n", "\\r", "\\t", "\\f", "\\b");
-		$data = str_replace($escapers, $replacements, $data);
 		break;
 	case 'get_list_incomming' :
 		$count	= $_REQUEST['count'];
@@ -153,7 +149,7 @@ switch ($action) {
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
 				}
 			}
-			$data['aaData'][] = $row;
+			$data['aaData'][] = addcslashes($row);
 		}
 
 		break;
