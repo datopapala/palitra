@@ -45,7 +45,7 @@ switch ($action) {
 		$data = array(
 				"aaData"	=> array()
 		);
-
+	
 		while ( $aRow = mysql_fetch_array( $rResult ) )
 		{
 			$row = array();
