@@ -19,7 +19,7 @@ $task_type_id		= $_REQUEST['task_type_id'];
 $template_id		= $_REQUEST['template_id'];
 $task_department_id	= $_REQUEST['task_department_id'];
 $persons_id			= $_REQUEST['persons_id'];
-$task_comment		= $_REQUEST['task_comment'];
+$task_comment		= mysql_real_escape_string($_REQUEST['task_comment']);
 $priority_id		= $_REQUEST['priority_id'];
 
 switch ($action) {
@@ -91,7 +91,7 @@ switch ($action) {
     		for ( $i = 0 ; $i < $count ; $i++ )
     		{
     			/* General output */
-    			$row[] = $aRow[$i];
+    			$row[] = addslashes($aRow[$i]);
     			if($i == ($count - 1)){
     				$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
     			}
@@ -178,7 +178,7 @@ switch ($action) {
 			for ( $i = 0 ; $i < $count; $i++ )
 			{
 				/* General output */
-				$row[] = $aRow[$i];
+				$row[] = addslashes($aRow[$i]);
 				if($i == ($count - 1)){
 					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
 				}
@@ -211,9 +211,9 @@ switch ($action) {
         break;
     case 'save_task':
     	// task_detail------------------------
-    	$phone				= $_REQUEST['p_phone'];
-    	$person_n			= $_REQUEST['p_person_n'];
-    	$first_name			= $_REQUEST['p_first_name'];
+    	$phone				= mysql_real_escape_string($_REQUEST['p_phone']);
+    	$person_n			= mysql_real_escape_string($_REQUEST['p_person_n']);
+    	$first_name			= mysql_real_escape_string($_REQUEST['p_first_name']);
     	$mail				= $_REQUEST['p_mail'];
     	$last_name 			= $_REQUEST['p_last_name'];
     	$person_status 		= $_REQUEST['p_person_status'];
