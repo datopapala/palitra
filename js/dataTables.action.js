@@ -294,7 +294,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
     
     $(".filter input").keyup(function () {
         /* Filter on the column (the index) of this element */
-        oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
+        oTable.fnFilter(this.value, $(".filter input").index(this));
     });
     
     /*
@@ -315,7 +315,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
     $(".filter input").blur(function (i) {
         if (this.value == "") {
             this.className = "search_init";
-            this.value = asInitVals[$("#" + tname + " thead input").index(this)];
+            this.value = asInitVals[$(".filter input").index(this)];
         }
     });
         
