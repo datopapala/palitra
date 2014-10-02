@@ -190,9 +190,7 @@ $time = $time[1] + $time[0];
 $endtime = $time;
 $totaltime = ($endtime - $begintime);
 }else{
-	$queue = array(
-			'2486844'
-	);
+	$queue = array('2196013','2196053','2420421','2486844');
 	foreach($queue as $qn) {
 		if($filter=="" || stristr($qn,$filter)) {
 			$contador=1;
@@ -232,6 +230,8 @@ $totaltime = ($endtime - $begintime);
 					// Skip
 				} else {
 					if($contador==1) {
+					    
+					    
 						echo "<table width='450' cellpadding=3 cellspacing=3 border=0 id='box-table-b'>\n";
 						echo "<thead>";
 						echo "<tr>";
@@ -240,6 +240,9 @@ $totaltime = ($endtime - $begintime);
 						echo "<th style='width: 10%;'>".$lang[$language]['durat']."</th>";
 						echo "<th style='width: 40%;'>".$lang[$language]['clid']."</th>";
 						echo "<th>".$lang[$language]['last_in_call']."</th>";
+						
+						
+						
 						echo "</tr>\n";
 						echo "</thead><tbody>\n";
 					}
@@ -276,14 +279,23 @@ $totaltime = ($endtime - $begintime);
 					echo "<td><div style='float: left; background: ".$color[$aval]."; width: 1em;'>&nbsp;</div>&nbsp; $mystringaval</td>";
 					echo "<td>$dur</td>";
 					echo "<td style='cursor: pointer;' id='cid' class='number' number='$clid'>$clid</td>";
-					//-----------
+					//----------- 
+					$arr = array();
 					foreach($queue as $qn) {
+					    
+					   
+					   // $arr[] = $lang[$language]['last_in_call'];
+					   // var_dump($arr);
 							
-						if ($queues[$qn]['members'][$key]['lastcall'] < 15) {
-							$last = $queues[$qn]['members'][$key]['lastcall'];
-						}
+						//if ($queues[$qn]['members'][$key]['lastcall'] < 15) {
+							//$last = $queues[$qn]['members'][$key]['lastcall'];
+							$arr[] = substr($queues[$qn]['members'][$key]['lastcall'], 0, -3);
+							$min[] = min($arr);
+						//}
 					}		
-						echo "<td>$last</td>";
+					     $min1=min($min);
+						print_r($arr);
+						print_r($min1);
 					
 					//------------
 					echo "</tr>";
