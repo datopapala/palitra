@@ -183,7 +183,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
     var asInitVals = new Array();
     
     if (empty(sorting)) {
-        sorting = hidden;
+        sorting = 0;
     }
     
     //"asc" or "desc"
