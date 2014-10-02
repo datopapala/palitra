@@ -221,7 +221,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
         "aLengthMenu": dLength,                                                                         //Custom Select Options
         "sAjaxSource": aJaxURL,
         //"bAutoWidth": false,
-        "scrollY": 450,
+        "scrollY": 420,
         "scrollCollapse": true,
         "paging":         false,
         "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
