@@ -46,7 +46,7 @@ switch ($action) {
 				"aaData"	=> array()
 		);
 
-		while ( $aRow = mysql_fetch_array( $rResult ) )
+		while ( mysql_real_escape_string ($aRow) = mysql_fetch_array( mysql_real_escape_string ($rResult) ) )
 		{
 			$row = array();
 			for ( $i = 0 ; $i < $count ; $i++ )
@@ -54,10 +54,10 @@ switch ($action) {
 				/* General output */
 				$row[] = $aRow[$i];
 				if($i == ($count - 1)){
-					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+					$row[] = '<input type="checkbox" name="check_' . mysql_real_escape_string ($aRow[$hidden]) . '" class="check" value="' . mysql_real_escape_string ($aRow[$hidden]) . '" />';
 				}
 			}
-			$data['aaData'][] = $row;
+			$data['aaData'][] = mysql_real_escape_string ($row);
 		}
 
 		break;
