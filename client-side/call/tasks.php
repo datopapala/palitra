@@ -17,6 +17,9 @@
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
 }
+#base tbody tr{
+	width: 50% !important;
+}
 .myButton:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
 	background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);

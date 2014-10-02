@@ -129,7 +129,7 @@ switch ($action) {
     		for ( $i = 0 ; $i < $count ; $i++ )
     		{
     			/* General output */
-    			$row[] = $aRow[$i];
+    			$row[] = addslashes($aRow[$i]);
     			if($i == ($count - 1)){
     				$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
     			}
@@ -797,7 +797,7 @@ function Getphonebase(){
 															<th style="width: %;">#</th>
     													</tr>
     												</thead>
-    												<thead>
+    												<thead class="filter">
     													<tr class="search_header">
     														<th class="colum_hidden">
     					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>

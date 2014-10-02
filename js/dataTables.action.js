@@ -212,7 +212,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
         "bDestroy": true, 		
         "bJQueryUI": true, 																				//Add jQuery ThemeRoller
         //"bStateSave": true, 																			//state saving
-        "sDom": "<'dataTable_buttons'T><'H'lfrt><'dataTable_content't><'F'ip>",
+        //"sDom": "<'dataTable_buttons'T><'H'lfrt><'dataTable_content't><'F'ip>",
 		"oTableTools": imex,
         "sPaginationType": "full_numbers",
         "bProcessing": true,
@@ -220,7 +220,10 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
         "iDisplayLength": dLength[0][0],
         "aLengthMenu": dLength,                                                                         //Custom Select Options
         "sAjaxSource": aJaxURL,
-        "bAutoWidth": false,
+        //"bAutoWidth": false,
+        "scrollY": 450,
+        "scrollCollapse": true,
+        "paging":         false,
         "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
         	if(!empty(total)){
 	        	var iTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -289,7 +292,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
         }
     });
     
-    $("#" + tname + " thead input").keyup(function () {
+    $(".filter input").keyup(function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
     });
@@ -298,18 +301,18 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
     * the footer
     */
-    $("#" + tname + " thead input").each(function (i) {
+    $(".filter input").each(function (i) {
         asInitVals[i] = this.value;
     });
 
-    $("#" + tname + " thead input").focus(function () {
+    $(".filter input").focus(function () {
         if (this.className == "search_init") {
             this.className = "";
             this.value = "";
         }
     });
 
-    $("#" + tname + " thead input").blur(function (i) {
+    $(".filter input").blur(function (i) {
         if (this.value == "") {
             this.className = "search_init";
             this.value = asInitVals[$("#" + tname + " thead input").index(this)];
