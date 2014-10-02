@@ -433,6 +433,7 @@ function GetPage($res='', $number)
 						
 	  					
 			</div>
+				<input type="hidden" id="actionn_id" value="'.$res['id'].'"/>
 				<input type="hidden" id="act_id" value="'.(($res['id']!='')?$res['id']:increment('action')).'"/>
     </div>';
 

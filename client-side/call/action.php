@@ -167,8 +167,9 @@
 	    $(document).on("click", "#save-dialog", function () {
 
 			param 				= new Object();
-			param.act				= "save_action";			
-			param.id				= $("#action_id").val();
+			param.act				= "save_action";
+					
+			param.id				= $("#actionn_id").val();
 			param.action_name		= $("#action_name").val();
 			param.start_date		= $("#start_date").val();
 			param.end_date			= $("#end_date").val();
