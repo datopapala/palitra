@@ -74,7 +74,7 @@ switch ($action) {
 			for ( $i = 0 ; $i < $count ; $i++ )
 			{
 				/* General output */
-				$row[] = $aRow[$i];
+				$row[] = addslashes($aRow[$i]);
 			}
 			$data['aaData'][] = $row;
 		}
