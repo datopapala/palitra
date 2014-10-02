@@ -159,7 +159,7 @@ a.minimize{
 /* Root Menu */
 .bar_nav ul a {
 	margin-top: 2px;
-	padding: 0 17px;
+	padding: 0 20px;
 	display: block;
 	font-size: 11px;
 	text-decoration: none;
@@ -174,12 +174,11 @@ a.minimize{
 	top:-2px;
 }
 
-
-
 /* Root Menu Hover Persistence */
 .bar_nav ul a:hover,
 .bar_nav ul li:hover a,
 .bar_nav ul li.iehover a {
+	
 }
 
 /* 2nd Menu */
@@ -190,17 +189,17 @@ a.minimize{
 
 
 .bar_nav ul ul{
-	z-index: 3;}
+	z-index: 9;}
 .bar_nav ul ul ul{
-	z-index: 4;}
+	z-index: 9;}
 .bar_nav ul ul ul ul{
-	z-index: 5;}
+	z-index: 9;}
 .bar_nav ul ul ul ul ul{
-	z-index: 6;}
+	z-index: 9;}
 .bar_nav ul ul ul ul ul ul{
-	z-index: 7;}
+	z-index: 9;}
 .bar_nav ul ul ul ul ul ul ul{
-	z-index: 7;}
+	z-index: 9;}
 
 
 /* Hover Function - Keep these at the bottom guys! */
