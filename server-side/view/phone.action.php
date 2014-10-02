@@ -40,7 +40,7 @@ switch ($action) {
 											note
 									FROM 	`phone`
 									WHERE	actived = 1
-									LIMIT 	15000");
+									LIMIT 	5000");
 
 		$data = array(
 				"aaData"	=> array()
