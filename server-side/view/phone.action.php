@@ -38,9 +38,9 @@ switch ($action) {
 											create_date,
 											person_status,
 											note
-											
 									FROM 	`phone`
-									WHERE	actived = 1");
+									WHERE	actived = 1
+									LIMIT 	15000");
 
 		$data = array(
 				"aaData"	=> array()
