@@ -113,7 +113,7 @@ switch ($action) {
 			for ( $i = 0 ; $i < $count; $i++ )
 			{
 				/* General output */
-				$row[] = $aRow[$i];
+				$row[] = addslashes($aRow[$i]);
 				if($i == ($count - 1)){
 					$row[] ='<input type="checkbox" id="' . $aRow[$hidden] . '" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
 				}
