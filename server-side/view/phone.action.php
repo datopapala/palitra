@@ -132,7 +132,8 @@ switch ($action) {
 											person_status
 											
 									FROM 	`phone`
-									WHERE	actived = 1");
+									WHERE	actived = 1
+									LIMIT	5000");
 	
 		$data = array(
 				"aaData"	=> array()
