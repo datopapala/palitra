@@ -52,7 +52,7 @@ switch ($action) {
 			for ( $i = 0 ; $i < $count ; $i++ )
 			{
 				/* General output */
-				$row[] = $aRow[$i];
+				$row[] = ' \' '.$aRow[$i].' \' ';
 				if($i == ($count - 1)){
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
 				}
@@ -149,7 +149,7 @@ switch ($action) {
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
 				}
 			}
-			$data['aaData'][] = addcslashes($row);
+			$data['aaData'][] = $row;
 		}
 
 		break;
