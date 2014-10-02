@@ -159,7 +159,7 @@ a.minimize{
 /* Root Menu */
 .bar_nav ul a {
 	margin-top: 2px;
-	padding: 0 20px;
+	padding: 0 17px;
 	display: block;
 	font-size: 11px;
 	text-decoration: none;
@@ -169,7 +169,7 @@ a.minimize{
 
 .bar_nav ul a img{
 	float: left;
-	margin: 2px 5px 0 -10px;
+	margin: 2px 1px 0 -15px;
 	position: relative;
 	top:-2px;
 }
