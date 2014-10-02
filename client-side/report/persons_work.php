@@ -66,7 +66,7 @@ function LoadTable(){
        	 <div id="container" style="width:90%">
             	<h2 align="center"style="">ჩემი  გრაფიკები</h2>
             	<div id="get-info" style="float : left; margin-left: 30px; margin-top: 50px;"></div>
-				<input id='date' data-weekpicker="weekpicker" data-months="1"/>
+				<input id='date' data-weekpicker="weekpicker" placeholder="აირჩიეთ დრო" data-months="1"/>
 
                 <table class="display" id="example" >
                     <thead>
