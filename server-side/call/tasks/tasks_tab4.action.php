@@ -83,7 +83,7 @@ switch ($action) {
 				'',
 				`incomming_call`.first_name,
 				'',
-				`incomming_call`.`phone` ,
+				`incomming_call`.`phone`,
 				'',
 				''
 				FROM 		`task_detail`
