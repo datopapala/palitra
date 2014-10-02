@@ -34,6 +34,7 @@
 .hidden{
 	display: none;
 }
+
 </style>
 <script type="text/javascript">
 		var aJaxURL		= "server-side/call/tasks/tasks_tab0.action.php";		//server side folder url
@@ -1033,6 +1034,8 @@
 
 	        }
 		});
+
+	   
     </script>
 </head>
 
