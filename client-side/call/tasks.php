@@ -722,7 +722,7 @@
  	        }).get();
 			
  	        for (var i = 0; i < data.length; i++) {
- 	        	$('#dvLoading').removeClass('dialog_hidden');
+ 	        	//$('#dvLoading').removeClass('dialog_hidden');
  	        	param 				= new Object();
  	 			param.act			= "save_phone_base";
  	 			param.phone_base_id = data[i];
@@ -742,7 +742,6 @@
 						}
  				    }
  			});
- 			
  	        }
  		});
 	    

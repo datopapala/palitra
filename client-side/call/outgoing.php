@@ -1,4 +1,7 @@
 <head>
+<style type="text/css">
+#id
+</style>
 	<script type="text/javascript">
 		var aJaxURL		= "server-side/call/outgoing/outgoing_tab0.action.php";		//server side folder url
 		var aJaxURL1	= "server-side/call/outgoing/outgoing_tab1.action.php";		//server side folder url
