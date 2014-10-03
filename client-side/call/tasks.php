@@ -129,7 +129,7 @@
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 11, "", 0, "", 1, "asc", "");
+			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 12, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -383,13 +383,27 @@
 		$(document).on("click", "#incomming_base", function () {
 			$("#hidden_base").val('1');
 			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-			GetDataTableTask("base", aJaxURL, "get_list_base", 10, "", 0, "", 1, "asc", "");
+			GetDataTableTask("base", aJaxURL, "get_list_base", 11, "", 0, "", 1, "asc", "");
+			
+            $('#back_1000_phone').addClass('dialog_hidden');
+            $('#next_1000_phone').addClass('dialog_hidden');
+            $('#mtvleli_phone').addClass('dialog_hidden');
+            $('#back_1000_inc').removeClass('dialog_hidden');
+            $('#next_1000_inc').removeClass('dialog_hidden');
+            $('#mtvleli_inc').removeClass('dialog_hidden');
 		});
 
 		$(document).on("click", "#phone_base", function () {
 			$("#hidden_base").val('2');
 			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-			GetDataTableTask("base", aJaxURL, "get_list_base_phone", 10, "", 0, 0, 1, "asc", "");
+			GetDataTableTask("base", aJaxURL, "get_list_base_phone", 11, "", 0, 0, 1, "asc", "");
+			$('#back_1000_inc').addClass('dialog_hidden');
+            $('#next_1000_inc').addClass('dialog_hidden');
+            $('#mtvleli_inc').addClass('dialog_hidden');
+			$('#back_1000_phone').removeClass('dialog_hidden');
+            $('#next_1000_phone').removeClass('dialog_hidden');
+            $('#mtvleli_phone').removeClass('dialog_hidden');
+            
 		});
 		
 		 $(document).on("click", "#add_button_pp", function () {
@@ -636,15 +650,29 @@
 							            }
 							        }
 							};
-							 $("#incomming_base").button({
+								$("#incomming_base").button({
 								    
 								});
+								
 								$("#phone_base").button({
+								    
+								});
+								
+								$("#back_1000_phone").button({
+																    
+								});
+								$("#next_1000_phone").button({
+								    
+								});
+								$("#back_1000_inc").button({
+								    
+								});
+								$("#next_1000_inc").button({
 								    
 								});
 							GetDialog("phone_base_dialog", 1260, "auto", buttons);
 							SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-							GetDataTableTask("base", aJaxURL, "get_list_base_phone", 10, "", 0, "", 1, "asc", "");
+							GetDataTableTask("base", aJaxURL, "get_list_base_phone", 11, "", 0, "", 1, "asc", "");
 						}
 					}
 			    }
@@ -652,15 +680,49 @@
 	    	
 	    });
 
+	    $(document).on("click", "#next_1000_inc", function () {
+			var next = $('#mtvleli_inc').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_inc').val(next_ch);
+			GetDataTableTask("base", aJaxURL, "get_list_base&pager="+next_ch, 11, "", 0, "", 1, "desc");
+		});
+		$(document).on("click", "#back_1000_inc", function () {
+			var back = $('#mtvleli_inc').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_inc').val(back_ch);
+			GetDataTableTask("base", aJaxURL, "get_list_base&pager="+back_ch, 11, "", 0, "", 1, "desc");
+		});
+
+		$(document).on("click", "#next_1000_phone", function () {
+			var next = $('#mtvleli_phone').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_phone').val(next_ch);
+			GetDataTableTask("base", aJaxURL, "get_list_base_phone&pager="+next_ch, 11, "", 0, "", 1, "desc");
+		});
+		$(document).on("click", "#back_1000_phone", function () {
+			var back = $('#mtvleli_phone').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_phone').val(back_ch);
+			GetDataTableTask("base", aJaxURL, "get_list_base_phone&pager="+back_ch, 11, "", 0, "", 1, "desc");
+		});
+
 	    $(document).on("click", "#save_phone_base", function () {
 			
-		    	
- 			
+	    	
  			var data = $(".check:checked").map(function () { //Get Checked checkbox array
  	            return this.value;
  	        }).get();
-
+			
  	        for (var i = 0; i < data.length; i++) {
+ 	        	$('#dvLoading').removeClass('dialog_hidden');
  	        	param 				= new Object();
  	 			param.act			= "save_phone_base";
  	 			param.phone_base_id = data[i];
@@ -680,6 +742,7 @@
 						}
  				    }
  			});
+ 			
  	        }
  		});
 	    
@@ -1043,7 +1106,7 @@
 </head>
 
 <body>
-
+<div id="dvLoading" class="dialog_hidden"></div>
 <div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">დავალების ფორმირება</a></li>

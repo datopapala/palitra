@@ -62,7 +62,8 @@ switch ($action) {
 											`phone`.`addres`
 								FROM 		`task_detail`
 								JOIN		`phone` ON task_detail.phone_base_id = phone.id
-								WHERE 		`task_detail`.`actived`=1 AND task_detail.phone_base_id != '' AND `task_detail`.task_id='$task_id'");
+								WHERE 		`task_detail`.`actived`=1 AND task_detail.phone_base_id != '' AND `task_detail`.task_id='$task_id'
+								LIMIT 1000");
 		 
 		$data = array(
 			"aaData"	=> array()

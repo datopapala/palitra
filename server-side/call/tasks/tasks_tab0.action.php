@@ -101,11 +101,18 @@ switch ($action) {
         
         break;
     case 'get_list_base_phone':
-    	set_time_limit(99990);
     	$count	= $_REQUEST['count'];
     	$hidden	= $_REQUEST['hidden'];
+    	$pager 	= $_REQUEST['pager'];
+    	$pager_ch = 0;
+    	if($pager == 0){
+    		$pager_ch = 0;
+    	}else{
+    		$pager_ch = $pager.'000';
+    	}
     	
     	$rResult = mysql_query("	SELECT 	id,
+    										id,
 											phone1,
 											phone2,
 											first_last_name,
@@ -117,7 +124,7 @@ switch ($action) {
     										note
 									FROM 	`phone`
 									WHERE	actived = 1 
-    								LIMIT	5000");
+    								LIMIT 	1000 OFFSET $pager_ch");
     	 
     	$data = array(
     			"aaData"	=> array()
@@ -775,16 +782,25 @@ function Getphonebase(){
 			<fieldset>
 				<legend>ძირითადი ინფორმაცია</legend>
 			<div id="dt_example" class="inner-table">
-    							        <div style="width:100%;" id="container" >        	
+    							        <div style="width:100%;" id="container">        	
     							            <div id="dynamic">
-    							            	<div id="button_area">
-													<button id="phone_base">სატელეფონო ბაზა</button>
-													<button id="incomming_base">შემომავალი ზარები</button>
+    							            	<div id="button_area" >
+													<button class="left_side" id="phone_base">სატელეფონო ბაზა</button>
+													<button class="left_side" id="incomming_base">შემომავალი ზარები</button>
+			
+													<button class="left_side" id="back_1000_phone" > << 1000 </button>
+    					 							<input style="width: 60px; border: none; text-align: center; background: #DFEFFC;" class="left_side" id="mtvleli_phone" value="0">
+    					 							<button class="left_side" id="next_1000_phone" > 1000 >> </button>
+			
+													<button class="left_side dialog_hidden" id="back_1000_inc" > << 1000 </button>
+							    					<input  style="width: 60px; border: none; text-align: center; background: #DFEFFC;" class="left_side dialog_hidden" id="mtvleli_inc" value="0">
+							    					<button class="left_side dialog_hidden" id="next_1000_inc" > 1000 >> </button>
     						        			</div>
-    							                <table class="" id="base" style="width: 100%;">
+    							                <table class="display" id="base" style="width: 100%;">
     							                    <thead>
     													<tr  id="datatable_header">
     														<th style="width: 30px;">#</th>
+															<th style="width: 30px;">#</th>
     														<th style="width: %;">ტელეფონი 1</th>
 								                            <th style="width: %;">ტელეფონი 2</th>
 								                            <th style="width: %;">სახელი/ <br> გვარი</th>
@@ -794,12 +810,15 @@ function Getphonebase(){
 								                            <th style="width: %;">ფორმირების<br>თარიღი</th>
 								                            <th style="width: %;">ფიზიკური/<br>იურიდიული</th>
 															<th style="width: %;">შენიშვნა</th>
-															<th style="width: %;">#</th>
+															<th style="width: 30px;">#</th>
     													</tr>
     												</thead>
     												<thead class="filter">
     													<tr class="search_header">
     														<th class="colum_hidden">
+    					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
+    					                            		</th>
+															<th class="">
     					                            			<input type="text" name="search_id" value="" class="search_init" style="width: 10px"/>
     					                            		</th>
     														<th>

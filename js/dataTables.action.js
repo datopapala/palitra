@@ -173,6 +173,159 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
     );
 }
 
+function GetDataTableTest(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total) {
+    if (empty(data))
+        data = "";
+
+    if (empty(tname))
+        tname = "example";
+
+    var asInitVals = new Array();
+
+    if (empty(sorting)) {
+        sorting = hidden;
+    }
+
+    //"asc" or "desc"
+    if (empty(sortMeth))
+        sortMeth = "asc";
+
+    var oTable = "";
+
+    //Defoult Length
+    var dLength = [[-1, 500, 200, 100], ["ყველა", '500', '200', '100']];
+
+    if (!empty(length))
+        dLength = length;
+
+    var imex = {
+		"sSwfPath": "media/swf/copy_csv_xls.swf",
+		"aButtons": [ "copy",
+		              {
+						"sExtends": "xls",
+						"sFileName": GetDateTime(1) + ".csv"
+		              },
+		              "print" ]
+	};
+
+    oTable = $("#" + tname).dataTable({
+        "bDestroy": true, 																				//Reinicialization table
+        "bJQueryUI": true, 																				//Add jQuery ThemeRoller
+        //"bStateSave": true, 																			//state saving
+        "sDom": "<'dataTable_buttons'T><'H'lfrt><'dataTable_content't><'F'ip>",
+		"oTableTools": imex,
+        "sPaginationType": "full_numbers",
+        "bProcessing": true,
+        "aaSorting": [[sorting, sortMeth]],
+        "iDisplayLength": dLength[0][0],
+        "aLengthMenu": dLength,                                                                         //Custom Select Options
+        "sAjaxSource": aJaxURL,
+        "bAutoWidth": false,
+        "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+        	if(!empty(total)){
+	        	var iTotal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	            for ( var i = 0 ; i < aaData.length ; i++ )
+	            {
+	            	for ( var j = 0 ; j < total.length ; j++ )
+	                {
+		                iTotal[j] += aaData[i][total[j]]*1;
+	                }
+	            }
+
+	            var iPage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+				for ( var i = iStart ; i < iEnd ; i++ )
+				{
+					for ( var j = 0 ; j < total.length ; j++ )
+	                {
+						iPage[j] += aaData[ aiDisplay[i] ][total[j]]*1;
+	                }
+				}
+
+	            var nCells = nRow.getElementsByTagName('th');
+	            for ( var k = 0 ; k < total.length ; k++ )
+	            {
+	            	nCells[total[k]].innerHTML = parseInt(iPage[k] * 100) / 100 + ' <br />' + parseInt(iTotal[k] * 100) / 100 + '';
+	            }
+        	}
+		},
+        "fnServerData": function (sSource, aoData, fnCallback, oSettings) {
+            oSettings.jqXHR = $.ajax({
+                url: sSource,
+                data: "act=" + action + "&count=" + count + "&hidden=" + hidden + "&" + data,           //Server Side Requests
+                success: function (data) {
+                    fnCallback(data);
+                    if (typeof (data.error) != "undefined") {
+                        if (data.error != "") {
+                            alert(data.error);
+                        } else {
+                            if ($.isFunction(window.DatatableEnd)) {
+                                //execute it
+                                DatatableEnd(tname);
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        "aoColumnDefs": [
+              { "sClass": "colum_hidden", "bSortable": false, "bSearchable": false, "aTargets": [hidden]}	//hidden collum
+            ],
+        "oLanguage": {																						//Localization
+            "sProcessing": "იტვირთება...",
+            "sLengthMenu": "ნახე _MENU_ ჩანაწერი",
+            "sZeroRecords": "ჩანაწერი ვერ მოიძებნა",
+            "sInfo": "_START_-დან _END_-მდე სულ: _TOTAL_",
+            "sInfoEmpty": "0-დან 0-მდე სულ: 0",
+            "sInfoFiltered": "(გაიფილტრა _MAX_-დან _TOTAL_ ჩანაწერი)",
+            "sInfoPostFix": "",
+            "sSearch": "ძიება",
+            "sUrl": "",
+            "oPaginate": {
+                "sFirst": "პირველი",
+                "sPrevious": "წინა",
+                "sNext": "შემდეგი",
+                "sLast": "ბოლო"
+            }
+        }
+    });
+
+    $("#" + tname + " thead input").keyup(function () {
+        /* Filter on the column (the index) of this element */
+        oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
+    });
+
+    /*
+    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
+    * the footer
+    */
+    $("#" + tname + " thead input").each(function (i) {
+        asInitVals[i] = this.value;
+    });
+
+    $("#" + tname + " thead input").focus(function () {
+        if (this.className == "search_init") {
+            this.className = "";
+            this.value = "";
+        }
+    });
+
+    $("#" + tname + " thead input").blur(function (i) {
+        if (this.value == "") {
+            this.className = "search_init";
+            this.value = asInitVals[$("#" + tname + " thead input").index(this)];
+        }
+    });
+
+    $(".DTTT_button").hover(
+		  function () {
+		    $(this).addClass("ui-state-hover");
+		  },
+		  function () {
+		    $(this).removeClass("ui-state-hover");
+		  }
+    );
+}
+
 function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total) {
     if (empty(data))
         data = "";
@@ -193,7 +346,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
     var oTable = "";
     
     //Defoult Length
-    var dLength = [[1000, 30, 50, -1], [15, 30, 50, "ყველა"]];
+    var dLength = [[-1, 500, 200, 100], ["ყველა", '500', '200', '100']];
     
     if (!empty(length))
         dLength = length;

@@ -7,6 +7,12 @@
 	font-size: 13px;
 	font-family: BPG arial;	
 }
+.left_side{
+	float: left;
+}
+.right_side{
+	float: right;
+}
 
 #dialog-form fieldset
 {
@@ -15,9 +21,20 @@
     background-color:   #EBF9FF;
     
 }
+#dvLoading{
+   background:url('../images/load_d.gif') no-repeat center center;
+   height: 100px;
+   width: 100px;
+   position: fixed;
+   z-index: 1000;
+   left: 50%;
+   top: 40%;
+   margin: -25px 0 0 -25px;
+}
+
 
 .dialog_hidden{
-	display:none;
+	display:none !important;
 }
 
 #dialog-form legend

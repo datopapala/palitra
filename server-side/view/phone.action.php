@@ -17,14 +17,21 @@ switch ($action) {
 		break;
 	case 'get_edit_page':
 		$template_id		= $_REQUEST['id'];
-		$page		= GetPage(Getstatus($status_id));
+		$page		= GetPage(Getedit($status_id));
 		$data		= array('page'	=> $page);
 
 		break;
 	case 'get_list_import' :
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
-			
+		$pager 	= $_REQUEST['pager'];
+		$pager_ch = 0;
+		if($pager == 0){
+			$pager_ch = 0;
+		}else{
+			$pager_ch = $pager.'000';
+		}	
+		
 		$rResult = mysql_query("	SELECT 	id,
 											phone1,
 											phone2,
@@ -40,7 +47,7 @@ switch ($action) {
 											note
 									FROM 	`phone`
 									WHERE	actived = 1
-									LIMIT 	5000");
+									LIMIT 	1000 OFFSET $pager_ch");
 
 		$data = array(
 				"aaData"	=> array()
@@ -63,6 +70,13 @@ switch ($action) {
 	case 'get_list_incomming' :
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
+		$pager 	= $_REQUEST['pager'];
+		$pager_ch = 0;
+		if($pager == 0){
+			$pager_ch = 0;
+		}else{
+			$pager_ch = $pager.'000';
+		}
 			
 		$rResult = mysql_query("	SELECT 	incomming_call.id,
 											incomming_call.phone,
@@ -77,7 +91,8 @@ switch ($action) {
 											incomming_call.date,
 											IF(incomming_call.type_id=1, 'ფიზიკური','იურიდიული') AS `type`
 									FROM 	incomming_call
-									WHERE incomming_call.phone != ''");
+									WHERE incomming_call.phone != ''
+									LIMIT 	1000 OFFSET $pager_ch");
 	
 		$data = array(
 				"aaData"	=> array()
@@ -101,6 +116,13 @@ switch ($action) {
 	case 'get_list_all' :
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
+		$pager 	= $_REQUEST['pager'];
+		$pager_ch = 0;
+		if($pager == 0){
+			$pager_ch = 0;
+		}else{
+			$pager_ch = $pager.'000';
+		}
 			
 		$rResult = mysql_query("	SELECT 	incomming_call.id,
 											incomming_call.phone,
@@ -133,7 +155,7 @@ switch ($action) {
 											
 									FROM 	`phone`
 									WHERE	actived = 1
-									LIMIT	5000");
+									LIMIT 	1000 OFFSET $pager_ch");
 	
 		$data = array(
 				"aaData"	=> array()
@@ -154,25 +176,21 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_template':
+	case 'up_phone_base':
+		$phone1 			= $_REQUEST['phone1'];
+		$phone2 			= $_REQUEST['phone2'];
+		$first_last_name 	= $_REQUEST['first_last_name'];
+		$person_n 			= $_REQUEST['person_n'];
+		$addres 			= $_REQUEST['addres'];
+		$city 				= $_REQUEST['city'];
+		$mail 				= $_REQUEST['mail'];
+		$born_day 			= $_REQUEST['born_day'];
+		$sorce 				= $_REQUEST['sorce'];
+		$person_status 		= $_REQUEST['person_status'];
+		$note 				= $_REQUEST['note'];
 		
-
-
-		if($status_id != ''){
-			Savestatus($status_id, $status_name, $call_status);
-			}
-			else{
-			if(!CheckstatusExist($status_name, $status_id)){
-				if ($status_id == '') {
-					Addstatus($status_name, $call_status);
-				}else {
-					
-				$error = '"' . $status_name . '" უკვე არის სიაში!';
-
-			}
-		}
-	}
-
+			UpPhoneBase($status_id, $phone1, $phone2, $first_last_name, $person_n, $addres, $city, $mail, $born_day, $sorce, $person_status, $note);
+			
 		break;
 	case 'disable':
 		$status_id	= $_REQUEST['id'];
@@ -193,23 +211,23 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addstatus($status_name, $call_status)
+function UpPhoneBase($status_id, $phone1, $phone2, $first_last_name, $person_n, $addres, $city, $mail, $born_day, $sorce, $person_status, $note)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`status`
-									(`user_id`,`name`, `call_status`, `actived`)
-								VALUES 	
-									('$user_id','$status_name', '$call_status', 1)");
-}
-
-function Savestatus($status_id, $status_name, $call_status)
-{
-	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `status`
-					SET     `user_id`		='$user_id',
-							`name` 			= '$status_name',
-							`call_status`	= '$call_status'
-					WHERE	`id` 			= $status_id");
+	mysql_query("	UPDATE 	`phone` SET 
+							`user_id`			='$user_id',  
+							`phone1`			='$phone1', 
+							`phone2`			='$phone2', 
+							`first_last_name`	='$first_last_name', 
+							`person_n`			='$person_n', 
+							`addres`			='$addres', 
+							`person_status`		='$person_status', 
+							`mail`				='$mail', 
+							`city`				='$city', 
+							`born_day`			='$born_day', 
+							`sorce`				='$sorce', 
+							`note`				='$note'
+					WHERE 	`id`				='$status_id' ");
 }
 
 function Disablestatus($status_id)
@@ -219,25 +237,23 @@ function Disablestatus($status_id)
 					WHERE  `id` = $status_id");
 }
 
-function CheckstatusExist($status_name)
+function Getedit($status_id)
 {
-	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `status`
-											WHERE  `name` = '$status_name' && `actived` = 1"));
-	if($res['id'] != ''){
-		return true;
-	}
-	return false;
-}
-
-
-function Getstatus($status_id)
-{
-	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
-													`name`,
-													`call_status`
-											FROM    `status`
-											WHERE   `id` = $status_id" ));
+	$res = mysql_fetch_assoc(mysql_query("	SELECT 	id,
+											phone1,
+											phone2,
+											first_last_name,
+											person_n,
+											addres,
+											city,
+											mail,
+											born_day,
+											sorce,
+											create_date,
+											person_status,
+											note
+									FROM 	`phone`
+									WHERE	id= $status_id" ));
 
 	return $res;
 }
@@ -251,18 +267,65 @@ function GetPage($res = '')
 
 	    	<table class="dialog-form-table">
 				<tr>
-					<td style="width: 170px;"><label for="CallType">სახელი</label></td>
+					<td style="width: 130px;"><label for="CallType">ტელეფონი 1</label></td>
 					<td>
-						<input type="text" id="name" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['name'] . '" />
+						<input style="width: 120px;" type="text" id="phone1" class="idle" onblur="this.className=\'idle \'" value="' . $res['phone1'] . '" />
+					</td>
+					<td style="width: 130px;"><label style="margin-left:10px;" for="CallType">ტელეფონი 2</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="phone2" class="idle" onblur="this.className=\'idle \'" value="' . $res['phone2'] . '" />
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">საუბრის შინაარსი</label></td>
+					<td style="width: 130px;"><label for="CallType">სახელი / გვარი</label></td>
 					<td>
-						<input type="text" id="call_status" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['call_status'] . '" />
+						<input style="width: 120px;" type="text" id="first_last_name" class="idle" onblur="this.className=\'idle \'" value="' . $res['first_last_name'] . '" />
+					</td>
+					<td style="width: 130px;"><label style="margin-left:10px;" for="CallType">პირადი N</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="person_n" class="idle" onblur="this.className=\'idle \'" value="' . $res['person_n'] . '" />
 					</td>
 				</tr>
-
+				<tr>
+					<td style="width: 130px;"><label for="CallType">მისამართი</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="addres" class="idle" onblur="this.className=\'idle \'" value="' . $res['addres'] . '" />
+					</td>
+					<td style="width: 130px;"><label style="margin-left:10px;" for="CallType">ქალაქი</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="city" class="idle" onblur="this.className=\'idle \'" value="' . $res['city'] . '" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 130px;"><label for="CallType">ელ-ფოსტა</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="mail" class="idle" onblur="this.className=\'idle \'" value="' . $res['mail'] . '" />
+					</td>
+					<td style="width: 130px;"><label style="margin-left:10px;" for="CallType">დაბ. წელი</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="born_day" class="idle" onblur="this.className=\'idle \'" value="' . $res['born_day'] . '" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 130px;"><label for="CallType">განყოფილება</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="sorce" class="idle" onblur="this.className=\'idle \'" value="' . $res['sorce'] . '" />
+					</td>
+					<td style="width: 130px;"><label style="margin-left:10px;" for="CallType">ფორმირების თარიღი</label></td>
+					<td>
+						<input disabled style="width: 120px;" type="text" id="create_date" class="idle" onblur="this.className=\'idle \'" value="' . $res['create_date'] . '" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 130px;"><label for="CallType">ფიზიკური/იურიდიული</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="person_status" class="idle" onblur="this.className=\'idle \'" value="' . $res['person_status'] . '" />
+					</td>
+					<td style="width: 130px;"><label style="margin-left:10px;" for="CallType">შენიშვნა</label></td>
+					<td>
+						<input style="width: 120px;" type="text" id="note" class="idle" onblur="this.className=\'idle \'" value="' . $res['note'] . '" />
+					</td>
+				</tr>
 			</table>
 			<!-- ID -->
 			<input type="hidden" id="status_id" value="' . $res['id'] . '" />

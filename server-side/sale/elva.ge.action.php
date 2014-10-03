@@ -54,6 +54,13 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page' :
+		$disabled = '';
+		$user		= $_SESSION['USERID'];
+		if($user == 19){
+			$disabled = '';
+		}else{
+			$disabled = 'disabled';
+		}
 		$rResult = mysql_query(	"SELECT elva_sale.id,
 								elva_sale.person_id,
 								elva_sale.name_surname,
@@ -145,9 +152,9 @@ switch ($action) {
 												<td style="width: 280px;"><label for="elva">ნინო (ელვა)</label></td>
 											</tr>
 								    		<tr>
-												<td><input style="width: 200px;" id="status" 		value="'.$res[status].'" 			class="idls object"></td>
-												<td><input style="width: 200px;" id="cooradinator"  value="'.$res[coordinator_id].'" 	class="idls object"></td>
-												<td><input style="width: 200px;" id="elva"          value="'.$res[elva_status].'" 		class="idls object"></td>
+												<td><input style="width: 200px;" id="status" 		value="'.$res[status].'" 			class="idls object" '.$disabled.'></td>
+												<td><input style="width: 200px;" id="cooradinator"  value="'.$res[coordinator_id].'" 	class="idls object" '.$disabled.'></td>
+												<td><input style="width: 200px;" id="elva"          value="'.$res[elva_status].'" 		class="idls object" '.$disabled.'></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
@@ -157,9 +164,9 @@ switch ($action) {
 											</tr>
 											<tr>
 												<td>
-													<textarea  style="width: 270px; resize: none;" id="k_coment" class="idle" name="content" cols="300">'.$res[coordinator_comment].'</textarea>
+													<textarea  style="width: 270px; resize: none;" id="k_coment" class="idle" name="content" cols="300" '.$disabled.'>'.$res[coordinator_comment].'</textarea>
 												</td>
-												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" ></td>
+												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" '.$disabled.'></td>
 											</tr>
 										</table>
 							        </fieldset>
