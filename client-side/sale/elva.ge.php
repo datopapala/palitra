@@ -32,7 +32,7 @@
 			} ;
 		function LoadTable(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable_st(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc");
+			GetDataTableTask(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc");
 		}
 
 
@@ -67,6 +67,8 @@
 							<th style="width: 150px">კოოდინატორის შენიშვნა</th>
 							<th style="width: 150px">ნინო (ელვა)</th>
                         </tr>
+                        </thead>
+    					<thead class="filter">
                         <tr>
                             <th class="colum_hidden">
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init"/>
