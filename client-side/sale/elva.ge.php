@@ -32,7 +32,7 @@
 			} ;
 		function LoadTable(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTableTask(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc");
+			GetDataTable_st(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc");
 		}
 
 

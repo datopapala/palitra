@@ -1538,30 +1538,30 @@ function GetDataTable_st(tname, aJaxURL, action, count, data, hidden, length, so
  //       leftColumns: 2
  //   });
 
-    $("#" + tname + " thead input").keyup(function () {
+    $(".filter input").keyup(function () {
         /* Filter on the column (the index) of this element */
-        oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
+        oTable.fnFilter(this.value, $(".filter input").index(this));
     });
 
     /*
     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
     * the footer
     */
-    $("#" + tname + " thead input").each(function (i) {
+    $(".filter input").each(function (i) {
         asInitVals[i] = this.value;
     });
 
-    $("#" + tname + " thead input").focus(function () {
+    $(".filter input").focus(function () {
         if (this.className == "search_init") {
             this.className = "";
             this.value = "";
         }
     });
 
-    $("#" + tname + " thead input").blur(function (i) {
+    $(".filter input").blur(function (i) {
         if (this.value == "") {
             this.className = "search_init";
-            this.value = asInitVals[$("#" + tname + " thead input").index(this)];
+            this.value = asInitVals[$(".filter input").index(this)];
         }
     });
 
