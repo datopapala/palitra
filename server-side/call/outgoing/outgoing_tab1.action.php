@@ -224,6 +224,11 @@ switch ($action) {
 			$addres			= $_REQUEST['addres'];
 			
 			if($result_quest == 1){
+				$SaveElvaChek = mysql_fetch_row(mysql_query("SELECT id 
+															FROM `elva_sale`
+															WHERE task_id = '$task_detail_id'"));
+				if($SaveElvaChek[0] == ''){
+				
 				$get_gift_chek = '';
 				if($get_gift != ''){
 					$get_gift_chek = ', '.$get_gift;
@@ -240,6 +245,7 @@ switch ($action) {
 				}
 				
 				SaveElvaGe($person_n, $first_name, $mail, $addres, $phone, $send_date, $call_content,$get_prod_price[0],substr($row_name_prod,0,-3),$task_id );
+				}
 			}
 
 			$res = mysql_fetch_row(mysql_query("SELECT `phone_base_id`, `phone_base_inc_id`
