@@ -1,6 +1,6 @@
 <?php
 
-$manager_host   = "92.241.82.243";
+$manager_host   = "localhost";
 $manager_user   = "admin";
 $manager_secret = "sudobash";
 
