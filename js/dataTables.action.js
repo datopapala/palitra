@@ -1462,7 +1462,7 @@ function GetDataTable_st(tname, aJaxURL, action, count, data, hidden, length, so
         "aLengthMenu": dLength,                                                                         //Custom Select Options
         "sAjaxSource": aJaxURL,
         "bAutoWidth": false,
-     //   "scrollY": "300px",
+        "scrollY": "300px",
         "scrollX": true,
     //    "scrollCollapse": true,
       //  "paging": false
