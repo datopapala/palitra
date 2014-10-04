@@ -5,7 +5,14 @@
 
 		$(document).ready(function () {
 
-			LoadTable();
+			
+
+			GetDate("search_start");
+			GetDate("search_end");
+			
+			var start 	= $("#search_start").val();
+			var end 	= $("#search_end").val();
+			LoadTable(start,end);
 			SetEvents('','','',tName,'in_page',aJaxURL);
 		});
 
@@ -30,12 +37,23 @@
 				});
 			 GetDate("oder_date");
 			} ;
-		function LoadTable(){
+		function LoadTable(start, end){
 			var total=[9];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc", total);
+			GetDataTable(tName, aJaxURL, "get_list", 19, "start=" + start + "&end=" + end, 0, "", 0, "desc", total);
 		}
 
+		$(document).on("change", "#search_start", function () {
+	    	var start	= $(this).val();
+	    	var end		= $("#search_end").val();
+	    	LoadTable(start, end);
+	    });
+	    
+	    $(document).on("change", "#search_end", function () {
+	    	var start	= $("#search_start").val();
+	    	var end		= $(this).val();
+	    	LoadTable(start, end);
+	    });
 
     </script>
     <style type="text/css">
@@ -48,9 +66,20 @@
     <h2 style="position: fixed; top: 80px; margin-left: 50%;">ჩანაწერები</h2>
         <div id="container" style="width: 100%; margin-top: 70px;"  >
             <div id="dynamic" style="width: 200%; ">
+            <div id="button_area" style="position: fixed; top: 80px;">
+	            	<div class="left" style="width: 175px;">
+	            		<label for="search_start" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
+	            		<input style="width: 80px; height: 16px; margin-left: 5px;" type="text" name="search_start" id="search_start" class="inpt left"/>
+	            	</div>
+	            	<div class="right" style="">
+	            		<label for="search_end" class="left" style="margin: 5px 0 0 9px;">დასასრული</label>
+	            		<input style="width: 80px; height: 16px; margin-left: 5px;" type="text" name="search_end" id="search_end" class="inpt right" />
+            		</div>	
+            	</div>
                 <table class="display" id="example" >
                     <thead>
                         <tr id="datatable_header" class="search_header">
+                        	<th style="width: 150px">id</th>
 							<th style="width: 150px">პირადი ნომ</th>
 							<th style="width: 150px">სახელი და გვარი</th>
 							<th style="width: 150px">მეილი</th>
@@ -82,7 +111,10 @@
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
-                             <th>
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" />
+                            </th>
+                            <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" />
                             </th>
                             <th>
@@ -134,6 +166,7 @@
 							<th style="width: 150px"></th>
 							<th style="width: 150px; text-align: right;">ჯამი :<br>სულ :</th>
 							<th style="width: 150px; text-align: left;"></th>
+							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
