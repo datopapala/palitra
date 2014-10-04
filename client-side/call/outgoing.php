@@ -638,7 +638,9 @@
 			param.set_shabloni				= $("#shabloni").val();
 			param.id						= $("#id").val();
 			
-	 
+	 		if(param.set_task_department_id == 0){
+		 		alert('დავალების ფორმირებისთვის ამოირჩიეთ განყოფილება');
+	 		}else{
 		    $.ajax({
 		        url: aJaxURL,
 			    data: param,
@@ -652,6 +654,7 @@
 					}
 			    }
 		    });
+	 		}
 		}
 	    $(document).on("click", "#sub1", function () {
 	    	
