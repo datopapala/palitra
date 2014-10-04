@@ -137,7 +137,19 @@ switch ($action) {
 												<td colspan="2" style="width: 280px;"><label for="book">გამოცემა</label></td>
 											</tr>
 								    		<tr>
-												<td><input style="width: 200px;" id="period" 				value="'.$res[period].'"	class="idls object" '.$other_disabled.'></td>
+												<td><select style="width: 200px;"  id="period" class="idls object">';
+		$per_id = mysql_query("	SELECT id,name
+								FROM shipping
+								WHERE actived = 1");
+		while( $ress = mysql_fetch_assoc($per_id)){
+			if($ress['name'] == $_REQUEST[period]){
+				$data['page'][0] .= '<option value="' . $ress['name'] . '" selected="selected">' . $ress['name'] . '</option>';
+			} else {
+				$data['page'][0] .= '<option value="' . $ress['name'] . '">' . $ress['name'] . '</option>';
+			}
+		}
+													
+					$data['page'][0] .=			'</select></td>
 												<td colspan="2"><input style="width: 444px;" id="book" 		value="'.$res[books]. '" 	class="idls object" '.$other_disabled.'></td>
 											</tr>
 											<tr>
@@ -146,7 +158,7 @@ switch ($action) {
 											</tr>
 								    		<tr>
 												<td><input style="width: 200px;" id="date" 		value="'.$res[call_date].'" 		class="idls object" '.$other_disabled.'></td>
-												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" '.$other_disabled.'></td>
+												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" disabled></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" >
@@ -268,10 +280,6 @@ switch ($action) {
 		</fieldset></div>';
 			   	break;
    	case 'save_dialog' :
-   		$op_id = mysql_fetch_row(mysql_query("	SELECT users.id 
-													FROM persons
-													JOIN users ON persons.id = users.person_id
-													WHERE persons.`name` = '$_REQUEST[op_id]'"));
    		
    		$per_id = mysql_fetch_row(mysql_query("	SELECT id
 										   		FROM shipping
@@ -294,8 +302,7 @@ switch ($action) {
 							`books`					='$_REQUEST[book]', 
 							`call_date`				='$_REQUEST[date]', 
 							`sum_price`				='$_REQUEST[sum_price]', 
-							`callceenter_comment`	='$_REQUEST[c_coment]', 
-							`operator_id`			='$op_id[0]'
+							`callceenter_comment`	='$_REQUEST[c_coment]' 
 					WHERE (`id`='$_REQUEST[id]')");
    		break;
 	default:

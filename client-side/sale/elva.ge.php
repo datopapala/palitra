@@ -210,7 +210,7 @@
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px; text-align: right;">ჯამი :<br>სულ :</th>
-							<th style="width: 150px; text-align: left;"></th>
+							<th style="width: 150px; text-align: right;"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>

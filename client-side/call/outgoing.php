@@ -195,14 +195,6 @@
 				            text: "დასრულება",
 				            id: "done-dialog1"
 				        }, 
-				        "save": {
-				            text: "შენახვა",
-				            id: "set_task",
-				            click: function () {
-					            set_task();
-				            	$(this).dialog("close");
-					        }
-				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
