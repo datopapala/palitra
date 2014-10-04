@@ -73,27 +73,27 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
+			 GetDataTableTest("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 12, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example1", aJaxURL1, "get_list", 12, "", 0, "", 1, "asc", "");
 		}
 
 		function LoadTable2(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL2, "get_list", 12, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example2", aJaxURL2, "get_list", 12, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable3(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL3, "get_list", 12, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example3", aJaxURL3, "get_list", 12, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 11, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example4", aJaxURL4, "get_list&id="+$("#id").val(), 11, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){		
 			var scenar_name =	$("#shabloni").val();
@@ -111,7 +111,7 @@
 		}
 		function LoadTable7(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example5", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example5", aJaxURL3, "get_list", 11, "", 0, "", 1, "asc", "");
 		}
 
 		$(document).on("click", "#check-all-in", function () {
