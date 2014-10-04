@@ -1198,24 +1198,6 @@
 			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
 		});
 
-		$(document).on("click", "#next_1000_first", function () {
-			var next = $('#mtvleli_first').val();
-			var next_ch = parseInt(next)+1;
-			$('#mtvleli_first').val(next_ch);
-			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+next_ch, 12, "", 0, "", 1, "asc");
-		});
-		$(document).on("click", "#back_1000_first", function () {
-			var back = $('#mtvleli_first').val();
-			if(back != 0){
-			var back_ch = parseInt(back)-1;
-			}else{
-				back_ch = 0;
-			}
-			$('#mtvleli_first').val(back_ch);
-			
-			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
-		});
-
 		$(document).on("click", "#next_1000_mimd", function () {
 			var next = $('#mtvleli_mimd').val();
 			var next_ch = parseInt(next)+1;
