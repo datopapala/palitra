@@ -365,7 +365,7 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
         "bDestroy": true, 		
         "bJQueryUI": true, 																				//Add jQuery ThemeRoller
         //"bStateSave": true, 																			//state saving
-        //"sDom": "<'dataTable_buttons'T><'H'lfrt><'dataTable_content't><'F'ip>",
+        "sDom": "<'dataTable_buttons'T><'H'lfrt><'dataTable_content't><'F'ip>",
 		"oTableTools": imex,
         "sPaginationType": "full_numbers",
         "bProcessing": true,
@@ -374,8 +374,8 @@ function GetDataTableTask(tname, aJaxURL, action, count, data, hidden, length, s
         "aLengthMenu": dLength,                                                                         //Custom Select Options
         "sAjaxSource": aJaxURL,
         //"bAutoWidth": false,
-        "scrollY": 400,
-        "scrollCollapse": true,
+        //"scrollY": 400,
+        //"scrollCollapse": true,
         "paging":         false,
         "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
         	if(!empty(total)){

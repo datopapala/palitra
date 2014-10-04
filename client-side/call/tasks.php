@@ -1,5 +1,10 @@
 ﻿<head>
 <style type="text/css">
+
+#phone_base_dialog{
+	height: 550px !important;
+}
+
 .download {
 
 	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
