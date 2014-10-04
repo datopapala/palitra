@@ -1,4 +1,5 @@
 <?php
+require_once ('../../includes/classes/core.php');
 $user_id = $_SESSION['USERID'];
 
 $result = mysql_query("
