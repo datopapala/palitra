@@ -20,6 +20,7 @@
 			GetDialog("in_page","1150","auto");
 
 			 $("#save-dialog").on("click",function(){
+				
 				param = new Object();
 				param.act = "save_dialog";
 
@@ -48,7 +49,9 @@
 
 				$.getJSON(
 					aJaxURL, param, function(data) {
-					LoadTable();
+						var start 	= $("#search_start").val();
+						var end 	= $("#search_end").val();
+						LoadTable(start, end);
 					});
 				$('#'+fname).dialog("close");
 				});

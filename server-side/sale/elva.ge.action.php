@@ -268,12 +268,34 @@ switch ($action) {
 		</fieldset></div>';
 			   	break;
    	case 'save_dialog' :
+   		$op_id = mysql_fetch_row(mysql_query("	SELECT users.id 
+													FROM persons
+													JOIN users ON persons.id = users.person_id
+													WHERE persons.`name` = '$_REQUEST[op_id]'"));
+   		
+   		$per_id = mysql_fetch_row(mysql_query("	SELECT id
+										   		FROM shipping
+										   		WHERE `name` = '$_REQUEST[period]'"));
+   		
+   		
 		mysql_query("UPDATE `elva_sale` SET 
-							`status`='$_REQUEST[status]', 
-							`oder_send_date`='$_REQUEST[oder_date]', 
-							`coordinator_id`='$_REQUEST[cooradinator]', 
-							`coordinator_comment`='$_REQUEST[k_coment]', 
-							`elva_status`='$_REQUEST[elva]'
+							`status`				='$_REQUEST[status]', 
+							`oder_send_date`		='$_REQUEST[oder_date]', 
+							`coordinator_id`		='$_REQUEST[cooradinator]', 
+							`coordinator_comment`	='$_REQUEST[k_coment]', 
+							`elva_status`			='$_REQUEST[elva]',
+							`person_id`				='$_REQUEST[person_id]', 
+							`name_surname`			='$_REQUEST[name_surname]', 
+							`mail`					='$_REQUEST[mail]', 
+							`address`				='$_REQUEST[addres]', 
+							`phone`					='$_REQUEST[phone]', 
+							`phone1`				='$_REQUEST[phone1]', 
+							`period`				='$per_id', 
+							`books`					='$_REQUEST[book]', 
+							`call_date`				='$_REQUEST[date]', 
+							`sum_price`				='$_REQUEST[sum_price]', 
+							`callceenter_comment`	='$_REQUEST[c_coment]', 
+							`operator_id`			='$op_id'
 					WHERE (`id`='$_REQUEST[id]')");
    		break;
 	default:
