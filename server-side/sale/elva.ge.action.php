@@ -290,12 +290,12 @@ switch ($action) {
 							`address`				='$_REQUEST[addres]', 
 							`phone`					='$_REQUEST[phone]', 
 							`phone1`				='$_REQUEST[phone1]', 
-							`period`				='$per_id', 
+							`period`				='$per_id[0]', 
 							`books`					='$_REQUEST[book]', 
 							`call_date`				='$_REQUEST[date]', 
 							`sum_price`				='$_REQUEST[sum_price]', 
 							`callceenter_comment`	='$_REQUEST[c_coment]', 
-							`operator_id`			='$op_id'
+							`operator_id`			='$op_id[0]'
 					WHERE (`id`='$_REQUEST[id]')");
    		break;
 	default:
