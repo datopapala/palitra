@@ -19,7 +19,38 @@
 		var file_name = '';
 		var rand_file = '';
 		
-		$(document).ready(function () {     
+		$(document).ready(function () { 
+			$("#back_1000_active").button({
+	            
+		    });
+		    
+			$("#next_1000_active").button({
+			    
+			}); 
+			  
+			$("#back_1000_first").button({
+	            
+		    });
+		    
+			$("#next_1000_first").button({
+			    
+			});  
+
+			$("#back_1000_mimd").button({
+	            
+		    });
+		    
+			$("#next_1000_mimd").button({
+			    
+			}); 
+
+			$("#back_1000_done").button({
+	            
+		    });
+		    
+			$("#next_1000_done").button({
+			    
+			});
 			GetTabs(tbName);   
 			
 			GetTable0();
@@ -93,7 +124,7 @@
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTableTest("example4", aJaxURL4, "get_list&id="+$("#id").val(), 11, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example4", aJaxURL4, "get_list&id="+$("#id").val(), 12, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){		
 			var scenar_name =	$("#shabloni").val();
@@ -1130,7 +1161,96 @@
 			    }
 		    });
     });
-		
+
+	    $(document).on("click", "#next_1000_active", function () {
+			var next = $('#mtvleli_active').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_active').val(next_ch);
+			GetDataTableTest("example0", aJaxURL, "get_list&pager="+next_ch, 9, "", 0, "", 1, "asc");
+		});
+		$(document).on("click", "#back_1000_active", function () {
+			var back = $('#mtvleli_active').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_active').val(back_ch);
+			
+			GetDataTableTest("example0", aJaxURL, "get_list&pager="+back_ch, 9, "", 0, "", 1, "asc");
+		});
+
+		$(document).on("click", "#next_1000_first", function () {
+			var next = $('#mtvleli_first').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_first').val(next_ch);
+			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+next_ch, 12, "", 0, "", 1, "asc");
+		});
+		$(document).on("click", "#back_1000_first", function () {
+			var back = $('#mtvleli_first').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_first').val(back_ch);
+			
+			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
+		});
+
+		$(document).on("click", "#next_1000_first", function () {
+			var next = $('#mtvleli_first').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_first').val(next_ch);
+			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+next_ch, 12, "", 0, "", 1, "asc");
+		});
+		$(document).on("click", "#back_1000_first", function () {
+			var back = $('#mtvleli_first').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_first').val(back_ch);
+			
+			GetDataTableTest("example1", aJaxURL1, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
+		});
+
+		$(document).on("click", "#next_1000_mimd", function () {
+			var next = $('#mtvleli_mimd').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_mimd').val(next_ch);
+			GetDataTableTest("example2", aJaxURL2, "get_list&pager="+next_ch, 12, "", 0, "", 1, "asc");
+		});
+		$(document).on("click", "#back_1000_mimd", function () {
+			var back = $('#mtvleli_mimd').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_mimd').val(back_ch);
+			
+			GetDataTableTest("example2", aJaxURL2, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
+		});
+
+		$(document).on("click", "#next_1000_done", function () {
+			var next = $('#mtvleli_done').val();
+			var next_ch = parseInt(next)+1;
+			$('#mtvleli_done').val(next_ch);
+			GetDataTableTest("example3", aJaxURL3, "get_list&pager="+next_ch, 12, "", 0, "", 1, "asc");
+		});
+		$(document).on("click", "#back_1000_done", function () {
+			var back = $('#mtvleli_done').val();
+			if(back != 0){
+			var back_ch = parseInt(back)-1;
+			}else{
+				back_ch = 0;
+			}
+			$('#mtvleli_done').val(back_ch);
+			
+			GetDataTableTest("example3", aJaxURL3, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
+		});
     </script>
 </head>
 
@@ -1152,12 +1272,15 @@
 		            	<div id="button_area">
 		            		<!-- button id="add_button">დამატება</button -->
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
+	        				<button id="back_1000_active" > << 1000 </button>
+    					 	<input style="width: 60px; border: none; text-align: center; background: #DFEFFC;" id="mtvleli_active" value="0">
+    					 	<button id="next_1000_active" > 1000 >> </button>
 	        			</div>
 		                <table class="display" id="example0">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
+									<th style="width:8%;">№</th>
 									<th style="width:19%;">პირადი №<br>საიდ. კოდი</th>
 									<th style="width:19%;">დასახელება</th>
 									<th style="width:19%;">დავალების<br>ტიპი</th>
@@ -1216,12 +1339,15 @@
 		            <div id="dynamic">
 		            	<h2 align="center">პირველადი</h2>
 		            	<div id="button_area">
+		            		<button id="back_1000_first" > << 1000 </button>
+    					 	<input style="width: 60px; border: none; text-align: center; background: #DFEFFC;" id="mtvleli_first" value="0">
+    					 	<button id="next_1000_first" > 1000 >> </button>
 	        			</div>
 		                <table class="display" id="example1">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
+									<th style="width:8%;">№</th>
 									<th style="width:19%;">შექმნის თარიღი</th>
 									<th style="width:19%;">დასაწისი</th>
 									<th style="width:19%;">დასასრული</th>
@@ -1288,12 +1414,15 @@
 		            <div id="dynamic">
 		            	<h2 align="center">მიმდინარე</h2>
 		            	<div id="button_area">
+		            		<button id="back_1000_mimd" > << 1000 </button>
+    					 	<input style="width: 60px; border: none; text-align: center; background: #DFEFFC;" id="mtvleli_mimd" value="0">
+    					 	<button id="next_1000_mimd" > 1000 >> </button>
 	        			</div>
 		                <table class="display" id="example2">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
+									<th style="width:8%;">№D</th>
 									<th style="width:19%;">შექმნის თარიღი</th>
 									<th style="width:19%;">დასაწისი</th>
 									<th style="width:19%;">დასასრული</th>
@@ -1359,11 +1488,16 @@
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">მიმდინარე</h2>
+		            	<div id="button_area">
+		            		<button id="back_1000_done" > << 1000 </button>
+    					 	<input style="width: 60px; border: none; text-align: center; background: #DFEFFC;" id="mtvleli_done" value="0">
+    					 	<button id="next_1000_done" > 1000 >> </button>
+	        			</div>
 		                <table class="display" id="example3">
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
+									<th style="width:8%;">№</th>
 									<th style="width:19%;">შექმნის თარიღი</th>
 									<th style="width:19%;">დასაწისი</th>
 									<th style="width:19%;">დასასრული</th>
@@ -1433,7 +1567,7 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:6%;">ID</th>
+									<th style="width:8%;">№</th>
 									<th style="width:19%;">შექმნის თარიღი</th>
 									<th style="width:19%;">დასაწისი</th>
 									<th style="width:19%;">დასასრული</th>

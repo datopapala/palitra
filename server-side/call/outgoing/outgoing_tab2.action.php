@@ -71,6 +71,14 @@ switch ($action) {
 	    }else{
 	    	$user_checker = 'and task_detail.responsible_user_id='.$user;
 	    }
+	    
+	    $pager 	= $_REQUEST['pager'];
+	    $pager_ch = 0;
+	    if($pager == 0){
+	    	$pager_ch = 0;
+	    }else{
+	    	$pager_ch = $pager.'000';
+	    }
 	     
 	    $rResult = mysql_query("SELECT 	task_detail.id,
 	    								task_detail.id,
@@ -92,7 +100,8 @@ switch ($action) {
 								LEFT JOIN incomming_call ON task_detail.phone_base_inc_id = incomming_call.id
 								LEFT JOIN phone ON task_detail.phone_base_id = phone.id
 	    						LEFT JOIN priority ON task.priority_id = priority.id
-	    						WHERE	task_detail.status=2 $user_checker");
+	    						WHERE	task_detail.status=2 $user_checker
+	    						LIMIT 	1000 OFFSET $pager_ch");
 	    
 										    		
 		$data = array(

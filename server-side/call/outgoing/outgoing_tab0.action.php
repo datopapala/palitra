@@ -65,6 +65,14 @@ switch ($action) {
 	    if ($group != 2) {
 	    	$filter = 'AND outgoing_call.responsible_user_id ='. $user;
 	    }
+	    
+	    $pager 	= $_REQUEST['pager'];
+	    $pager_ch = 0;
+	    if($pager == 0){
+	    	$pager_ch = 0;
+	    }else{
+	    	$pager_ch = $pager.'000';
+	    }
 		    	
     	$rResult = mysql_query("SELECT 	task_detail.id,
 										task_detail.id,
@@ -100,7 +108,8 @@ switch ($action) {
 								LEFT JOIN users ON task_detail.responsible_user_id = users.id
 								JOIN phone ON task_detail.phone_base_id = phone.id
     							LEFT JOIN `status` ON task_detail.`status` = `status`.id
-    							WHERE task_detail.user_id = '$user' and task_detail.`status` = 0");
+    							WHERE task_detail.user_id = '$user' and task_detail.`status` = 0
+    							LIMIT 	1000 OFFSET $pager_ch");
 		    
 		$data = array(
 			"aaData"	=> array()
