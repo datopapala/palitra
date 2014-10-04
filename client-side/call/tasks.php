@@ -114,39 +114,39 @@
 		 function LoadTable0(){		
 			 SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");	
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
+			 GetDataTableTest("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 
 		function LoadTable2(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable3(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable4(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list&id="+$("#id").val(), 12, "", 0, "", 1, "asc", "");
+			GetDataTableTest("example4", aJaxURL4, "get_list&id="+$("#id").val(), 12, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable5(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("sub1", aJaxURL5, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTableTest("sub1", aJaxURL5, "get_list", 7, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable6(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("sub2", aJaxURL6, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTableTest("sub2", aJaxURL6, "get_list", 7, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable7(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("all_task", aJaxURL7, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTableTest("all_task", aJaxURL7, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 
 		//SeoYyy
