@@ -55,7 +55,22 @@ switch ($action) {
 		break;
 	case 'get_edit_page' :
 		$disabled = '';
+		$other_disabled = '';
 		$user		= $_SESSION['USERID'];
+		
+		$chek_gr = mysql_fetch_row(mysql_query("SELECT `group_id` FROM `users` WHERE `id` = '$user'; "));
+		
+		if($chek_gr[0] == 6){
+			$disabled = '';
+		}else{
+			$disabled = 'disabled';
+		}
+		
+		if($chek_gr[0] != 6){
+			$other_disabled = '';
+		}else{
+			$other_disabled = 'disabled';
+		}
 		
 		$rResult = mysql_query(	"SELECT elva_sale.id,
 								elva_sale.person_id,
@@ -83,13 +98,6 @@ switch ($action) {
 								WHERE elva_sale.id='$_REQUEST[id]'");
 		$res = mysql_fetch_array( $rResult );
 		$data['page'][0] = '';
-		
-		if($user == 19){
-			$disabled = '';
-		}else{
-			$disabled = 'disabled';
-		}
-		
 		$data['page'][0] .= '<div id="dialog-form">
 								<div style="float: left; width: 710px;" disabled>
 								<fieldset >
@@ -102,9 +110,9 @@ switch ($action) {
 											<td style="width: 280px;"><label for="">მეილი</label></td>
 										</tr>
 										<tr>
-											<td><input id="person_id" 	 class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[person_id]. 	'" /></td>
-											<td><input id="name_surname" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[name_surname].'" /></td>
-											<td><input id="c_date" 		 class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[mail].       	'" /></td>
+											<td><input id="person_id" 	 class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[person_id]. 	'" /></td>
+											<td><input id="name_surname" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[name_surname].'" /></td>
+											<td><input id="c_date" 		 class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[mail].       	'" /></td>
 										</tr>
 										<tr>
 											<td style="width: 280px;"><label for="">ტელეფონი 1</label></td>
@@ -112,9 +120,9 @@ switch ($action) {
 											<td style=""><label for="">მისმართი</label></td>
 										</tr>
 										<tr>
-											<td><input id="phone" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[phone].'" /></td>
-											<td><input id="phone1" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[phone1].'" /></td>
-											<td><input id="c_date" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[address].'" /></td>
+											<td><input id="phone" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[phone].'" /></td>
+											<td><input id="phone1" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[phone1].'" /></td>
+											<td><input id="c_date" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[address].'" /></td>
 										</tr>
 									</table>
 								</fieldset >
@@ -126,16 +134,16 @@ switch ($action) {
 												<td colspan="2" style="width: 280px;"><label for="book">გამოცემა</label></td>
 											</tr>
 								    		<tr>
-												<td><input style="width: 200px;" id="period" 				value="'.$res[period].'"	class="idls object" disabled></td>
-												<td colspan="2"><input style="width: 444px;" id="book" 		value="'.$res[books]. '" 	class="idls object" disabled></td>
+												<td><input style="width: 200px;" id="period" 				value="'.$res[period].'"	class="idls object" '.$other_disabled.'></td>
+												<td colspan="2"><input style="width: 444px;" id="book" 		value="'.$res[books]. '" 	class="idls object" '.$other_disabled.'></td>
 											</tr>
 											<tr>
 												<td style="width: 280px;"><label for="date">ქოლ-ცენტრის დარეკვის თარიღი</label></td>
 												<td style="width: 280px;"><label for="op_id">ოპერატორი</label></td>
 											</tr>
 								    		<tr>
-												<td><input style="width: 200px;" id="date" 		value="'.$res[call_date].'" 		class="idls object" disabled></td>
-												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" disabled></td>
+												<td><input style="width: 200px;" id="date" 		value="'.$res[call_date].'" 		class="idls object" '.$other_disabled.'></td>
+												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" '.$other_disabled.'></td>
 											</tr>
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
@@ -144,8 +152,8 @@ switch ($action) {
 												<td style="width: 150px;"><label>ქოლცენტრის კომენტარი</label></td>
 											</tr>
 											<tr>
-												<td><input style="width: 200px;" id="oder_date1" value="'.$res[sum_price].  '" class="idls object" disabled></td>
-												<td><textarea  style="width: 270px; resize: none;" id="c_coment" class="idle" name="content" cols="300" disabled>'.$res[callceenter_comment].'</textarea></tr>
+												<td><input style="width: 200px;" id="oder_date1" value="'.$res[sum_price].  '" class="idls object" '.$other_disabled.'></td>
+												<td><textarea  style="width: 270px; height:80px; resize: none;" id="c_coment" class="idle" name="content" cols="300" '.$other_disabled.'>'.$res[callceenter_comment].'</textarea></tr>
 
 										</table>
 									</fieldset>
@@ -170,7 +178,7 @@ switch ($action) {
 											</tr>
 											<tr>
 												<td>
-													<textarea  style="width: 270px; resize: none;" id="k_coment" class="idle" name="content" cols="300" '.$disabled.'>'.$res[coordinator_comment].'</textarea>
+													<textarea  style="width: 270px; resize: none; height:80px;" id="k_coment" class="idle" name="content" cols="300" '.$disabled.'>'.$res[coordinator_comment].'</textarea>
 												</td>
 												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" '.$disabled.'></td>
 											</tr>
