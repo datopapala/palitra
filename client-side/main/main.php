@@ -1,197 +1,108 @@
 <?php
-require_once("AsteriskManager/config.php");
-include("AsteriskManager/sesvars.php");
-if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
-    $ocultar=$_SESSION['QSTATS']['hideloggedoff'];
-} else {
-    $ocultar="false";
-}
+$user_id = $_SESSION['USERID'];
+
+$result = mysql_query("
+						SELECT 		`menu_detail`.page_id,
+									`menu_detail`.title,
+									`menu_detail`.metro_icon,
+									`menu_detail`.metro_tile_type
+						FROM 		`users`
+						LEFT JOIN   `group` ON `group`.id = `users`.`group_id`
+						LEFT JOIN   `group_permission` ON `group`.id = `group_permission`.`group_id`
+						LEFT JOIN   `menu_detail` ON `group_permission`.`page_id` = `menu_detail`.`page_id`
+						WHERE 		`users`.`id` = $user_id AND metro_tile_type != 0
+						ORDER BY	`menu_detail`.metro_tile_type DESC
+					");
+
 ?>
 
-
+<html>
 <head>
-	<script type="text/javascript">
-		var aJaxURL	= "server-side/call.action.php";		//server side folder url
-		var tName	= "example";										//table name
-		var fName	= "add-edit-form";									//form name
-		
-		$(document).ready(function () {   
-			runAjax();     	
-			LoadTable();	
-			
-			/* Add Button ID, Delete Button ID */
-			GetButtons("add_button", "delete_button","");			
-			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
-		});
-        
-		function LoadTable(){
-			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list",5, "", 0, "", 1, "desc");
-		}
-		
-		function LoadDialog(){
-			
-			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 1000, 430, "");
-			var requester = $("input[name=requester]:radio:checked").val();
-			
-			var id = $("#req_id").val();
-			
-		}
-		
-		function CloseDialog(){
-			$("#" + fName).dialog("close");
-		}
-		
-	    // Add - Save
-	    $(document).on("click", "#save-dialog", function () {
-		    param 			= new Object();
+		<link href="media/css/main/header.css" rel="stylesheet" type="text/css" />
+    	<link href="media/css/main/mainpage.css" rel="stylesheet" type="text/css" />
+    	<link href="media/css/main/tooltip.css" rel="stylesheet" type="text/css" />
+</head>
+<body onselectstart='return false;'>
+    <div id="ContentHolder">
+    <div class="content">
+        <table class="tiles">
+            <tbody>
+                <tr>
+                    <td>
+                    <?php
+						$count =  round(mysql_num_rows($result) / 3);
 
-		    param.act		= "save_request";
-	    	param.id		= $("#req_id").val();
-	    	
-	    	param.req_num		= $("#req_num").val();
-	    	param.req_data		= $("#req_data").val();
-	    	param.req_phone		= $("#req_phone").val();
-	    	param.info_category	= $("input[name=info_category]:radio:checked").val();
-	    	param.first_name	= $("#first_name").val();
-	    	param.last_name		= $("#last_name").val();
-	    	param.phone			= $("#phone").val();
-	    	param.content		= $("#content").val();
-	    	
-			if(param.req_phone == ""){
-				alert("შეავსეთ ტელეფონის ნომერი!");
-			}else {
-			    $.ajax({
-			        url: aJaxURL,
-				    data: param,
-			        success: function(data) {       
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								LoadTable();
-				        		CloseDialog();
-				        		console.log(data.error);
+						for ($i = 1; $i < $count - 2; $i++) {
+							$row = mysql_fetch_assoc($result);
+							if ($row[metro_tile_type] == 1) {
+								echo '
+									<div  class="tile_small" style="background: #FACC2E;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+			                            <p style="font-size: 16px;">'.$row[title].'</p>
+			                        </div>
+									';
+							}elseif ($row[metro_tile_type] == 2) {
+								echo '
+									<div  class="tile_large"  style="background: #FACC2E;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+										<div class="tile_icon" style="margin-top: 10px;">
+											<img src="media/images/main/'.$row[metro_icon].'" alt="" style="background-position: -116px -18px; width: 50px; height: 50px;" />
+										</div><p style="margin-top: 22px; margin-left: 80px">'.$row[title].'</p>
+									</div>
+									';
 							}
 						}
-				    }
-			    });
-			}
-		});
+                    ?>
+                    </td>
 
-	    function run(number){
+                    <td>
+                    <?php
 
-	    	param 			= new Object();
-		 	param.act		= "get_add_page";
-		 	param.number	= number;
-		 	
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {       
-					if(typeof(data.error) != 'undefined'){
-						if(data.error != ''){
-							alert(data.error);
-						}else{
-							$("#add-edit-form").html(data.page);
-							LoadDialog();
+						for ($i = $count; $i < $count + $count +2; $i++) {
+							$row = mysql_fetch_assoc($result);
+							if ($row[metro_tile_type] == 1) {
+								echo '
+									<div  class="tile_small" style="background: #A9A9F5;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+			                            <p style="font-size: 16px;">'.$row[title].'</p>
+			                        </div>
+									';
+							}elseif ($row[metro_tile_type] == 2) {
+								echo '
+									<div  class="tile_large"  style="background: #A9A9F5;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+										<div class="tile_icon" style="margin-top: 10px;">
+											<img src="media/images/main/'.$row[metro_icon].'" alt="" style="background-position: -116px -18px; width: 50px; height: 50px;" />
+										</div><p style="margin-top: 22px; margin-left: 80px">'.$row[title].'</p>
+									</div>
+									';
+							}
 						}
-					}
-			    }
-		    });			
-		    }
+                    ?>
+                    </td>
 
-	    function runAjax() {
-            $.ajax({
-            	async: true,
-            	dataType: "html",
-		        url: 'AsteriskManager/auxstate_helper.php',
-			    data: 'sesvar=hideloggedoff&value=true',
-		        success: function(data) {
-							$("#jq").html(data);						
-			    }
-            }).done(function(data) { 
-                setTimeout(runAjax, 1000);
-            });
-        }
-
-	    $(document).on("click", ".number", function () {
-	    	var number = $(this).attr("number");
-	    	if(number != ""){
-	    		run(number);
-	    		console.log(number);
-		    } 
-	    });
-		
-    </script>
-</head>
-
-<body>
-
-<table style="width: 1140px; margin: 0 auto;">
-		<tr>
-			<td>
-			
-		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 550px !important;">        	
-		            <div id="dynamic" >
-		            	<h2 align="center">მომართვები</h2>
-		            	<div id="button_area">
-		        			<button id="add_button">დამატება</button>
-		        			<button id=delete_button>წაშლა</button>
-		        		</div>
-		        	
-		                <table class="display" id="example" style="width: 550px;">
-		                    <thead>
-		                        <tr id="datatable_header">
-		                            <th>ID</th>
-		                            <th style="width: 25px;">№</th>
-		                            <th style="width: 100px;">თარიღი</th>
-		                            <th style="width: 140px;">ტელეფონი</th>
-		                            <th style="width: 100%;">კატეგორია</th>
-		                             <th class="check">#</th>
-		                              
-		                        </tr>
-		                    </thead>
-		                    <thead>
-		                        <tr class="search_header">
-		                            <th class="colum_hidden">
-		                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 60px"/>
-		                            </th>
-		                            <th><input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style="width: 60px"></th>
-		                            <th>
-		                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 60px"/>
-		                            </th>
-		                            <th>
-		                                <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 60px"/>
-		                            </th>
-		                            <th>
-		                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 60px" />
-		                            </th>
-		                            <th>
-										<input type="checkbox" name="check-all" id="check-all-in"/>
-									</th>
-		                        </tr>
-		                    </thead>
-		                </table>
-		            </div>
-		            <div class="spacer">
-		            </div>
-		        </div>
-		    </div>
-		    
-	    <td style="width: 5px;">		
-		   &nbsp;
-		</td>					
-		<td>		
-		   <div id="jq" style="height: 520px;  width: 456px;"></div>
-		</td>			
-	</tr>
-</table>
-    
-    <!-- jQuery Dialog -->
-    <div  id="add-edit-form" class="form-dialog" title="პროდუქტის კატეგორიები">
-    	<!-- aJax -->
-	</div>
+                    <td>
+                    <?php
+						for ($i = $count + $count + 2; $i <= mysql_num_rows($result); $i++) {
+							$row = mysql_fetch_assoc($result);
+							if ($row[metro_tile_type] == 1) {
+								echo '
+									<div  class="tile_small" style="background: #A9F5BC;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+			                            <p style="font-size: 16px;">'.$row[title].'</p>
+			                        </div>
+									';
+							}elseif ($row[metro_tile_type] == 2) {
+								echo '
+									<div  class="tile_large"  style="background: #A9F5BC;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+										<div class="tile_icon" style="margin-top: 10px;">
+											<img src="media/images/main/'.$row[metro_icon].'" alt="" style="background-position: -116px -18px; width: 50px; height: 50px;" />
+										</div><p style="margin-top: 22px; margin-left: 80px">'.$row[title].'</p>
+									</div>
+									';
+							}
+						}
+                    ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </div>
 </body>
+</html>
