@@ -1437,7 +1437,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >'.$notes[9][notes].'</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1478,7 +1478,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[10][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1526,7 +1526,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[11][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1557,7 +1557,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[12][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1605,7 +1605,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[13][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1648,7 +1648,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[14][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1695,7 +1695,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[15][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1742,7 +1742,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[16][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1774,7 +1774,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[17][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1813,7 +1813,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[18][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
@@ -1845,7 +1845,7 @@ function GetPage($res='', $shabloni)
 									</table>
 									<table class="dialog-form-table" style="margin-top:10px;">
 								    		<tr>
-												<td><textarea  style="width: 680px; height:60px; resize: none;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
+												<td><textarea  style="width: 680px; height:100px; resize: none; background: #EBF9FF;" id="content" class="idle" disabled name="content" cols="300" >' . $notes[19][notes] . '</textarea></td>
 												
 											</tr>
 											<tr>
