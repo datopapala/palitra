@@ -22,12 +22,29 @@
 			 $("#save-dialog").on("click",function(){
 				param = new Object();
 				param.act = "save_dialog";
+
+				// elva.ge
 				param.id=$("#id").val();
 				param.oder_date=$("#oder_date").val();
 				param.status=$("#status").val();
 				param.cooradinator=$("#cooradinator").val();
 				param.k_coment=$("#k_coment").val();
 				param.elva=$("#elva").val();
+
+				// all user
+				param.person_id		=$("#person_id").val();
+				param.name_surname	=$("#name_surname").val();
+				param.mail			=$("#mail").val();
+				param.phone			=$("#phone").val();
+				param.phone1		=$("#phone1").val();
+				param.addres		=$("#addres").val();
+				param.period		=$("#period").val();
+				param.book			=$("#book").val();
+				param.date			=$("#date").val();
+				param.op_id			=$("#op_id").val();
+				param.sum_price		=$("#sum_price").val();
+				param.c_coment		=$("#c_coment").val();
+				
 
 				$.getJSON(
 					aJaxURL, param, function(data) {
@@ -38,9 +55,9 @@
 			 GetDate("oder_date");
 			} ;
 		function LoadTable(start, end){
-			var total=[9];
+			var total=[10];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 19, "start=" + start + "&end=" + end, 0, "", 0, "desc", total);
+			GetDataTable(tName, aJaxURL, "get_list", 20, "start=" + start + "&end=" + end, 0, "", 0, "desc", total);
 		}
 
 		$(document).on("change", "#search_start", function () {
@@ -84,7 +101,8 @@
 							<th style="width: 150px">სახელი და გვარი</th>
 							<th style="width: 150px">მეილი</th>
 							<th style="width: 150px">მისამართი</th>
-							<th style="width: 150px">ტელეფონი</th>
+							<th style="width: 150px">ტელეფონი 1</th>
+							<th style="width: 150px">ტელეფონი 2</th>
 							<th style="width: 150px">პერიოდი</th>
 							<th style="width: 150px">გამოცემა</th>
 							<th style="width: 150px">ქოლ-ცენტრის დარეკვის თარიღი</th>
@@ -107,6 +125,9 @@
                             	<input type="text" name="search_number" value="ფილტრი" class="search_init"></th>
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
@@ -156,6 +177,7 @@
                     </thead>
                     <tfoot>
                         <tr id="datatable_header" class="search_header">
+							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>
 							<th style="width: 150px"></th>

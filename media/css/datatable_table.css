@@ -185,6 +185,7 @@ table.display th input[type="checkbox"] {
 
 table.display tbody td {
 	cursor: pointer;
+    vertical-align: middle !important;	
 }
 
 table.display tbody td {

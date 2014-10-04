@@ -21,6 +21,7 @@ switch ($action) {
 												elva_sale.mail,
 												elva_sale.address,
 												elva_sale.phone,
+	  											elva_sale.phone1,
 												shipping.`name` AS `period`,
 												elva_sale.books,
 												elva_sale.call_date,
@@ -114,7 +115,7 @@ switch ($action) {
 										<tr>
 											<td><input id="person_id" 	 class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[person_id]. 	'" /></td>
 											<td><input id="name_surname" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[name_surname].'" /></td>
-											<td><input id="c_date" 		 class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[mail].       	'" /></td>
+											<td><input id="mail" 		 class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[mail].       	'" /></td>
 										</tr>
 										<tr>
 											<td style="width: 280px;"><label for="">ტელეფონი 1</label></td>
@@ -124,7 +125,7 @@ switch ($action) {
 										<tr>
 											<td><input id="phone" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[phone].'" /></td>
 											<td><input id="phone1" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[phone1].'" /></td>
-											<td><input id="c_date" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[address].'" /></td>
+											<td><input id="addres" class="idle" style="width: 200px;" '.$other_disabled.' type="text" value="'.$res[address].'" /></td>
 										</tr>
 									</table>
 								</fieldset >
@@ -148,14 +149,14 @@ switch ($action) {
 												<td><input style="width: 200px;" id="op_id" 	value="'.$res[operator_id].'" 		class="idls object" '.$other_disabled.'></td>
 											</tr>
 											</table>
-											<table class="dialog-form-table" style="width: 720px;">
+											<table class="dialog-form-table" >
 											<tr>
-												<td style="width: 150px;"><label> გადასახდელი თანხა  </label></td>
-												<td style="width: 150px;"><label>ქოლცენტრის კომენტარი</label></td>
+												<td style="width: 270px;"><label> გადასახდელი თანხა  </label></td>
+												<td style="width: 270px;"><label>ქოლცენტრის კომენტარი</label></td>
 											</tr>
 											<tr>
-												<td><input style="width: 200px;" id="oder_date1" value="'.$res[sum_price].  '" class="idls object" '.$other_disabled.'></td>
-												<td><textarea  style="width: 270px; height:80px; resize: none;" id="c_coment" class="idle" name="content" cols="300" '.$other_disabled.'>'.$res[callceenter_comment].'</textarea></tr>
+												<td><input style="width: 200px;" id="sum_price" value="'.$res[sum_price].  '" class="idls object" '.$other_disabled.'></td>
+												<td><textarea  style="width: 444px; height:80px; resize: none;" id="c_coment" class="idle" name="content" cols="300" '.$other_disabled.'>'.$res[callceenter_comment].'</textarea></tr>
 
 										</table>
 									</fieldset>
@@ -175,12 +176,12 @@ switch ($action) {
 											</table>
 											<table class="dialog-form-table" style="width: 720px;">
 											<tr>
-												<td style="width: 150px;"><label>კოოდინატორის შენიშვნა</label></td>
+												<td style="width: 520px;"><label>კოოდინატორის შენიშვნა</label></td>
 												<td style="width: 280px;"><label for="oder_date">ქვითრის გაგზავნის დღე</label></td>
 											</tr>
 											<tr>
 												<td>
-													<textarea  style="width: 270px; resize: none; height:80px;" id="k_coment" class="idle" name="content" cols="300" '.$disabled.'>'.$res[coordinator_comment].'</textarea>
+													<textarea  style="width: 444px; resize: none; height:80px;" id="k_coment" class="idle" name="content" cols="300" '.$disabled.'>'.$res[coordinator_comment].'</textarea>
 												</td>
 												<td><input style="width: 200px;" id="oder_date" value="'.$res[oder_send_date].'" 	class="idls object" '.$disabled.'></td>
 											</tr>
