@@ -1,4 +1,24 @@
 <head>
+<style type="text/css">
+#example td:nth-child(6){
+	text-align: center;
+}
+#example td:nth-child(7){
+	text-align: center;
+}
+#example td:nth-child(2){
+	text-align: center;
+}
+#example td:nth-child(10){
+	text-align: center;
+}
+#example td:nth-child(11){
+	text-align: right;
+}
+#example td:nth-child(14){
+	text-align: center;
+}
+</style>
 	<script type="text/javascript">
 		var aJaxURL	= "server-side/sale/elva.ge.action.php";	//server side folder url
 		var tName	= "example";											//table name
