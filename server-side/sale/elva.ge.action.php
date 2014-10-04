@@ -56,17 +56,14 @@ switch ($action) {
 	case 'get_edit_page' :
 		$disabled = '';
 		$user		= $_SESSION['USERID'];
-		if($user == 19){
-			$disabled = '';
-		}else{
-			$disabled = 'disabled';
-		}
+		
 		$rResult = mysql_query(	"SELECT elva_sale.id,
 								elva_sale.person_id,
 								elva_sale.name_surname,
 								elva_sale.mail,
 								elva_sale.address,
 								elva_sale.phone,
+								elva_sale.phone1,
 								shipping.`name` AS `period`,
 								elva_sale.books,
 								elva_sale.call_date,
@@ -86,6 +83,13 @@ switch ($action) {
 								WHERE elva_sale.id='$_REQUEST[id]'");
 		$res = mysql_fetch_array( $rResult );
 		$data['page'][0] = '';
+		
+		if($user == 19){
+			$disabled = '';
+		}else{
+			$disabled = 'disabled';
+		}
+		
 		$data['page'][0] .= '<div id="dialog-form">
 								<div style="float: left; width: 710px;" disabled>
 								<fieldset >
@@ -103,12 +107,14 @@ switch ($action) {
 											<td><input id="c_date" 		 class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[mail].       	'" /></td>
 										</tr>
 										<tr>
-											<td style="width: 280px;"><label for="">ტელეფონი</label></td>
-											<td style="" colspan="2"><label for="">მისმართი</label></td>
+											<td style="width: 280px;"><label for="">ტელეფონი 1</label></td>
+											<td style="width: 280px;"><label for="">ტელეფონი 2</label></td>
+											<td style=""><label for="">მისმართი</label></td>
 										</tr>
 										<tr>
 											<td><input id="phone" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[phone].'" /></td>
-											<td colspan="2"><input id="c_date" class="idle" style="width: 444px;" disabled="disabled" type="text" value="'.$res[address].'" /></td>
+											<td><input id="phone1" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[phone1].'" /></td>
+											<td><input id="c_date" class="idle" style="width: 200px;" disabled="disabled" type="text" value="'.$res[address].'" /></td>
 										</tr>
 									</table>
 								</fieldset >
@@ -251,7 +257,12 @@ switch ($action) {
 		</fieldset></div>';
 			   	break;
    	case 'save_dialog' :
-		mysql_query("UPDATE `elva_sale` SET `status`='$_REQUEST[status]', `oder_send_date`='$_REQUEST[oder_date]', `coordinator_id`='$_REQUEST[cooradinator]', `coordinator_comment`='$_REQUEST[k_coment]', `elva_status`='$_REQUEST[elva]'
+		mysql_query("UPDATE `elva_sale` SET 
+							`status`='$_REQUEST[status]', 
+							`oder_send_date`='$_REQUEST[oder_date]', 
+							`coordinator_id`='$_REQUEST[cooradinator]', 
+							`coordinator_comment`='$_REQUEST[k_coment]', 
+							`elva_status`='$_REQUEST[elva]'
 					WHERE (`id`='$_REQUEST[id]')");
    		break;
 	default:

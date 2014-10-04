@@ -6,6 +6,10 @@ a.minimize{
 	background: black url('../../images/menu/open_close_vertical.png') no-repeat top;
 }
 
+#top_nav{
+	position: fixed !important;
+}
+
 #top_nav a.minimize{
 	position: absolute;
 	right: 2px;

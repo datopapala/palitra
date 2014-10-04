@@ -31,8 +31,9 @@
 			 GetDate("oder_date");
 			} ;
 		function LoadTable(){
+			var total=[9];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable_st(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 19, "", 0, "", 1, "desc", total);
 		}
 
 
@@ -44,9 +45,9 @@
 
 <body>
     <div id="dt_example" class="ex_highlight_row">
-        <div id="container" style="width: 90%" >
-            <div id="dynamic">
-            	<h2 align="center">ჩანაწერები</h2>
+    <h2 style="position: fixed; top: 80px; margin-left: 50%;">ჩანაწერები</h2>
+        <div id="container" style="width: 100%; margin-top: 70px;"  >
+            <div id="dynamic" style="width: 200%; ">
                 <table class="display" id="example" >
                     <thead>
                         <tr id="datatable_header" class="search_header">
@@ -67,8 +68,8 @@
 							<th style="width: 150px">კოოდინატორის შენიშვნა</th>
 							<th style="width: 150px">ნინო (ელვა)</th>
                         </tr>
-                        </thead>
-    					<thead class="filter">
+                      </thead>
+					  <thead>
                         <tr>
                             <th class="colum_hidden">
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init"/>
@@ -117,12 +118,30 @@
                             <th>
                                 <input type="text" name="search_phone" value="ფილტრი" class="search_init"/>
                             </th>
-                            <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init"/>
-                            </th>
+                           
 
                         </tr>
                     </thead>
+                    <tfoot>
+                        <tr id="datatable_header" class="search_header">
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px; text-align: right;">ჯამი :<br>სულ :</th>
+							<th style="width: 150px; text-align: left;"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+							<th style="width: 150px"></th>
+                        </tr>
+                        </tfoot>
                 </table>
             </div>
             <div class="spacer">
