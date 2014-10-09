@@ -193,7 +193,7 @@ function GetDataTableTest(tname, aJaxURL, action, count, data, hidden, length, s
     var oTable = "";
 
     //Defoult Length
-    var dLength = [[-1, 500, 200, 100], ["ყველა", '500', '200', '100']];
+    var dLength = [[50, 100, 200, -1,], ['50', '100', '200', "ყველა"]];
 
     if (!empty(length))
         dLength = length;

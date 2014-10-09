@@ -101,7 +101,7 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			 GetDataTableTest("example0", aJaxURL, "get_list", 9, "", 0, "", 1, "asc", "");
+			 GetDataTableTest("example0", aJaxURL, "get_list", 8, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
@@ -502,27 +502,13 @@
     	
         $(document).on("click", "#save-printer", function () {
  
-	       	 var data = $(".check:checked").map(function () {
-	  	        return this.value;
-	  	    }).get();
-	  	    
-	  	    var letters = [];
-	  	    
-	  	    for (var i = 0; i < data.length; i++) {
-	  	    	letters.push(data[i]);        
-	  	    }
 	      	param = new Object();
-	      	param.act	= "change_responsible_person";
-	      	param.lt	= letters;
-	  	    param.rp	= $("#responsible_person").val();
+	      	param.act		= "change_responsible_person";
+	  	    param.rp		= $("#responsible_person").val();
+		  	param.number	= $("#raodenoba").val();
 	
 	  	    var link	=  GetAjaxData(param);
-	  	    
-	  	    if(param.rp == "0"){
-	  		    alert("აირჩიეთ პასუხისმგებელი პირი!");
-	  		}else if(param.ci == "0"){
-	  		    alert("აირჩიეთ ავტომობილი");		
-	  		}else{	    
+	  	      
 	  	        $.ajax({
 	  	            url: aJaxURL,
 	  	            type: "POST",
@@ -539,7 +525,7 @@
 	  	                }
 	  	            }
 	  	        });
-	  		}
+	  		
         });
 
 		function LoadDialog1(){
@@ -753,6 +739,16 @@
 			param.city_id				= $("#city_id").val();
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
+
+			// Task Formireba
+			param.set_task_department_id	= $("#set_task_department_id").val();
+	    	param.set_persons_id			= $("#set_persons_id").val();
+	    	param.set_priority_id			= $("#set_priority_id").val();
+			param.set_start_time			= $("#set_start_time").val();
+			param.set_done_time				= $("#set_done_time").val();
+			param.set_body					= $("#set_body").val();
+			param.task_type_id_seller		= $("#task_type_id_seller").val();
+			param.set_shabloni				= $("#shabloni").val();
 
 			var data = $(".check_pp").map(function () { //Get Checked checkbox array
 				 return this.value;
@@ -1256,7 +1252,6 @@
 									<th style="width:19%;">დასახელება</th>
 									<th style="width:19%;">დავალების<br>ტიპი</th>
 									<th style="width:19%;">განყოფილება</th>
-									<th style="width:19%;">პასუხისმგებელი<br>პირი</th>
 									<th style="width:19%;">ზარის შესრულების<br>თარიღი</th>
 									<th style="width:19%;">შენიშვნა</th>
 									<th class="check">#</th>
@@ -1272,9 +1267,6 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />

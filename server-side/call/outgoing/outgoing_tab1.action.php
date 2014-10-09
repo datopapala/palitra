@@ -182,11 +182,6 @@ switch ($action) {
 		$data = array('page' => $data1);
         
 		break;
-    case 'save_outgoing':
-	
-		
-		
-        break;
         case 'done_outgoing':
         
         	$user_id			= $_SESSION['USERID'];
@@ -231,6 +226,19 @@ switch ($action) {
 			$city_id		= $_REQUEST['city_id'];
 			$b_day			= $_REQUEST['b_day'];
 			$addres			= $_REQUEST['addres'];
+			
+			$set_task_department_id	= $_REQUEST['set_task_department_id'];
+			$set_persons_id			= $_REQUEST['set_persons_id'];
+			$set_priority_id		= $_REQUEST['set_priority_id'];
+			$set_start_time			= $_REQUEST['set_start_time'];
+			$set_done_time			= $_REQUEST['set_done_time'];
+			$set_body				= $_REQUEST['set_body'];
+			$task_type_id_seller	= $_REQUEST['task_type_id_seller'];
+			$set_shabloni			= $_REQUEST['set_shabloni'];
+			
+			if($set_task_department_id != 0){
+				TaskFromireba($set_task_department_id, $set_persons_id, $set_priority_id, $set_start_time, $set_done_time, $set_body, $task_type_id_seller, $set_shabloni, $task_id);
+			}
 			
 			if($result_quest == 1){
 				$SaveElvaChek = mysql_fetch_row(mysql_query("SELECT id 
@@ -286,6 +294,29 @@ echo json_encode($data);
  *	task Functions
  * ******************************
  */
+
+function TaskFromireba($set_task_department_id, $set_persons_id, $set_priority_id, $set_start_time, $set_done_time, $set_body, $task_type_id_seller, $set_shabloni, $id)
+{
+	$user  = $_SESSION['USERID'];
+	$c_date		= date('Y-m-d H:i:s');
+	
+	$shablon_id =  mysql_fetch_row(mysql_query("SELECT 	`id`
+												FROM 		`shabloni`
+												WHERE 		`name` = '$set_shabloni'
+												GROUP BY 	`shabloni`.`name`"));
+	
+	mysql_query("INSERT INTO `task`
+	(`user_id`, `responsible_user_id`, `date`, `start_date`, `end_date`, `department_id`, `template_id`, `task_type_id`, `priority_id`, `comment`, `status`, `actived`)
+	VALUES
+	('$user', '$set_persons_id', '$c_date', '$set_start_time', '$set_done_time', '$set_task_department_id', '$shablon_id[0]', '$task_type_id_seller', '$set_priority_id', '$set_body', '0', '1')");
+	
+	$task_edit = mysql_fetch_row(mysql_query("SELECT MAX(id) AS `task_id` FROM `task`"));
+	
+	mysql_query("UPDATE `task_detail` SET 
+						`task_id`= '$task_edit[0]',
+						`responsible_user_id`= '$set_persons_id'
+				 WHERE 	`id`='$id'");
+}
 
 function Savetask1Up($task_detail_id, $hello_quest, $hello_comment, $info_quest, $info_comment, $result_quest, $result_comment, $payment_quest, $payment_comment, $send_date, $preface_name, $preface_quest, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9, $d10, $d11, $d12, $q1, $get_prod, $get_gift, $b1, $b2)
 {
@@ -414,9 +445,6 @@ function Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail, 
 	");
 
 }
-
-
-
 
 function Getcall_status($status)
 {

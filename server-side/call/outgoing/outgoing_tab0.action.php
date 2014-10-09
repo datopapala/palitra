@@ -80,7 +80,6 @@ switch ($action) {
 										incomming_call.first_name,
 										task_type.`name`,
 										department.`name`,
-										users.username,
 										task.end_date,
 										''
 								FROM task
@@ -98,7 +97,6 @@ switch ($action) {
 										IF(task_detail.first_name IS NULL,phone.first_last_name,(CONCAT(task_detail.first_name,' ',task_detail.last_name))),
 										task_type.`name`,
 										department.`name`,
-										users.username,
 										task.end_date,
 										IF(task_detail.first_name != '', phone.note, phone.note)
 								FROM task
@@ -177,10 +175,10 @@ switch ($action) {
         break;
         
     case 'change_responsible_person':
-        $letters 			= json_decode( '['.$_REQUEST['lt'].']' );
         $responsible_person = $_REQUEST['rp'];
+        $number_p = $_REQUEST['number'];
         
-        ChangeResponsiblePerson($letters, $responsible_person);
+        ChangeResponsiblePerson($number_p, $responsible_person);
         
         break;
         
@@ -2932,17 +2930,14 @@ function Getquest($shabloni){
 	
 	return $data;
 }
-function ChangeResponsiblePerson($letters, $responsible_person){
-	$o_date		= date('Y-m-d H:i:s');
-	foreach($letters as $letter) {
+function ChangeResponsiblePerson($number_p, $responsible_person){
+	
+		mysql_query("UPDATE `task_detail` SET 
+							`responsible_user_id`='$responsible_person',
+							`status`='1'
+					WHERE 	ISNULL(`responsible_user_id`) 
+					LIMIT $number_p");
 
-		mysql_query("UPDATE 	task_detail
-					JOIN 		task ON task_detail.task_id = task.id
-					SET    		task_detail.`status`   			 = 1,
-								task.`date` 			     = '$o_date',
-								task_detail.responsible_user_id     = '$responsible_person'
-					WHERE  		task_detail.id = '$letter' AND task.id = task_detail.task_id");
-	}
 }
 
 function GetPersons(){
@@ -2972,6 +2967,14 @@ function GetResoniblePersonPage(){
 					<tr>
 						<th>
 							<select id="responsible_person" class="idls address">'. GetPersons() .'</select>
+						</th>
+					</tr>
+					<tr>
+						<th><label for="raodenoba">რაოდენობა</label></th>
+					</tr>
+					<tr>
+						<th>
+							<input type="text" id="raodenoba" class="idls address" value="" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 						</th>
 					</tr>
 				</table>
