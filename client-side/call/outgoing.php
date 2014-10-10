@@ -53,7 +53,7 @@
 			GetTable0();
 			
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
-			GetButtons("add_button","add_responsible_person");
+			GetButtons("add_responsible_person","delete_button");
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -1218,6 +1218,30 @@
 			
 			GetDataTableTest("example3", aJaxURL3, "get_list&pager="+back_ch, 12, "", 0, "", 1, "asc");
 		});
+
+		$(document).on("click", "#delete_button", function () {
+            var data = $(".check:checked").map(function () { //Get Checked checkbox array
+                return this.value;
+            }).get();
+
+            for (var i = 0; i < data.length; i++) {
+                $.ajax({
+                    url: aJaxURL,
+                    type: "POST",
+                    data: "act=disable&id_delete=" + data[i],
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error != "") {
+                            alert(data.error);
+                        } else {
+                            $("#check-all-in").attr("checked", false);
+                        }
+                    }
+                });
+            }
+            LoadTable0();
+           
+        });
     </script>
 </head>
 
@@ -1237,8 +1261,8 @@
 		            <div id="dynamic">
 		            	<h2 align="center">აქტივაცია</h2>
 		            	<div id="button_area">
-		            		<!-- button id="add_button">დამატება</button -->
 	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
+	        				<button id="delete_button">წაშლა</button>
 	        				<button id="back_1000_active" > << 1000 </button>
     					 	<input style="width: 60px; border: none; text-align: center; background: #DFEFFC;" id="mtvleli_active" value="0">
     					 	<button id="next_1000_active" > 1000 >> </button>
