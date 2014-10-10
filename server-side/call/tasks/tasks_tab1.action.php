@@ -737,6 +737,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task.id,
 												task.responsible_user_id,
 												task.priority_id,
 												task.`comment`,
+												task.problem_comment,
 												task.`status`
 										FROM task
 										WHERE task.id = $task_id
@@ -807,7 +808,7 @@ function GetPage($res='')
 									</tr>
 									<tr>
 										<td style="width: 220px;"><select style="width: 217px;"  id="status_id" class="idls object">'. Getstatus($res['status']).'</select></td>
-										<td><textarea disabled  style="width: 98%; resize: none; height: 50px;" id="task_comment" class="idle" name="problem_comment" cols="300" >' . $res['problem_comment'] . '</textarea></td>
+										<td><textarea  style="width: 98%; resize: none; height: 50px;" id="problem_comment" class="idle" name="problem_comment" cols="300" >' . $res['problem_comment'] . '</textarea></td>
 									
 									</tr>
 										

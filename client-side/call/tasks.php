@@ -388,7 +388,7 @@
 		$(document).on("click", "#incomming_base", function () {
 			$("#hidden_base").val('1');
 			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-			GetDataTableTask("base", aJaxURL, "get_list_base", 11, "", 0, "", 1, "asc", "");
+			GetDataTableTest("base", aJaxURL, "get_list_base", 11, "", 0, "", 1, "asc", "");
 			
             $('#back_1000_phone').addClass('dialog_hidden');
             $('#next_1000_phone').addClass('dialog_hidden');
@@ -401,7 +401,7 @@
 		$(document).on("click", "#phone_base", function () {
 			$("#hidden_base").val('2');
 			SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-			GetDataTableTask("base", aJaxURL, "get_list_base_phone", 11, "", 0, 0, 1, "asc", "");
+			GetDataTableTest("base", aJaxURL, "get_list_base_phone", 11, "", 0, 0, 1, "asc", "");
 			$('#back_1000_inc').addClass('dialog_hidden');
             $('#next_1000_inc').addClass('dialog_hidden');
             $('#mtvleli_inc').addClass('dialog_hidden');
@@ -447,57 +447,6 @@
 			    });
 
 		 });
-
-
-		function seller(id){
-			if(id == '0'){
-				$('#seller-0').removeClass('dialog_hidden');
-	            $('#0').addClass('seller_select');
-	            $('#seller-1').addClass('dialog_hidden');
-	            $('#seller-2').addClass('dialog_hidden');
-	            $('#1').removeClass('seller_select');
-	            $('#2').removeClass('seller_select');
-			}else if(id == '1'){
-				$('#seller-1').removeClass('dialog_hidden');
-	            $('#1').addClass('seller_select');
-	            $('#seller-0').addClass('dialog_hidden');
-	            $('#seller-2').addClass('dialog_hidden');
-	            $('#0').removeClass('seller_select');
-	            $('#2').removeClass('seller_select');
-			}else if(id == '2'){
-				$('#seller-2').removeClass('dialog_hidden');
-	            $('#2').addClass('seller_select');
-	            $('#seller-1').addClass('dialog_hidden');
-	            $('#seller-0').addClass('dialog_hidden');
-	            $('#1').removeClass('seller_select');
-	            $('#0').removeClass('seller_select');
-			}
-		}
-
-		function research(id){
-			if(id == 'r0'){
-				$('#research-0').removeClass('dialog_hidden');
-	            $('#r0').addClass('seller_select');
-	            $('#research-1').addClass('dialog_hidden');
-	            $('#research-2').addClass('dialog_hidden');
-	            $('#r1').removeClass('seller_select');
-	            $('#r2').removeClass('seller_select');
-			}else if(id == 'r1'){
-				$('#research-1').removeClass('dialog_hidden');
-	            $('#r1').addClass('seller_select');
-	            $('#research-0').addClass('dialog_hidden');
-	            $('#research-2').addClass('dialog_hidden');
-	            $('#r0').removeClass('seller_select');
-	            $('#r2').removeClass('seller_select');
-			}else if(id == 'r2'){
-				$('#research-2').removeClass('dialog_hidden');
-	            $('#r2').addClass('seller_select');
-	            $('#research-1').addClass('dialog_hidden');
-	            $('#research-0').addClass('dialog_hidden');
-	            $('#r1').removeClass('seller_select');
-	            $('#r0').removeClass('seller_select');
-			}
-		}
 		
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
@@ -513,6 +462,7 @@
 			param.persons_id			= $("#persons_id").val();
 			param.task_department_id	= $("#task_department_id").val();
 			param.task_comment			= $("#task_comment").val();
+			param.problem_comment		= $("#problem_comment").val();
 			param.priority_id			= $("#priority_id").val();
 
 			if(param.task_type_id < 3){
@@ -553,81 +503,6 @@
 		});
 
 		
-	    $(document).on("click", "#save-dialog1", function () {
-		   
-			param 				= new Object();
- 			param.act			= "save_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-	    $(document).on("click", "#done-dialog1", function () {
-			   
-			param 				= new Object();
- 			param.act			= "done_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-
 	    $(document).on("click", "#choose_base", function () {
 	    	param 				= new Object();
  			param.act			= "phone_base_dialog";
@@ -642,20 +517,21 @@
 						}else{
 							$("#phone_base_dialog").html(data.page);
 							var buttons = {
-							        "save": {
-							            text: "შენახვა",
-							            id: "save_phone_base",
-							            
-							        },
+							        
 									"cancel": {
 							            text: "დახურვა",
 							            id: "cancel-dialog",
 							            click: function () {
 							                $(this).dialog("close");
+							                LoadTable4();
 							            }
 							        }
 							};
 								$("#incomming_base").button({
+								    
+								});
+								
+								$("#add_formireba").button({
 								    
 								});
 								
@@ -677,7 +553,7 @@
 								});
 							GetDialog("phone_base_dialog", 1260, "auto", buttons);
 							SetEvents("", "", "check-all-base", "base", "phone_base_dialog", aJaxURL);
-							GetDataTableTask("base", aJaxURL, "get_list_base_phone", 11, "", 0, "", 1, "asc", "");
+							GetDataTableTest("base", aJaxURL, "get_list_base_phone", 11, "", 0, "", 1, "asc", "");
 						}
 					}
 			    }
@@ -689,7 +565,7 @@
 			var next = $('#mtvleli_inc').val();
 			var next_ch = parseInt(next)+1;
 			$('#mtvleli_inc').val(next_ch);
-			GetDataTableTask("base", aJaxURL, "get_list_base&pager="+next_ch, 11, "", 0, "", 1, "desc");
+			GetDataTableTest("base", aJaxURL, "get_list_base&pager="+next_ch, 11, "", 0, "", 1, "desc");
 		});
 		$(document).on("click", "#back_1000_inc", function () {
 			var back = $('#mtvleli_inc').val();
@@ -699,14 +575,14 @@
 				back_ch = 0;
 			}
 			$('#mtvleli_inc').val(back_ch);
-			GetDataTableTask("base", aJaxURL, "get_list_base&pager="+back_ch, 11, "", 0, "", 1, "desc");
+			GetDataTableTest("base", aJaxURL, "get_list_base&pager="+back_ch, 11, "", 0, "", 1, "desc");
 		});
 
 		$(document).on("click", "#next_1000_phone", function () {
 			var next = $('#mtvleli_phone').val();
 			var next_ch = parseInt(next)+1;
 			$('#mtvleli_phone').val(next_ch);
-			GetDataTableTask("base", aJaxURL, "get_list_base_phone&pager="+next_ch, 11, "", 0, "", 1, "desc");
+			GetDataTableTest("base", aJaxURL, "get_list_base_phone&pager="+next_ch, 11, "", 0, "", 1, "desc");
 		});
 		$(document).on("click", "#back_1000_phone", function () {
 			var back = $('#mtvleli_phone').val();
@@ -716,97 +592,63 @@
 				back_ch = 0;
 			}
 			$('#mtvleli_phone').val(back_ch);
-			GetDataTableTask("base", aJaxURL, "get_list_base_phone&pager="+back_ch, 11, "", 0, "", 1, "desc");
+			GetDataTableTest("base", aJaxURL, "get_list_base_phone&pager="+back_ch, 11, "", 0, "", 1, "desc");
 		});
 
-	    $(document).on("click", "#save_phone_base", function () {
-			
-	    	
- 			var data = $(".check:checked").map(function () { //Get Checked checkbox array
- 	            return this.value;
- 	        }).get();
-			
- 	        for (var i = 0; i < data.length; i++) {
- 	        	//$('#dvLoading').removeClass('dialog_hidden');
- 	        	param 				= new Object();
- 	 			param.act			= "save_phone_base";
- 	 			param.phone_base_id = data[i];
- 	 			param.id			= $("#id").val();
- 	 			param.hidden_base	= $("#hidden_base").val();
+	    $(document).on("click", "#add_formireba", function () {
+		
  	    	$.ajax({
  			        url: aJaxURL,
- 				    data: param,
+ 				    data: "act=dialog_formireba",
  			        success: function(data) {       
  						if(typeof(data.error) != "undefined"){
  							if(data.error != ""){
  								alert(data.error);
  							}else{
- 								$("#phone_base_dialog").dialog("close");
- 								LoadTable4();
+ 								var buttons = {
+ 										"save": {
+ 								            text: "შენახვა",
+ 								            id: "save_formireba",
+ 								            click: function () {
+ 	 								            var f_number 	= $('#f_number').val();
+ 	 	 								        var f_note 		= $('#f_note').val();
+ 	 	 	 								    var f_sorce 	= $('#f_sorce').val();
+ 	 	 	 								    var id			= $('#id').val();
+ 								            	$.ajax({
+ 								 			        url: aJaxURL,
+ 								 				    data: "act=save_formireba&f_note="+f_note+"&f_number="+f_number+"&f_sorce="+f_sorce+"&id="+id,
+ 								 			        success: function(data) {       
+ 								 						if(typeof(data.error) != "undefined"){
+ 								 							if(data.error != ""){
+ 								 								alert(data.error);
+ 								 							}else{
+ 								 								$("#add_formireba_dialog").dialog("close");
+ 								 								LoadTable4();
+ 								 							}
+ 														}
+ 								 				    }
+ 								 				});
+ 								                
+ 								            }
+ 								        },
+ 										"cancel": {
+ 								            text: "დახურვა",
+ 								            id: "cancel-dialog",
+ 								            click: function () {
+ 								                $(this).dialog("close");
+ 								            }
+ 								        }
+ 								};
+ 								GetDialog("add_formireba_dialog", 300, "auto", buttons);
+ 								$("#add_formireba_dialog").html(data.page)
  							}
 						}
  				    }
  			});
- 	        }
+ 	        
  		});
 	    
-	    $(document).on("click", "#save-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "save_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	 
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {       
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
-	    $(document).on("keydown", "#personal_pin", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
 
-            	param 			= new Object();
-    		 	param.act		= "get_add_info";
-    		 	param.pin		= $("#personal_pin").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
 ///
 
 	    $(document).on("change", "#task_type_id",function(){
@@ -819,63 +661,7 @@
         });
 ///
 	    
-	    $(document).on("keydown", "#personal_id", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
-
-            	param 					= new Object();
-    		 	param.act				= "get_add_info1";
-    		 	param.personal_id		= $("#personal_id").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info1);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
-	    $(document).on("click", "#done-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "done_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	 
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {       
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
+	    
 	 function SetPrivateEvents(add,check,formName){
 		$(document).on("click", "#" + add, function () {    
 	        $.ajax({
@@ -937,173 +723,6 @@
 	            }
 	        });	    		
 	}
-	
-	$(document).on("change", "#category_parent_id",function(){
- 	 	param 			= new Object();
-		 	param.act		= "sub_category";
-		 	param.cat_id   	= this.value;
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != 'undefined'){
-						if(data.error != ''){
-							alert(data.error);
-						}else{
-							$("#category_id").html(data.cat);
-						}
-					}
-			    }
-		    });
-
-		if(this.value == 407){
-			$("#additional").removeClass('hidden');
-		}else{
-			$("#additional").addClass('hidden');
-		}
-    });
-
-	$(document).on("change", "#task_type_id_seller",function(){
-		var task = $("#task_type_id_seller").val();
-		if(task==1){
-			$("#research").addClass('dialog_hidden');
-			$("#seller").removeClass('dialog_hidden');
-		}else{
-			$("#seller").addClass('dialog_hidden');
-			$("#research").removeClass('dialog_hidden');
-		}
-    });
-    
-	
-	    $(document).on("keyup", "#req_time1, #req_time2", function() {
-	        var val = $(this).val();
-	        if(isNaN(val) || (val>60)){
-		        
-	         alert("მოცემულ ველში შეიყვანეთ მხოლოდ ციფრები");
-	             val = val.replace(/[^0-9\.]/g,'');
-	             if(val.split('.').length>2) 
-	                 val =val.replace(/\.+$/,"");
-	        }
-	        $(this).val(val); 
-	    });
-
-	   
-
-	    $(document).on("change", "#shabloni",function(){
-	    		
-	 	 		param 			= new Object();
-			 	param.act		= "quest";
-			 	param.shabloni   = $("#shabloni").val();
-			 	
-		    	$.ajax({
-			        url: aJaxURL1,
-				    data: param,
-			        success: function(data) {
-						if(typeof(data.error) != 'undefined'){
-							if(data.error != ''){
-								alert(data.error);
-							}else{
-								$("#quest").html(data.page);
-								$(".done").button({
-						            
-							    });
-								$(".next").button({
-						            
-							    });
-								$(".back").button({
-						            
-							    });
-								$("#add_button_product").button({
-						            
-							    });
-								$("#add_button_gift").button({
-								    
-								});
-								$("#complete").button({
-								    
-								});
-								LoadTable5();
-								LoadTable6();
-								GetDateTimes("send_time");
-								var task = $("#task_type_id_seller").val();
-								if(task==1){
-									$("#research").addClass('dialog_hidden');
-									$("#seller").removeClass('dialog_hidden');
-								}else{
-									$("#seller").addClass('dialog_hidden');
-									$("#research").removeClass('dialog_hidden');
-								}
-							}
-						}
-				    }
-			    });
-	    });
-
-	    $(document).on("change", "#task_type_id_seller",function(){
-    		
- 	 		param 			= new Object();
-		 	param.act		= "shablon";
-		 	param.task_type_id_seller   = $("#task_type_id_seller").val();
-		 	
-	    	$.ajax({
-		        url: aJaxURL1,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != 'undefined'){
-						if(data.error != ''){
-							alert(data.error);
-						}else{
-							$("#shabloni").html(data.page);
-							
-						}
-					}
-			    }
-		    });
-    });
-
-
-	    $(document).on("click", "#choose_button", function () {
-		    $("#choose_file").click();
-		});
-
-	    $(document).on("change", "#choose_file", function () {
-	    	var file		= $(this).val();
-		    var name		= uniqid();
-		    var path		= "../../media/uploads/images/client/";
-
-		    var ext = file.split('.').pop().toLowerCase();
-	        if($.inArray(ext, ['xls']) == -1) { //echeck file type
-	        	alert('This is not an allowed file type.');
-                this.value = '';
-	        }else{
-	        	img_name = name + "." + ext;
-	        //	$("#choose_button").button("disable");
-	        	$.ajaxFileUpload({
-	    			url: 'import.php',
-	    			secureuri: false,
-	    			fileElementId: "choose_file",
-	    			dataType: 'json',
-	    			data:{
-	    				task_id:$("#id").val(),
-						act: "upload_file",
-						path: path,
-						file_name: name,
-						type: ext
-					},
-	    			success: function(data){alert("ghj");
-	    				if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							alert("ghj");
-    						}
-    					}
-    				},
-
-    			});
-
-	        }
-		});
 
 	   
     </script>
@@ -1475,6 +1094,9 @@
 	<!-- aJax -->
 	</div>
 	<div id="task_dialog" class="form-dialog" title="სატელეფონო ბაზა">
+	<!-- aJax -->
+	</div>
+	<div id="add_formireba_dialog" class="form-dialog" title="ფორმირება">
 	<!-- aJax -->
 	</div>
 </body>

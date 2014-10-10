@@ -28,6 +28,18 @@ switch ($action) {
 		$data		= array('page'	=> $page);
 		
         break;
+    case 'dialog_formireba':
+        $page		= GetDialogForm();
+        $data		= array('page'	=> $page);
+        
+        break;
+    case 'save_formireba':
+    	$f_number		= $_REQUEST['f_number'];
+    	$f_note			= $_REQUEST['f_note'];
+    	$f_sorce		= $_REQUEST['f_sorce'];
+    	
+    	Addformireba($f_number, $f_note, $f_sorce, $task_id);
+        break;
     case 'get_task':
         $page		= Gettask();
         $data		= array('page'	=> $page);
@@ -261,6 +273,36 @@ echo json_encode($data);
  *	Request Functions
  * ******************************
  */
+
+function Addformireba($f_number, $f_note, $f_sorce, $task_id)
+{
+	$user		= $_SESSION['USERID'];
+	$check_note = "AND `note`='$f_note'";
+	$check_sorce = "AND `sorce`='$f_sorce'";
+	
+	$r = mysql_query("	SELECT 	`id`
+						FROM 	`phone`
+						WHERE	`import` = 1 $check_note $check_sorce
+						LIMIT 	$f_number");
+	
+	while($m = mysql_fetch_row($r)){
+		$g .= "($m[0],0,$user,$task_id),";
+	}
+	
+	$data = substr($g, 0, -1);
+	
+	mysql_query("INSERT INTO `task_detail` (`phone_base_id`,`status`,`user_id`,`task_id`) VALUES $data");
+	
+	// update query
+	$r = mysql_query("select phone_base_id FROM task_detail");
+	while($m = mysql_fetch_row($r)){
+		$a .= "$m[0],";
+	}
+	$data = substr($a, 0, -1);
+	mysql_query("UPDATE `phone` SET
+						`import`='2'
+				WHERE 	`id`in($data)");
+}
 
 function checkgroup($user){
 	$res = mysql_fetch_assoc(mysql_query("
@@ -795,6 +837,8 @@ function Getphonebase(){
 													<button class="left_side dialog_hidden" id="back_1000_inc" > << 1000 </button>
 							    					<input  style="width: 60px; border: none; text-align: center; background: #DFEFFC;" class="left_side dialog_hidden" id="mtvleli_inc" value="0">
 							    					<button class="left_side dialog_hidden" id="next_1000_inc" > 1000 >> </button>
+													
+													<button class="left_side" id="add_formireba">ფორმირება</button>
     						        			</div>
     							                <table class="display" id="base" style="width: 100%;">
     							                    <thead>
@@ -1095,6 +1139,63 @@ function GetPage($res='', $number)
 	
 	$data .= '<input type="hidden" id="outgoing_call_id" value="' . $res['id'] . '" />';
 
+	return $data;
+}
+
+function GetNote()
+{
+	$req = mysql_query("	SELECT 	`note` 
+							FROM 	`phone`
+							WHERE 	`actived` = 1 AND `note` != ''
+							GROUP BY `note`");
+	$data .= '<option value="" selected="selected"></option>';
+	while( $res = mysql_fetch_assoc($req)){
+		
+		$data .= '<option value="' . $res['note'] . '">' . $res['note'] . '</option>';
+		
+	}
+	
+	return $data;
+}
+
+function GetSorce()
+{
+	$req = mysql_query("	SELECT 	`sorce` 
+							FROM 	`phone`
+							WHERE 	`actived` = 1 AND `sorce` != ''
+							GROUP BY `sorce`");
+	$data .= '<option value="" selected="selected"></option>';
+	while( $res = mysql_fetch_assoc($req)){
+	
+		$data .= '<option value="' . $res['sorce'] . '">' . $res['sorce'] . '</option>';
+	
+	}
+	
+	return $data;
+}
+
+function GetDialogForm()
+{
+	$data  .= '	<div id="dialog-form">
+					<fieldset>
+					<legend>ფორმირება</legend>
+						<table>
+							<tr>
+								<td><label for="f_number" style="">რაოდენობა</label></td>
+								<td><input type="text" id="f_number" class="idls" value="" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57"></td>
+							</tr>
+							<tr>
+								<td><label for="f_note" style="">შენიშვნა</label></td>
+								<td><select style="margin-top:5px; margin-left:2px; width:155px;"  id="f_note" class="idls object">'. GetNote().'</select></td>
+							</tr>
+							<tr>
+								<td><label for="f_sorce" style="">წყარო</label></td>
+								<td><select style="margin-top:5px; margin-left:2px; width:155px;"  id="f_sorce" class="idls object">'. GetSorce().'</select></td>
+							</tr>
+						</table>
+					</fieldset>
+		    	</div>';
+	
 	return $data;
 }
 

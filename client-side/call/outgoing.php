@@ -1385,7 +1385,7 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:8%;">№D</th>
+									<th style="width:8%;">№</th>
 									<th style="width:19%;">შექმნის თარიღი</th>
 									<th style="width:19%;">დასაწისი</th>
 									<th style="width:19%;">დასასრული</th>
