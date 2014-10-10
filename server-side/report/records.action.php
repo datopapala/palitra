@@ -16,7 +16,7 @@ switch ($action) {
 								       cdr.src,
 								       cdr.dst,
 								       CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
-								       CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 7), '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://92.241.82.243:8181/records/', SUBSTRING(cdr.userfield, 7), '\">ჩამოტვირთვა</a>')
+								       CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 7), '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://109.234.117.182:8181/records/', SUBSTRING(cdr.userfield, 7), '\">ჩამოტვირთვა</a>')
 								FROM   cdr
 							WHERE      cdr.disposition = 'ANSWERED' AND cdr.userfield != '' AND cdr.dcontext = 'from-internal'");
 	  

@@ -211,7 +211,7 @@ table.display tbody td
 
 		$(document).on("click", ".download", function () {
             var link = $(this).attr("str");
-            link = "http://92.241.82.243:8181/records/" + link + ".wav";
+            link = "http://109.234.117.182:8181/records/" + link + ".wav";
 
             var newWin = window.open(link, "JSSite", "width=420,height=230,resizable=yes,scrollbars=yes,status=yes");
             newWin.focus();

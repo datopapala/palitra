@@ -1421,7 +1421,7 @@
 		var record;
 		function play(record){
 			
-			link = 'http://92.241.82.243:8181/records/' + record;
+			link = 'http://109.234.117.182:8181/records/' + record;
 			var newWin = window.open(link, 'newWin','width=420,height=200');
             newWin.focus();
             
