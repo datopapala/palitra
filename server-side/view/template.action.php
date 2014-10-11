@@ -151,22 +151,24 @@ switch ($action) {
 		while ( $aRow = mysql_fetch_array( $rResult ) )
 		{
 			
-			$rR = mysql_fetch_array($rRR);
 			
 			$row = array();
 			for ( $i = 0 ; $i < $count ; $i++ )
 			{
-				
 				/* General output */
 				$row[] = $aRow[$i];
 				if($i == ($count - 1)){
 					$check = "";
+					$rR = mysql_fetch_array($rRR);				
 					if($aRow['id'] == $rR['quest_id']){
 						$check ="checked";
 					}
 					
+					
+					
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check1" value="' . $aRow[$hidden] . '" '.$check.'/>';
 				}
+				
 			}
 			$data['aaData'][] = $row;
 		}

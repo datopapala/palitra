@@ -739,6 +739,10 @@
 			param.city_id				= $("#city_id").val();
 			param.b_day					= $("#b_day").val();
 			param.addres				= $("#addres").val();
+			param.age					= $("#age").val();
+			param.sex					= $("#sex").val();
+			param.profession			= $("#profession").val();
+			param.interes				= $("#interes").val();
 
 			// Task Formireba
 			param.set_task_department_id	= $("#set_task_department_id").val();

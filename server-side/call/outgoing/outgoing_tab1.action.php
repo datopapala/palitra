@@ -382,6 +382,11 @@ function UpPerson($phone_base,$phone_base_inc)
 	$addres			= $_REQUEST['addres'];
 	$phone1			= $_REQUEST['phone1'];
 	
+	$age			= $_REQUEST['age'];
+	$sex			= $_REQUEST['sex'];
+	$profession		= $_REQUEST['profession'];
+	$interes		= $_REQUEST['interes'];
+	
 	mysql_query("UPDATE `phone` SET
 						`phone1`			='$phone',
 						`phone2`			='$phone1',
@@ -390,7 +395,11 @@ function UpPerson($phone_base,$phone_base_inc)
 						`addres`			='$addres',
 						`mail`				='$mail',
 						`city`				='$city_id',
-						`born_day`			='$b_day'
+						`born_day`			='$b_day',
+						`age`				='$age',
+						`sex`				='$sex',
+						`profession`		='$profession',
+						`interes`			='$interes'
 				WHERE 	`id`				='$phone_base'");
 }
 

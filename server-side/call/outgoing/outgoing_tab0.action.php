@@ -1944,6 +1944,32 @@ function GetPage($res='', $shabloni)
 											<input type="text" id="person_n"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
 										</td>
 									</tr>
+													
+									<tr>
+										<td td style="width: 180px; color: #3C7FB1;">ასაკი</td>
+										<td style="width: 180px; color: #3C7FB1;">სქესი</td>
+									</tr>
+									<tr>
+										<td td style="width: 180px;">
+											<input type="text" id="age"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+										</td>
+										<td style="width: 180px;">
+											<input type="text" id="sex"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
+										</td>
+									</tr>
+									
+									<tr>
+										<td td style="width: 180px; color: #3C7FB1;">პროფესია</td>
+										<td style="width: 180px; color: #3C7FB1;">ინტერესების სფერო</td>
+									</tr>
+									<tr>
+										<td td style="width: 180px;">
+											<input type="text" id="profession"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+										</td>
+										<td style="width: 180px;">
+											<input type="text" id="interes"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
+										</td>
+									</tr>
 									
 								</table>
 							</fieldset>';
