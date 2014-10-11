@@ -370,7 +370,7 @@ $(document).on("click", "#save-dialog3", function () {
 		    var path		= "../../media/uploads/file/";
 		    
 		    var ext = file.split('.').pop().toLowerCase();
-	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
+	        if($.inArray(ext, ['pdf','png','xls','xlsx','jpg','docx','doc','csv']) == -1) { //echeck file type
 	        	alert('This is not an allowed file type.');
                 this.value = '';
 	        }else{
