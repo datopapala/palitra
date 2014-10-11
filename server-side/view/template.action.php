@@ -125,32 +125,44 @@ switch ($action) {
 
         break;
 	case 'get_pages_list':
+		$group_name = '';
 		$count    = $_REQUEST['count'];
 		$hidden   = $_REQUEST['hidden'];
 		$group_id = $_REQUEST['group_id'];
 		$scenar_id = $_REQUEST['scenar_id'];
+		$group_name = $_REQUEST['group_name'];
+
 		
 			$rResult = mysql_query("SELECT    	`quest`.`id`,
 								          		`quest`.`name`
 									FROM      	`quest`
 									WHERE 		`quest`.`scenar_id` = '$scenar_id'
 									");
-										
+			
+			$rRR = mysql_query("SELECT quest_id
+												 FROM `shabloni`
+												 WHERE `name` =  '$group_name'
+												GROUP BY quest_id
+												");								
 		$data = array(
 				"aaData"	=> array()
 		);
 		
 		while ( $aRow = mysql_fetch_array( $rResult ) )
 		{
+			
+			$rR = mysql_fetch_array($rRR);
+			
 			$row = array();
 			for ( $i = 0 ; $i < $count ; $i++ )
 			{
+				
 				/* General output */
 				$row[] = $aRow[$i];
 				if($i == ($count - 1)){
 					$check = "";
-					if($aRow['check'] != 0){
-						$check.="checked";
+					if($aRow['id'] == $rR['quest_id']){
+						$check ="checked";
 					}
 					
 					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check1" value="' . $aRow[$hidden] . '" '.$check.'/>';
@@ -303,7 +315,8 @@ function Getscenari($scenar_id){
 
 function GetPage($group_id){
 	$res = mysql_fetch_assoc(mysql_query("
-										SELECT 	scenar_id,
+										SELECT 	id,
+												scenar_id,
 												`name`
 										FROM shabloni
 										WHERE id = '$group_id'
@@ -342,7 +355,7 @@ function GetGroupPage($res = ''){
         </fieldset>						
     </div>
 
-	<input type="hidden" id="group_id" value="' . $res . '" />
+	<input type="hidden" id="group_id" value="' . $res[id] . '" />
 			
     ';
 	return $data;

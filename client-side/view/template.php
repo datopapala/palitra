@@ -35,8 +35,10 @@
 			GetDialog(fName, 750, "auto", "");
 
 			var group_id = $("#group_id").val();
+			var scenar_id = $("#scenar_id").val();
+			var group_name = $("#group_name").val();
 			
-			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id, 3, "", 0, "", "", "", "", "280px", "true");
+			GetDataTable1("pages", aJaxURL, "get_pages_list&group_id=" + group_id + "&scenar_id=" + scenar_id + "&group_name=" + group_name, 2, "", 0, "", "", "", "", "280px", "true");
 			
 			$("#pages tbody").on("dblclick", "tr", function () {
 
