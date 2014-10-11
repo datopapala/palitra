@@ -4,6 +4,7 @@
 		var aJaxURL1	= "server-side/call/action/action.action1.php";
 		var aJaxURL2	= "server-side/call/action/action.action2.php";		//server side folder url
 		var aJaxURL3	= "server-side/call/action/action.action3.php";		//server side folder url
+		var upJaxURL	= "server-side/upload/file.action.php";	
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
@@ -313,6 +314,107 @@ $(document).on("click", "#save-dialog3", function () {
 			}
 		    
 	    });
+
+	    $(document).on("click", "#download", function () {
+	    	var download_file	= $(this).val();
+	    	var download_name 	= $('#download_name').val();
+	    	SaveToDisk(download_file, download_name);
+	    });
+
+	    function SaveToDisk(fileURL, fileName) {
+	        // for non-IE
+	        if (!window.ActiveXObject) {
+	            var save = document.createElement('a');
+	            save.href = fileURL;
+	            save.target = '_blank';
+	            save.download = fileName || 'unknown';
+
+	            var event = document.createEvent('Event');
+	            event.initEvent('click', true, true);
+	            save.dispatchEvent(event);
+	            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+	        }
+		     // for IE
+	        else if ( !! window.ActiveXObject && document.execCommand)     {
+	            var _window = window.open(fileURL, "_blank");
+	            _window.document.close();
+	            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+	            _window.close();
+	        }
+	    } 
+	    
+	    $(document).on("click", "#delete", function () {
+	    	var delete_id	= $(this).val();
+	    	
+	    	$.ajax({
+		        url: aJaxURL,
+			    data: {
+					act: "delete_file",
+					delete_id: delete_id,
+					edit_id: $("#act_id").val(),
+				},
+		        success: function(data) {
+			        $("#file_div").html(data.page);
+			    }
+		    });	
+		});
+		
+	    $(document).on("click", "#choose_button", function () {
+		    $("#choose_file").click();
+		});
+		
+	    $(document).on("change", "#choose_file", function () {
+	    	var file		= $(this).val();	    
+	    	var files 		= this.files[0];
+		    var name		= uniqid();
+		    var path		= "../../media/uploads/file/";
+		    
+		    var ext = file.split('.').pop().toLowerCase();
+	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
+	        	alert('This is not an allowed file type.');
+                this.value = '';
+	        }else{
+	        	file_name = files.name;
+	        	rand_file = name + "." + ext;
+	        	$.ajaxFileUpload({
+	    			url: upJaxURL,
+	    			secureuri: false,
+	    			fileElementId: "choose_file",
+	    			dataType: 'json',
+	    			data:{
+						act: "upload_file",
+						path: path,
+						file_name: name,
+						type: ext
+					},
+	    			success: function (data, status){
+	    				if(typeof(data.error) != 'undefined'){
+    						if(data.error != ''){
+    							alert(data.error);
+    						}
+    					}
+    							
+	    				$.ajax({
+					        url: aJaxURL,
+						    data: {
+								act: "up_now",
+								rand_file: rand_file,
+					    		file_name: file_name,
+								edit_id: $("#act_id").val(),
+
+							},
+					        success: function(data) {
+						        $("#file_div").html(data.page);
+						    }
+					    });	   					    				
+    				},
+    				error: function (data, status, e)
+    				{
+    					alert(e);
+    				}    				
+    			});
+	        }
+		});
 		
     </script>
 </head>

@@ -6,7 +6,7 @@
 
 .inner-table .dataTable_content
 {
-    min-height: 311px;
+    min-height: 200px;
     border-top: 1px solid #C5DBEC;
     border-left: 1px solid #C5DBEC;
     border-right: 1px solid #C5DBEC;
@@ -37,12 +37,12 @@
 
 .inner-table .search_header
 {
-    height: 30px;
+    height: 20px;
 }
 
 .inner-table table.display .search_header input[type="text"]
 {
-    height: 17px;
+    height: 15px;
 }
 
 .inner-table .dataTables_wrapper > .ui-corner-tl
@@ -86,7 +86,7 @@
 
 .inner-table #datatable_header
 {
-    height: 50px;
+    height: 20px;
 }
 
 .inner-table table.display th
