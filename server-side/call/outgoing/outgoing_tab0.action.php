@@ -2939,7 +2939,7 @@ function GetResoniblePersonPage(){
 					</tr>
 					<tr>
 						<th>
-							<select id="responsible_person" class="idls address">'. GetPersons() .'</select>
+							<select style="width: 230px;" id="responsible_person" class="idls address">'. GetPersons() .'</select>
 						</th>
 					</tr>
 					<tr>
@@ -2950,12 +2950,39 @@ function GetResoniblePersonPage(){
 							<input type="text" id="raodenoba" class="idls address" value="" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 						</th>
 					</tr>
+					<tr>
+						<th><label for="shenishvna">შენიშვნა</label></th>
+					</tr>
+					<tr>
+						<th>
+							<select style="width: 230px;" id="send_date" class="idls object">'.ss().'</select>
+						</th>
+					</tr>
 				</table>
 			</fieldset>
 		</div>';
 	return $data;
 
 }
+
+function ss()
+{
+	$data = '';
+	$req = mysql_query("SELECT `phone`.`note`
+						FROM 	`task_detail`
+						JOIN 	`phone` ON `task_detail`.`phone_base_id` = `phone`.`id`
+						GROUP BY `phone`.`note` ");
+	
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		
+			$data .= '<option value="' . $res['note'] . '">' . $res['note'] . '</option>';
+		
+	}
+	
+	return $data;
+}
+
 function increment($table){
 
 	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
