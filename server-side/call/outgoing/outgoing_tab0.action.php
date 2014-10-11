@@ -813,6 +813,10 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	task_detail.id,
 												IF(task_detail.phone_base_inc_id != '', '', phone.person_n) as person_n,
 												IF(task_detail.phone_base_inc_id != '', '', phone.city) as city_id,
 												IF(task_detail.phone_base_inc_id != '', '', phone.mail) as mail,
+												IF(task_detail.phone_base_inc_id != '', '', phone.sex) as sex,
+												IF(task_detail.phone_base_inc_id != '', '', phone.age) as age,
+												IF(task_detail.phone_base_inc_id != '', '', phone.profession) as profession,
+												IF(task_detail.phone_base_inc_id != '', '', phone.interes) as interes,
 												task_scenar.hello_comment,
 												task_detail.call_content,
 												task_scenar.hello_quest,
@@ -1951,10 +1955,10 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr>
 										<td td style="width: 180px;">
-											<input type="text" id="age"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+											<input type="text" id="age"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['age'] . '" />		
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="sex"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
+											<input type="text" id="sex"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['sex'] . '" />
 										</td>
 									</tr>
 									
@@ -1964,10 +1968,10 @@ function GetPage($res='', $shabloni)
 									</tr>
 									<tr>
 										<td td style="width: 180px;">
-											<input type="text" id="profession"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['addres'] . '" />		
+											<input type="text" id="profession"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['profession'] . '" />		
 										</td>
 										<td style="width: 180px;">
-											<input type="text" id="interes"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['person_n'] . '" />
+											<input type="text" id="interes"  class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['interes'] . '" />
 										</td>
 									</tr>
 									
