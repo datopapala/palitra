@@ -13,6 +13,15 @@ $result = mysql_query("
 						WHERE 		`users`.`id` = $user_id AND metro_tile_type != 0
 						ORDER BY	`menu_detail`.metro_tile_type DESC
 					");
+function randomColor() {
+	$possibilities = array(1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F" );
+	shuffle($possibilities);
+	$color = "#";
+	for($i=1;$i<=6;$i++){
+		$color .= $possibilities[rand(0,14)];
+	}
+	return $color;
+}
 
 ?>
 
@@ -36,13 +45,13 @@ $result = mysql_query("
 							$row = mysql_fetch_assoc($result);
 							if ($row[metro_tile_type] == 1) {
 								echo '
-									<div  class="tile_small" style="background: #FACC2E;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
-			                            <p style="font-size: 16px;">'.$row[title].'</p>
+									<div  class="tile_small" style="background: #'.dechex(rand(0x220000, 0xFFFFFF)).'; box-shadow: 2px 5px 5px #ccc;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+			                            <p style="font-size: 14px;">'.$row[title].'</p>
 			                        </div>
 									';
 							}elseif ($row[metro_tile_type] == 2) {
 								echo '
-									<div  class="tile_large"  style="background: #FACC2E;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+									<div  class="tile_large"  style="background: #'.dechex(rand(0x200000, 0xFFFFFF)).'; box-shadow: 2px 5px 5px #ccc;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
 										<div class="tile_icon" style="margin-top: 10px;">
 											<img src="media/images/main/'.$row[metro_icon].'" alt="" style="background-position: -116px -18px; width: 50px; height: 50px;" />
 										</div><p style="margin-top: 22px; margin-left: 80px">'.$row[title].'</p>
@@ -60,13 +69,13 @@ $result = mysql_query("
 							$row = mysql_fetch_assoc($result);
 							if ($row[metro_tile_type] == 1) {
 								echo '
-									<div  class="tile_small" style="background: #A9A9F5;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
-			                            <p style="font-size: 16px;">'.$row[title].'</p>
+									<div  class="tile_small" style="background: #'.dechex(rand(0x200000, 0xFFFFFF)).'; box-shadow: 2px 5px 5px #ccc;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+			                            <p style="font-size: 14px;">'.$row[title].'</p>
 			                        </div>
 									';
 							}elseif ($row[metro_tile_type] == 2) {
 								echo '
-									<div  class="tile_large"  style="background: #A9A9F5;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+									<div  class="tile_large"  style="background:#'.dechex(rand(0x200000, 0xFFFFFF)).'; box-shadow: 2px 5px 5px #ccc;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
 										<div class="tile_icon" style="margin-top: 10px;">
 											<img src="media/images/main/'.$row[metro_icon].'" alt="" style="background-position: -116px -18px; width: 50px; height: 50px;" />
 										</div><p style="margin-top: 22px; margin-left: 80px">'.$row[title].'</p>
@@ -83,13 +92,13 @@ $result = mysql_query("
 							$row = mysql_fetch_assoc($result);
 							if ($row[metro_tile_type] == 1) {
 								echo '
-									<div  class="tile_small" style="background: #A9F5BC;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
-			                            <p style="font-size: 16px;">'.$row[title].'</p>
+									<div  class="tile_small" style="background:#'.dechex(rand(0x200000, 0xFFFFFF)).'; box-shadow: 2px 5px 5px #ccc;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+			                            <p style="font-size: 14px;">'.$row[title].'</p>
 			                        </div>
 									';
 							}elseif ($row[metro_tile_type] == 2) {
 								echo '
-									<div  class="tile_large"  style="background: #A9F5BC;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
+									<div  class="tile_large"  style="background: #'.dechex(rand(0x200000, 0xFFFFFF)).'; box-shadow: 2px 5px 5px #ccc;" onclick="location.href=\'index.php?pg='.$row[page_id].'\'">
 										<div class="tile_icon" style="margin-top: 10px;">
 											<img src="media/images/main/'.$row[metro_icon].'" alt="" style="background-position: -116px -18px; width: 50px; height: 50px;" />
 										</div><p style="margin-top: 22px; margin-left: 80px">'.$row[title].'</p>
