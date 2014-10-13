@@ -506,6 +506,7 @@
 	      	param.act		= "change_responsible_person";
 	  	    param.rp		= $("#responsible_person").val();
 		  	param.number	= $("#raodenoba").val();
+		  	param.note_p	= $("#shenishvna").val();
 	
 	  	    var link	=  GetAjaxData(param);
 	  	      

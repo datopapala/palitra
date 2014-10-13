@@ -184,8 +184,9 @@ switch ($action) {
     case 'change_responsible_person':
         $responsible_person = $_REQUEST['rp'];
         $number_p = $_REQUEST['number'];
+        $note_p = $_REQUEST['note_p'];
         
-        ChangeResponsiblePerson($number_p, $responsible_person);
+        ChangeResponsiblePerson($number_p, $responsible_person, $note_p);
         
         break;
     case '':
@@ -2903,13 +2904,27 @@ function Getquest($shabloni){
 	
 	return $data;
 }
-function ChangeResponsiblePerson($number_p, $responsible_person){
-	
+function ChangeResponsiblePerson($number_p, $responsible_person, $note_p){
+		$note_checker = '';
+		$note_checker_sub = '';
+		if($note_p != '0'){
+		
+		$filtr_res = mysql_query("	SELECT 	task_detail.id 
+									FROM 	task_detail
+									JOIN 	phone ON task_detail.phone_base_id = phone.id AND phone.note = '$note_p'");
+									
+			while ($row_r = mysql_fetch_assoc($filtr_res)){
+				$note_checker .= $row_r['id'].',';
+			}
+			$gg = substr($note_checker,0,-1);
+			$note_checker_sub = "and id in($gg)";
+		}
+		//echo $note_checker_sub;
 		mysql_query("UPDATE `task_detail` SET 
 							`responsible_user_id`='$responsible_person',
 							`status`='1'
-					WHERE 	ISNULL(`responsible_user_id`) 
-					LIMIT $number_p");
+					 WHERE 	ISNULL(`responsible_user_id`) $note_checker_sub
+					 LIMIT $number_p");
 
 }
 
@@ -2955,7 +2970,7 @@ function GetResoniblePersonPage(){
 					</tr>
 					<tr>
 						<th>
-							<select style="width: 230px;" id="send_date" class="idls object">'.ss().'</select>
+							<select style="width: 230px;" id="shenishvna" class="idls object">'.GetShenishvna().'</select>
 						</th>
 					</tr>
 				</table>
@@ -2965,7 +2980,7 @@ function GetResoniblePersonPage(){
 
 }
 
-function ss()
+function GetShenishvna()
 {
 	$data = '';
 	$req = mysql_query("SELECT `phone`.`note`
@@ -2973,7 +2988,7 @@ function ss()
 						JOIN 	`phone` ON `task_detail`.`phone_base_id` = `phone`.`id`
 						GROUP BY `phone`.`note` ");
 	
-	$data .= '<option value="0" selected="selected">----</option>';
+	$data .= '<option value="0" selected="selected"></option>';
 	while( $res = mysql_fetch_assoc($req)){
 		
 			$data .= '<option value="' . $res['note'] . '">' . $res['note'] . '</option>';
